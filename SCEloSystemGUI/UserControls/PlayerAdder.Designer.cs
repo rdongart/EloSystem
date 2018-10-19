@@ -46,9 +46,11 @@
             this.btnAddAlias = new System.Windows.Forms.Button();
             this.btnRemoveAlias = new System.Windows.Forms.Button();
             this.lstViewAliases = new System.Windows.Forms.ListView();
+            this.numUDStartRating = new System.Windows.Forms.NumericUpDown();
             this.tblLOPnlPlayerAdder.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numUDStartRating)).BeginInit();
             this.SuspendLayout();
             // 
             // tblLOPnlPlayerAdder
@@ -70,6 +72,7 @@
             this.tblLOPnlPlayerAdder.Controls.Add(this.label6, 0, 6);
             this.tblLOPnlPlayerAdder.Controls.Add(this.lbFileName, 1, 3);
             this.tblLOPnlPlayerAdder.Controls.Add(this.tableLayoutPanel3, 1, 2);
+            this.tblLOPnlPlayerAdder.Controls.Add(this.numUDStartRating, 1, 6);
             this.tblLOPnlPlayerAdder.Location = new System.Drawing.Point(0, 0);
             this.tblLOPnlPlayerAdder.Margin = new System.Windows.Forms.Padding(0);
             this.tblLOPnlPlayerAdder.Name = "tblLOPnlPlayerAdder";
@@ -96,6 +99,7 @@
             this.txtBxName.Name = "txtBxName";
             this.txtBxName.Size = new System.Drawing.Size(188, 23);
             this.txtBxName.TabIndex = 0;
+            this.txtBxName.TextChanged += new System.EventHandler(this.txtBxName_TextChanged);
             // 
             // lbHeading
             // 
@@ -135,6 +139,7 @@
             this.btnAdd.TabIndex = 4;
             this.btnAdd.Text = "A&dd to system";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // tableLayoutPanel2
             // 
@@ -176,6 +181,7 @@
             this.btnBrowse.TabIndex = 3;
             this.btnBrowse.Text = "&Browse...";
             this.btnBrowse.UseVisualStyleBackColor = true;
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // label3
             // 
@@ -307,6 +313,19 @@
             this.lstViewAliases.View = System.Windows.Forms.View.List;
             this.lstViewAliases.SelectedIndexChanged += new System.EventHandler(this.lstViewAliases_SelectedIndexChanged);
             // 
+            // numUDStartRating
+            // 
+            this.numUDStartRating.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.numUDStartRating.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numUDStartRating.Location = new System.Drawing.Point(146, 273);
+            this.numUDStartRating.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
+            this.numUDStartRating.Name = "numUDStartRating";
+            this.numUDStartRating.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.numUDStartRating.Size = new System.Drawing.Size(188, 23);
+            this.numUDStartRating.TabIndex = 6;
+            this.numUDStartRating.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.numUDStartRating.ThousandsSeparator = true;
+            // 
             // PlayerAdder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -321,6 +340,7 @@
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numUDStartRating)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -345,5 +365,6 @@
         private System.Windows.Forms.Button btnAddAlias;
         private System.Windows.Forms.Button btnRemoveAlias;
         private System.Windows.Forms.ListView lstViewAliases;
+        private System.Windows.Forms.NumericUpDown numUDStartRating;
     }
 }

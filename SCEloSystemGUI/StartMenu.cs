@@ -51,7 +51,7 @@ namespace SCEloSystemGUI
         {
             string fileName = string.Empty;
 
-            if (EloSystemGUIStaticMethods.GetEloSystemName(ref fileName) == DialogResult.OK)
+            if (EloSystemGUIStaticMembers.GetEloSystemName(ref fileName) == DialogResult.OK)
             {
                 this.EloSystem = new EloData(fileName);
                 this.DialogResult = DialogResult.OK;

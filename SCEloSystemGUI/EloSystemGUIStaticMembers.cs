@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace SCEloSystemGUI
 {
-    internal static class EloSystemGUIStaticMethods
+    internal static class EloSystemGUIStaticMembers
     {
         internal static DialogResult GetEloSystemName(ref string fileName)
         {
@@ -16,7 +16,7 @@ namespace SCEloSystemGUI
                 if (Interaction.InputBox("New Elo System", "Name your Elo System", ref fileName) == DialogResult.OK)
                 {
                     if (fileName == string.Empty) { MessageBox.Show("Failed to create new Elo System because name can not be empty.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-                    else if (EloSystemGUIStaticMethods.IsInvalidFilename(fileName))
+                    else if (EloSystemGUIStaticMembers.IsInvalidFilename(fileName))
                     {
                         MessageBox.Show("Failed to create new Elo System name contained some invalid characters", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }

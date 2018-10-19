@@ -1,14 +1,12 @@
-﻿using EloSystem;
-using CustomControls;
+﻿using CustomControls;
+using EloSystem;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using CustomExtensionMethods;
 
 namespace SCEloSystemGUI.UserControls
 {
@@ -16,6 +14,28 @@ namespace SCEloSystemGUI.UserControls
     {
         internal const string DEFAULT_TXTBXALIAS_TEXT = "Type alias here...";
 
+        internal Country SelectedCountry
+        {
+            get
+            {
+                return this.ImgCmbBxCountries.SelectedValue as Country;
+            }
+        }
+        internal int StartRating
+        {
+            get
+            {
+                return this.numUDStartRating.Value.RoundToInt();
+            }
+        }
+        internal Team SelectedTeam
+        {
+            get
+            {
+                return this.ImgCmbBxTeams.SelectedValue as Team;
+            }
+        }
+        private ContentTypes contentType;
         public ContentTypes ContentType
         {
             get
@@ -29,10 +49,10 @@ namespace SCEloSystemGUI.UserControls
                 this.contentType = value;
             }
         }
-        internal Country SelectedCountry { get; private set; }
         public event EventHandler<ContentAddingEventArgs> OnAddButtonClick = delegate { };
         public Image SelectedImage { get; private set; }
         public ImageComboBox ImgCmbBxCountries { get; private set; }
+        public ImageComboBox ImgCmbBxTeams { get; private set; }
         public string ContentName
         {
             get
@@ -40,17 +60,18 @@ namespace SCEloSystemGUI.UserControls
                 return this.txtBxName.Text;
             }
         }
-        private ContentTypes contentType;
-
 
         internal PlayerAdder()
         {
             InitializeComponent();
 
-            this.txtBxName.Text = StaticMembers.DEFAULT_TXTBX_TEXT;
+            this.txtBxName.Text = EloGUIControlsStaticMembers.DEFAULT_TXTBX_TEXT;
             this.txtBxAlias.Text = PlayerAdder.DEFAULT_TXTBXALIAS_TEXT;
             this.btnAdd.Enabled = false;
             this.btnAddAlias.Enabled = false;
+
+            this.numUDStartRating.Maximum = int.MaxValue;
+            this.numUDStartRating.Value = EloSystemStaticMembers.START_RATING_DEFAULT;
 
             this.ImgCmbBxCountries = new ImageComboBox()
             {
@@ -60,48 +81,34 @@ namespace SCEloSystemGUI.UserControls
                 DropDownWidth = 154,
                 Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 FormattingEnabled = true,
+                ImageMargin = new Padding(4, 2, 4, 2),
                 ItemHeight = 18,
-                Size = new Size(154, 24),
                 Margin = new Padding(6, 3, 6, 3),
-                ImageMargin = new Padding(4, 2, 4, 2)
-
+                Size = new Size(154, 24),
             };
-            this.ImgCmbBxCountries.SelectionChangeCommitted += this.ImCmbBxCountries_SelectionChangeCommitted;
             this.tblLOPnlPlayerAdder.Controls.Add(this.ImgCmbBxCountries, 1, 4);
-        }
 
-        private void ImCmbBxCountries_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            this.SelectedCountry = this.ImgCmbBxCountries.SelectedValue as Country;
-        }
-
-        private void btnBrowse_Click(object sender, EventArgs e)
-        {
-            string filePath = string.Empty;
-
-            if (StaticMembers.TryGetFilePathFromUser(out filePath))
+            this.ImgCmbBxTeams = new ImageComboBox()
             {
-                this.lbFileName.Text = filePath;
-                this.SelectedImage = Bitmap.FromFile(filePath);
-            }
-
+                Dock = DockStyle.Fill,
+                DrawMode = DrawMode.OwnerDrawFixed,
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                DropDownWidth = 154,
+                Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
+                FormattingEnabled = true,
+                ImageMargin = new Padding(4, 2, 4, 2),
+                ItemHeight = 18,
+                Margin = new Padding(6, 3, 6, 3),
+                Size = new Size(154, 24),
+            };
+            this.tblLOPnlPlayerAdder.Controls.Add(this.ImgCmbBxTeams, 1, 5);
         }
 
-        private void txtBxName_TextChanged(object sender, EventArgs e)
+        internal IEnumerable<string> GetAliases()
         {
-            if (this.txtBxName.Text != string.Empty) { this.btnAdd.Enabled = true; }
-            else { this.btnAdd.Enabled = false; }
+            foreach (string alias in this.lstViewAliases.Items.Cast<ListViewItem>().Select(item => item.Text).ToList()) { yield return alias; }
         }
-
-        private void btnAdd_Click(object sender, EventArgs e)
-        {
-            this.OnAddButtonClick.Invoke(sender, new ContentAddingEventArgs(this));
-
-            this.lbFileName.Text = string.Empty;
-            this.txtBxName.Text = StaticMembers.DEFAULT_TXTBX_TEXT;
-            this.btnAdd.Enabled = false;
-        }
-
+        
         private void txtBxAlias_TextChanged(object sender, EventArgs e)
         {
             if (this.txtBxAlias.Text != string.Empty) { this.btnAddAlias.Enabled = true; }
@@ -130,6 +137,41 @@ namespace SCEloSystemGUI.UserControls
 
             foreach (ListViewItem item in itemsToRemove) { this.lstViewAliases.Items.Remove(item); }
 
+            this.btnRemoveAlias.Enabled = false;
+        }
+
+        private void txtBxName_TextChanged(object sender, EventArgs e)
+        {
+            if (this.txtBxName.Text != string.Empty) { this.btnAdd.Enabled = true; }
+            else { this.btnAdd.Enabled = false; }
+        }
+
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            string filePath = string.Empty;
+
+            if (EloGUIControlsStaticMembers.TryGetFilePathFromUser(out filePath))
+            {
+                this.lbFileName.Text = filePath;
+                this.SelectedImage = Bitmap.FromFile(filePath);
+            }
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            this.OnAddButtonClick.Invoke(sender, new ContentAddingEventArgs(this));
+
+            if (this.SelectedImage != null) { this.SelectedImage.Dispose(); }
+
+            this.lbFileName.Text = string.Empty;
+            this.txtBxName.Text = EloGUIControlsStaticMembers.DEFAULT_TXTBX_TEXT;
+            this.txtBxAlias.Text = PlayerAdder.DEFAULT_TXTBXALIAS_TEXT;
+            this.lstViewAliases.Items.Clear();
+            this.ImgCmbBxCountries.SelectedIndex = -1;
+            this.ImgCmbBxTeams.SelectedIndex = -1;
+            this.numUDStartRating.Value = EloSystemStaticMembers.START_RATING_DEFAULT;
+            this.btnAdd.Enabled = false;
+            this.btnAddAlias.Enabled = false;
             this.btnRemoveAlias.Enabled = false;
         }
     }

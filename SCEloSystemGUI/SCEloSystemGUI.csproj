@@ -80,7 +80,7 @@
     </Compile>
     <Compile Include="UserControls\ContentAddingEventArgs.cs" />
     <Compile Include="UserControls\ContentTypes.cs" />
-    <Compile Include="EloSystemGUIStaticMethods.cs" />
+    <Compile Include="EloSystemGUIStaticMembers.cs" />
     <Compile Include="LoaderScreen.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -103,8 +103,14 @@
     <Compile Include="UserControls\ContentAdder.Designer.cs">
       <DependentUpon>ContentAdder.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\MatchReport.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\MatchReport.Designer.cs">
+      <DependentUpon>MatchReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\IContentAdder.cs" />
-    <Compile Include="UserControls\StaticMembers.cs" />
+    <Compile Include="UserControls\EloGUIControlsStaticMembers.cs" />
     <Compile Include="UserControls\PlayerAdder.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -130,6 +136,9 @@
     </Compile>
     <EmbeddedResource Include="UserControls\ContentAdder.resx">
       <DependentUpon>ContentAdder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\MatchReport.resx">
+      <DependentUpon>MatchReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\PlayerAdder.resx">
       <DependentUpon>PlayerAdder.cs</DependentUpon>

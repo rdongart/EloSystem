@@ -55,11 +55,6 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageReportMatch = new System.Windows.Forms.TabPage();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.tabPageAddMap = new System.Windows.Forms.TabPage();
             this.tblLOPnlMaps = new System.Windows.Forms.TableLayoutPanel();
             this.tabPageAddCountry = new System.Windows.Forms.TabPage();
@@ -70,7 +65,6 @@
             this.tblLOPnlPlayers = new System.Windows.Forms.TableLayoutPanel();
             this.menuStripMainForm.SuspendLayout();
             this.tabControlMain.SuspendLayout();
-            this.tabPageReportMatch.SuspendLayout();
             this.tabPageAddMap.SuspendLayout();
             this.tabPageAddCountry.SuspendLayout();
             this.tabPageAddTeam.SuspendLayout();
@@ -87,7 +81,7 @@
             this.menuStripMainForm.Location = new System.Drawing.Point(0, 0);
             this.menuStripMainForm.Margin = new System.Windows.Forms.Padding(0, 0, 0, 16);
             this.menuStripMainForm.Name = "menuStripMainForm";
-            this.menuStripMainForm.Size = new System.Drawing.Size(740, 24);
+            this.menuStripMainForm.Size = new System.Drawing.Size(997, 24);
             this.menuStripMainForm.TabIndex = 0;
             this.menuStripMainForm.Text = "Menu";
             // 
@@ -278,71 +272,18 @@
             this.tabControlMain.Margin = new System.Windows.Forms.Padding(16);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(688, 690);
+            this.tabControlMain.Size = new System.Drawing.Size(945, 690);
             this.tabControlMain.TabIndex = 1;
             // 
             // tabPageReportMatch
             // 
-            this.tabPageReportMatch.Controls.Add(this.comboBox2);
-            this.tabPageReportMatch.Controls.Add(this.comboBox1);
-            this.tabPageReportMatch.Controls.Add(this.label3);
-            this.tabPageReportMatch.Controls.Add(this.label2);
-            this.tabPageReportMatch.Controls.Add(this.label1);
             this.tabPageReportMatch.Location = new System.Drawing.Point(4, 22);
             this.tabPageReportMatch.Name = "tabPageReportMatch";
             this.tabPageReportMatch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageReportMatch.Size = new System.Drawing.Size(680, 664);
+            this.tabPageReportMatch.Size = new System.Drawing.Size(937, 664);
             this.tabPageReportMatch.TabIndex = 0;
             this.tabPageReportMatch.Text = "Report Match";
             this.tabPageReportMatch.UseVisualStyleBackColor = true;
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(469, 71);
-            this.comboBox2.Margin = new System.Windows.Forms.Padding(8);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(140, 21);
-            this.comboBox2.TabIndex = 1;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(75, 71);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(8);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(140, 21);
-            this.comboBox1.TabIndex = 1;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(465, 43);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(73, 20);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Player 2";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(323, 43);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 20);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Vs.";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(71, 43);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 20);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Player 1";
             // 
             // tabPageAddMap
             // 
@@ -456,18 +397,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(740, 769);
+            this.ClientSize = new System.Drawing.Size(997, 769);
             this.Controls.Add(this.tabControlMain);
             this.Controls.Add(this.menuStripMainForm);
             this.MainMenuStrip = this.menuStripMainForm;
             this.Name = "MainForm";
             this.Text = "MainForm";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStripMainForm.ResumeLayout(false);
             this.menuStripMainForm.PerformLayout();
             this.tabControlMain.ResumeLayout(false);
-            this.tabPageReportMatch.ResumeLayout(false);
-            this.tabPageReportMatch.PerformLayout();
             this.tabPageAddMap.ResumeLayout(false);
             this.tabPageAddCountry.ResumeLayout(false);
             this.tabPageAddTeam.ResumeLayout(false);
@@ -505,11 +443,6 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.TabControl tabControlMain;
         private System.Windows.Forms.TabPage tabPageReportMatch;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabPage tabPageAddMap;
         private System.Windows.Forms.TableLayoutPanel tblLOPnlMaps;
         private System.Windows.Forms.TabPage tabPageAddCountry;

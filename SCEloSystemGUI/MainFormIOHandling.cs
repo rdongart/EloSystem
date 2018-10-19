@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace SCEloSystemGUI
 {
-    public partial class MainForm : Form
+    public partial class MainForm 
     {
         private static bool ShouldExistingFileBeReplaced(object sender, FileOverwriteEventArgs e)
         {
@@ -46,7 +46,7 @@ namespace SCEloSystemGUI
         {
             string newFileName = this.eloSystem.Name;
 
-            if (EloSystemGUIStaticMethods.GetEloSystemName(ref newFileName) != DialogResult.OK) { return; }
+            if (EloSystemGUIStaticMembers.GetEloSystemName(ref newFileName) != DialogResult.OK) { return; }
 
             this.Cursor = Cursors.WaitCursor;
 

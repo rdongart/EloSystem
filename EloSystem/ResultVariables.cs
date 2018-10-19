@@ -6,74 +6,74 @@ namespace EloSystem
     [Serializable]
     public class ResultVariables : ISerializable
     {
-        private int _vsProtoss;
-        private int _vsRandom;
-        private int _vsTerran;
-        private int _vsZerg;
-        public int VsProtoss
+        private int _protoss;
+        private int _random;
+        private int _terran;
+        private int _zerg;
+        public int Protoss
         {
             get
             {
-                return this._vsProtoss;
+                return this._protoss;
             }
             internal set
             {
-                this._vsProtoss = value < 0 ? 0 : value;
+                this._protoss = value < 0 ? 0 : value;
             }
         }
-        public int VsRandom
+        public int Random
         {
             get
             {
-                return this._vsRandom;
+                return this._random;
             }
             internal set
             {
-                this._vsRandom = value < 0 ? 0 : value;
+                this._random = value < 0 ? 0 : value;
             }
         }
-        public int VsTerran
+        public int Terran
         {
             get
             {
-                return this._vsTerran;
+                return this._terran;
             }
             internal set
             {
-                this._vsTerran = value < 0 ? 0 : value;
+                this._terran = value < 0 ? 0 : value;
             }
         }
-        public int VsZerg
+        public int Zerg
         {
             get
             {
-                return this._vsZerg;
+                return this._zerg;
             }
             internal set
             {
-                this._vsZerg = value < 0 ? 0 : value;
+                this._zerg = value < 0 ? 0 : value;
             }
         }
 
         internal ResultVariables(int startValue)
         {
-            this.VsProtoss = startValue;
-            this.VsRandom = startValue;
-            this.VsTerran = startValue;
-            this.VsZerg = startValue;
+            this.Protoss = startValue;
+            this.Random = startValue;
+            this.Terran = startValue;
+            this.Zerg = startValue;
         }
 
         #region Implementing ISerializable
         private enum Field
         {
-            VsProtoss, VsRandom, VsTerran, VsZerg
+            Protoss, Random, Terran, Zerg
         }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(Field.VsProtoss.ToString(), (ushort)this.VsProtoss);
-            info.AddValue(Field.VsRandom.ToString(), (ushort)this.VsRandom);
-            info.AddValue(Field.VsTerran.ToString(), (ushort)this.VsTerran);
-            info.AddValue(Field.VsZerg.ToString(), (ushort)this.VsZerg);
+            info.AddValue(Field.Protoss.ToString(), (ushort)this.Protoss);
+            info.AddValue(Field.Random.ToString(), (ushort)this.Random);
+            info.AddValue(Field.Terran.ToString(), (ushort)this.Terran);
+            info.AddValue(Field.Zerg.ToString(), (ushort)this.Zerg);
         }
         internal ResultVariables(SerializationInfo info, StreamingContext context)
         {
@@ -85,10 +85,10 @@ namespace EloSystem
                 {
                     switch (field)
                     {
-                        case Field.VsProtoss: this.VsProtoss = (int)info.GetUInt16(field.ToString()); break;
-                        case Field.VsRandom: this.VsRandom = (int)info.GetUInt16(field.ToString()); break;
-                        case Field.VsTerran: this.VsTerran = (int)info.GetUInt16(field.ToString()); break;
-                        case Field.VsZerg: this.VsZerg = (int)info.GetUInt16(field.ToString()); break;
+                        case Field.Protoss: this.Protoss = (int)info.GetUInt16(field.ToString()); break;
+                        case Field.Random: this.Random = (int)info.GetUInt16(field.ToString()); break;
+                        case Field.Terran: this.Terran = (int)info.GetUInt16(field.ToString()); break;
+                        case Field.Zerg: this.Zerg = (int)info.GetUInt16(field.ToString()); break;
                     }
                 }
 
@@ -96,26 +96,26 @@ namespace EloSystem
         }
         #endregion
 
-        public int GetValueVs(Race vsRace)
+        public int GetValueFor(Race race)
         {
-            switch (vsRace)
+            switch (race)
             {
-                case Race.Protoss: return this.VsProtoss;
-                case Race.Random: return this.VsRandom;
-                case Race.Terran: return this.VsTerran;
-                case Race.Zerg: return this.VsZerg;
-                default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Race).Name, vsRace.ToString()));
+                case Race.Protoss: return this.Protoss;
+                case Race.Random: return this.Random;
+                case Race.Terran: return this.Terran;
+                case Race.Zerg: return this.Zerg;
+                default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Race).Name, race.ToString()));
             }
         }
-        public void AddValueVs(Race vsRace, int value)
+        public void AddValueTo(Race race, int value)
         {
-            switch (vsRace)
+            switch (race)
             {
-                case Race.Protoss: this.VsProtoss += value; break;
-                case Race.Random: this.VsRandom += value; break;
-                case Race.Terran: this.VsTerran += value; break;
-                case Race.Zerg: this.VsZerg += value; break;
-                default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Race).Name, vsRace.ToString()));
+                case Race.Protoss: this.Protoss += value; break;
+                case Race.Random: this.Random += value; break;
+                case Race.Terran: this.Terran += value; break;
+                case Race.Zerg: this.Zerg += value; break;
+                default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Race).Name, race.ToString()));
             }
         }
     }

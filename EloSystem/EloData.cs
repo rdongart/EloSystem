@@ -15,7 +15,6 @@ namespace EloSystem
     public class EloData : ISerializable
     {
         private const int IMAGEID_NO_IMAGE = 0;
-        private const int STARTRATING_DEFAULT = 1500;
 
         private int imagesSaved = 0;
         private int nextImageID
@@ -69,13 +68,11 @@ namespace EloSystem
             const int BONUSFACTOR_STANDARD = 1;
 
 
-            if (game.Player1.games.GetValueVs(game.Player2Race) < CALIBRATION_PHASE1_NO_MATCHES
-                || game.Player2.games.GetValueVs(game.Player1Race) < CALIBRATION_PHASE1_NO_MATCHES)
+            if (game.Player1.GameCountVs(game.Player2Race) < CALIBRATION_PHASE1_NO_MATCHES || game.Player2.GameCountVs(game.Player1Race) < CALIBRATION_PHASE1_NO_MATCHES)
             {
                 return CALIBRATION_PHASE1_BONUSFACTOR;
             }
-            else if (game.Player1.games.GetValueVs(game.Player2Race) < CALIBRATION_PHASE2_NO_MATCHES
-             || game.Player2.games.GetValueVs(game.Player1Race) < CALIBRATION_PHASE2_NO_MATCHES)
+            else if (game.Player1.GameCountVs(game.Player2Race) < CALIBRATION_PHASE2_NO_MATCHES|| game.Player2.GameCountVs(game.Player1Race) < CALIBRATION_PHASE2_NO_MATCHES)
             {
                 return CALIBRATION_PHASE2_BONUSFACTOR;
             }
@@ -90,36 +87,29 @@ namespace EloSystem
             const double EXP_WIN_RATIO_MIN = 0.0;
             const int RATING_CHANGE_STANDARD_MAX = 28;
 
-            var player1RatingGain = new ResultVariables(0);
-            var player2RatingGain = new ResultVariables(0);
-
+            // calculate the rating change for each game in the match
             foreach (GameEntry game in match.GetEntries())
             {
                 double player1ExpectedWinRatio =
-                    ((match.Player1.Ratings.GetValueVs(game.Player2Race) - match.Player2.Ratings.GetValueVs(game.Player1Race))
+                    ((match.Player1.RatingsVs.GetValueFor(game.Player2Race) - match.Player2.RatingsVs.GetValueFor(game.Player1Race))
                     * MAX_RATING_DISTANCE_DETERMINER + EXP_WIN_RATIO_EVEN_RATING).TruncateToRange(EXP_WIN_RATIO_MIN, EXP_WIN_RATIO_MAX);
 
                 double player2ExpectedWinRatio = EXP_WIN_RATIO_MAX - player1ExpectedWinRatio;
 
-                int ratingPoints = ((RATING_CHANGE_STANDARD_MAX * EXP_WIN_RATIO_EVEN_RATING)
+                game.RatingChange = ((RATING_CHANGE_STANDARD_MAX * EXP_WIN_RATIO_EVEN_RATING)
                     * (EXP_WIN_RATIO_MAX - player1ExpectedWinRatio)
                     * EloData.GetRatingBonusFactor(new Game(match.Player1, match.Player2, game))).RoundToInt();
-
-                player1RatingGain.AddValueVs(game.Player2Race, ratingPoints * (game.Winner.Equals(match.Player1) ? 1 : -1));
-
-
-                player2RatingGain.AddValueVs(game.Player1Race, ratingPoints * (game.Winner.Equals(match.Player2) ? 1 : -1));
             }
 
-            foreach (Race race in Enum.GetValues(typeof(Race)).Cast<Race>())
+            // now add ratings and game counts to both players
+            foreach (GameEntry game in match.GetEntries())
             {
-                match.Player1.Ratings.AddValueVs(race, player1RatingGain.GetValueVs(race));
-                match.Player1.games.AddValueVs(race, match.GetEntries().Count(entry => entry.Player2Race == race));
+                match.Player1.RatingsVs.AddValueTo(game.Player2Race, game.RatingChange * (game.Winner.Equals(match.Player1) ? 1 : -1));
+                match.Player1.GameCountAs(game.Player1Race).AddValueTo(game.Player2Race, 1);
 
-                match.Player2.Ratings.AddValueVs(race, player2RatingGain.GetValueVs(race));
-                match.Player2.games.AddValueVs(race, match.GetEntries().Count(entry => entry.Player1Race == race));
+                match.Player2.RatingsVs.AddValueTo(game.Player1Race, game.RatingChange * (game.Winner.Equals(match.Player2) ? 1 : -1));
+                match.Player2.GameCountAs(game.Player2Race).AddValueTo(game.Player1Race, 1);
             }
-
         }
 
         #region Implementing ISerializable
@@ -206,7 +196,7 @@ namespace EloSystem
             else { return false; }
         }
 
-        public bool AddPlayer(string name, int startRating = EloData.STARTRATING_DEFAULT, Team team = null, Country country = null, Image image = null)
+        public bool AddPlayer(string name, int startRating = EloSystemStaticMembers.START_RATING_DEFAULT, Team team = null, Country country = null, Image image = null)
         {
             return this.AddPlayer(name, new string[] { }, team, country);
         }
@@ -215,7 +205,7 @@ namespace EloSystem
         {
             if (name != string.Empty && !this.players.Any(player => player.Name == name))
             {
-                this.players.Add(new SCPlayer(name, EloData.STARTRATING_DEFAULT, this.AddNewImage(image), aliases, team, country));
+                this.players.Add(new SCPlayer(name, EloSystemStaticMembers.START_RATING_DEFAULT, this.AddNewImage(image), aliases, team, country));
                 this.DataWasChanged = true;
                 return true;
             }
@@ -341,7 +331,7 @@ namespace EloSystem
                 formatter.Serialize(saveStream, this);
                 saveStream.Close();
             }
-            
+
             this.resHandler.SaveResourceChanges();
 
             this.DataWasChanged = false;

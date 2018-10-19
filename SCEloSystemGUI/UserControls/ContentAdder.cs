@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 namespace SCEloSystemGUI.UserControls
-{    
+{
     internal partial class ContentAdder : UserControl, IContentAdder
     {
         public ContentTypes ContentType
@@ -29,20 +29,20 @@ namespace SCEloSystemGUI.UserControls
             }
         }
         private ContentTypes contentType;
-        
+
         public ContentAdder()
         {
             InitializeComponent();
 
-            this.txtBxName.Text = StaticMembers.DEFAULT_TXTBX_TEXT;
+            this.txtBxName.Text = EloGUIControlsStaticMembers.DEFAULT_TXTBX_TEXT;
             this.btnAdd.Enabled = false;
         }
-        
+
         private void btnBrowse_Click(object sender, EventArgs e)
         {
             string filePath = string.Empty;
 
-            if (StaticMembers.TryGetFilePathFromUser(out filePath))
+            if (EloGUIControlsStaticMembers.TryGetFilePathFromUser(out filePath))
             {
                 this.lbFileName.Text = filePath;
                 this.SelectedImage = Bitmap.FromFile(filePath);
@@ -60,9 +60,11 @@ namespace SCEloSystemGUI.UserControls
         {
             this.OnAddButtonClick.Invoke(sender, new ContentAddingEventArgs(this));
 
+            if (this.SelectedImage != null) { this.SelectedImage.Dispose(); }
+
             this.lbFileName.Text = string.Empty;
-            this.txtBxName.Text = StaticMembers.DEFAULT_TXTBX_TEXT;
-            this.btnAdd.Enabled = false;            
+            this.txtBxName.Text = EloGUIControlsStaticMembers.DEFAULT_TXTBX_TEXT;
+            this.btnAdd.Enabled = false;
         }
     }
 }

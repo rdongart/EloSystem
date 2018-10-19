@@ -52,6 +52,8 @@ namespace SCEloSystemGUI
 
             this.eloSystem.SaveData(newFileName, MainForm.ShouldExistingFileBeReplaced);
 
+            MessageBox.Show("Elo System saved!", "", MessageBoxButtons.OK);
+
             this.Cursor = Cursors.Default;
         }
 

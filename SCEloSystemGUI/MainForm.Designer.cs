@@ -439,7 +439,7 @@
             // tblLOPnlPlayers
             // 
             this.tblLOPnlPlayers.ColumnCount = 2;
-            this.tblLOPnlPlayers.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 380F));
+            this.tblLOPnlPlayers.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 390F));
             this.tblLOPnlPlayers.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLOPnlPlayers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tblLOPnlPlayers.Location = new System.Drawing.Point(3, 3);

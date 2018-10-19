@@ -73,7 +73,7 @@
             this.tblLOPnlPlayerAdder.Location = new System.Drawing.Point(0, 0);
             this.tblLOPnlPlayerAdder.Margin = new System.Windows.Forms.Padding(0);
             this.tblLOPnlPlayerAdder.Name = "tblLOPnlPlayerAdder";
-            this.tblLOPnlPlayerAdder.RowCount = 9;
+            this.tblLOPnlPlayerAdder.RowCount = 10;
             this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
@@ -82,8 +82,9 @@
             this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlPlayerAdder.Size = new System.Drawing.Size(360, 350);
+            this.tblLOPnlPlayerAdder.Size = new System.Drawing.Size(360, 370);
             this.tblLOPnlPlayerAdder.TabIndex = 1;
             // 
             // txtBxName
@@ -271,9 +272,9 @@
             this.btnAddAlias.Enabled = false;
             this.btnAddAlias.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddAlias.Location = new System.Drawing.Point(170, 91);
-            this.btnAddAlias.Margin = new System.Windows.Forms.Padding(4, 4, 1, 1);
+            this.btnAddAlias.Margin = new System.Windows.Forms.Padding(4, 4, 3, 1);
             this.btnAddAlias.Name = "btnAddAlias";
-            this.btnAddAlias.Size = new System.Drawing.Size(23, 22);
+            this.btnAddAlias.Size = new System.Drawing.Size(21, 22);
             this.btnAddAlias.TabIndex = 3;
             this.btnAddAlias.Text = "+";
             this.btnAddAlias.UseVisualStyleBackColor = true;
@@ -285,9 +286,9 @@
             this.btnRemoveAlias.Enabled = false;
             this.btnRemoveAlias.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRemoveAlias.Location = new System.Drawing.Point(170, 58);
-            this.btnRemoveAlias.Margin = new System.Windows.Forms.Padding(4, 4, 1, 4);
+            this.btnRemoveAlias.Margin = new System.Windows.Forms.Padding(4, 4, 3, 4);
             this.btnRemoveAlias.Name = "btnRemoveAlias";
-            this.btnRemoveAlias.Size = new System.Drawing.Size(23, 22);
+            this.btnRemoveAlias.Size = new System.Drawing.Size(21, 22);
             this.btnRemoveAlias.TabIndex = 3;
             this.btnRemoveAlias.Text = "-";
             this.btnRemoveAlias.UseVisualStyleBackColor = true;
@@ -310,9 +311,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.tblLOPnlPlayerAdder);
             this.Name = "PlayerAdder";
-            this.Size = new System.Drawing.Size(360, 350);
+            this.Size = new System.Drawing.Size(360, 370);
             this.tblLOPnlPlayerAdder.ResumeLayout(false);
             this.tblLOPnlPlayerAdder.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);

@@ -54,15 +54,19 @@ namespace SCEloSystemGUI.UserControls
 
             this.ImgCmbBxCountries = new ImageComboBox()
             {
+                Dock = DockStyle.Fill,
                 DrawMode = DrawMode.OwnerDrawFixed,
                 DropDownStyle = ComboBoxStyle.DropDownList,
                 DropDownWidth = 154,
                 Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 FormattingEnabled = true,
                 ItemHeight = 18,
-                Size = new Size(154, 24)
+                Size = new Size(154, 24),
+                Margin = new Padding(6, 3, 6, 3),
+                ImageMargin = new Padding(4, 2, 4, 2)
+
             };
-            this.ImgCmbBxCountries.SelectionChangeCommitted += this.ImCmbBxCountries_SelectionChangeCommitted;            
+            this.ImgCmbBxCountries.SelectionChangeCommitted += this.ImCmbBxCountries_SelectionChangeCommitted;
             this.tblLOPnlPlayerAdder.Controls.Add(this.ImgCmbBxCountries, 1, 4);
         }
 

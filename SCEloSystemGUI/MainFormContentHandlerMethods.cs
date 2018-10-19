@@ -1,14 +1,6 @@
-﻿using SCEloSystemGUI.UserControls;
-using System.IO;
-using EloSystem;
+﻿using EloSystem;
+using SCEloSystemGUI.UserControls;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SCEloSystemGUI
@@ -17,7 +9,7 @@ namespace SCEloSystemGUI
     {
         private void AddContent(object sender, ContentAddingEventArgs e)
         {
-            ContentAdder adder = e.ContentAdder;
+            IContentAdder adder = e.ContentAdder;
 
             if (adder == null) { return; }
 

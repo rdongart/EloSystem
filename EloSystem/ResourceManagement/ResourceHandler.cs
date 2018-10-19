@@ -9,7 +9,6 @@ namespace EloSystem.ResourceManagement
 {
     internal class ResourceHandler
     {
-        private const int OPEN_RESOURCES_LIMIT = 50;
         private const string RESFILE_EXTENSION_NAME = ".res";
 
         internal int UnsavedImages

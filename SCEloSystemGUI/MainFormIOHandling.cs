@@ -1,14 +1,5 @@
-﻿using SCEloSystemGUI.UserControls;
-using System.IO;
-using EloSystem.IO;
+﻿using EloSystem.IO;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SCEloSystemGUI
@@ -53,13 +44,13 @@ namespace SCEloSystemGUI
 
         private void SaveAs()
         {
-            string newFileName = MainForm.GetNewDefaultSaveName(this.eloSystem.Name);
+            string newFileName = this.eloSystem.Name;
 
             if (EloSystemGUIStaticMethods.GetEloSystemName(ref newFileName) != DialogResult.OK) { return; }
 
             this.Cursor = Cursors.WaitCursor;
 
-            this.eloSystem.SaveData(this.eloSystem.Name, MainForm.ShouldExistingFileBeReplaced);
+            this.eloSystem.SaveData(newFileName, MainForm.ShouldExistingFileBeReplaced);
 
             this.Cursor = Cursors.Default;
         }

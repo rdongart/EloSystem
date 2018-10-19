@@ -16,7 +16,7 @@ namespace EloSystem
     {
         private const int IMAGEID_NO_IMAGE = 0;
         private const int STARTRATING_DEFAULT = 1500;
- 
+
         private int imagesSaved = 0;
         private int nextImageID
         {
@@ -159,6 +159,7 @@ namespace EloSystem
 
             }
 
+            this.resHandler = new ResourceHandler(StaticMembers.SaveDirectory + this.Name);
             this.DataWasChanged = false;
         }
         #endregion
@@ -329,11 +330,10 @@ namespace EloSystem
         {
             if (!Directory.Exists(StaticMembers.SaveDirectory)) { Directory.CreateDirectory(StaticMembers.SaveDirectory); }
 
-            this.Name = fileName;
-
-            if (handler !=null && File.Exists(StaticMembers.SaveDirectory + fileName + StaticMembers.FILE_EXTENSION_NAME) && !handler.Invoke(this, new FileOverwriteEventArgs(fileName))) { return false; }
+            if (handler != null && File.Exists(StaticMembers.SaveDirectory + fileName + StaticMembers.FILE_EXTENSION_NAME) && !handler.Invoke(this, new FileOverwriteEventArgs(fileName))) { return false; }
 
             this.Name = fileName;
+            this.imagesSaved += this.resHandler.UnsavedImages;
 
             using (Stream saveStream = File.Open(path, FileMode.Create))
             {
@@ -341,9 +341,7 @@ namespace EloSystem
                 formatter.Serialize(saveStream, this);
                 saveStream.Close();
             }
-
-            this.imagesSaved += this.resHandler.UnsavedImages;
-
+            
             this.resHandler.SaveResourceChanges();
 
             this.DataWasChanged = false;
@@ -386,9 +384,22 @@ namespace EloSystem
             foreach (Team team in this.teams.ToList()) { yield return team; }
         }
 
-        public Image GetImage(int imageID)
+        public bool TryGetImage(int imageID, out EloImage eloImg)
         {
-            return this.resHandler.GetImage(imageID);
+            Image img = this.resHandler.GetImage(imageID);
+
+            if (img != null)
+            {
+                eloImg = new EloImage(img);
+
+                return true;
+            }
+            else
+            {
+                eloImg = new EloImage();
+                return false;
+            }
+
         }
 
         public Map GetMap(string name)

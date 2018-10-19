@@ -4,9 +4,9 @@ namespace SCEloSystemGUI.UserControls
 {
     internal class ContentAddingEventArgs : EventArgs
     {
-        internal ContentAdder ContentAdder { get; private set; }
+        internal IContentAdder ContentAdder { get; private set; }
 
-        internal ContentAddingEventArgs(ContentAdder adder)
+        internal ContentAddingEventArgs(IContentAdder adder)
         {
             this.ContentAdder = adder;
         }

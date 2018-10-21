@@ -15,6 +15,9 @@ namespace EloSystem
     public class EloData : ISerializable
     {
         private const int IMAGEID_NO_IMAGE = 0;
+        internal const double EXP_WIN_RATIO_EVEN_RATING = 0.5;
+        internal const double EXP_WIN_RATIO_MAX = 1.0;
+        private const double EXP_WIN_RATIO_MIN = 0.0;
 
         private int imagesSaved = 0;
         private int nextImageID
@@ -55,6 +58,13 @@ namespace EloSystem
             this.resHandler = new ResourceHandler(StaticMembers.SaveDirectory + name);
         }
 
+        internal static double ExpectedWinRatio(int ownRating, int opponentRating)
+        {
+            const double MAX_RATING_DISTANCE_DETERMINER = 0.0005;
+
+            return ((ownRating - opponentRating) * MAX_RATING_DISTANCE_DETERMINER + EloData.EXP_WIN_RATIO_EVEN_RATING).TruncateToRange(EloData.EXP_WIN_RATIO_MIN, EloData.EXP_WIN_RATIO_MAX);
+        }
+
         /// <summary>
         /// Returns a factor that increases the rating value changes based on the rating calibration phase that at least one player in a game is in.
         /// </summary>
@@ -68,47 +78,57 @@ namespace EloSystem
             const int BONUSFACTOR_STANDARD = 1;
 
 
-            if (game.Player1.GameCountVs(game.Player2Race) < CALIBRATION_PHASE1_NO_MATCHES || game.Player2.GameCountVs(game.Player1Race) < CALIBRATION_PHASE1_NO_MATCHES)
+            if (game.Player1.Stats.GamesVsRace(game.Player2Race) < CALIBRATION_PHASE1_NO_MATCHES || game.Player2.Stats.GamesVsRace(game.Player1Race) < CALIBRATION_PHASE1_NO_MATCHES)
             {
                 return CALIBRATION_PHASE1_BONUSFACTOR;
             }
-            else if (game.Player1.GameCountVs(game.Player2Race) < CALIBRATION_PHASE2_NO_MATCHES|| game.Player2.GameCountVs(game.Player1Race) < CALIBRATION_PHASE2_NO_MATCHES)
+            else if (game.Player1.Stats.GamesVsRace(game.Player2Race) < CALIBRATION_PHASE2_NO_MATCHES || game.Player2.Stats.GamesVsRace(game.Player1Race) < CALIBRATION_PHASE2_NO_MATCHES)
             {
                 return CALIBRATION_PHASE2_BONUSFACTOR;
             }
             else { return BONUSFACTOR_STANDARD; }
 
         }
+
         private static void UpdateRating(Match match)
         {
-            const double MAX_RATING_DISTANCE_DETERMINER = 0.0005;
-            const double EXP_WIN_RATIO_EVEN_RATING = 0.5;
-            const double EXP_WIN_RATIO_MAX = 1.0;
-            const double EXP_WIN_RATIO_MIN = 0.0;
             const int RATING_CHANGE_STANDARD_MAX = 28;
 
             // calculate the rating change for each game in the match
             foreach (GameEntry game in match.GetEntries())
             {
-                double player1ExpectedWinRatio =
-                    ((match.Player1.RatingsVs.GetValueFor(game.Player2Race) - match.Player2.RatingsVs.GetValueFor(game.Player1Race))
-                    * MAX_RATING_DISTANCE_DETERMINER + EXP_WIN_RATIO_EVEN_RATING).TruncateToRange(EXP_WIN_RATIO_MIN, EXP_WIN_RATIO_MAX);
+                double player1ExpectedWinRatio = EloData.ExpectedWinRatio((match.Player1.RatingsVs.GetValueFor(game.Player2Race)), match.Player2.RatingsVs.GetValueFor(game.Player1Race));
 
-                double player2ExpectedWinRatio = EXP_WIN_RATIO_MAX - player1ExpectedWinRatio;
+                double player2ExpectedWinRatio = EloData.EXP_WIN_RATIO_MAX - player1ExpectedWinRatio;
 
-                game.RatingChange = ((RATING_CHANGE_STANDARD_MAX * EXP_WIN_RATIO_EVEN_RATING)
-                    * (EXP_WIN_RATIO_MAX - player1ExpectedWinRatio)
+                game.RatingChange = ((RATING_CHANGE_STANDARD_MAX * EloData.EXP_WIN_RATIO_EVEN_RATING)
+                    * (EloData.EXP_WIN_RATIO_MAX - player1ExpectedWinRatio)
                     * EloData.GetRatingBonusFactor(new Game(match.Player1, match.Player2, game))).RoundToInt();
             }
 
-            // now add ratings and game counts to both players
+            // report to map stats
+            foreach (GameEntry game in match.GetEntries())
+            {
+                game.Map.Stats.ReportMatch(game.Player1Race, game.Player2Race, game.Winner.Equals(match.Player1) ? game.Player1Race : game.Player2Race, match.Player1.RatingsVs.GetValueFor(game.Player2Race)
+                    , match.Player2.RatingsVs.GetValueFor(game.Player1Race));
+            }
+
+            // add ratings and game counts to both players 
             foreach (GameEntry game in match.GetEntries())
             {
                 match.Player1.RatingsVs.AddValueTo(game.Player2Race, game.RatingChange * (game.Winner.Equals(match.Player1) ? 1 : -1));
-                match.Player1.GameCountAs(game.Player1Race).AddValueTo(game.Player2Race, 1);
-
                 match.Player2.RatingsVs.AddValueTo(game.Player1Race, game.RatingChange * (game.Winner.Equals(match.Player2) ? 1 : -1));
-                match.Player2.GameCountAs(game.Player2Race).AddValueTo(game.Player1Race, 1);
+
+                if (game.Winner.Equals(match.Player1))
+                {
+                    match.Player1.Stats.ReportWin(game.Player1Race, game.Player2Race);
+                    match.Player2.Stats.ReportLoss(game.Player2Race, game.Player1Race);
+                }
+                else if (game.Winner.Equals(match.Player2))
+                {
+                    match.Player1.Stats.ReportLoss(game.Player1Race, game.Player2Race);
+                    match.Player2.Stats.ReportWin(game.Player2Race, game.Player1Race);
+                }
             }
         }
 

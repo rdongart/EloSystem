@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.Serialization;
 namespace EloSystem
 {
     [Serializable]
     public class GameCount : ResultVariables, ISerializable
     {
-
         internal GameCount() : base(0)
         {
 

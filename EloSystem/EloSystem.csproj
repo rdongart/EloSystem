@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameCount.cs" />
+    <Compile Include="MapStats.cs" />
     <Compile Include="ResourceManagement\EloImage.cs" />
     <Compile Include="EloSystemContent.cs" />
     <Compile Include="EloData.cs" />
@@ -60,10 +61,14 @@
     <Compile Include="Match.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceManagement\ResourceHandler.cs" />
+    <Compile Include="ResultsMatrix.cs" />
     <Compile Include="ResultVariables.cs" />
+    <Compile Include="RaceMatchupResults.cs" />
     <Compile Include="SCPlayer.cs" />
     <Compile Include="EloSystemStaticMembers.cs" />
     <Compile Include="Team.cs" />
+    <Compile Include="WinRateCounter.cs" />
+    <Compile Include="WinRateStats.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

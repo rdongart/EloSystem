@@ -10,46 +10,46 @@ namespace EloSystem
         private int _random;
         private int _terran;
         private int _zerg;
-        public int Protoss
+        internal int Protoss
         {
             get
             {
                 return this._protoss;
             }
-            internal set
+            set
             {
                 this._protoss = value < 0 ? 0 : value;
             }
         }
-        public int Random
+        internal int Random
         {
             get
             {
                 return this._random;
             }
-            internal set
+            set
             {
                 this._random = value < 0 ? 0 : value;
             }
         }
-        public int Terran
+        internal int Terran
         {
             get
             {
                 return this._terran;
             }
-            internal set
+            set
             {
                 this._terran = value < 0 ? 0 : value;
             }
         }
-        public int Zerg
+        internal int Zerg
         {
             get
             {
                 return this._zerg;
             }
-            internal set
+            set
             {
                 this._zerg = value < 0 ? 0 : value;
             }

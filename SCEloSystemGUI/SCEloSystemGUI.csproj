@@ -103,6 +103,12 @@
     <Compile Include="UserControls\ContentAdder.Designer.cs">
       <DependentUpon>ContentAdder.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\GameReport.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\GameReport.Designer.cs">
+      <DependentUpon>GameReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MatchReport.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -116,6 +122,12 @@
     </Compile>
     <Compile Include="UserControls\PlayerAdder.Designer.cs">
       <DependentUpon>PlayerAdder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PlayerMatchStatsDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\PlayerMatchStatsDisplay.Designer.cs">
+      <DependentUpon>PlayerMatchStatsDisplay.cs</DependentUpon>
     </Compile>
     <Compile Include="WindowConstants.cs" />
     <EmbeddedResource Include="MainForm.resx">
@@ -136,6 +148,9 @@
     </Compile>
     <EmbeddedResource Include="UserControls\ContentAdder.resx">
       <DependentUpon>ContentAdder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\GameReport.resx">
+      <DependentUpon>GameReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\MatchReport.resx">
       <DependentUpon>MatchReport.cs</DependentUpon>

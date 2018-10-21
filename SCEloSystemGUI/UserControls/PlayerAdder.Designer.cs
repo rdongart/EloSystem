@@ -136,7 +136,7 @@
             this.btnAdd.Margin = new System.Windows.Forms.Padding(6, 14, 6, 4);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(120, 32);
-            this.btnAdd.TabIndex = 4;
+            this.btnAdd.TabIndex = 7;
             this.btnAdd.Text = "A&dd to system";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -269,7 +269,7 @@
             this.txtBxAlias.Margin = new System.Windows.Forms.Padding(3, 3, 3, 1);
             this.txtBxAlias.Name = "txtBxAlias";
             this.txtBxAlias.Size = new System.Drawing.Size(160, 23);
-            this.txtBxAlias.TabIndex = 0;
+            this.txtBxAlias.TabIndex = 1;
             this.txtBxAlias.TextChanged += new System.EventHandler(this.txtBxAlias_TextChanged);
             // 
             // btnAddAlias
@@ -281,7 +281,7 @@
             this.btnAddAlias.Margin = new System.Windows.Forms.Padding(4, 4, 3, 1);
             this.btnAddAlias.Name = "btnAddAlias";
             this.btnAddAlias.Size = new System.Drawing.Size(21, 22);
-            this.btnAddAlias.TabIndex = 3;
+            this.btnAddAlias.TabIndex = 2;
             this.btnAddAlias.Text = "+";
             this.btnAddAlias.UseVisualStyleBackColor = true;
             this.btnAddAlias.Click += new System.EventHandler(this.btnAddAlias_Click);

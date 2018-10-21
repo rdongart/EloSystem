@@ -13,38 +13,7 @@ namespace EloSystem
 
         private List<string> aliases;
         public Country Country { get; set; }
-        public GameCount GamesAsProtossVs { get; private set; }
-        public GameCount GamesAsRandomVs { get; private set; }
-        public GameCount GamesAsTerranVs { get; private set; }
-        public GameCount GamesAsZergVs { get; private set; }
-        public int GamesVsProtoss
-        {
-            get
-            {
-                return this.GamesAsProtossVs.Protoss + this.GamesAsRandomVs.Protoss + this.GamesAsTerranVs.Protoss + this.GamesAsZergVs.Protoss;
-            }
-        }
-        public int GamesVsRandom
-        {
-            get
-            {
-                return this.GamesAsProtossVs.Random + this.GamesAsRandomVs.Random + this.GamesAsTerranVs.Random + this.GamesAsZergVs.Random;
-            }
-        }
-        public int GamesVsTerran
-        {
-            get
-            {
-                return this.GamesAsProtossVs.Terran + this.GamesAsRandomVs.Terran + this.GamesAsTerranVs.Terran + this.GamesAsZergVs.Terran;
-            }
-        }
-        public int GamesVsZerg
-        {
-            get
-            {
-                return this.GamesAsProtossVs.Zerg + this.GamesAsRandomVs.Zerg + this.GamesAsTerranVs.Zerg + this.GamesAsZergVs.Zerg;
-            }
-        }
+        public WinRateCounter Stats { get; private set; }
         public ResultVariables RatingsVs { get; private set; }
         public string TeamName
         {
@@ -71,10 +40,7 @@ namespace EloSystem
         {
             this.aliases = aliases == null ? new List<string>() : aliases.ToList();
             this.Country = nationality;
-            this.GamesAsProtossVs = new GameCount();
-            this.GamesAsRandomVs = new GameCount();
-            this.GamesAsTerranVs = new GameCount();
-            this.GamesAsZergVs = new GameCount();
+            this.Stats = new WinRateCounter();
             this.RatingsVs = new ResultVariables(startRating);
             this.Team = team;
         }
@@ -87,7 +53,7 @@ namespace EloSystem
         #region Implementing ISerializable
         private enum Field
         {
-            Aliases, GamesAsProtossVs, GamesAsRandomVs, GamesAsTerranVs, GamesAsZergVs, Name, Country, Ratings, Team
+            Aliases, GameStats, Name, Country, Ratings, Team
         }
         new public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -97,10 +63,7 @@ namespace EloSystem
 
             if (this.Country != null) { info.AddValue(Field.Team.ToString(), (Country)this.Country); }
 
-            info.AddValue(Field.GamesAsProtossVs.ToString(), (GameCount)this.GamesAsProtossVs);
-            info.AddValue(Field.GamesAsRandomVs.ToString(), (GameCount)this.GamesAsRandomVs);
-            info.AddValue(Field.GamesAsTerranVs.ToString(), (GameCount)this.GamesAsTerranVs);
-            info.AddValue(Field.GamesAsZergVs.ToString(), (GameCount)this.GamesAsZergVs);
+            info.AddValue(Field.GameStats.ToString(), (WinRateCounter)this.Stats);
             info.AddValue(Field.Ratings.ToString(), (ResultVariables)this.RatingsVs);
 
             if (this.Team != null) { info.AddValue(Field.Team.ToString(), (Team)this.Team); }
@@ -117,10 +80,7 @@ namespace EloSystem
                     {
                         case Field.Aliases: this.aliases = (List<string>)info.GetValue(field.ToString(), typeof(List<string>)); break;
                         case Field.Country: this.Country = (Country)info.GetValue(field.ToString(), typeof(Country)); break;
-                        case Field.GamesAsProtossVs: this.GamesAsProtossVs = (GameCount)info.GetValue(field.ToString(), typeof(GameCount)); break;
-                        case Field.GamesAsRandomVs: this.GamesAsRandomVs = (GameCount)info.GetValue(field.ToString(), typeof(GameCount)); break;
-                        case Field.GamesAsTerranVs: this.GamesAsTerranVs = (GameCount)info.GetValue(field.ToString(), typeof(GameCount)); break;
-                        case Field.GamesAsZergVs: this.GamesAsZergVs = (GameCount)info.GetValue(field.ToString(), typeof(GameCount)); break;
+                        case Field.GameStats: this.Stats = (WinRateCounter)info.GetValue(field.ToString(), typeof(WinRateCounter)); break;
                         case Field.Ratings: this.RatingsVs = (ResultVariables)info.GetValue(field.ToString(), typeof(ResultVariables)); break;
                         case Field.Team: this.Team = (Team)info.GetValue(field.ToString(), typeof(Team)); break;
                     }
@@ -132,37 +92,13 @@ namespace EloSystem
 
         private bool HasPlayedAnyGames()
         {
-            return this.GamesAsProtossVs.Total() > 0 || this.GamesAsRandomVs.Total() > 0 || this.GamesAsTerranVs.Total() > 0 || this.GamesAsZergVs.Total() > 0;
+            return this.Stats.GamesTotal() > 0;
         }
 
         private double GetTotalInfluenceValue()
         {
-            return SCPlayer.GetRatingInfluence(this.GamesVsProtoss) + SCPlayer.GetRatingInfluence(this.GamesVsRandom) + SCPlayer.GetRatingInfluence(this.GamesVsTerran)
-                + SCPlayer.GetRatingInfluence(this.GamesVsZerg);
-        }
-
-        public GameCount GameCountAs(Race race)
-        {
-            switch (race)
-            {
-                case Race.Zerg: return this.GamesAsZergVs;
-                case Race.Terran: return this.GamesAsTerranVs;
-                case Race.Protoss: return this.GamesAsProtossVs;
-                case Race.Random: return this.GamesAsRandomVs;
-                default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Race).Name, race.ToString()));
-            }
-        }
-
-        public int GameCountVs(Race race)
-        {
-            switch (race)
-            {
-                case Race.Zerg: return this.GamesVsZerg;
-                case Race.Terran: return this.GamesVsTerran;
-                case Race.Protoss: return this.GamesVsProtoss;
-                case Race.Random: return this.GamesVsRandom;
-                default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Race).Name, race.ToString()));
-            }
+            return SCPlayer.GetRatingInfluence(this.Stats.GamesVsRace(Race.Protoss)) + SCPlayer.GetRatingInfluence(this.Stats.GamesVsRace(Race.Random))
+                + SCPlayer.GetRatingInfluence(this.Stats.GamesVsRace(Race.Terran)) + SCPlayer.GetRatingInfluence(this.Stats.GamesVsRace(Race.Zerg));
         }
 
         public IEnumerable<string> GetAliases()
@@ -180,10 +116,10 @@ namespace EloSystem
             return this.HasPlayedAnyGames() ?
 
                 // ...calculate the rating
-                ((this.RatingsVs.Protoss * SCPlayer.GetRatingInfluence(this.GamesVsProtoss)
-                + this.RatingsVs.Random * SCPlayer.GetRatingInfluence(this.GamesVsRandom)
-                + this.RatingsVs.Terran * SCPlayer.GetRatingInfluence(this.GamesVsTerran)
-                + this.RatingsVs.Zerg * SCPlayer.GetRatingInfluence(this.GamesVsZerg))
+                ((this.RatingsVs.Protoss * SCPlayer.GetRatingInfluence(this.Stats.GamesVsRace(Race.Protoss))
+                + this.RatingsVs.Random * SCPlayer.GetRatingInfluence(this.Stats.GamesVsRace(Race.Random))
+                + this.RatingsVs.Terran * SCPlayer.GetRatingInfluence(this.Stats.GamesVsRace(Race.Terran))
+                + this.RatingsVs.Zerg * SCPlayer.GetRatingInfluence(Stats.GamesVsRace(Race.Zerg)))
                 / this.GetTotalInfluenceValue()).RoundToInt()
 
                 // ...otherwise just return the default starting rating value
@@ -211,17 +147,13 @@ namespace EloSystem
 
 
                 return groupingBySubPrimary.Where(grouping => grouping.Count() == maxSubPrimaryCount).ToDictionary(grouping => grouping.Key, grouping =>
-                    this.GameCountAs(grouping.Key).Total()).OrderByDescending(kvp => kvp.Value).First().Key;
+                    this.Stats.GamesWithRace(grouping.Key)).OrderByDescending(kvp => kvp.Value).First().Key;
             }
         }
 
         public Race GetPrimaryRaceVs(Race race)
         {
-            return (new Dictionary<Race, int>() {
-                { Race.Protoss, this.GamesAsProtossVs.Vs(race) }
-                , { Race.Random, this.GamesAsRandomVs.Vs(race) }
-                , { Race.Terran, this.GamesAsTerranVs.Vs(race) }
-                , { Race.Zerg, this.GamesAsZergVs.Vs(race) } }).OrderByDescending(kvp => kvp.Value).First().Key;
+            return Enum.GetValues(typeof(Race)).Cast<Race>().ToDictionary(r => r, r => this.Stats.GamesInMathcup(r, race)).OrderByDescending(kvp => kvp.Value).First().Key;
         }
 
         public void AddAlias(string alias)

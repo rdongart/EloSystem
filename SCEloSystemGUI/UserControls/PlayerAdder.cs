@@ -73,22 +73,16 @@ namespace SCEloSystemGUI.UserControls
             this.numUDStartRating.Maximum = int.MaxValue;
             this.numUDStartRating.Value = EloSystemStaticMembers.START_RATING_DEFAULT;
 
-            this.ImgCmbBxCountries = new ImageComboBox()
-            {
-                Dock = DockStyle.Fill,
-                DrawMode = DrawMode.OwnerDrawFixed,
-                DropDownStyle = ComboBoxStyle.DropDownList,
-                DropDownWidth = 154,
-                Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
-                FormattingEnabled = true,
-                ImageMargin = new Padding(4, 2, 4, 2),
-                ItemHeight = 18,
-                Margin = new Padding(6, 3, 6, 3),
-                Size = new Size(154, 24),
-            };
+            this.ImgCmbBxCountries = PlayerAdder.CreateStandardImageComboBox();
             this.tblLOPnlPlayerAdder.Controls.Add(this.ImgCmbBxCountries, 1, 4);
 
-            this.ImgCmbBxTeams = new ImageComboBox()
+            this.ImgCmbBxTeams = PlayerAdder.CreateStandardImageComboBox();
+            this.tblLOPnlPlayerAdder.Controls.Add(this.ImgCmbBxTeams, 1, 5);
+        }
+
+        private static ImageComboBox CreateStandardImageComboBox()
+        {
+            return new ImageComboBox()
             {
                 Dock = DockStyle.Fill,
                 DrawMode = DrawMode.OwnerDrawFixed,
@@ -99,16 +93,16 @@ namespace SCEloSystemGUI.UserControls
                 ImageMargin = new Padding(4, 2, 4, 2),
                 ItemHeight = 18,
                 Margin = new Padding(6, 3, 6, 3),
+                SelectedItemFont = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 Size = new Size(154, 24),
             };
-            this.tblLOPnlPlayerAdder.Controls.Add(this.ImgCmbBxTeams, 1, 5);
         }
 
         internal IEnumerable<string> GetAliases()
         {
             foreach (string alias in this.lstViewAliases.Items.Cast<ListViewItem>().Select(item => item.Text).ToList()) { yield return alias; }
         }
-        
+
         private void txtBxAlias_TextChanged(object sender, EventArgs e)
         {
             if (this.txtBxAlias.Text != string.Empty) { this.btnAddAlias.Enabled = true; }

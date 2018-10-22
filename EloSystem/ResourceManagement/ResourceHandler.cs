@@ -25,35 +25,35 @@ namespace EloSystem.ResourceManagement
                 return this.resourceRoster != null;
             }
         }
-        private Dictionary<int, Image> newResources;
+        private Dictionary<int, EloImage> newResources;
         private HashSet<string> resourcesRemoved;
         private HashSet<string> resourceRoster;
         private string resourcePath;
 
         internal ResourceHandler(string filePath)
         {
-            this.newResources = new Dictionary<int, Image>();
+            this.newResources = new Dictionary<int, EloImage>();
             this.resourcePath = filePath + ResourceHandler.RESFILE_EXTENSION_NAME;
             this.resourcesRemoved = new HashSet<string>();
         }
 
-        internal Image GetImage(int imageID)
+        internal EloImage GetImage(int imageID)
         {
-            Image resource;
+            EloImage resource;
 
-            if (this.newResources.TryGetValue(imageID, out resource)) { return resource; }
+            if (this.newResources.TryGetValue(imageID, out resource)) { return new EloImage(resource.Image); }
             else
             {
                 if (!this.resourcesRosterHasBeenCreated) { this.CreateResourceRoster(); }
 
-                if (this.resourceRoster.Contains(imageID.ToString())) { return this.LoadResource(imageID); }
-                else { return null; }
+                if (this.resourceRoster.Contains(imageID.ToString())) { return new EloImage(this.LoadResource(imageID)); }
+                else { return new EloImage(); }
             }
         }
 
         internal void AddImage(Image image, int imageID)
         {
-            this.newResources.Add(imageID, image);
+            this.newResources.Add(imageID, new EloImage(image));
         }
 
         internal void RemoveImage(int imageID)
@@ -66,9 +66,9 @@ namespace EloSystem.ResourceManagement
 
         internal void ReleaseResources()
         {
-            foreach (KeyValuePair<int, Image> kvp in this.newResources.ToList()) { if (kvp.Value != null) { kvp.Value.Dispose(); } }
+            foreach (KeyValuePair<int, EloImage> kvp in this.newResources.ToList()) { if (kvp.Value.Image != null) { kvp.Value.Image.Dispose(); } }
 
-            this.newResources = new Dictionary<int, Image>();
+            this.newResources = new Dictionary<int, EloImage>();
         }
 
         internal void SaveResourceChanges()
@@ -101,7 +101,7 @@ namespace EloSystem.ResourceManagement
                     reader.Close();
                     reader.Dispose();
                 }
-                
+
 
                 if (tempFilePath != string.Empty) { File.Delete(tempFilePath); }
 
@@ -110,9 +110,9 @@ namespace EloSystem.ResourceManagement
 
                 while (eNewResources.MoveNext())
                 {
-                    if (eNewResources.Current.Value != null && !this.resourcesRemoved.Contains(eNewResources.Current.Key.ToString()))
+                    if (eNewResources.Current.Value.Image != null && !this.resourcesRemoved.Contains(eNewResources.Current.Key.ToString()))
                     {
-                        writer.AddResource(eNewResources.Current.Key.ToString(), eNewResources.Current.Value);
+                        writer.AddResource(eNewResources.Current.Key.ToString(), eNewResources.Current.Value.Image);
                     }
                 }
             }

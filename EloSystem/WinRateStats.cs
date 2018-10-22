@@ -49,12 +49,12 @@ namespace EloSystem
             return this.totalGames.GamesAs(ownRace).GetValueFor(vsRace);
         }
 
-        public int GamesWithRace(Race ownRace)
+        public int GamesWith(Race ownRace)
         {
             return this.totalGames.GamesAs(ownRace).Total();
         }
 
-        public int GamesVsRace(Race vsRace)
+        public int GamesVs(Race vsRace)
         {
             return this.totalGames.GamesVs(vsRace);
         }
@@ -69,10 +69,16 @@ namespace EloSystem
             return this.wins.GamesAs(ownRace).GetValueFor(vsRace);
         }
 
-        public int WinsWithRace(Race ownRace)
+        public int WinsWith(Race ownRace)
         {
             return this.wins.GamesAs(ownRace).Total();
         }
+
+        public int WinsVs(Race vsRace)
+        {
+            return this.wins.GamesVs(vsRace);
+        }
+
 
         public int WinsTotal()
         {
@@ -86,11 +92,18 @@ namespace EloSystem
             return gamesInMatchup > 0 ? this.WinsInMathcup(ownRace, vsRace) / (double)gamesInMatchup : 0.0;
         }
 
-        public double WinRatioWithRace(Race ownRace)
+        public double WinRatioWith(Race ownRace)
         {
-            int gamesWithRace = this.GamesWithRace(ownRace);
+            int gamesWithRace = this.GamesWith(ownRace);
 
-            return gamesWithRace > 0 ? this.WinsWithRace(ownRace) / (double)gamesWithRace : 0.0;
+            return gamesWithRace > 0 ? this.WinsWith(ownRace) / (double)gamesWithRace : 0.0;
+        }
+
+        public double WinRatioVs(Race vsRace)
+        {
+            int gamesVsRace = this.GamesVs(vsRace);
+
+            return gamesVsRace > 0 ? this.WinsVs(vsRace) / (double)gamesVsRace : 0.0;
         }
 
         public double WinRatioTotal()

@@ -158,6 +158,9 @@
     <EmbeddedResource Include="UserControls\PlayerAdder.resx">
       <DependentUpon>PlayerAdder.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\PlayerMatchStatsDisplay.resx">
+      <DependentUpon>PlayerMatchStatsDisplay.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -16,7 +16,10 @@ namespace EloSystem
         {
             this.Player1 = player1;
             this.Player2 = player2;
+
             this.games = games.ToList();
+
+            foreach (GameEntry entry in this.games) { entry.RatingChange = EloData.RatingChange(new Game(player1, player2, entry)); }
         }
 
         #region Implementing ISerializable
@@ -52,14 +55,20 @@ namespace EloSystem
             }
         }
         #endregion
-
+        
         internal IEnumerable<GameEntry> GetEntries()
         {
             foreach (GameEntry entry in this.games.ToList()) { yield return entry; }
         }
+
+        private Game ConvertToGame(GameEntry entry)
+        {
+            return new Game(this.Player1, this.Player2, entry);
+        }
+
         public IEnumerable<Game> GetGames()
         {
-            foreach (GameEntry entry in this.games.ToList()) { yield return new Game(this.Player1, this.Player2, entry); }
+            return this.games.Select(entry => this.ConvertToGame(entry));
         }
     }
 }

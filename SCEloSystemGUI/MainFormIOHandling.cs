@@ -37,9 +37,7 @@ namespace SCEloSystemGUI
 
             this.eloSystem.SaveData(this.eloSystem.Name);
 
-            MessageBox.Show("Elo System saved!", "", MessageBoxButtons.OK);
-
-            this.Cursor = Cursors.Default;
+            this.PostSaveProcedure();
         }
 
         private void SaveAs()
@@ -51,6 +49,13 @@ namespace SCEloSystemGUI
             this.Cursor = Cursors.WaitCursor;
 
             this.eloSystem.SaveData(newFileName, MainForm.ShouldExistingFileBeReplaced);
+
+            this.PostSaveProcedure();
+        }
+
+        private void PostSaveProcedure()
+        {
+            this.Text = this.eloSystem.Name;
 
             MessageBox.Show("Elo System saved!", "", MessageBoxButtons.OK);
 

@@ -9,6 +9,8 @@ namespace SCEloSystemGUI
 {
     internal static class EloSystemGUIStaticMembers
     {
+        internal const string NUMBER_FORMAT = "#,#";
+
         internal static DialogResult GetEloSystemName(ref string fileName)
         {
             while (true)

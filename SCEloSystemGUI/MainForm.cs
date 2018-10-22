@@ -55,8 +55,9 @@ namespace SCEloSystemGUI
 
             this.matchReport = new MatchReport();
             this.tabPageReportMatch.Controls.Add(this.matchReport);
+            this.matchReport.EloDataSource = () => { return this.eloSystem; };
 
-            this.AddCountriesToImgCmbBox();         
+            this.AddCountriesToImgCmbBox();
             this.AddTeamsToImgCmbBox();
             this.AddPlayersToImgCmbBox();
         }

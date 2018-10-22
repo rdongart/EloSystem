@@ -10,12 +10,33 @@
         public Map Map { get; private set; }
         public Race Player1Race { get; private set; }
         public Race Player2Race { get; private set; }
+        public Race WinnersRace
+        {
+            get
+            {
+                return this.Winner == this.Player1 ? this.Player1Race : this.Player2Race;
+            }
+        }
+        public Race LosersRace
+        {
+            get
+            {
+                return this.Winner == this.Player1 ? this.Player2Race : this.Player1Race;
+            }
+        }
         public SCPlayer Player1 { get; private set; }
         public SCPlayer Player2 { get; private set; }
         public SCPlayer Winner { get; private set; }
+        public SCPlayer Loser
+        {
+            get
+            {
+                return this.Winner == this.Player1 ? this.Player2 : this.Player1;
+            }
+        }
 
-        internal Game(SCPlayer player1, SCPlayer player2, GameEntry gameData) 
-            : this(gameData.Map, player1, gameData.Player1Race, player2, gameData.Player2Race, gameData.Winner)
+        internal Game(SCPlayer player1, SCPlayer player2, GameEntry gameData)
+            : this(gameData.Map, player1, gameData.Player1Race, player2, gameData.Player2Race, gameData.WinnerWas == PlayerSlotType.Player1 ? player1 : player2)
         {
 
         }

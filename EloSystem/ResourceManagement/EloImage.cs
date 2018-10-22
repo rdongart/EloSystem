@@ -15,7 +15,7 @@ namespace EloSystem.ResourceManagement
 
         internal EloImage(Image image)
         {
-            _image = (Image)image.Clone();
+            _image = new Bitmap(image);
         }
     }
 }

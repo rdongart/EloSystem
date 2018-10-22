@@ -43,6 +43,8 @@ namespace EloSystem
         }
         [field: NonSerialized]
         public bool DataWasChanged { get; private set; }
+        [field: NonSerialized]
+        public EventHandler MapPoolChanged = delegate { };
         public string Name { get; private set; }
 
         public EloData(string name)
@@ -58,18 +60,34 @@ namespace EloSystem
             this.resHandler = new ResourceHandler(StaticMembers.SaveDirectory + name);
         }
 
-        internal static double ExpectedWinRatio(int ownRating, int opponentRating)
+        public static double ExpectedWinRatio(int ownRating, int opponentRating)
         {
             const double MAX_RATING_DISTANCE_DETERMINER = 0.0005;
 
             return ((ownRating - opponentRating) * MAX_RATING_DISTANCE_DETERMINER + EloData.EXP_WIN_RATIO_EVEN_RATING).TruncateToRange(EloData.EXP_WIN_RATIO_MIN, EloData.EXP_WIN_RATIO_MAX);
         }
 
+        public static int RatingChange(Game game)
+        {
+            return EloData.RatingChange(game.Winner, game.WinnersRace, game.Loser, game.LosersRace);
+        }
+
+        public static int RatingChange(SCPlayer winner, Race winnersRace, SCPlayer loser, Race losersRace)
+        {
+            const int RATING_CHANGE_STANDARD_MAX = 28;
+
+            double winnerExpectedWinRatio = EloData.ExpectedWinRatio(winner.RatingsVs.GetValueFor(losersRace), loser.RatingsVs.GetValueFor(winnersRace));
+
+            return (RATING_CHANGE_STANDARD_MAX * (EloData.EXP_WIN_RATIO_MAX - winnerExpectedWinRatio) * EloData.GetRatingBonusFactor(winner, winnersRace, loser, losersRace)).RoundToInt();
+        }
+
         /// <summary>
         /// Returns a factor that increases the rating value changes based on the rating calibration phase that at least one player in a game is in.
         /// </summary>
-        /// <param name="game"></param>
-        private static int GetRatingBonusFactor(Game game)
+        /// <param name="player1"></param>
+        /// <param name="player2"></param>
+        /// <returns></returns>
+        private static int GetRatingBonusFactor(SCPlayer player1, Race player1Race, SCPlayer player2, Race player2Race)
         {
             const int CALIBRATION_PHASE1_BONUSFACTOR = 3;
             const int CALIBRATION_PHASE1_NO_MATCHES = 10;
@@ -78,53 +96,34 @@ namespace EloSystem
             const int BONUSFACTOR_STANDARD = 1;
 
 
-            if (game.Player1.Stats.GamesVsRace(game.Player2Race) < CALIBRATION_PHASE1_NO_MATCHES || game.Player2.Stats.GamesVsRace(game.Player1Race) < CALIBRATION_PHASE1_NO_MATCHES)
-            {
-                return CALIBRATION_PHASE1_BONUSFACTOR;
-            }
-            else if (game.Player1.Stats.GamesVsRace(game.Player2Race) < CALIBRATION_PHASE2_NO_MATCHES || game.Player2.Stats.GamesVsRace(game.Player1Race) < CALIBRATION_PHASE2_NO_MATCHES)
-            {
-                return CALIBRATION_PHASE2_BONUSFACTOR;
-            }
+            if (player1.Stats.GamesVs(player2Race) < CALIBRATION_PHASE1_NO_MATCHES || player2.Stats.GamesVs(player1Race) < CALIBRATION_PHASE1_NO_MATCHES) { return CALIBRATION_PHASE1_BONUSFACTOR; }
+            else if (player1.Stats.GamesVs(player2Race) < CALIBRATION_PHASE2_NO_MATCHES || player2.Stats.GamesVs(player1Race) < CALIBRATION_PHASE2_NO_MATCHES) { return CALIBRATION_PHASE2_BONUSFACTOR; }
             else { return BONUSFACTOR_STANDARD; }
 
         }
 
-        private static void UpdateRating(Match match)
+        private static void UpdateMapStats(Match match)
         {
-            const int RATING_CHANGE_STANDARD_MAX = 28;
-
-            // calculate the rating change for each game in the match
-            foreach (GameEntry game in match.GetEntries())
+            foreach (Game game in match.GetGames())
             {
-                double player1ExpectedWinRatio = EloData.ExpectedWinRatio((match.Player1.RatingsVs.GetValueFor(game.Player2Race)), match.Player2.RatingsVs.GetValueFor(game.Player1Race));
-
-                double player2ExpectedWinRatio = EloData.EXP_WIN_RATIO_MAX - player1ExpectedWinRatio;
-
-                game.RatingChange = ((RATING_CHANGE_STANDARD_MAX * EloData.EXP_WIN_RATIO_EVEN_RATING)
-                    * (EloData.EXP_WIN_RATIO_MAX - player1ExpectedWinRatio)
-                    * EloData.GetRatingBonusFactor(new Game(match.Player1, match.Player2, game))).RoundToInt();
+                game.Map.Stats.ReportMatch(game.Player1Race, game.Player2Race, game.WinnersRace, match.Player1.RatingsVs.GetValueFor(game.Player2Race), match.Player2.RatingsVs.GetValueFor(game.Player1Race));
             }
 
-            // report to map stats
+        }
+
+        private static void UpdatePlayerStats(Match match)
+        {
             foreach (GameEntry game in match.GetEntries())
             {
-                game.Map.Stats.ReportMatch(game.Player1Race, game.Player2Race, game.Winner.Equals(match.Player1) ? game.Player1Race : game.Player2Race, match.Player1.RatingsVs.GetValueFor(game.Player2Race)
-                    , match.Player2.RatingsVs.GetValueFor(game.Player1Race));
-            }
+                match.Player1.RatingsVs.AddValueTo(game.Player2Race, game.RatingChange * (game.WinnerWas == PlayerSlotType.Player1 ? 1 : -1));
+                match.Player2.RatingsVs.AddValueTo(game.Player1Race, game.RatingChange * (game.WinnerWas == PlayerSlotType.Player2 ? 1 : -1));
 
-            // add ratings and game counts to both players 
-            foreach (GameEntry game in match.GetEntries())
-            {
-                match.Player1.RatingsVs.AddValueTo(game.Player2Race, game.RatingChange * (game.Winner.Equals(match.Player1) ? 1 : -1));
-                match.Player2.RatingsVs.AddValueTo(game.Player1Race, game.RatingChange * (game.Winner.Equals(match.Player2) ? 1 : -1));
-
-                if (game.Winner.Equals(match.Player1))
+                if (game.WinnerWas == PlayerSlotType.Player1)
                 {
                     match.Player1.Stats.ReportWin(game.Player1Race, game.Player2Race);
                     match.Player2.Stats.ReportLoss(game.Player2Race, game.Player1Race);
                 }
-                else if (game.Winner.Equals(match.Player2))
+                else if (game.WinnerWas == PlayerSlotType.Player2)
                 {
                     match.Player1.Stats.ReportLoss(game.Player1Race, game.Player2Race);
                     match.Player2.Stats.ReportWin(game.Player2Race, game.Player1Race);
@@ -167,6 +166,7 @@ namespace EloSystem
                     }
                 }
 
+                this.MapPoolChanged = delegate { };
             }
 
             this.resHandler = new ResourceHandler(StaticMembers.SaveDirectory + this.Name);
@@ -211,6 +211,9 @@ namespace EloSystem
                 this.maps.Add(new Map(name, this.AddNewImage(image)));
 
                 this.DataWasChanged = true;
+
+                this.MapPoolChanged.Invoke(this, new EventArgs());
+
                 return true;
             }
             else { return false; }
@@ -267,6 +270,7 @@ namespace EloSystem
 
             this.RemoveMap(mapToRemove);
 
+            this.MapPoolChanged.Invoke(this, new EventArgs());
         }
 
         public void RemoveMap(Map map)
@@ -312,23 +316,16 @@ namespace EloSystem
             this.teams.Remove(team);
         }
 
-        public bool ReportMatch(SCPlayer player1, SCPlayer player2, GameEntry[] entries)
+        public void ReportMatch(SCPlayer player1, SCPlayer player2, GameEntry[] entries)
         {
-            if (entries.All(game => game.Winner.Equals(player1) || game.Winner.Equals(player2)))
-            {
-                var match = new Match(player1, player2, entries.Select(entry => new GameEntry(entry.Winner
-                    , entry.Player1Race, entry.Player2Race, entry.Map)));
+            var match = new Match(player1, player2, entries.Select(entry => new GameEntry(entry.WinnerWas, entry.Player1Race, entry.Player2Race, entry.Map)));
 
-                EloData.UpdateRating(match);
+            EloData.UpdateMapStats(match);
+            EloData.UpdatePlayerStats(match);
 
-                this.matches.Add(match);
+            this.matches.Add(match);
 
-                this.DataWasChanged = true;
-
-                return true;
-            }
-            else { return false; }
-
+            this.DataWasChanged = true;
         }
 
         /// <summary>
@@ -396,20 +393,9 @@ namespace EloSystem
 
         public bool TryGetImage(int imageID, out EloImage eloImg)
         {
-            Image img = this.resHandler.GetImage(imageID);
+            eloImg = this.resHandler.GetImage(imageID);
 
-            if (img != null)
-            {
-                eloImg = new EloImage(img);
-
-                return true;
-            }
-            else
-            {
-                eloImg = new EloImage();
-                return false;
-            }
-
+            return eloImg.Image != null;
         }
 
         public Map GetMap(string name)

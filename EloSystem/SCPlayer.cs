@@ -61,7 +61,7 @@ namespace EloSystem
 
             info.AddValue(Field.Aliases.ToString(), (List<string>)this.aliases);
 
-            if (this.Country != null) { info.AddValue(Field.Team.ToString(), (Country)this.Country); }
+            if (this.Country != null) { info.AddValue(Field.Country.ToString(), (Country)this.Country); }
 
             info.AddValue(Field.GameStats.ToString(), (WinRateCounter)this.Stats);
             info.AddValue(Field.Ratings.ToString(), (ResultVariables)this.RatingsVs);
@@ -97,8 +97,8 @@ namespace EloSystem
 
         private double GetTotalInfluenceValue()
         {
-            return SCPlayer.GetRatingInfluence(this.Stats.GamesVsRace(Race.Protoss)) + SCPlayer.GetRatingInfluence(this.Stats.GamesVsRace(Race.Random))
-                + SCPlayer.GetRatingInfluence(this.Stats.GamesVsRace(Race.Terran)) + SCPlayer.GetRatingInfluence(this.Stats.GamesVsRace(Race.Zerg));
+            return SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Protoss)) + SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Random))
+                + SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Terran)) + SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Zerg));
         }
 
         public IEnumerable<string> GetAliases()
@@ -116,10 +116,10 @@ namespace EloSystem
             return this.HasPlayedAnyGames() ?
 
                 // ...calculate the rating
-                ((this.RatingsVs.Protoss * SCPlayer.GetRatingInfluence(this.Stats.GamesVsRace(Race.Protoss))
-                + this.RatingsVs.Random * SCPlayer.GetRatingInfluence(this.Stats.GamesVsRace(Race.Random))
-                + this.RatingsVs.Terran * SCPlayer.GetRatingInfluence(this.Stats.GamesVsRace(Race.Terran))
-                + this.RatingsVs.Zerg * SCPlayer.GetRatingInfluence(Stats.GamesVsRace(Race.Zerg)))
+                ((this.RatingsVs.Protoss * SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Protoss))
+                + this.RatingsVs.Random * SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Random))
+                + this.RatingsVs.Terran * SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Terran))
+                + this.RatingsVs.Zerg * SCPlayer.GetRatingInfluence(Stats.GamesVs(Race.Zerg)))
                 / this.GetTotalInfluenceValue()).RoundToInt()
 
                 // ...otherwise just return the default starting rating value
@@ -139,7 +139,7 @@ namespace EloSystem
                 item.SubPrimary).OrderByDescending(grouping => grouping.Count()).ToList();
 
             // check if the first place is different from the second place
-            if (groupingBySubPrimary[0].Count() > groupingBySubPrimary[1].Count()) { return groupingBySubPrimary[0].Key; }
+            if (groupingBySubPrimary.Count > 1 && groupingBySubPrimary[0].Count() > groupingBySubPrimary[1].Count()) { return groupingBySubPrimary[0].Key; }
             else // calculate the primary race from most played games among the ones that have equal number of sub primary races (= being primary against a specific opponent race)
             {
 
@@ -147,7 +147,7 @@ namespace EloSystem
 
 
                 return groupingBySubPrimary.Where(grouping => grouping.Count() == maxSubPrimaryCount).ToDictionary(grouping => grouping.Key, grouping =>
-                    this.Stats.GamesWithRace(grouping.Key)).OrderByDescending(kvp => kvp.Value).First().Key;
+                    this.Stats.GamesWith(grouping.Key)).OrderByDescending(kvp => kvp.Value).First().Key;
             }
         }
 

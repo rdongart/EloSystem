@@ -41,7 +41,7 @@ namespace EloSystem.ResourceManagement
         {
             EloImage resource;
 
-            if (this.newResources.TryGetValue(imageID, out resource)) { return new EloImage(resource.Image); }
+            if (this.newResources.TryGetValue(imageID, out resource)) { return new EloImage(new Bitmap(resource.Image)); }
             else
             {
                 if (!this.resourcesRosterHasBeenCreated) { this.CreateResourceRoster(); }
@@ -71,9 +71,9 @@ namespace EloSystem.ResourceManagement
             this.newResources = new Dictionary<int, EloImage>();
         }
 
-        internal void SaveResourceChanges()
+        internal void SaveResourceChanges(string filePath)
         {
-            if (this.newResources.IsEmpty()) { return; }
+            if (this.resourcePath == filePath + ResourceHandler.RESFILE_EXTENSION_NAME && this.newResources.IsEmpty() && this.resourcesRemoved.IsEmpty()) { return; }
 
             ResourceReader reader = null;
             string tempFilePath = string.Empty;
@@ -88,6 +88,7 @@ namespace EloSystem.ResourceManagement
                 reader = new ResourceReader(tempFilePath);
             }
 
+            this.resourcePath = filePath + ResourceHandler.RESFILE_EXTENSION_NAME;
 
             using (var writer = new ResourceWriter(this.resourcePath))
             {

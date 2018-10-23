@@ -33,18 +33,18 @@
             this.lbPl1RatingVsRace = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.lbPl2RatingVsRace = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.cmbBxPlayer1Race = new System.Windows.Forms.ComboBox();
             this.cmbBxMap = new System.Windows.Forms.ComboBox();
             this.btnRemoveGame = new System.Windows.Forms.Button();
             this.lbPl1Win = new System.Windows.Forms.Label();
             this.lbPl2Win = new System.Windows.Forms.Label();
             this.cmbBxPlayer2Race = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lbPl2RatingVsRace = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.rdBtnPl1Win = new System.Windows.Forms.RadioButton();
             this.rdBtnPl2Win = new System.Windows.Forms.RadioButton();
+            this.rdBtnPl1Win = new System.Windows.Forms.RadioButton();
             this.tblLOPnlGameReport.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -141,52 +141,14 @@
             this.label3.Text = "[missing]";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lbPl2RatingVsRace
-            // 
-            this.lbPl2RatingVsRace.AutoEllipsis = true;
-            this.lbPl2RatingVsRace.AutoSize = true;
-            this.lbPl2RatingVsRace.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPl2RatingVsRace.Location = new System.Drawing.Point(718, 3);
-            this.lbPl2RatingVsRace.Margin = new System.Windows.Forms.Padding(3);
-            this.lbPl2RatingVsRace.Name = "lbPl2RatingVsRace";
-            this.lbPl2RatingVsRace.Size = new System.Drawing.Size(63, 17);
-            this.lbPl2RatingVsRace.TabIndex = 4;
-            this.lbPl2RatingVsRace.Text = "[missing]";
-            this.lbPl2RatingVsRace.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label5
-            // 
-            this.label5.AutoEllipsis = true;
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(598, 3);
-            this.label5.Margin = new System.Windows.Forms.Padding(3);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(51, 34);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "[missing]";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label6
-            // 
-            this.label6.AutoEllipsis = true;
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(658, 3);
-            this.label6.Margin = new System.Windows.Forms.Padding(3);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(51, 34);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "[missing]";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // cmbBxPlayer1Race
             // 
             this.cmbBxPlayer1Race.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBxPlayer1Race.FormattingEnabled = true;
-            this.cmbBxPlayer1Race.Location = new System.Drawing.Point(118, 3);
+            this.cmbBxPlayer1Race.Location = new System.Drawing.Point(120, 3);
+            this.cmbBxPlayer1Race.Margin = new System.Windows.Forms.Padding(5, 3, 3, 3);
             this.cmbBxPlayer1Race.Name = "cmbBxPlayer1Race";
-            this.cmbBxPlayer1Race.Size = new System.Drawing.Size(99, 21);
+            this.cmbBxPlayer1Race.Size = new System.Drawing.Size(97, 21);
             this.cmbBxPlayer1Race.TabIndex = 5;
             // 
             // cmbBxMap
@@ -247,9 +209,49 @@
             this.cmbBxPlayer2Race.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBxPlayer2Race.FormattingEnabled = true;
             this.cmbBxPlayer2Race.Location = new System.Drawing.Point(803, 3);
+            this.cmbBxPlayer2Race.Margin = new System.Windows.Forms.Padding(3, 3, 5, 3);
             this.cmbBxPlayer2Race.Name = "cmbBxPlayer2Race";
-            this.cmbBxPlayer2Race.Size = new System.Drawing.Size(99, 21);
+            this.cmbBxPlayer2Race.Size = new System.Drawing.Size(97, 21);
             this.cmbBxPlayer2Race.TabIndex = 5;
+            // 
+            // label6
+            // 
+            this.label6.AutoEllipsis = true;
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(658, 3);
+            this.label6.Margin = new System.Windows.Forms.Padding(3);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(51, 34);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "[missing]";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label5
+            // 
+            this.label5.AutoEllipsis = true;
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(598, 3);
+            this.label5.Margin = new System.Windows.Forms.Padding(3);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(51, 34);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "[missing]";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbPl2RatingVsRace
+            // 
+            this.lbPl2RatingVsRace.AutoEllipsis = true;
+            this.lbPl2RatingVsRace.AutoSize = true;
+            this.lbPl2RatingVsRace.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPl2RatingVsRace.Location = new System.Drawing.Point(718, 3);
+            this.lbPl2RatingVsRace.Margin = new System.Windows.Forms.Padding(3);
+            this.lbPl2RatingVsRace.Name = "lbPl2RatingVsRace";
+            this.lbPl2RatingVsRace.Size = new System.Drawing.Size(63, 17);
+            this.lbPl2RatingVsRace.TabIndex = 4;
+            this.lbPl2RatingVsRace.Text = "[missing]";
+            this.lbPl2RatingVsRace.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel1
             // 
@@ -261,19 +263,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(404, 42);
             this.panel1.TabIndex = 6;
-            // 
-            // rdBtnPl1Win
-            // 
-            this.rdBtnPl1Win.AutoSize = true;
-            this.rdBtnPl1Win.Dock = System.Windows.Forms.DockStyle.Left;
-            this.rdBtnPl1Win.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdBtnPl1Win.Location = new System.Drawing.Point(0, 0);
-            this.rdBtnPl1Win.Name = "rdBtnPl1Win";
-            this.rdBtnPl1Win.Size = new System.Drawing.Size(49, 42);
-            this.rdBtnPl1Win.TabIndex = 0;
-            this.rdBtnPl1Win.TabStop = true;
-            this.rdBtnPl1Win.Text = "N/A";
-            this.rdBtnPl1Win.UseVisualStyleBackColor = true;
             // 
             // rdBtnPl2Win
             // 
@@ -288,6 +277,19 @@
             this.rdBtnPl2Win.TabStop = true;
             this.rdBtnPl2Win.Text = "N/A";
             this.rdBtnPl2Win.UseVisualStyleBackColor = true;
+            // 
+            // rdBtnPl1Win
+            // 
+            this.rdBtnPl1Win.AutoSize = true;
+            this.rdBtnPl1Win.Dock = System.Windows.Forms.DockStyle.Left;
+            this.rdBtnPl1Win.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdBtnPl1Win.Location = new System.Drawing.Point(0, 0);
+            this.rdBtnPl1Win.Name = "rdBtnPl1Win";
+            this.rdBtnPl1Win.Size = new System.Drawing.Size(49, 42);
+            this.rdBtnPl1Win.TabIndex = 0;
+            this.rdBtnPl1Win.TabStop = true;
+            this.rdBtnPl1Win.Text = "N/A";
+            this.rdBtnPl1Win.UseVisualStyleBackColor = true;
             // 
             // GameReport
             // 

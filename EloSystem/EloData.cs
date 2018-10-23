@@ -104,7 +104,7 @@ namespace EloSystem
 
         private static void UpdateMapStats(Match match)
         {
-            foreach (Game game in match.GetGames())
+            foreach (Game game in match.GetGames().Where(gm => gm.Map != null))
             {
                 game.Map.Stats.ReportMatch(game.Player1Race, game.Player2Race, game.WinnersRace, match.Player1.RatingsVs.GetValueFor(game.Player2Race), match.Player2.RatingsVs.GetValueFor(game.Player1Race));
             }
@@ -219,16 +219,16 @@ namespace EloSystem
             else { return false; }
         }
 
-        public bool AddPlayer(string name, int startRating = EloSystemStaticMembers.START_RATING_DEFAULT, Team team = null, Country country = null, Image image = null)
+        public bool AddPlayer(string name, Team team = null, Country country = null, Image image = null)
         {
-            return this.AddPlayer(name, new string[] { }, team, country);
+            return this.AddPlayer(name, new string[] { }, EloSystemStaticMembers.START_RATING_DEFAULT, team, country, image);
         }
 
-        public bool AddPlayer(string name, IEnumerable<string> aliases, Team team = null, Country country = null, Image image = null)
+        public bool AddPlayer(string name, IEnumerable<string> aliases, int startRating = EloSystemStaticMembers.START_RATING_DEFAULT, Team team = null, Country country = null, Image image = null)
         {
             if (name != string.Empty && !this.players.Any(player => player.Name == name))
             {
-                this.players.Add(new SCPlayer(name, EloSystemStaticMembers.START_RATING_DEFAULT, this.AddNewImage(image), aliases, team, country));
+                this.players.Add(new SCPlayer(name, startRating, this.AddNewImage(image), aliases, team, country));
                 this.DataWasChanged = true;
                 return true;
             }
@@ -349,7 +349,7 @@ namespace EloSystem
                 saveStream.Close();
             }
 
-            this.resHandler.SaveResourceChanges();
+            this.resHandler.SaveResourceChanges(StaticMembers.SaveDirectory + this.Name);
 
             this.DataWasChanged = false;
 

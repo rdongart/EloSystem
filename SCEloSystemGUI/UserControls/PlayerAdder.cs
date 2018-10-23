@@ -98,11 +98,6 @@ namespace SCEloSystemGUI.UserControls
             };
         }
 
-        internal IEnumerable<string> GetAliases()
-        {
-            foreach (string alias in this.lstViewAliases.Items.Cast<ListViewItem>().Select(item => item.Text).ToList()) { yield return alias; }
-        }
-
         private void txtBxAlias_TextChanged(object sender, EventArgs e)
         {
             if (this.txtBxAlias.Text != string.Empty) { this.btnAddAlias.Enabled = true; }
@@ -167,6 +162,23 @@ namespace SCEloSystemGUI.UserControls
             this.btnAdd.Enabled = false;
             this.btnAddAlias.Enabled = false;
             this.btnRemoveAlias.Enabled = false;
+        }
+
+        public IEnumerable<string> GetAliases()
+        {
+            foreach (string alias in this.lstViewAliases.Items.Cast<ListViewItem>().Select(item => item.Text).ToList()) { yield return alias; }
+        }
+
+        private void btnRemoveImage_Click(object sender, EventArgs e)
+        {
+            this.lbFileName.Text = string.Empty;
+
+            this.btnRemoveImage.Enabled = false;
+        }
+
+        private void lbFileName_TextChanged(object sender, EventArgs e)
+        {
+            this.btnRemoveImage.Enabled = this.lbFileName.Text != string.Empty;
         }
     }
 }

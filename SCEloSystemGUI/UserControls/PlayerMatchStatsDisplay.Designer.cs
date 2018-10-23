@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tblLOPnlPlayerStats = new System.Windows.Forms.TableLayoutPanel();
             this.lbPlRaceVsRandom = new System.Windows.Forms.Label();
             this.lbPlRaceVsProtoss = new System.Windows.Forms.Label();
@@ -55,12 +56,11 @@
             this.label20 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
-            this.lbPlCountry = new System.Windows.Forms.Label();
             this.lbPlTeam = new System.Windows.Forms.Label();
             this.lbPlAliases = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.lbPlCountry = new System.Windows.Forms.Label();
+            this.toolTipStatsDisplay = new System.Windows.Forms.ToolTip(this.components);
             this.tblLOPnlPlayerStats.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tblLOPnlPlayerStats
@@ -100,7 +100,7 @@
             this.tblLOPnlPlayerStats.Controls.Add(this.label21, 3, 3);
             this.tblLOPnlPlayerStats.Controls.Add(this.lbPlTeam, 1, 1);
             this.tblLOPnlPlayerStats.Controls.Add(this.lbPlAliases, 1, 2);
-            this.tblLOPnlPlayerStats.Controls.Add(this.tableLayoutPanel1, 1, 0);
+            this.tblLOPnlPlayerStats.Controls.Add(this.lbPlCountry, 1, 0);
             this.tblLOPnlPlayerStats.Location = new System.Drawing.Point(0, 0);
             this.tblLOPnlPlayerStats.Margin = new System.Windows.Forms.Padding(0);
             this.tblLOPnlPlayerStats.Name = "tblLOPnlPlayerStats";
@@ -120,7 +120,7 @@
             this.lbPlRaceVsRandom.AutoEllipsis = true;
             this.lbPlRaceVsRandom.AutoSize = true;
             this.lbPlRaceVsRandom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbPlRaceVsRandom.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPlRaceVsRandom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPlRaceVsRandom.Location = new System.Drawing.Point(366, 165);
             this.lbPlRaceVsRandom.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlRaceVsRandom.Name = "lbPlRaceVsRandom";
@@ -134,7 +134,7 @@
             this.lbPlRaceVsProtoss.AutoEllipsis = true;
             this.lbPlRaceVsProtoss.AutoSize = true;
             this.lbPlRaceVsProtoss.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbPlRaceVsProtoss.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPlRaceVsProtoss.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPlRaceVsProtoss.Location = new System.Drawing.Point(304, 165);
             this.lbPlRaceVsProtoss.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlRaceVsProtoss.Name = "lbPlRaceVsProtoss";
@@ -148,7 +148,7 @@
             this.lbPlWRVsRandom.AutoEllipsis = true;
             this.lbPlWRVsRandom.AutoSize = true;
             this.lbPlWRVsRandom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbPlWRVsRandom.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPlWRVsRandom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPlWRVsRandom.Location = new System.Drawing.Point(366, 139);
             this.lbPlWRVsRandom.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlWRVsRandom.Name = "lbPlWRVsRandom";
@@ -162,7 +162,7 @@
             this.lbPlRaceVsTerran.AutoEllipsis = true;
             this.lbPlRaceVsTerran.AutoSize = true;
             this.lbPlRaceVsTerran.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbPlRaceVsTerran.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPlRaceVsTerran.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPlRaceVsTerran.Location = new System.Drawing.Point(242, 165);
             this.lbPlRaceVsTerran.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlRaceVsTerran.Name = "lbPlRaceVsTerran";
@@ -176,7 +176,7 @@
             this.lbPlRaceVsZerg.AutoEllipsis = true;
             this.lbPlRaceVsZerg.AutoSize = true;
             this.lbPlRaceVsZerg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbPlRaceVsZerg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPlRaceVsZerg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPlRaceVsZerg.Location = new System.Drawing.Point(180, 165);
             this.lbPlRaceVsZerg.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlRaceVsZerg.Name = "lbPlRaceVsZerg";
@@ -190,7 +190,7 @@
             this.lbPlWRVsProtoss.AutoEllipsis = true;
             this.lbPlWRVsProtoss.AutoSize = true;
             this.lbPlWRVsProtoss.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbPlWRVsProtoss.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPlWRVsProtoss.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPlWRVsProtoss.Location = new System.Drawing.Point(304, 139);
             this.lbPlWRVsProtoss.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlWRVsProtoss.Name = "lbPlWRVsProtoss";
@@ -204,7 +204,7 @@
             this.lbPlRaceMain.AutoEllipsis = true;
             this.lbPlRaceMain.AutoSize = true;
             this.lbPlRaceMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbPlRaceMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPlRaceMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPlRaceMain.Location = new System.Drawing.Point(118, 165);
             this.lbPlRaceMain.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlRaceMain.Name = "lbPlRaceMain";
@@ -218,7 +218,7 @@
             this.lbPlRatingMain.AutoEllipsis = true;
             this.lbPlRatingMain.AutoSize = true;
             this.lbPlRatingMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbPlRatingMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPlRatingMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPlRatingMain.Location = new System.Drawing.Point(118, 113);
             this.lbPlRatingMain.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlRatingMain.Name = "lbPlRatingMain";
@@ -232,7 +232,7 @@
             this.lbPlWRVsTerran.AutoEllipsis = true;
             this.lbPlWRVsTerran.AutoSize = true;
             this.lbPlWRVsTerran.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbPlWRVsTerran.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPlWRVsTerran.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPlWRVsTerran.Location = new System.Drawing.Point(242, 139);
             this.lbPlWRVsTerran.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlWRVsTerran.Name = "lbPlWRVsTerran";
@@ -246,7 +246,7 @@
             this.lbPlRatingVsZerg.AutoEllipsis = true;
             this.lbPlRatingVsZerg.AutoSize = true;
             this.lbPlRatingVsZerg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbPlRatingVsZerg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPlRatingVsZerg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPlRatingVsZerg.Location = new System.Drawing.Point(180, 113);
             this.lbPlRatingVsZerg.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlRatingVsZerg.Name = "lbPlRatingVsZerg";
@@ -260,7 +260,7 @@
             this.lbPlRatingVsTerran.AutoEllipsis = true;
             this.lbPlRatingVsTerran.AutoSize = true;
             this.lbPlRatingVsTerran.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbPlRatingVsTerran.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPlRatingVsTerran.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPlRatingVsTerran.Location = new System.Drawing.Point(242, 113);
             this.lbPlRatingVsTerran.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlRatingVsTerran.Name = "lbPlRatingVsTerran";
@@ -274,7 +274,7 @@
             this.lbPlWRVsZerg.AutoEllipsis = true;
             this.lbPlWRVsZerg.AutoSize = true;
             this.lbPlWRVsZerg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbPlWRVsZerg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPlWRVsZerg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPlWRVsZerg.Location = new System.Drawing.Point(180, 139);
             this.lbPlWRVsZerg.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlWRVsZerg.Name = "lbPlWRVsZerg";
@@ -288,7 +288,7 @@
             this.lbPlRatingVsProtoss.AutoEllipsis = true;
             this.lbPlRatingVsProtoss.AutoSize = true;
             this.lbPlRatingVsProtoss.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbPlRatingVsProtoss.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPlRatingVsProtoss.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPlRatingVsProtoss.Location = new System.Drawing.Point(304, 113);
             this.lbPlRatingVsProtoss.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlRatingVsProtoss.Name = "lbPlRatingVsProtoss";
@@ -302,7 +302,7 @@
             this.lbPlRatingVsRandom.AutoEllipsis = true;
             this.lbPlRatingVsRandom.AutoSize = true;
             this.lbPlRatingVsRandom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbPlRatingVsRandom.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPlRatingVsRandom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPlRatingVsRandom.Location = new System.Drawing.Point(366, 113);
             this.lbPlRatingVsRandom.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlRatingVsRandom.Name = "lbPlRatingVsRandom";
@@ -386,7 +386,7 @@
             this.lbPlWRMain.AutoEllipsis = true;
             this.lbPlWRMain.AutoSize = true;
             this.lbPlWRMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbPlWRMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPlWRMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPlWRMain.Location = new System.Drawing.Point(118, 139);
             this.lbPlWRMain.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlWRMain.Name = "lbPlWRMain";
@@ -469,31 +469,17 @@
             this.label21.Text = "vs Terran";
             this.label21.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // lbPlCountry
-            // 
-            this.lbPlCountry.AutoEllipsis = true;
-            this.lbPlCountry.AutoSize = true;
-            this.lbPlCountry.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPlCountry.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lbPlCountry.Location = new System.Drawing.Point(152, 0);
-            this.lbPlCountry.Margin = new System.Windows.Forms.Padding(0);
-            this.lbPlCountry.Name = "lbPlCountry";
-            this.lbPlCountry.Size = new System.Drawing.Size(56, 15);
-            this.lbPlCountry.TabIndex = 0;
-            this.lbPlCountry.Text = "[missing]";
-            this.lbPlCountry.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // lbPlTeam
             // 
             this.lbPlTeam.AutoEllipsis = true;
-            this.lbPlTeam.AutoSize = true;
             this.tblLOPnlPlayerStats.SetColumnSpan(this.lbPlTeam, 5);
+            this.lbPlTeam.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlTeam.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPlTeam.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lbPlTeam.Location = new System.Drawing.Point(118, 29);
             this.lbPlTeam.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlTeam.Name = "lbPlTeam";
-            this.lbPlTeam.Size = new System.Drawing.Size(56, 15);
+            this.lbPlTeam.Size = new System.Drawing.Size(304, 20);
             this.lbPlTeam.TabIndex = 0;
             this.lbPlTeam.Text = "[missing]";
             this.lbPlTeam.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -501,31 +487,32 @@
             // lbPlAliases
             // 
             this.lbPlAliases.AutoEllipsis = true;
-            this.lbPlAliases.AutoSize = true;
             this.tblLOPnlPlayerStats.SetColumnSpan(this.lbPlAliases, 5);
+            this.lbPlAliases.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlAliases.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPlAliases.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lbPlAliases.Location = new System.Drawing.Point(118, 55);
             this.lbPlAliases.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlAliases.Name = "lbPlAliases";
-            this.lbPlAliases.Size = new System.Drawing.Size(56, 15);
+            this.lbPlAliases.Size = new System.Drawing.Size(304, 20);
             this.lbPlAliases.TabIndex = 0;
             this.lbPlAliases.Text = "[missing]";
             this.lbPlAliases.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // tableLayoutPanel1
+            // lbPlCountry
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tblLOPnlPlayerStats.SetColumnSpan(this.tableLayoutPanel1, 5);
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.lbPlCountry, 1, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(118, 3);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(304, 20);
-            this.tableLayoutPanel1.TabIndex = 1;
+            this.lbPlCountry.AutoEllipsis = true;
+            this.tblLOPnlPlayerStats.SetColumnSpan(this.lbPlCountry, 5);
+            this.lbPlCountry.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbPlCountry.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPlCountry.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbPlCountry.Location = new System.Drawing.Point(118, 3);
+            this.lbPlCountry.Margin = new System.Windows.Forms.Padding(3);
+            this.lbPlCountry.Name = "lbPlCountry";
+            this.lbPlCountry.Size = new System.Drawing.Size(304, 20);
+            this.lbPlCountry.TabIndex = 0;
+            this.lbPlCountry.Text = "[missing]";
+            this.lbPlCountry.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // PlayerMatchStatsDisplay
             // 
@@ -536,8 +523,6 @@
             this.Size = new System.Drawing.Size(425, 188);
             this.tblLOPnlPlayerStats.ResumeLayout(false);
             this.tblLOPnlPlayerStats.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -574,6 +559,6 @@
         private System.Windows.Forms.Label lbPlCountry;
         private System.Windows.Forms.Label lbPlTeam;
         private System.Windows.Forms.Label lbPlAliases;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.ToolTip toolTipStatsDisplay;
     }
 }

@@ -51,7 +51,7 @@ namespace SCEloSystemGUI
                 case ContentTypes.Player:
                     var playerAdder = e.ContentAdder as PlayerAdder;
 
-                    this.eloSystem.AddPlayer(playerAdder.ContentName, playerAdder.StartRating, playerAdder.SelectedTeam, playerAdder.SelectedCountry, playerAdder.SelectedImage);
+                    this.eloSystem.AddPlayer(playerAdder.ContentName, playerAdder.GetAliases(), playerAdder.StartRating, playerAdder.SelectedTeam, playerAdder.SelectedCountry, playerAdder.SelectedImage);
 
                     break;
                 case ContentTypes.Team: this.eloSystem.AddTeam(adder.ContentName, adder.SelectedImage); break;
@@ -59,13 +59,6 @@ namespace SCEloSystemGUI
             }
 
             MessageBox.Show(string.Format("Your {0} was added succesfully.", adder.ContentType.ToString().ToLower()));
-
-            this.ContentChanged();
-        }
-
-        private void ContentChanged()
-        {
-            //throw new NotImplementedException();// TODO: implement this method
         }
 
         private void TeamAdder_OnAddButtonClick(object sender, ContentAddingEventArgs e)
@@ -95,7 +88,8 @@ namespace SCEloSystemGUI
             this.playerAdder.ImgCmbBxCountries.ValueMember = "Item2";
             this.playerAdder.ImgCmbBxCountries.ImageMember = "Item3";
 
-            var items = this.eloSystem.GetCountries().OrderBy(country => country.Name).Select(country => Tuple.Create<string, Country, Image>(country.Name, country, GetImage(country))).ToList();
+            var items = (new Tuple<string, Country, Image>[] { Tuple.Create<string, Country, Image>("none", null, null) }).Concat(this.eloSystem.GetCountries().OrderBy(country => country.Name).Select(country =>
+                Tuple.Create<string, Country, Image>(country.Name, country, GetImage(country)))).ToList();
 
             this.playerAdder.ImgCmbBxCountries.DataSource = items;
 
@@ -112,7 +106,7 @@ namespace SCEloSystemGUI
             EloGUIControlsStaticMembers.AddPlayersToImgCmbBox(this.matchReport.ImgCmbBxPlayer2, this.eloSystem);
         }
 
-        
+
         private void AddTeamsToImgCmbBox()
         {
             var currentSelection = this.playerAdder.ImgCmbBxTeams.SelectedValue as Team;
@@ -126,11 +120,12 @@ namespace SCEloSystemGUI
 
             };
 
-            this.playerAdder.ImgCmbBxCountries.DisplayMember = "Item1";
-            this.playerAdder.ImgCmbBxCountries.ValueMember = "Item2";
-            this.playerAdder.ImgCmbBxCountries.ImageMember = "Item3";
+            this.playerAdder.ImgCmbBxTeams.DisplayMember = "Item1";
+            this.playerAdder.ImgCmbBxTeams.ValueMember = "Item2";
+            this.playerAdder.ImgCmbBxTeams.ImageMember = "Item3";
 
-            var items = this.eloSystem.GetTeams().OrderBy(team => team.Name).Select(team => Tuple.Create<string, Team, Image>(team.Name, team, GetImage(team))).ToList();
+            var items = (new Tuple<string, Team, Image>[] { Tuple.Create<string, Team, Image>("none", null, null) }).Concat(this.eloSystem.GetTeams().OrderBy(team => team.Name).Select(team =>
+                Tuple.Create<string, Team, Image>(team.Name, team, GetImage(team)))).ToList();
 
             this.playerAdder.ImgCmbBxTeams.DataSource = items;
 

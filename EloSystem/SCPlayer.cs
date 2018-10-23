@@ -36,9 +36,9 @@ namespace EloSystem
         {
 
         }
-        internal SCPlayer(string name, int startRating, int imageID, IEnumerable<string> aliases = null, Team team = null, Country nationality = null) : base(name, imageID)
+        internal SCPlayer(string name, int startRating, int imageID, IEnumerable<string> aliases, Team team = null, Country nationality = null) : base(name, imageID)
         {
-            this.aliases = aliases == null ? new List<string>() : aliases.ToList();
+            this.aliases = aliases.ToList();
             this.Country = nationality;
             this.Stats = new WinRateCounter();
             this.RatingsVs = new ResultVariables(startRating);

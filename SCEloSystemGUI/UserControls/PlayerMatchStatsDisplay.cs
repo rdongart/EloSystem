@@ -30,30 +30,38 @@ namespace SCEloSystemGUI.UserControls
 
             EloImage countryRes;
 
+            if (this.lbPlCountry.Image != null) { this.lbPlCountry.Image.Dispose(); }
+            this.lbPlCountry.Image = null;
+            this.toolTipStatsDisplay.SetToolTip(this.lbPlCountry, string.Empty);
+            this.lbPlCountry.Text = string.Empty;
+
             if (player.Country != null)
             {
                 if (this.EloDataSource().TryGetImage(player.Country.ImageID, out countryRes))
                 {
-                    if (this.lbPlCountry.Image != null) { this.lbPlCountry.Image.Dispose(); }
-
                     this.lbPlCountry.Image = countryRes.Image;
-                }
 
-                this.lbPlCountry.Text = player.Country.Name;
+                    this.toolTipStatsDisplay.SetToolTip(this.lbPlCountry, player.Country.Name);
+                }
+                else { this.lbPlCountry.Text = player.Country.Name; }
             }
 
             EloImage teamRes;
+
+            if (this.lbPlTeam.Image != null) { this.lbPlTeam.Image.Dispose(); }
+            this.lbPlTeam.Image = null;
+            this.toolTipStatsDisplay.SetToolTip(this.lbPlTeam, string.Empty);
+            this.lbPlTeam.Text = string.Empty;
 
             if (player.Team != null)
             {
                 if (this.EloDataSource().TryGetImage(player.Team.ImageID, out teamRes))
                 {
-                    if (this.lbPlTeam.Image != null) { this.lbPlTeam.Image.Dispose(); }
-
                     this.lbPlTeam.Image = teamRes.Image;
+
+                    this.toolTipStatsDisplay.SetToolTip(this.lbPlTeam, player.Team.Name);
                 }
-                
-                this.lbPlTeam.Text = player.Team.Name;
+                else { this.lbPlTeam.Text = player.Team.Name; }
             }
 
             this.lbPlAliases.Text = String.Join(", ", player.GetAliases());

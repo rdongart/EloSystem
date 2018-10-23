@@ -40,17 +40,20 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.lbFileName = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.txtBxAlias = new System.Windows.Forms.TextBox();
             this.btnAddAlias = new System.Windows.Forms.Button();
             this.btnRemoveAlias = new System.Windows.Forms.Button();
             this.lstViewAliases = new System.Windows.Forms.ListView();
             this.numUDStartRating = new System.Windows.Forms.NumericUpDown();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.lbFileName = new System.Windows.Forms.Label();
+            this.btnRemoveImage = new System.Windows.Forms.Button();
             this.tblLOPnlPlayerAdder.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUDStartRating)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tblLOPnlPlayerAdder
@@ -58,7 +61,7 @@
             this.tblLOPnlPlayerAdder.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tblLOPnlPlayerAdder.ColumnCount = 4;
             this.tblLOPnlPlayerAdder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 140F));
-            this.tblLOPnlPlayerAdder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.tblLOPnlPlayerAdder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 240F));
             this.tblLOPnlPlayerAdder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tblLOPnlPlayerAdder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLOPnlPlayerAdder.Controls.Add(this.txtBxName, 1, 1);
@@ -70,9 +73,9 @@
             this.tblLOPnlPlayerAdder.Controls.Add(this.label4, 0, 4);
             this.tblLOPnlPlayerAdder.Controls.Add(this.label5, 0, 5);
             this.tblLOPnlPlayerAdder.Controls.Add(this.label6, 0, 6);
-            this.tblLOPnlPlayerAdder.Controls.Add(this.lbFileName, 1, 3);
             this.tblLOPnlPlayerAdder.Controls.Add(this.tableLayoutPanel3, 1, 2);
             this.tblLOPnlPlayerAdder.Controls.Add(this.numUDStartRating, 1, 6);
+            this.tblLOPnlPlayerAdder.Controls.Add(this.tableLayoutPanel1, 1, 3);
             this.tblLOPnlPlayerAdder.Location = new System.Drawing.Point(0, 0);
             this.tblLOPnlPlayerAdder.Margin = new System.Windows.Forms.Padding(0);
             this.tblLOPnlPlayerAdder.Name = "tblLOPnlPlayerAdder";
@@ -87,7 +90,7 @@
             this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlPlayerAdder.Size = new System.Drawing.Size(360, 370);
+            this.tblLOPnlPlayerAdder.Size = new System.Drawing.Size(400, 370);
             this.tblLOPnlPlayerAdder.TabIndex = 1;
             // 
             // txtBxName
@@ -97,7 +100,7 @@
             this.txtBxName.Location = new System.Drawing.Point(146, 33);
             this.txtBxName.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             this.txtBxName.Name = "txtBxName";
-            this.txtBxName.Size = new System.Drawing.Size(188, 23);
+            this.txtBxName.Size = new System.Drawing.Size(228, 23);
             this.txtBxName.TabIndex = 0;
             this.txtBxName.TextChanged += new System.EventHandler(this.txtBxName_TextChanged);
             // 
@@ -109,7 +112,7 @@
             this.lbHeading.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbHeading.Location = new System.Drawing.Point(3, 0);
             this.lbHeading.Name = "lbHeading";
-            this.lbHeading.Size = new System.Drawing.Size(334, 30);
+            this.lbHeading.Size = new System.Drawing.Size(374, 30);
             this.lbHeading.TabIndex = 1;
             this.lbHeading.Text = "[missing]";
             this.lbHeading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -132,7 +135,7 @@
             this.btnAdd.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnAdd.Enabled = false;
             this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAdd.Location = new System.Drawing.Point(214, 314);
+            this.btnAdd.Location = new System.Drawing.Point(254, 314);
             this.btnAdd.Margin = new System.Windows.Forms.Padding(6, 14, 6, 4);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(120, 32);
@@ -231,18 +234,6 @@
             this.label6.Text = "Start rating";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lbFileName
-            // 
-            this.lbFileName.AutoEllipsis = true;
-            this.lbFileName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbFileName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbFileName.Location = new System.Drawing.Point(146, 183);
-            this.lbFileName.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
-            this.lbFileName.Name = "lbFileName";
-            this.lbFileName.Size = new System.Drawing.Size(188, 24);
-            this.lbFileName.TabIndex = 2;
-            this.lbFileName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.ColumnCount = 2;
@@ -258,7 +249,7 @@
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(194, 114);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(234, 114);
             this.tableLayoutPanel3.TabIndex = 5;
             // 
             // txtBxAlias
@@ -268,7 +259,7 @@
             this.txtBxAlias.Location = new System.Drawing.Point(3, 88);
             this.txtBxAlias.Margin = new System.Windows.Forms.Padding(3, 3, 3, 1);
             this.txtBxAlias.Name = "txtBxAlias";
-            this.txtBxAlias.Size = new System.Drawing.Size(160, 23);
+            this.txtBxAlias.Size = new System.Drawing.Size(200, 23);
             this.txtBxAlias.TabIndex = 1;
             this.txtBxAlias.TextChanged += new System.EventHandler(this.txtBxAlias_TextChanged);
             // 
@@ -277,7 +268,7 @@
             this.btnAddAlias.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnAddAlias.Enabled = false;
             this.btnAddAlias.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddAlias.Location = new System.Drawing.Point(170, 91);
+            this.btnAddAlias.Location = new System.Drawing.Point(210, 91);
             this.btnAddAlias.Margin = new System.Windows.Forms.Padding(4, 4, 3, 1);
             this.btnAddAlias.Name = "btnAddAlias";
             this.btnAddAlias.Size = new System.Drawing.Size(21, 22);
@@ -291,7 +282,7 @@
             this.btnRemoveAlias.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnRemoveAlias.Enabled = false;
             this.btnRemoveAlias.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveAlias.Location = new System.Drawing.Point(170, 58);
+            this.btnRemoveAlias.Location = new System.Drawing.Point(210, 58);
             this.btnRemoveAlias.Margin = new System.Windows.Forms.Padding(4, 4, 3, 4);
             this.btnRemoveAlias.Name = "btnRemoveAlias";
             this.btnRemoveAlias.Size = new System.Drawing.Size(21, 22);
@@ -307,7 +298,7 @@
             this.lstViewAliases.Location = new System.Drawing.Point(0, 0);
             this.lstViewAliases.Margin = new System.Windows.Forms.Padding(0);
             this.lstViewAliases.Name = "lstViewAliases";
-            this.lstViewAliases.Size = new System.Drawing.Size(166, 84);
+            this.lstViewAliases.Size = new System.Drawing.Size(206, 84);
             this.lstViewAliases.TabIndex = 4;
             this.lstViewAliases.UseCompatibleStateImageBehavior = false;
             this.lstViewAliases.View = System.Windows.Forms.View.List;
@@ -321,10 +312,53 @@
             this.numUDStartRating.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             this.numUDStartRating.Name = "numUDStartRating";
             this.numUDStartRating.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.numUDStartRating.Size = new System.Drawing.Size(188, 23);
+            this.numUDStartRating.Size = new System.Drawing.Size(228, 23);
             this.numUDStartRating.TabIndex = 6;
             this.numUDStartRating.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numUDStartRating.ThousandsSeparator = true;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tableLayoutPanel1.Controls.Add(this.lbFileName, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnRemoveImage, 1, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(143, 183);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(234, 24);
+            this.tableLayoutPanel1.TabIndex = 8;
+            // 
+            // lbFileName
+            // 
+            this.lbFileName.AutoEllipsis = true;
+            this.lbFileName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbFileName.Location = new System.Drawing.Point(0, 3);
+            this.lbFileName.Margin = new System.Windows.Forms.Padding(0, 3, 6, 3);
+            this.lbFileName.Name = "lbFileName";
+            this.lbFileName.Size = new System.Drawing.Size(188, 18);
+            this.lbFileName.TabIndex = 2;
+            this.lbFileName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbFileName.TextChanged += new System.EventHandler(this.lbFileName_TextChanged);
+            // 
+            // btnRemoveImage
+            // 
+            this.btnRemoveImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnRemoveImage.Enabled = false;
+            this.btnRemoveImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemoveImage.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnRemoveImage.Location = new System.Drawing.Point(210, 1);
+            this.btnRemoveImage.Margin = new System.Windows.Forms.Padding(4, 1, 3, 1);
+            this.btnRemoveImage.Name = "btnRemoveImage";
+            this.btnRemoveImage.Size = new System.Drawing.Size(21, 22);
+            this.btnRemoveImage.TabIndex = 3;
+            this.btnRemoveImage.Text = "x";
+            this.btnRemoveImage.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnRemoveImage.UseVisualStyleBackColor = true;
+            this.btnRemoveImage.Click += new System.EventHandler(this.btnRemoveImage_Click);
             // 
             // PlayerAdder
             // 
@@ -333,7 +367,7 @@
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.tblLOPnlPlayerAdder);
             this.Name = "PlayerAdder";
-            this.Size = new System.Drawing.Size(360, 370);
+            this.Size = new System.Drawing.Size(400, 370);
             this.tblLOPnlPlayerAdder.ResumeLayout(false);
             this.tblLOPnlPlayerAdder.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -341,6 +375,7 @@
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUDStartRating)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -366,5 +401,7 @@
         private System.Windows.Forms.Button btnRemoveAlias;
         private System.Windows.Forms.ListView lstViewAliases;
         private System.Windows.Forms.NumericUpDown numUDStartRating;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button btnRemoveImage;
     }
 }

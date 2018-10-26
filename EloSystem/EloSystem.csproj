@@ -67,6 +67,7 @@
     <Compile Include="SCPlayer.cs" />
     <Compile Include="EloSystemStaticMembers.cs" />
     <Compile Include="Team.cs" />
+    <Compile Include="Tileset.cs" />
     <Compile Include="WinRateCounter.cs" />
     <Compile Include="WinRateStats.cs" />
   </ItemGroup>

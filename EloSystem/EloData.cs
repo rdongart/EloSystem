@@ -32,6 +32,7 @@ namespace EloSystem
         private List<Match> matches;
         private List<SCPlayer> players;
         private List<Team> teams;
+        private List<Tileset> tileSets;
         [field: NonSerialized]
         private ResourceHandler resHandler;
         private string path
@@ -56,13 +57,16 @@ namespace EloSystem
             this.matches = new List<Match>();
             this.players = new List<SCPlayer>();
             this.teams = new List<Team>();
+            this.tileSets = new List<Tileset>();
             this.DataWasChanged = true;
             this.resHandler = new ResourceHandler(StaticMembers.SaveDirectory + name);
         }
 
         public static double ExpectedWinRatio(int ownRating, int opponentRating)
         {
-            const double MAX_RATING_DISTANCE_DETERMINER = 0.0005;
+            const int RATING_POINTS_PER_EXPECTED_WINRATIO_PERCENTAGE = 15;
+            const double MAX_RATING_DISTANCE_DETERMINER = 0.01 / RATING_POINTS_PER_EXPECTED_WINRATIO_PERCENTAGE;
+
 
             return ((ownRating - opponentRating) * MAX_RATING_DISTANCE_DETERMINER + EloData.EXP_WIN_RATIO_EVEN_RATING).TruncateToRange(EloData.EXP_WIN_RATIO_MIN, EloData.EXP_WIN_RATIO_MAX);
         }
@@ -74,7 +78,7 @@ namespace EloSystem
 
         public static int RatingChange(SCPlayer winner, Race winnersRace, SCPlayer loser, Race losersRace)
         {
-            const int RATING_CHANGE_STANDARD_MAX = 28;
+            const int RATING_CHANGE_STANDARD_MAX = 30;
 
             double winnerExpectedWinRatio = EloData.ExpectedWinRatio(winner.RatingsVs.GetValueFor(losersRace), loser.RatingsVs.GetValueFor(winnersRace));
 
@@ -89,15 +93,18 @@ namespace EloSystem
         /// <returns></returns>
         private static int GetRatingBonusFactor(SCPlayer player1, Race player1Race, SCPlayer player2, Race player2Race)
         {
-            const int CALIBRATION_PHASE1_BONUSFACTOR = 3;
-            const int CALIBRATION_PHASE1_NO_MATCHES = 10;
-            const int CALIBRATION_PHASE2_BONUSFACTOR = 2;
-            const int CALIBRATION_PHASE2_NO_MATCHES = 50;
+            const int CALIBRATION_PHASE1_BONUSFACTOR = 4;
+            const int CALIBRATION_PHASE1_NO_MATCHES = 4;
+            const int CALIBRATION_PHASE2_BONUSFACTOR = 3;
+            const int CALIBRATION_PHASE2_NO_MATCHES = 4 + CALIBRATION_PHASE1_NO_MATCHES;
+            const int CALIBRATION_PHASE3_BONUSFACTOR = 2;
+            const int CALIBRATION_PHASE3_NO_MATCHES = 12 + CALIBRATION_PHASE2_NO_MATCHES;
             const int BONUSFACTOR_STANDARD = 1;
 
 
             if (player1.Stats.GamesVs(player2Race) < CALIBRATION_PHASE1_NO_MATCHES || player2.Stats.GamesVs(player1Race) < CALIBRATION_PHASE1_NO_MATCHES) { return CALIBRATION_PHASE1_BONUSFACTOR; }
             else if (player1.Stats.GamesVs(player2Race) < CALIBRATION_PHASE2_NO_MATCHES || player2.Stats.GamesVs(player1Race) < CALIBRATION_PHASE2_NO_MATCHES) { return CALIBRATION_PHASE2_BONUSFACTOR; }
+            else if (player1.Stats.GamesVs(player2Race) < CALIBRATION_PHASE3_NO_MATCHES || player2.Stats.GamesVs(player1Race) < CALIBRATION_PHASE3_NO_MATCHES) { return CALIBRATION_PHASE3_BONUSFACTOR; }
             else { return BONUSFACTOR_STANDARD; }
 
         }
@@ -134,7 +141,7 @@ namespace EloSystem
         #region Implementing ISerializable
         private enum Field
         {
-            Countries, Maps, Matches, Name, ImagesSaved, Players, Teams
+            Countries, Maps, Matches, Name, ImagesSaved, Players, Teams, TileSets
         }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -145,6 +152,7 @@ namespace EloSystem
             info.AddValue(Field.ImagesSaved.ToString(), (int)this.imagesSaved);
             info.AddValue(Field.Players.ToString(), (List<SCPlayer>)this.players);
             info.AddValue(Field.Teams.ToString(), (List<Team>)this.teams);
+            info.AddValue(Field.TileSets.ToString(), (List<Tileset>)this.tileSets);
         }
         internal EloData(SerializationInfo info, StreamingContext context)
         {
@@ -163,6 +171,7 @@ namespace EloSystem
                         case Field.ImagesSaved: this.imagesSaved = (int)info.GetInt32(field.ToString()); break;
                         case Field.Players: this.players = (List<SCPlayer>)info.GetValue(field.ToString(), typeof(List<SCPlayer>)); break;
                         case Field.Teams: this.teams = (List<Team>)info.GetValue(field.ToString(), typeof(List<Team>)); break;
+                        case Field.TileSets: this.tileSets = (List<Tileset>)info.GetValue(field.ToString(), typeof(List<Tileset>)); break;
                     }
                 }
 
@@ -204,11 +213,11 @@ namespace EloSystem
             else { return false; }
         }
 
-        public bool AddMap(string name, Image image = null)
+        public bool AddMap(string name, MapPlayerType maptype, Image image = null)
         {
             if (name != string.Empty && !this.maps.Any(map => map.Name == name))
             {
-                this.maps.Add(new Map(name, this.AddNewImage(image)));
+                this.maps.Add(new Map(name, this.AddNewImage(image), maptype));
 
                 this.DataWasChanged = true;
 
@@ -240,6 +249,18 @@ namespace EloSystem
             if (name != string.Empty && !this.teams.Any(team => team.Name == name))
             {
                 this.teams.Add(new Team(name, this.AddNewImage(image)));
+
+                this.DataWasChanged = true;
+                return true;
+            }
+            else { return false; }
+        }
+
+        public bool AddTileSet(string name)
+        {
+            if (name != string.Empty && !this.tileSets.Any(tileSet => tileSet.Name == name))
+            {
+                this.tileSets.Add(new Tileset(name));
 
                 this.DataWasChanged = true;
                 return true;
@@ -314,6 +335,13 @@ namespace EloSystem
             if (team.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(team.ImageID); }
 
             this.teams.Remove(team);
+        }
+
+        public void RemoveTileSet(Tileset tileSet)
+        {
+            if (tileSet == null) { return; }
+
+            this.tileSets.Remove(tileSet);
         }
 
         public void ReportMatch(SCPlayer player1, SCPlayer player2, GameEntry[] entries)
@@ -391,6 +419,11 @@ namespace EloSystem
             foreach (Team team in this.teams.ToList()) { yield return team; }
         }
 
+        public IEnumerable<Tileset> GetTileSets()
+        {
+            foreach (Tileset tileSet in this.tileSets.ToList()) { yield return tileSet; }
+        }
+
         public bool TryGetImage(int imageID, out EloImage eloImg)
         {
             eloImg = this.resHandler.GetImage(imageID);
@@ -411,6 +444,11 @@ namespace EloSystem
         public Team GetTeam(string name)
         {
             return this.teams.FirstOrDefault(team => team.Name == name);
+        }
+
+        public Tileset GetTileSet(string name)
+        {
+            return this.tileSets.FirstOrDefault(tileSet => tileSet.Name == name);
         }
 
     }

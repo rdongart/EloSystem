@@ -13,7 +13,7 @@ namespace EloSystem
         internal MapStats()
         {
             this.raceMatchupData = (new Tuple<Race, Race>[] {Tuple.Create(Race.Protoss, Race.Terran), Tuple.Create(Race.Protoss, Race.Zerg), Tuple.Create(Race.Protoss, Race.Random)
-                , Tuple.Create(Race.Zerg, Race.Terran), Tuple.Create(Race.Zerg, Race.Random), Tuple.Create(Race.Terran, Race.Random)}).Select(tpl => new RaceMatchupResults(tpl.Item1, tpl.Item2)).ToList();
+                , Tuple.Create(Race.Zerg, Race.Terran), Tuple.Create(Race.Zerg, Race.Random), Tuple.Create(Race.Terran, Race.Random), Tuple.Create(Race.Zerg, Race.Zerg), Tuple.Create(Race.Terran, Race.Terran), Tuple.Create(Race.Protoss, Race.Protoss), Tuple.Create(Race.Random, Race.Random)}).Select(tpl => new RaceMatchupResults(tpl.Item1, tpl.Item2)).ToList();
 
         }
 

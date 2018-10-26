@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameCount.cs" />
+    <Compile Include="HasNameContent.cs" />
     <Compile Include="MapStats.cs" />
     <Compile Include="ResourceManagement\EloImage.cs" />
     <Compile Include="EloSystemContent.cs" />

@@ -4,41 +4,21 @@ using System.Runtime.Serialization;
 namespace EloSystem
 {
     [Serializable]
-    public class Tileset : IHasName, ISerializable
+    public class Tileset : HasNameContent, ISerializable
     {
-        public string Name { get; private set; }
-
-        public Tileset(string name)
+        public Tileset(string name) : base(name)
         {
-            this.Name = name;
+
         }
 
         #region Implementing ISerializable
-        private enum Field
-        {
-            ImageID, Name
-        }
-
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(Field.Name.ToString(), (string)this.Name);
+            base.GetObjectData(info, context);
         }
 
-        internal Tileset(SerializationInfo info, StreamingContext context)
+        internal Tileset(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            foreach (SerializationEntry entry in info)
-            {
-                Field field;
-
-                if (Enum.TryParse<Field>(entry.Name, out field))
-                {
-                    switch (field)
-                    {
-                        case Field.Name: this.Name = (string)info.GetString(field.ToString()); break;
-                    }
-                }
-
-            }
         }
         #endregion               
     }

@@ -109,6 +109,19 @@
     <Compile Include="UserControls\GameReport.Designer.cs">
       <DependentUpon>GameReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\HasNameAddingEventArgs.cs" />
+    <Compile Include="UserControls\HasNameContentAdder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\HasNameContentAdder.Designer.cs">
+      <DependentUpon>HasNameContentAdder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MapAdder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\MapAdder.Designer.cs">
+      <DependentUpon>MapAdder.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MatchReport.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -151,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\GameReport.resx">
       <DependentUpon>GameReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\HasNameContentAdder.resx">
+      <DependentUpon>HasNameContentAdder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\MatchReport.resx">
       <DependentUpon>MatchReport.cs</DependentUpon>

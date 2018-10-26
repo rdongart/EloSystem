@@ -10,6 +10,35 @@ namespace SCEloSystemGUI
 {
     public partial class MainForm
     {
+        private static void DisplayContentEditFailureMessage()
+        {
+            MessageBox.Show(String.Format("A failure occurred while trying to add edit content."));
+        }
+
+        private static bool ShouldContentBeReplaced(string name, string type)
+        {
+            DialogResult dlgResult = MessageBox.Show(String.Format("A {0} named {1} already exists. Are you sure you would like to overwrite that {0}?", type, name), "Name is already in use", MessageBoxButtons.OKCancel);
+
+            switch (dlgResult)
+            {
+                case DialogResult.OK:
+                case DialogResult.Yes: return true;
+                case DialogResult.None:
+                case DialogResult.Cancel:
+                case DialogResult.Abort:
+                case DialogResult.Retry:
+                case DialogResult.Ignore:
+                case DialogResult.No: return false;
+                default: throw new Exception(String.Format("{0} is an unkonwn {1} in the current context.", dlgResult.ToString(), typeof(ContentTypes).Name));
+            }
+
+        }
+
+        private static void DisplayContentEditSuccesMessage()
+        {
+            MessageBox.Show(String.Format("Content was successfully edited."));
+        }
+
         private void AddContent(object sender, ContentAddingEventArgs e)
         {
             IContentAdder adder = e.ContentAdder;
@@ -27,11 +56,7 @@ namespace SCEloSystemGUI
                 default: throw new Exception(String.Format("{0} is an unkonwn {1} in the current context.", adder.ContentType.ToString(), typeof(ContentTypes).Name));
             }
 
-            if (currentContent != null && MessageBox.Show(String.Format("A {0} named {1} already exists. Are you sure you would like to overwrite that {0}?", adder.ContentType.ToString().ToLower()
-                , adder.ContentName), "Name is already in use", MessageBoxButtons.OKCancel) != DialogResult.OK)
-            {
-                return;
-            }
+            if (currentContent != null && MainForm.ShouldContentBeReplaced(adder.ContentName, adder.ContentType.ToString()) == false) { return; }
             else if (currentContent != null)
             {
                 switch (adder.ContentType)
@@ -59,6 +84,26 @@ namespace SCEloSystemGUI
             }
 
             MessageBox.Show(string.Format("Your {0} was added succesfully.", adder.ContentType.ToString().ToLower()));
+        }
+
+        private void AddTilSet(object sender, HasNameAddingEventArgs e)
+        {
+            var hasNameSender = sender as HasNameContentAdder<Tileset>;
+
+            if (hasNameSender == null)
+            {
+                MainForm.DisplayContentEditFailureMessage();
+                return;
+            }
+
+            Tileset currentContent = this.eloSystem.GetTileSet(hasNameSender.Name);
+
+            if (currentContent != null) { MessageBox.Show(String.Format("A {0} named {1} already exists.", currentContent.GetType().Name, currentContent.Name)); }
+            else
+            {
+                this.eloSystem.AddTileSet(hasNameSender.Name);
+                MainForm.DisplayContentEditSuccesMessage();
+            }
         }
 
         private void TeamAdder_OnAddButtonClick(object sender, ContentAddingEventArgs e)

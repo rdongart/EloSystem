@@ -13,6 +13,7 @@ namespace SCEloSystemGUI
         private ContentAdder teamAdder;
         private Dictionary<int, ResourceItem> resMemory = new Dictionary<int, ResourceItem>();
         private EloData eloSystem;
+        private HasNameContentAdder<Tileset> tileSetAdder;
         private MatchReport matchReport;
         private PlayerAdder playerAdder;
 
@@ -34,6 +35,10 @@ namespace SCEloSystemGUI
 
         private void LoadContent()
         {
+            this.tileSetAdder = new HasNameContentAdder<Tileset>();
+            this.tileSetAdder.OnAddButtonClick += this.AddTilSet;
+            this.tblLOPnlMaps.Controls.Add(this.mapAdder, 1, 0);
+
             this.mapAdder = new ContentAdder() { ContentType = ContentTypes.Map };
             this.mapAdder.OnAddButtonClick += this.AddContent;
             this.tblLOPnlMaps.Controls.Add(this.mapAdder, 0, 0);

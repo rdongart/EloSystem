@@ -134,8 +134,10 @@ namespace EloSystem
 
         public Race GetPrimaryRace()
         {
+            if (this.Stats.GamesTotal() <= 0) { return Race.Random; }
+
             // make groups of all the opponent races where the player plays the same race and order so the most played race grouping is on top
-            var groupingBySubPrimary = Enum.GetValues(typeof(Race)).Cast<Race>().Select(race => new { SubPrimary = this.GetPrimaryRaceVs(race) }).GroupBy(item =>
+            var groupingBySubPrimary = Enum.GetValues(typeof(Race)).Cast<Race>().Where(race=> this.Stats.GamesWith(race)>0).Select(race => new { SubPrimary = this.GetPrimaryRaceVs(race) }).GroupBy(item =>
                 item.SubPrimary).OrderByDescending(grouping => grouping.Count()).ToList();
 
             // check if the first place is different from the second place

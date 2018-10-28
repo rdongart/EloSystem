@@ -82,31 +82,35 @@ namespace EloSystem
 
             double winnerExpectedWinRatio = EloData.ExpectedWinRatio(winner.RatingsVs.GetValueFor(losersRace), loser.RatingsVs.GetValueFor(winnersRace));
 
-            return (RATING_CHANGE_STANDARD_MAX * (EloData.EXP_WIN_RATIO_MAX - winnerExpectedWinRatio) * EloData.GetRatingBonusFactor(winner, winnersRace, loser, losersRace)).RoundToInt();
+            return (RATING_CHANGE_STANDARD_MAX * (EloData.EXP_WIN_RATIO_MAX - winnerExpectedWinRatio) * EloData.RatingBonusFactorTotal(winner, winnersRace, loser, losersRace)).RoundToInt();
         }
-
-        /// <summary>
+                /// <summary>
         /// Returns a factor that increases the rating value changes based on the rating calibration phase that at least one player in a game is in.
         /// </summary>
-        /// <param name="player1"></param>
+        /// <param name="player"></param>
         /// <param name="player2"></param>
         /// <returns></returns>
-        private static int GetRatingBonusFactor(SCPlayer player1, Race player1Race, SCPlayer player2, Race player2Race)
+        private static double RatingBonusFactorTotal(SCPlayer player1, Race player1Race, SCPlayer player2, Race player2Race)
         {
-            const int CALIBRATION_PHASE1_BONUSFACTOR = 4;
-            const int CALIBRATION_PHASE1_NO_MATCHES = 4;
-            const int CALIBRATION_PHASE2_BONUSFACTOR = 3;
-            const int CALIBRATION_PHASE2_NO_MATCHES = 4 + CALIBRATION_PHASE1_NO_MATCHES;
-            const int CALIBRATION_PHASE3_BONUSFACTOR = 2;
-            const int CALIBRATION_PHASE3_NO_MATCHES = 12 + CALIBRATION_PHASE2_NO_MATCHES;
             const int BONUSFACTOR_STANDARD = 1;
 
+            return BONUSFACTOR_STANDARD + EloData.RatingBonusFactorByPlayer(player1, player2Race) + EloData.RatingBonusFactorByPlayer(player2, player1Race);
+        }
 
-            if (player1.Stats.GamesVs(player2Race) < CALIBRATION_PHASE1_NO_MATCHES || player2.Stats.GamesVs(player1Race) < CALIBRATION_PHASE1_NO_MATCHES) { return CALIBRATION_PHASE1_BONUSFACTOR; }
-            else if (player1.Stats.GamesVs(player2Race) < CALIBRATION_PHASE2_NO_MATCHES || player2.Stats.GamesVs(player1Race) < CALIBRATION_PHASE2_NO_MATCHES) { return CALIBRATION_PHASE2_BONUSFACTOR; }
-            else if (player1.Stats.GamesVs(player2Race) < CALIBRATION_PHASE3_NO_MATCHES || player2.Stats.GamesVs(player1Race) < CALIBRATION_PHASE3_NO_MATCHES) { return CALIBRATION_PHASE3_BONUSFACTOR; }
+        private static double RatingBonusFactorByPlayer(SCPlayer player, Race opponentRace)
+        {
+            const int BONUSFACTOR_STANDARD = 0;
+            const double CALIBRATION_PHASE1_BONUSFACTOR = 1.5;
+            const int CALIBRATION_PHASE1_NO_MATCHES = 5;
+            const double CALIBRATION_PHASE2_BONUSFACTOR = 1;
+            const int CALIBRATION_PHASE2_NO_MATCHES = 10 + CALIBRATION_PHASE1_NO_MATCHES;
+            const double CALIBRATION_PHASE3_BONUSFACTOR = 0.5;
+            const int CALIBRATION_PHASE3_NO_MATCHES = 20 + CALIBRATION_PHASE2_NO_MATCHES;
+            
+            if (player.Stats.GamesVs(opponentRace) < CALIBRATION_PHASE1_NO_MATCHES ) { return CALIBRATION_PHASE1_BONUSFACTOR; }
+            else if (player.Stats.GamesVs(opponentRace) < CALIBRATION_PHASE2_NO_MATCHES ) { return CALIBRATION_PHASE2_BONUSFACTOR; }
+            else if (player.Stats.GamesVs(opponentRace) < CALIBRATION_PHASE3_NO_MATCHES ) { return CALIBRATION_PHASE3_BONUSFACTOR; }
             else { return BONUSFACTOR_STANDARD; }
-
         }
 
         private static void UpdateMapStats(Match match)
@@ -115,7 +119,6 @@ namespace EloSystem
             {
                 game.Map.Stats.ReportMatch(game.Player1Race, game.Player2Race, game.WinnersRace, match.Player1.RatingsVs.GetValueFor(game.Player2Race), match.Player2.RatingsVs.GetValueFor(game.Player1Race));
             }
-
         }
 
         private static void UpdatePlayerStats(Match match)

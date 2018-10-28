@@ -142,7 +142,7 @@ namespace SCEloSystemGUI.UserControls
 
         private static void PopulateComboboxWithMaps(ComboBox cmBx, IEnumerable<Map> maps)
         {
-            IList<Map> mapList = maps is IList<Map> ? (IList<Map>)maps : maps.ToArray();
+            List<Map> mapList = maps.OrderBy(map => map.Name).ToList();
 
             var selectedItem = cmBx.SelectedItem != null ? (cmBx.SelectedItem as Tuple<string, Map>).Item2 : null;
 
@@ -151,6 +151,8 @@ namespace SCEloSystemGUI.UserControls
 
             cmBx.Items.Clear();
             cmBx.Items.AddRange(mapList.Select(map => Tuple.Create<string, Map>(map.Name, map)).ToArray());
+
+            if (selectedItem != null && mapList.Contains(selectedItem)) { cmBx.SelectedIndex = mapList.IndexOf(selectedItem); }
         }
 
         private bool HasSelectedRaces()

@@ -9,11 +9,11 @@ namespace SCEloSystemGUI
     public partial class MainForm : Form
     {
         private ContentAdder countryAdder;
-        private ContentAdder mapAdder;
         private ContentAdder teamAdder;
         private Dictionary<int, ResourceItem> resMemory = new Dictionary<int, ResourceItem>();
         private EloData eloSystem;
         private HasNameContentAdder<Tileset> tileSetAdder;
+        private MapAdder mapAdder;
         private MatchReport matchReport;
         private PlayerAdder playerAdder;
 
@@ -37,9 +37,10 @@ namespace SCEloSystemGUI
         {
             this.tileSetAdder = new HasNameContentAdder<Tileset>();
             this.tileSetAdder.OnAddButtonClick += this.AddTilSet;
-            this.tblLOPnlMaps.Controls.Add(this.mapAdder, 1, 0);
+            this.tileSetAdder.OnAddButtonClick += this.TileSetAdder_OnAddButtonClick;
+            this.tblLOPnlMaps.Controls.Add(this.tileSetAdder, 1, 0);
 
-            this.mapAdder = new ContentAdder() { ContentType = ContentTypes.Map };
+            this.mapAdder = new MapAdder() { ContentType = ContentTypes.Map };
             this.mapAdder.OnAddButtonClick += this.AddContent;
             this.tblLOPnlMaps.Controls.Add(this.mapAdder, 0, 0);
 
@@ -62,13 +63,9 @@ namespace SCEloSystemGUI
             this.tabPageReportMatch.Controls.Add(this.matchReport);
             this.matchReport.EloDataSource = () => { return this.eloSystem; };
 
+            this.AddTileSetsToCmbBox();
             this.AddCountriesToImgCmbBox();
             this.AddTeamsToImgCmbBox();
-            this.AddPlayersToImgCmbBox();
-        }
-
-        private void PlayerAdder_OnAddButtonClick(object sender, ContentAddingEventArgs e)
-        {
             this.AddPlayersToImgCmbBox();
         }
 

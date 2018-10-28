@@ -298,7 +298,8 @@
             // 
             // tblLOPnlMaps
             // 
-            this.tblLOPnlMaps.ColumnCount = 2;
+            this.tblLOPnlMaps.ColumnCount = 3;
+            this.tblLOPnlMaps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 420F));
             this.tblLOPnlMaps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 380F));
             this.tblLOPnlMaps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLOPnlMaps.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -307,7 +308,7 @@
             this.tblLOPnlMaps.Name = "tblLOPnlMaps";
             this.tblLOPnlMaps.Padding = new System.Windows.Forms.Padding(16);
             this.tblLOPnlMaps.RowCount = 2;
-            this.tblLOPnlMaps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 198F));
+            this.tblLOPnlMaps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 360F));
             this.tblLOPnlMaps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLOPnlMaps.Size = new System.Drawing.Size(931, 686);
             this.tblLOPnlMaps.TabIndex = 0;

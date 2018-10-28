@@ -78,6 +78,11 @@ namespace EloSystem
             return this.descriptions.Remove(descriptionToRemove);
         }
 
+        public IEnumerable<string> GetDescriptions()
+        {
+            foreach (string description in this.descriptions) { yield return description; }
+        }
+
         public void AddDescription(string description)
         {
             this.descriptions.Add(description);

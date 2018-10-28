@@ -12,7 +12,7 @@ namespace EloSystem
         }
 
         #region Implementing ISerializable
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        new public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
         }

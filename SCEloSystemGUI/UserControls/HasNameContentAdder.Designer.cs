@@ -70,6 +70,7 @@
             this.txtBxName.Name = "txtBxName";
             this.txtBxName.Size = new System.Drawing.Size(188, 23);
             this.txtBxName.TabIndex = 0;
+            this.txtBxName.TextChanged += new System.EventHandler(this.txtBxName_TextChanged);
             // 
             // lbHeading
             // 
@@ -109,6 +110,7 @@
             this.btnAdd.TabIndex = 4;
             this.btnAdd.Text = "A&dd to system";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // HasNameContentAdder
             // 

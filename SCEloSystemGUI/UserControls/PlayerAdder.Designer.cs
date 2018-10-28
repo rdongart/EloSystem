@@ -335,11 +335,12 @@
             // lbFileName
             // 
             this.lbFileName.AutoEllipsis = true;
+            this.lbFileName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbFileName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbFileName.Location = new System.Drawing.Point(0, 3);
             this.lbFileName.Margin = new System.Windows.Forms.Padding(0, 3, 6, 3);
             this.lbFileName.Name = "lbFileName";
-            this.lbFileName.Size = new System.Drawing.Size(188, 18);
+            this.lbFileName.Size = new System.Drawing.Size(200, 18);
             this.lbFileName.TabIndex = 2;
             this.lbFileName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lbFileName.TextChanged += new System.EventHandler(this.lbFileName_TextChanged);

@@ -1,4 +1,5 @@
-﻿using EloSystem;
+﻿using System.Collections.Generic;
+using EloSystem;
 using EloSystem.ResourceManagement;
 using SCEloSystemGUI.UserControls;
 using System;
@@ -72,7 +73,12 @@ namespace SCEloSystemGUI
             switch (adder.ContentType)
             {
                 case ContentTypes.Country: this.eloSystem.AddCountry(adder.ContentName, adder.SelectedImage); break;
-                case ContentTypes.Map: this.eloSystem.AddMap(adder.ContentName, adder.SelectedImage); break;
+                case ContentTypes.Map:
+                    var mapAdder = e.ContentAdder as MapAdder;
+
+                    this.eloSystem.AddMap(mapAdder.ContentName, mapAdder.MapType, mapAdder.SelectedImage);
+
+                    break;
                 case ContentTypes.Player:
                     var playerAdder = e.ContentAdder as PlayerAdder;
 
@@ -86,7 +92,7 @@ namespace SCEloSystemGUI
             MessageBox.Show(string.Format("Your {0} was added succesfully.", adder.ContentType.ToString().ToLower()));
         }
 
-        private void AddTilSet(object sender, HasNameAddingEventArgs e)
+        private void AddTilSet(object sender, EventArgs e)
         {
             var hasNameSender = sender as HasNameContentAdder<Tileset>;
 
@@ -101,7 +107,7 @@ namespace SCEloSystemGUI
             if (currentContent != null) { MessageBox.Show(String.Format("A {0} named {1} already exists.", currentContent.GetType().Name, currentContent.Name)); }
             else
             {
-                this.eloSystem.AddTileSet(hasNameSender.Name);
+                this.eloSystem.AddTileSet(hasNameSender.ContentName);
                 MainForm.DisplayContentEditSuccesMessage();
             }
         }
@@ -114,6 +120,31 @@ namespace SCEloSystemGUI
         private void CountryAdder_OnAddButtonClick(object sender, ContentAddingEventArgs e)
         {
             this.AddCountriesToImgCmbBox();
+        }
+
+        private void TileSetAdder_OnAddButtonClick(object sender, EventArgs e)
+        {
+            this.AddTileSetsToCmbBox();
+        }
+
+        private void PlayerAdder_OnAddButtonClick(object sender, ContentAddingEventArgs e)
+        {
+            this.AddPlayersToImgCmbBox();
+        }
+
+        private void AddTileSetsToCmbBox()
+        {
+            var selectedItem = this.mapAdder.cmbBxTileset.SelectedItem != null ? (this.mapAdder.cmbBxTileset.SelectedItem as Tuple<string, Tileset>).Item2 : null;
+
+            List<Tileset> tileSetList = this.eloSystem.GetTileSets().OrderBy(tileSet => tileSet.Name).ToList();
+
+            this.mapAdder.cmbBxTileset.DisplayMember = "Item1";
+            this.mapAdder.cmbBxTileset.ValueMember = "Item2";
+
+            this.mapAdder.cmbBxTileset.Items.Clear();
+            this.mapAdder.cmbBxTileset.Items.AddRange(tileSetList.Select(tileSet => Tuple.Create<string, Tileset>(tileSet.Name, tileSet)).ToArray());
+
+            if (selectedItem != null && tileSetList.Contains(selectedItem)) { this.mapAdder.cmbBxTileset.SelectedIndex = tileSetList.IndexOf(selectedItem); }
         }
 
         private void AddCountriesToImgCmbBox()

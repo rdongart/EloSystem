@@ -1,7 +1,7 @@
 ﻿
 namespace SCEloSystemGUI.UserControls
 {
-    internal enum ContentTypes
+    public enum ContentTypes
     {
         Country, Map, Player, Team, Tileset
             

@@ -6,15 +6,7 @@ namespace SCEloSystemGUI.UserControls
 {
     public partial class HasNameContentAdder<T> : UserControl where T : IHasName 
     {
-
-        public Type ContentType
-        {
-            get
-            {
-                return typeof(T);
-            }
-        }
-        public event EventHandler<HasNameAddingEventArgs> OnAddButtonClick = delegate { };
+        public event EventHandler OnAddButtonClick = delegate { };
         public string ContentName
         {
             get
@@ -22,13 +14,12 @@ namespace SCEloSystemGUI.UserControls
                 return this.txtBxName.Text;
             }
         }
-        private IHasName contentType;
 
         public HasNameContentAdder()
         {
             InitializeComponent();
 
-            this.lbHeading.Text = String.Format("Create new {0}", this.ContentName.ToLower());
+            this.lbHeading.Text = String.Format("Create new {0}", typeof(T).Name.ToLower());
 
             this.txtBxName.Text = EloGUIControlsStaticMembers.DEFAULT_TXTBX_TEXT;
             this.btnAdd.Enabled = false;
@@ -42,7 +33,7 @@ namespace SCEloSystemGUI.UserControls
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            this.OnAddButtonClick.Invoke(sender, new HasNameAddingEventArgs(this.contentType));
+            this.OnAddButtonClick.Invoke(this, new EventArgs());
 
             this.txtBxName.Text = EloGUIControlsStaticMembers.DEFAULT_TXTBX_TEXT;
             this.btnAdd.Enabled = false;

@@ -4,3 +4,4 @@ C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystem\bin\Rel
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystem\bin\Release\CustomExtensionMethods.pdb
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystem\obj\Release\EloSystem.dll
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystem\obj\Release\EloSystem.pdb
+C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystem\bin\Release\EloSystem.dll.config

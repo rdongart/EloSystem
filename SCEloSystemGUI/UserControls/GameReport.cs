@@ -85,6 +85,20 @@ namespace SCEloSystemGUI.UserControls
                 this.lbGameHeader.Text = value;
             }
         }
+        private Race racePlayer1
+        {
+            get
+            {
+                return (this.cmbBxPlayer1Race.SelectedItem as Tuple<string, Race>).Item2;
+            }
+        }
+        private Race racePlayer2
+        {
+            get
+            {
+                return (this.cmbBxPlayer2Race.SelectedItem as Tuple<string, Race>).Item2;
+            }
+        }
         private ResourceGetter eloDataSource;
         private SCPlayer player1;
         private SCPlayer player2;
@@ -128,6 +142,8 @@ namespace SCEloSystemGUI.UserControls
                 this.lbPl1Win.Visible = false;
                 this.lbPl2Win.Visible = true;
             }
+
+            this.UpdateControlValues();
 
             this.GameDataReported.Invoke(this, new EventArgs());
         }
@@ -196,20 +212,28 @@ namespace SCEloSystemGUI.UserControls
 
         private void UpdateControlValues()
         {
-            if (this.cmbBxPlayer1Race.SelectedIndex >= 0)
+            if (this.HasSelectedRaces() && this.Player1 != null && this.Player2 != null && this.WinnerPlayer != null)
             {
-                var selItem = this.cmbBxPlayer1Race.SelectedItem as Tuple<string, Race>;
+                int ratingChange = EloData.RatingChange(this.WinnerPlayer, this.Player1 == this.WinnerPlayer ? this.racePlayer1 : this.racePlayer2, this.WinnerPlayer == this.Player1 ? this.Player2 : this.Player1
+                    , this.WinnerPlayer == this.Player1 ? this.racePlayer2 : this.racePlayer1);
 
-                if (selItem != null) { this.lbPl2RatingVsRace.Text = this.Player2.RatingsVs.GetValueFor(selItem.Item2).ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT); }
+                int player1RatingPoints = this.WinnerPlayer == this.Player1 ? ratingChange : ratingChange * -1;
+
+                this.lbPl1RatingVsRace.Text = player1RatingPoints.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+
+                if (player1RatingPoints < 0) { this.lbPl1RatingVsRace.ForeColor = Color.Red; }
+                else if (player1RatingPoints > 0) { this.lbPl1RatingVsRace.ForeColor = Color.ForestGreen; }
+                else { this.lbPl1RatingVsRace.ForeColor = Color.Black; }
+
+
+                int player2RatingPoints = this.WinnerPlayer == this.Player2 ? ratingChange : ratingChange * -1;
+
+                this.lbPl2RatingVsRace.Text = player2RatingPoints.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+
+                if (player2RatingPoints < 0) { this.lbPl2RatingVsRace.ForeColor = Color.Red; }
+                else if (player2RatingPoints > 0) { this.lbPl2RatingVsRace.ForeColor = Color.ForestGreen; }
+                else { this.lbPl2RatingVsRace.ForeColor = Color.Black; }
             }
-
-            if (this.cmbBxPlayer2Race.SelectedIndex >= 0)
-            {
-                var selItem = this.cmbBxPlayer2Race.SelectedItem as Tuple<string, Race>;
-
-                if (selItem != null) { this.lbPl1RatingVsRace.Text = this.Player1.RatingsVs.GetValueFor(selItem.Item2).ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT); }
-            }
-
 
         }
 

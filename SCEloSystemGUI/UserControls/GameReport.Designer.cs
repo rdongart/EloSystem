@@ -106,11 +106,12 @@
             // 
             this.lbPl1RatingVsRace.AutoEllipsis = true;
             this.lbPl1RatingVsRace.AutoSize = true;
+            this.lbPl1RatingVsRace.Dock = System.Windows.Forms.DockStyle.Top;
             this.lbPl1RatingVsRace.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPl1RatingVsRace.Location = new System.Drawing.Point(223, 3);
             this.lbPl1RatingVsRace.Margin = new System.Windows.Forms.Padding(3);
             this.lbPl1RatingVsRace.Name = "lbPl1RatingVsRace";
-            this.lbPl1RatingVsRace.Size = new System.Drawing.Size(63, 17);
+            this.lbPl1RatingVsRace.Size = new System.Drawing.Size(79, 17);
             this.lbPl1RatingVsRace.TabIndex = 4;
             this.lbPl1RatingVsRace.Text = "[missing]";
             this.lbPl1RatingVsRace.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -153,11 +154,12 @@
             // 
             // cmbBxMap
             // 
+            this.cmbBxMap.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbBxMap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBxMap.FormattingEnabled = true;
             this.cmbBxMap.Location = new System.Drawing.Point(428, 3);
             this.cmbBxMap.Name = "cmbBxMap";
-            this.cmbBxMap.Size = new System.Drawing.Size(99, 21);
+            this.cmbBxMap.Size = new System.Drawing.Size(164, 21);
             this.cmbBxMap.TabIndex = 5;
             // 
             // btnRemoveGame
@@ -244,11 +246,12 @@
             // 
             this.lbPl2RatingVsRace.AutoEllipsis = true;
             this.lbPl2RatingVsRace.AutoSize = true;
+            this.lbPl2RatingVsRace.Dock = System.Windows.Forms.DockStyle.Top;
             this.lbPl2RatingVsRace.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPl2RatingVsRace.Location = new System.Drawing.Point(718, 3);
             this.lbPl2RatingVsRace.Margin = new System.Windows.Forms.Padding(3);
             this.lbPl2RatingVsRace.Name = "lbPl2RatingVsRace";
-            this.lbPl2RatingVsRace.Size = new System.Drawing.Size(63, 17);
+            this.lbPl2RatingVsRace.Size = new System.Drawing.Size(79, 17);
             this.lbPl2RatingVsRace.TabIndex = 4;
             this.lbPl2RatingVsRace.Text = "[missing]";
             this.lbPl2RatingVsRace.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

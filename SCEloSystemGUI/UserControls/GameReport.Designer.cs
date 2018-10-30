@@ -31,7 +31,7 @@
             this.tblLOPnlGameReport = new System.Windows.Forms.TableLayoutPanel();
             this.lbGameHeader = new System.Windows.Forms.Label();
             this.lbPl1RatingVsRace = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lbEWRPlayer1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.cmbBxPlayer1Race = new System.Windows.Forms.ComboBox();
             this.cmbBxMap = new System.Windows.Forms.ComboBox();
@@ -39,7 +39,7 @@
             this.lbPl1Win = new System.Windows.Forms.Label();
             this.lbPl2Win = new System.Windows.Forms.Label();
             this.cmbBxPlayer2Race = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lbEWRPlayer2 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.lbPl2RatingVsRace = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -66,7 +66,7 @@
             this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tblLOPnlGameReport.Controls.Add(this.lbGameHeader, 0, 0);
             this.tblLOPnlGameReport.Controls.Add(this.lbPl1RatingVsRace, 2, 0);
-            this.tblLOPnlGameReport.Controls.Add(this.label2, 3, 0);
+            this.tblLOPnlGameReport.Controls.Add(this.lbEWRPlayer1, 3, 0);
             this.tblLOPnlGameReport.Controls.Add(this.label3, 4, 0);
             this.tblLOPnlGameReport.Controls.Add(this.cmbBxPlayer1Race, 1, 0);
             this.tblLOPnlGameReport.Controls.Add(this.cmbBxMap, 5, 0);
@@ -74,7 +74,7 @@
             this.tblLOPnlGameReport.Controls.Add(this.lbPl1Win, 2, 1);
             this.tblLOPnlGameReport.Controls.Add(this.lbPl2Win, 8, 1);
             this.tblLOPnlGameReport.Controls.Add(this.cmbBxPlayer2Race, 9, 0);
-            this.tblLOPnlGameReport.Controls.Add(this.label6, 7, 0);
+            this.tblLOPnlGameReport.Controls.Add(this.lbEWRPlayer2, 7, 0);
             this.tblLOPnlGameReport.Controls.Add(this.label5, 6, 0);
             this.tblLOPnlGameReport.Controls.Add(this.lbPl2RatingVsRace, 8, 0);
             this.tblLOPnlGameReport.Controls.Add(this.panel1, 3, 1);
@@ -116,18 +116,19 @@
             this.lbPl1RatingVsRace.Text = "[missing]";
             this.lbPl1RatingVsRace.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label2
+            // lbEWRPlayer1
             // 
-            this.label2.AutoEllipsis = true;
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(308, 3);
-            this.label2.Margin = new System.Windows.Forms.Padding(3);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(51, 34);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "[missing]";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbEWRPlayer1.AutoEllipsis = true;
+            this.lbEWRPlayer1.AutoSize = true;
+            this.lbEWRPlayer1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lbEWRPlayer1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbEWRPlayer1.Location = new System.Drawing.Point(308, 3);
+            this.lbEWRPlayer1.Margin = new System.Windows.Forms.Padding(3);
+            this.lbEWRPlayer1.Name = "lbEWRPlayer1";
+            this.lbEWRPlayer1.Size = new System.Drawing.Size(54, 34);
+            this.lbEWRPlayer1.TabIndex = 4;
+            this.lbEWRPlayer1.Text = "[missing]";
+            this.lbEWRPlayer1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
             // 
@@ -145,26 +146,29 @@
             // cmbBxPlayer1Race
             // 
             this.cmbBxPlayer1Race.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbBxPlayer1Race.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbBxPlayer1Race.FormattingEnabled = true;
             this.cmbBxPlayer1Race.Location = new System.Drawing.Point(120, 3);
             this.cmbBxPlayer1Race.Margin = new System.Windows.Forms.Padding(5, 3, 3, 3);
             this.cmbBxPlayer1Race.Name = "cmbBxPlayer1Race";
-            this.cmbBxPlayer1Race.Size = new System.Drawing.Size(97, 21);
+            this.cmbBxPlayer1Race.Size = new System.Drawing.Size(97, 23);
             this.cmbBxPlayer1Race.TabIndex = 5;
             // 
             // cmbBxMap
             // 
             this.cmbBxMap.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbBxMap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbBxMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbBxMap.FormattingEnabled = true;
             this.cmbBxMap.Location = new System.Drawing.Point(428, 3);
             this.cmbBxMap.Name = "cmbBxMap";
-            this.cmbBxMap.Size = new System.Drawing.Size(164, 21);
+            this.cmbBxMap.Size = new System.Drawing.Size(164, 23);
             this.cmbBxMap.TabIndex = 5;
             // 
             // btnRemoveGame
             // 
             this.btnRemoveGame.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnRemoveGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRemoveGame.Location = new System.Drawing.Point(806, 52);
             this.btnRemoveGame.Margin = new System.Windows.Forms.Padding(6, 12, 6, 12);
             this.btnRemoveGame.Name = "btnRemoveGame";
@@ -209,25 +213,27 @@
             // cmbBxPlayer2Race
             // 
             this.cmbBxPlayer2Race.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbBxPlayer2Race.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbBxPlayer2Race.FormattingEnabled = true;
             this.cmbBxPlayer2Race.Location = new System.Drawing.Point(803, 3);
             this.cmbBxPlayer2Race.Margin = new System.Windows.Forms.Padding(3, 3, 5, 3);
             this.cmbBxPlayer2Race.Name = "cmbBxPlayer2Race";
-            this.cmbBxPlayer2Race.Size = new System.Drawing.Size(97, 21);
+            this.cmbBxPlayer2Race.Size = new System.Drawing.Size(97, 23);
             this.cmbBxPlayer2Race.TabIndex = 5;
             // 
-            // label6
+            // lbEWRPlayer2
             // 
-            this.label6.AutoEllipsis = true;
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(658, 3);
-            this.label6.Margin = new System.Windows.Forms.Padding(3);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(51, 34);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "[missing]";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbEWRPlayer2.AutoEllipsis = true;
+            this.lbEWRPlayer2.AutoSize = true;
+            this.lbEWRPlayer2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lbEWRPlayer2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbEWRPlayer2.Location = new System.Drawing.Point(658, 3);
+            this.lbEWRPlayer2.Margin = new System.Windows.Forms.Padding(3);
+            this.lbEWRPlayer2.Name = "lbEWRPlayer2";
+            this.lbEWRPlayer2.Size = new System.Drawing.Size(54, 34);
+            this.lbEWRPlayer2.TabIndex = 4;
+            this.lbEWRPlayer2.Text = "[missing]";
+            this.lbEWRPlayer2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label5
             // 
@@ -317,11 +323,11 @@
         private System.Windows.Forms.Button btnRemoveGame;
         private System.Windows.Forms.Label lbGameHeader;
         private System.Windows.Forms.Label lbPl1RatingVsRace;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lbEWRPlayer1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lbPl2RatingVsRace;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lbEWRPlayer2;
         private System.Windows.Forms.ComboBox cmbBxPlayer1Race;
         private System.Windows.Forms.ComboBox cmbBxMap;
         private System.Windows.Forms.Label lbPl1Win;

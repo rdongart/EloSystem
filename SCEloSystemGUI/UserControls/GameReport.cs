@@ -1,4 +1,4 @@
-﻿
+﻿using CustomExtensionMethods;
 using System.Collections;
 using System.Collections.Generic;
 using CustomControls;
@@ -212,27 +212,37 @@ namespace SCEloSystemGUI.UserControls
 
         private void UpdateControlValues()
         {
-            if (this.HasSelectedRaces() && this.Player1 != null && this.Player2 != null && this.WinnerPlayer != null)
+            if (this.HasSelectedRaces() && this.Player1 != null && this.Player2 != null)
             {
-                int ratingChange = EloData.RatingChange(this.WinnerPlayer, this.Player1 == this.WinnerPlayer ? this.racePlayer1 : this.racePlayer2, this.WinnerPlayer == this.Player1 ? this.Player2 : this.Player1
-                    , this.WinnerPlayer == this.Player1 ? this.racePlayer2 : this.racePlayer1);
+                // set the expected win ratio
+                double player1EWR = EloData.ExpectedWinRatio(this.Player1.RatingsVs.GetValueFor(this.racePlayer2), this.Player2.RatingsVs.GetValueFor(this.racePlayer1));
 
-                int player1RatingPoints = this.WinnerPlayer == this.Player1 ? ratingChange : ratingChange * -1;
+                this.lbEWRPlayer1.Text = String.Format("{0}%", (100 * player1EWR).RoundToInt());
+                this.lbEWRPlayer2.Text = String.Format("{0}%", (100 * (1 - player1EWR)).RoundToInt());
 
-                this.lbPl1RatingVsRace.Text = player1RatingPoints.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                if (this.WinnerPlayer != null)
+                {
+                    // set the rating values
+                    int ratingChange = EloData.RatingChange(this.WinnerPlayer, this.Player1 == this.WinnerPlayer ? this.racePlayer1 : this.racePlayer2, this.WinnerPlayer == this.Player1 ? this.Player2 : this.Player1
+                        , this.WinnerPlayer == this.Player1 ? this.racePlayer2 : this.racePlayer1);
 
-                if (player1RatingPoints < 0) { this.lbPl1RatingVsRace.ForeColor = Color.Red; }
-                else if (player1RatingPoints > 0) { this.lbPl1RatingVsRace.ForeColor = Color.ForestGreen; }
-                else { this.lbPl1RatingVsRace.ForeColor = Color.Black; }
+                    int player1RatingPoints = this.WinnerPlayer == this.Player1 ? ratingChange : ratingChange * -1;
+
+                    this.lbPl1RatingVsRace.Text = player1RatingPoints.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+
+                    if (player1RatingPoints < 0) { this.lbPl1RatingVsRace.ForeColor = Color.Red; }
+                    else if (player1RatingPoints > 0) { this.lbPl1RatingVsRace.ForeColor = Color.ForestGreen; }
+                    else { this.lbPl1RatingVsRace.ForeColor = Color.Black; }
 
 
-                int player2RatingPoints = this.WinnerPlayer == this.Player2 ? ratingChange : ratingChange * -1;
+                    int player2RatingPoints = this.WinnerPlayer == this.Player2 ? ratingChange : ratingChange * -1;
 
-                this.lbPl2RatingVsRace.Text = player2RatingPoints.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                    this.lbPl2RatingVsRace.Text = player2RatingPoints.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
 
-                if (player2RatingPoints < 0) { this.lbPl2RatingVsRace.ForeColor = Color.Red; }
-                else if (player2RatingPoints > 0) { this.lbPl2RatingVsRace.ForeColor = Color.ForestGreen; }
-                else { this.lbPl2RatingVsRace.ForeColor = Color.Black; }
+                    if (player2RatingPoints < 0) { this.lbPl2RatingVsRace.ForeColor = Color.Red; }
+                    else if (player2RatingPoints > 0) { this.lbPl2RatingVsRace.ForeColor = Color.ForestGreen; }
+                    else { this.lbPl2RatingVsRace.ForeColor = Color.Black; }
+                }
             }
 
         }

@@ -101,11 +101,11 @@ namespace EloSystem
         {
             const int BONUSFACTOR_STANDARD = 0;
             const double CALIBRATION_PHASE1_BONUSFACTOR = 1.5;
-            const int CALIBRATION_PHASE1_NO_MATCHES = 5;
+            const int CALIBRATION_PHASE1_NO_MATCHES = 10;
             const double CALIBRATION_PHASE2_BONUSFACTOR = 1;
-            const int CALIBRATION_PHASE2_NO_MATCHES = 10 + CALIBRATION_PHASE1_NO_MATCHES;
+            const int CALIBRATION_PHASE2_NO_MATCHES = 15 + CALIBRATION_PHASE1_NO_MATCHES;
             const double CALIBRATION_PHASE3_BONUSFACTOR = 0.5;
-            const int CALIBRATION_PHASE3_NO_MATCHES = 20 + CALIBRATION_PHASE2_NO_MATCHES;
+            const int CALIBRATION_PHASE3_NO_MATCHES = 30 + CALIBRATION_PHASE2_NO_MATCHES;
             
             if (player.Stats.GamesVs(opponentRace) < CALIBRATION_PHASE1_NO_MATCHES ) { return CALIBRATION_PHASE1_BONUSFACTOR; }
             else if (player.Stats.GamesVs(opponentRace) < CALIBRATION_PHASE2_NO_MATCHES ) { return CALIBRATION_PHASE2_BONUSFACTOR; }

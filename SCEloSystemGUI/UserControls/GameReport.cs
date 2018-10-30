@@ -100,16 +100,17 @@ namespace SCEloSystemGUI.UserControls
         /// This event fires when player race selection or game winner selection changes.
         /// </summary>
         public event EventHandler<EventArgs> GameDataReported = delegate { };
+        public event EventHandler<RaceSelectionEventArgs> RaceSelectionChanged = delegate { };
 
         public GameReport()
         {
             InitializeComponent();
 
             GameReport.PopulateCombobBoxRace(this.cmbBxPlayer1Race);
-            this.cmbBxPlayer1Race.SelectedIndexChanged += this.CmbBxPlayerRace_SelectedIndexChanged;
+            this.cmbBxPlayer1Race.SelectedIndexChanged += this.CmbBxPlayer1Race_SelectedIndexChanged;
 
             GameReport.PopulateCombobBoxRace(this.cmbBxPlayer2Race);
-            this.cmbBxPlayer2Race.SelectedIndexChanged += this.CmbBxPlayerRace_SelectedIndexChanged;
+            this.cmbBxPlayer2Race.SelectedIndexChanged += this.CmbBxPlayer2Race_SelectedIndexChanged;
 
             this.rdBtnPl1Win.CheckedChanged += this.RdBtnPlWin_CheckedChanged;
             this.rdBtnPl2Win.CheckedChanged += this.RdBtnPlWin_CheckedChanged;
@@ -160,7 +161,21 @@ namespace SCEloSystemGUI.UserControls
             return this.cmbBxPlayer1Race.SelectedIndex > -1 && this.cmbBxPlayer2Race.SelectedIndex > -1;
         }
 
-        private void CmbBxPlayerRace_SelectedIndexChanged(object sender, EventArgs e)
+        private void CmbBxPlayer1Race_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.RaceSelectionChanged.Invoke(this, new RaceSelectionEventArgs((Race)this.cmbBxPlayer1Race.SelectedIndex, PlayerSlotType.Player1));
+
+            this.RaceSelectionChangedUpdate();
+        }
+
+        private void CmbBxPlayer2Race_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.RaceSelectionChanged.Invoke(this, new RaceSelectionEventArgs((Race)this.cmbBxPlayer2Race.SelectedIndex, PlayerSlotType.Player2));
+
+            this.RaceSelectionChangedUpdate();
+        }
+
+        private void RaceSelectionChangedUpdate()
         {
             this.UpdateControlValues();
 
@@ -207,6 +222,16 @@ namespace SCEloSystemGUI.UserControls
             GameReport.PopulateComboboxWithMaps(this.cmbBxMap, senderElo.GetMaps().OrderBy(map => map.Name));
         }
 
+        public bool RaceIsSelectedFor(PlayerSlotType slot)
+        {
+            switch (slot)
+            {
+                case PlayerSlotType.Player1: return this.cmbBxPlayer1Race.SelectedIndex > 0;
+                case PlayerSlotType.Player2: return this.cmbBxPlayer2Race.SelectedIndex > 0;
+                default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PlayerSlotType).Name, slot.ToString()));
+            }
+        }
+
         public GameReportStatus GetGameReportStatus(out GameEntry gameReport)
         {
             gameReport = null;
@@ -226,6 +251,16 @@ namespace SCEloSystemGUI.UserControls
 
             if (this.cmbBxMap.SelectedIndex < 0 || this.cmbBxMap.SelectedItem == null) { return GameReportStatus.MapIsMissing; }
             else { return GameReportStatus.Ready; }
+        }
+
+        public void SetRaceFor(PlayerSlotType playerSlot, Race race)
+        {
+            switch (playerSlot)
+            {
+                case PlayerSlotType.Player1: this.cmbBxPlayer1Race.SelectedIndex = (int)race; break;
+                case PlayerSlotType.Player2: this.cmbBxPlayer2Race.SelectedIndex = (int)race; break;
+                default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PlayerSlotType).Name, playerSlot.ToString()));
+            }
         }
     }
 }

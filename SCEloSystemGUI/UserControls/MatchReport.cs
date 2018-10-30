@@ -14,9 +14,6 @@ namespace SCEloSystemGUI.UserControls
     {
         internal ImageComboBox ImgCmbBxPlayer1 { get; private set; }
         internal ImageComboBox ImgCmbBxPlayer2 { get; private set; }
-        private List<GameReport> gameReports;
-        private PlayerMatchStatsDisplay player1StatsDisplay;
-        private PlayerMatchStatsDisplay player2StatsDisplay;
         internal ResourceGetter EloDataSource
         {
             private get
@@ -32,6 +29,10 @@ namespace SCEloSystemGUI.UserControls
                 if (this.player2StatsDisplay != null) { this.player2StatsDisplay.EloDataSource = value; }
             }
         }
+        private List<GameReport> gameReports;
+        private PlayerMatchStatsDisplay player1StatsDisplay;
+        private PlayerMatchStatsDisplay player2StatsDisplay;
+        private bool racesAreBeingAutoSet;
         private ResourceGetter eloDataSource;
 
         public MatchReport()
@@ -134,6 +135,7 @@ namespace SCEloSystemGUI.UserControls
 
             nextGameReport.RemoveButtonClicked += this.NextGameReport_OnRemoveButtonClick;
             nextGameReport.GameDataReported += this.NextGameReport_GameDataReported;
+            nextGameReport.RaceSelectionChanged += this.PlayerRaceWasSelected;
 
             this.gameReports.Add(nextGameReport);
 
@@ -142,6 +144,23 @@ namespace SCEloSystemGUI.UserControls
             this.pnlGameReports.Controls.Add(nextGameReport);
 
             this.UpdateMatchReportability();
+        }
+
+        private void PlayerRaceWasSelected(object sender, RaceSelectionEventArgs e)
+        {
+            if (this.racesAreBeingAutoSet) { return; }
+
+            var gameRepSender = sender as GameReport;
+
+            if (gameRepSender == null) { return; }
+
+            int repIndex = this.gameReports.IndexOf(gameRepSender);
+
+            this.racesAreBeingAutoSet = true;
+
+            foreach (GameReport rep in this.gameReports.Where(rp => !rp.RaceIsSelectedFor(e.Playerslot))) { rep.SetRaceFor(e.Playerslot, e.SelectedRace); }
+
+            this.racesAreBeingAutoSet = false;
         }
 
         private void NextGameReport_GameDataReported(object sender, EventArgs e)

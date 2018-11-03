@@ -91,7 +91,7 @@ namespace SCEloSystemGUI.UserControls
                 Dock = DockStyle.Fill,
                 DrawMode = DrawMode.OwnerDrawFixed,
                 DropDownStyle = ComboBoxStyle.DropDownList,
-                DropDownWidth = 160,
+                DropDownWidth = 240,
                 MaxDropDownItems = 18,
                 Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 FormattingEnabled = true,

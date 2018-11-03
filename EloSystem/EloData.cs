@@ -84,7 +84,7 @@ namespace EloSystem
 
             return (RATING_CHANGE_STANDARD_MAX * (EloData.EXP_WIN_RATIO_MAX - winnerExpectedWinRatio) * EloData.RatingBonusFactorTotal(winner, winnersRace, loser, losersRace)).RoundToInt();
         }
-                /// <summary>
+        /// <summary>
         /// Returns a factor that increases the rating value changes based on the rating calibration phase that at least one player in a game is in.
         /// </summary>
         /// <param name="player"></param>
@@ -106,10 +106,10 @@ namespace EloSystem
             const int CALIBRATION_PHASE2_NO_MATCHES = 15 + CALIBRATION_PHASE1_NO_MATCHES;
             const double CALIBRATION_PHASE3_BONUSFACTOR = 0.5;
             const int CALIBRATION_PHASE3_NO_MATCHES = 30 + CALIBRATION_PHASE2_NO_MATCHES;
-            
-            if (player.Stats.GamesVs(opponentRace) < CALIBRATION_PHASE1_NO_MATCHES ) { return CALIBRATION_PHASE1_BONUSFACTOR; }
-            else if (player.Stats.GamesVs(opponentRace) < CALIBRATION_PHASE2_NO_MATCHES ) { return CALIBRATION_PHASE2_BONUSFACTOR; }
-            else if (player.Stats.GamesVs(opponentRace) < CALIBRATION_PHASE3_NO_MATCHES ) { return CALIBRATION_PHASE3_BONUSFACTOR; }
+
+            if (player.Stats.GamesVs(opponentRace) < CALIBRATION_PHASE1_NO_MATCHES) { return CALIBRATION_PHASE1_BONUSFACTOR; }
+            else if (player.Stats.GamesVs(opponentRace) < CALIBRATION_PHASE2_NO_MATCHES) { return CALIBRATION_PHASE2_BONUSFACTOR; }
+            else if (player.Stats.GamesVs(opponentRace) < CALIBRATION_PHASE3_NO_MATCHES) { return CALIBRATION_PHASE3_BONUSFACTOR; }
             else { return BONUSFACTOR_STANDARD; }
         }
 
@@ -233,14 +233,14 @@ namespace EloSystem
 
         public bool AddPlayer(string name, Team team = null, Country country = null, Image image = null)
         {
-            return this.AddPlayer(name, new string[] { }, EloSystemStaticMembers.START_RATING_DEFAULT, team, country, image);
+            return this.AddPlayer(name, new string[] { }, String.Empty, EloSystemStaticMembers.START_RATING_DEFAULT, team, country, image);
         }
 
-        public bool AddPlayer(string name, IEnumerable<string> aliases, int startRating = EloSystemStaticMembers.START_RATING_DEFAULT, Team team = null, Country country = null, Image image = null)
+        public bool AddPlayer(string name, IEnumerable<string> aliases, string irlName = "", int startRating = EloSystemStaticMembers.START_RATING_DEFAULT, Team team = null, Country country = null, Image image = null)
         {
             if (name != string.Empty && !this.players.Any(player => player.Name == name))
             {
-                this.players.Add(new SCPlayer(name, startRating, this.AddNewImage(image), aliases, team, country));
+                this.players.Add(new SCPlayer(name, startRating, this.AddNewImage(image), aliases, team, country) { IRLName = irlName });
                 this.DataWasChanged = true;
                 return true;
             }

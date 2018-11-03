@@ -82,7 +82,8 @@ namespace SCEloSystemGUI
                 case ContentTypes.Player:
                     var playerAdder = e.ContentAdder as PlayerAdder;
 
-                    this.eloSystem.AddPlayer(playerAdder.ContentName, playerAdder.GetAliases(), playerAdder.StartRating, playerAdder.SelectedTeam, playerAdder.SelectedCountry, playerAdder.SelectedImage);
+                    this.eloSystem.AddPlayer(playerAdder.ContentName, playerAdder.GetAliases(), playerAdder.IRLName, playerAdder.StartRating, playerAdder.SelectedTeam, playerAdder.SelectedCountry
+                        , playerAdder.SelectedImage);
 
                     break;
                 case ContentTypes.Team: this.eloSystem.AddTeam(adder.ContentName, adder.SelectedImage); break;

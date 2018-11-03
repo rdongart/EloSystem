@@ -389,7 +389,7 @@
             this.tblLOPnlPlayers.Name = "tblLOPnlPlayers";
             this.tblLOPnlPlayers.Padding = new System.Windows.Forms.Padding(16);
             this.tblLOPnlPlayers.RowCount = 2;
-            this.tblLOPnlPlayers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 390F));
+            this.tblLOPnlPlayers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 420F));
             this.tblLOPnlPlayers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLOPnlPlayers.Size = new System.Drawing.Size(931, 686);
             this.tblLOPnlPlayers.TabIndex = 1;

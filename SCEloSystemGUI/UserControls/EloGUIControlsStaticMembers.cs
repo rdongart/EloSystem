@@ -57,11 +57,13 @@ namespace SCEloSystemGUI.UserControls
 
             };
 
+            Func<SCPlayer, bool> HasExtraIdentifiers = player => { return player.IRLName != String.Empty || player.Team != null; };
+
             imgCmbBx.DisplayMember = "Item1";
             imgCmbBx.ValueMember = "Item2";
             imgCmbBx.ImageMember = "Item3";
 
-            var items = eloSystem.GetPlayers().OrderBy(scPlayer => scPlayer.Name).Select(scPlayer => Tuple.Create<string, SCPlayer, Image>(scPlayer.Name, scPlayer, GetImage(scPlayer))).ToList();
+            var items = eloSystem.GetPlayers().OrderBy(scPlayer => scPlayer.Name).Select(scPlayer => Tuple.Create<string, SCPlayer, Image>(String.Format("{0} {1}", scPlayer.Name, HasExtraIdentifiers(scPlayer) ? "(" + scPlayer.TeamName + " | " + scPlayer.IRLName + ")" : String.Empty), scPlayer, GetImage(scPlayer))).ToList();
 
             imgCmbBx.DataSource = items;
 

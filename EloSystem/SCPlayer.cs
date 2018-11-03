@@ -13,15 +13,7 @@ namespace EloSystem
 
         private List<string> aliases;
         public Country Country { get; set; }
-        public WinRateCounter Stats { get; private set; }
         public ResultVariables RatingsVs { get; private set; }
-        public string TeamName
-        {
-            get
-            {
-                return this.Team == null ? "" : this.Team.Name;
-            }
-        }
         public string Nationality
         {
             get
@@ -29,7 +21,16 @@ namespace EloSystem
                 return this.Country == null ? "" : this.Country.Name;
             }
         }
+        public string IRLName { get; set; }
+        public string TeamName
+        {
+            get
+            {
+                return this.Team == null ? "" : this.Team.Name;
+            }
+        }
         public Team Team { get; set; }
+        public WinRateCounter Stats { get; private set; }
 
         internal SCPlayer(string name, int startRating, int imageID, Team team = null, Country nationality = null)
             : this(name, startRating, imageID, new string[] { }, team, nationality)
@@ -53,7 +54,7 @@ namespace EloSystem
         #region Implementing ISerializable
         private enum Field
         {
-            Aliases, GameStats, Name, Country, Ratings, Team
+            Aliases, GameStats, IRLName, Name, Country, Ratings, Team
         }
         new public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -64,6 +65,7 @@ namespace EloSystem
             if (this.Country != null) { info.AddValue(Field.Country.ToString(), (Country)this.Country); }
 
             info.AddValue(Field.GameStats.ToString(), (WinRateCounter)this.Stats);
+            info.AddValue(Field.IRLName.ToString(), (string)this.IRLName);
             info.AddValue(Field.Ratings.ToString(), (ResultVariables)this.RatingsVs);
 
             if (this.Team != null) { info.AddValue(Field.Team.ToString(), (Team)this.Team); }
@@ -81,6 +83,7 @@ namespace EloSystem
                         case Field.Aliases: this.aliases = (List<string>)info.GetValue(field.ToString(), typeof(List<string>)); break;
                         case Field.Country: this.Country = (Country)info.GetValue(field.ToString(), typeof(Country)); break;
                         case Field.GameStats: this.Stats = (WinRateCounter)info.GetValue(field.ToString(), typeof(WinRateCounter)); break;
+                        case Field.IRLName: this.IRLName = (string)info.GetString(field.ToString()); break;
                         case Field.Ratings: this.RatingsVs = (ResultVariables)info.GetValue(field.ToString(), typeof(ResultVariables)); break;
                         case Field.Team: this.Team = (Team)info.GetValue(field.ToString(), typeof(Team)); break;
                     }
@@ -137,8 +140,8 @@ namespace EloSystem
             if (this.Stats.GamesTotal() <= 0) { return Race.Random; }
 
             // make groups of all the opponent races where the player plays the same race and order so the most played race grouping is on top
-            var groupingBySubPrimary = Enum.GetValues(typeof(Race)).Cast<Race>().Where(race=> this.Stats.GamesWith(race)>0).Select(race => new { SubPrimary = this.GetPrimaryRaceVs(race) }).GroupBy(item =>
-                item.SubPrimary).OrderByDescending(grouping => grouping.Count()).ToList();
+            var groupingBySubPrimary = Enum.GetValues(typeof(Race)).Cast<Race>().Where(race => this.Stats.GamesWith(race) > 0).Select(race => new { SubPrimary = this.GetPrimaryRaceVs(race) }).GroupBy(item =>
+                   item.SubPrimary).OrderByDescending(grouping => grouping.Count()).ToList();
 
             // check if the first place is different from the second place
             if (groupingBySubPrimary.Count > 1 && groupingBySubPrimary[0].Count() > groupingBySubPrimary[1].Count()) { return groupingBySubPrimary[0].Key; }

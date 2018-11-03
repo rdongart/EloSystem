@@ -13,7 +13,7 @@ namespace SCEloSystemGUI.UserControls
     internal partial class PlayerAdder : UserControl, IContentAdder
     {
         internal const string DEFAULT_TXTBXALIAS_TEXT = "Type alias here...";
-
+        
         internal Country SelectedCountry
         {
             get
@@ -60,7 +60,14 @@ namespace SCEloSystemGUI.UserControls
                 return this.txtBxName.Text;
             }
         }
-
+        public string IRLName
+        {
+            get
+            {
+                return this.txtBxIRLName.Text;
+            }
+        }
+        
         internal PlayerAdder()
         {
             InitializeComponent();
@@ -74,10 +81,12 @@ namespace SCEloSystemGUI.UserControls
             this.numUDStartRating.Value = EloSystemStaticMembers.START_RATING_DEFAULT;
 
             this.ImgCmbBxCountries = PlayerAdder.CreateStandardImageComboBox();
-            this.tblLOPnlPlayerAdder.Controls.Add(this.ImgCmbBxCountries, 1, 4);
+            this.ImgCmbBxCountries.TabIndex = 6;
+            this.tblLOPnlPlayerAdder.Controls.Add(this.ImgCmbBxCountries, 1, 5);
 
             this.ImgCmbBxTeams = PlayerAdder.CreateStandardImageComboBox();
-            this.tblLOPnlPlayerAdder.Controls.Add(this.ImgCmbBxTeams, 1, 5);
+            this.ImgCmbBxTeams.TabIndex = 7;
+            this.tblLOPnlPlayerAdder.Controls.Add(this.ImgCmbBxTeams, 1, 6);
         }
 
         private static ImageComboBox CreateStandardImageComboBox()
@@ -153,6 +162,8 @@ namespace SCEloSystemGUI.UserControls
             if (this.SelectedImage != null) { this.SelectedImage.Dispose(); }
 
             this.lbFileName.Text = string.Empty;
+
+            this.txtBxIRLName.Text = string.Empty;
             this.txtBxName.Text = EloGUIControlsStaticMembers.DEFAULT_TXTBX_TEXT;
             this.txtBxAlias.Text = PlayerAdder.DEFAULT_TXTBXALIAS_TEXT;
             this.lstViewAliases.Items.Clear();

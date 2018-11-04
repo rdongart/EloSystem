@@ -79,14 +79,14 @@ namespace SCEloSystemGUI.UserControls
             this.lbPlRatingVsZerg.Text = player.RatingsVs.Zerg.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
 
             this.lbPlWRMain.Text = player.Stats.GamesTotal() > 0 ?
-                String.Format("{0}% ({1}/{2}", (100 * player.Stats.WinRatioTotal()).RoundToInt(), player.Stats.WinsTotal(), player.Stats.GamesTotal()) : PlayerMatchStatsDisplay.INFORMATION_NA;
-            this.lbPlWRVsProtoss.Text = player.Stats.GamesVs(Race.Protoss) > 0 ? String.Format("{0}% ({1}/{2}", (100 * player.Stats.WinRatioVs(Race.Protoss)).RoundToInt(), player.Stats.WinsVs(Race.Protoss)
+                String.Format("{0}% ({1}/{2})", (100 * player.Stats.WinRatioTotal()).RoundToInt(), player.Stats.WinsTotal(), player.Stats.GamesTotal()) : PlayerMatchStatsDisplay.INFORMATION_NA;
+            this.lbPlWRVsProtoss.Text = player.Stats.GamesVs(Race.Protoss) > 0 ? String.Format("{0}% ({1}/{2})", (100 * player.Stats.WinRatioVs(Race.Protoss)).RoundToInt(), player.Stats.WinsVs(Race.Protoss)
                 , player.Stats.GamesVs(Race.Protoss)) : PlayerMatchStatsDisplay.INFORMATION_NA;
-            this.lbPlWRVsRandom.Text = player.Stats.GamesVs(Race.Random) > 0 ? String.Format("{0}% ({1}/{2}", (100 * player.Stats.WinRatioVs(Race.Random)).RoundToInt(), player.Stats.WinsVs(Race.Random)
+            this.lbPlWRVsRandom.Text = player.Stats.GamesVs(Race.Random) > 0 ? String.Format("{0}% ({1}/{2})", (100 * player.Stats.WinRatioVs(Race.Random)).RoundToInt(), player.Stats.WinsVs(Race.Random)
                 , player.Stats.GamesVs(Race.Random)) : PlayerMatchStatsDisplay.INFORMATION_NA;
-            this.lbPlWRVsTerran.Text = player.Stats.GamesVs(Race.Terran) > 0 ? String.Format("{0}% ({1}/{2}", (100 * player.Stats.WinRatioVs(Race.Terran)).RoundToInt(), player.Stats.WinsVs(Race.Terran)
+            this.lbPlWRVsTerran.Text = player.Stats.GamesVs(Race.Terran) > 0 ? String.Format("{0}% ({1}/{2})", (100 * player.Stats.WinRatioVs(Race.Terran)).RoundToInt(), player.Stats.WinsVs(Race.Terran)
                 , player.Stats.GamesVs(Race.Terran)) : PlayerMatchStatsDisplay.INFORMATION_NA;
-            this.lbPlWRVsZerg.Text = player.Stats.GamesVs(Race.Zerg) > 0 ? String.Format("{0}% ({1}/{2}", (100 * player.Stats.WinRatioVs(Race.Zerg)).RoundToInt(), player.Stats.WinsVs(Race.Zerg)
+            this.lbPlWRVsZerg.Text = player.Stats.GamesVs(Race.Zerg) > 0 ? String.Format("{0}% ({1}/{2})", (100 * player.Stats.WinRatioVs(Race.Zerg)).RoundToInt(), player.Stats.WinsVs(Race.Zerg)
                 , player.Stats.GamesVs(Race.Zerg)) : PlayerMatchStatsDisplay.INFORMATION_NA;
         }
 

@@ -36,6 +36,13 @@ namespace SCEloSystemGUI.UserControls
             }
         }
         private ContentTypes contentType;
+        public bool BirthDateWasSet
+        {
+            get
+            {
+                return this.chkBxShowDateTimeAdder.Checked;
+            }
+        }
         public ContentTypes ContentType
         {
             get
@@ -47,6 +54,13 @@ namespace SCEloSystemGUI.UserControls
                 this.lbHeading.Text = String.Format("Create new {0}", value.ToString().ToLower());
 
                 this.contentType = value;
+            }
+        }
+        public DateTime BirthDate
+        {
+            get
+            {
+                return this.dateTimePickerBirthDate.Value;
             }
         }
         public event EventHandler<ContentAddingEventArgs> OnAddButtonClick = delegate { };
@@ -67,7 +81,7 @@ namespace SCEloSystemGUI.UserControls
                 return this.txtBxIRLName.Text;
             }
         }
-        
+
         internal PlayerAdder()
         {
             InitializeComponent();
@@ -81,12 +95,12 @@ namespace SCEloSystemGUI.UserControls
             this.numUDStartRating.Value = EloSystemStaticMembers.START_RATING_DEFAULT;
 
             this.ImgCmbBxCountries = PlayerAdder.CreateStandardImageComboBox();
-            this.ImgCmbBxCountries.TabIndex = 6;
-            this.tblLOPnlPlayerAdder.Controls.Add(this.ImgCmbBxCountries, 1, 5);
+            this.ImgCmbBxCountries.TabIndex = 7;
+            this.tblLOPnlPlayerAdder.Controls.Add(this.ImgCmbBxCountries, 1, 6);
 
             this.ImgCmbBxTeams = PlayerAdder.CreateStandardImageComboBox();
-            this.ImgCmbBxTeams.TabIndex = 7;
-            this.tblLOPnlPlayerAdder.Controls.Add(this.ImgCmbBxTeams, 1, 6);
+            this.ImgCmbBxTeams.TabIndex = 8;
+            this.tblLOPnlPlayerAdder.Controls.Add(this.ImgCmbBxTeams, 1, 7);
         }
 
         private static ImageComboBox CreateStandardImageComboBox()
@@ -173,6 +187,7 @@ namespace SCEloSystemGUI.UserControls
             this.btnAdd.Enabled = false;
             this.btnAddAlias.Enabled = false;
             this.btnRemoveAlias.Enabled = false;
+            this.chkBxShowDateTimeAdder.Checked = false;
         }
 
         public IEnumerable<string> GetAliases()
@@ -190,6 +205,11 @@ namespace SCEloSystemGUI.UserControls
         private void lbFileName_TextChanged(object sender, EventArgs e)
         {
             this.btnRemoveImage.Enabled = this.lbFileName.Text != string.Empty;
+        }
+
+        private void chkBxShowDateTimeAdder_CheckedChanged(object sender, EventArgs e)
+        {
+            this.dateTimePickerBirthDate.Visible = this.chkBxShowDateTimeAdder.Checked;
         }
     }
 }

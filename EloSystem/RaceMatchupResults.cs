@@ -82,27 +82,35 @@ namespace EloSystem
             else if (this.race2 == raceWinner) { this.Race2Wins++; }
             else { return; }
 
-            this.race1ExpWinRatio = EloData.ExpectedWinRatio(race1Rating, race2Rating);
+            this.race1ExpWinRatio += EloData.ExpectedWinRatio(race1Rating, race2Rating);
         }
 
-        internal double WinRatioRace1()
+        public double WinRatioRace1()
         {
             return this.Race1Wins / (double)(this.Race1Wins + this.Race2Wins);
         }
 
-        internal double WinRatioRace2()
+        public double WinRatioRace2()
         {
             return this.Race2Wins / (double)(this.Race1Wins + this.Race2Wins);
         }
 
-        internal double WinRatioRace1CorrectedForExpectedWR()
+        /// <summary>
+        /// The win ratio taking previous matchups' players' rating values into account.
+        /// </summary>
+        /// <returns></returns>
+        public double WinRatioRace1CorrectedForExpectedWR()
         {
             return RaceMatchupResults.CorrectedWinRatio(this.race1ExpWinRatio / (double)this.TotalGames, this.WinRatioRace1());
         }
 
-        internal double WinRatioRace2CorrectedForExpectedWR()
+        /// <summary>
+        /// The win ratio taking previous matchups' players' rating values into account.
+        /// </summary>
+        /// <returns></returns>
+        public double WinRatioRace2CorrectedForExpectedWR()
         {
-            return RaceMatchupResults.CorrectedWinRatio((EloData.EXP_WIN_RATIO_MAX - this.race1ExpWinRatio) / (double)this.TotalGames, this.WinRatioRace1());
+            return EloData.EXP_WIN_RATIO_MAX - this.WinRatioRace1CorrectedForExpectedWR();
         }
     }
 }

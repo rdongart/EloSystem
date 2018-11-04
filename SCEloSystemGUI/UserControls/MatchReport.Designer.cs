@@ -58,9 +58,9 @@
             this.tblLOPnlMatchReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 105F));
             this.tblLOPnlMatchReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
             this.tblLOPnlMatchReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tblLOPnlMatchReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tblLOPnlMatchReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
             this.tblLOPnlMatchReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 170F));
-            this.tblLOPnlMatchReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tblLOPnlMatchReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
             this.tblLOPnlMatchReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tblLOPnlMatchReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
             this.tblLOPnlMatchReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 105F));
@@ -97,9 +97,9 @@
             this.tblLOPnlMatchReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tblLOPnlMatchReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tblLOPnlMatchReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tblLOPnlMatchReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
+            this.tblLOPnlMatchReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 68F));
             this.tblLOPnlMatchReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlMatchReport.Size = new System.Drawing.Size(925, 396);
+            this.tblLOPnlMatchReport.Size = new System.Drawing.Size(955, 416);
             this.tblLOPnlMatchReport.TabIndex = 0;
             // 
             // label1
@@ -108,7 +108,7 @@
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(117, 376);
+            this.label1.Location = new System.Drawing.Point(117, 396);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(101, 17);
@@ -123,7 +123,7 @@
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(222, 359);
+            this.label4.Location = new System.Drawing.Point(222, 379);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(81, 34);
@@ -137,7 +137,7 @@
             this.label6.AutoSize = true;
             this.label6.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(307, 376);
+            this.label6.Location = new System.Drawing.Point(307, 396);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(56, 17);
@@ -152,10 +152,10 @@
             this.label7.AutoSize = true;
             this.label7.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(367, 376);
+            this.label7.Location = new System.Drawing.Point(367, 396);
             this.label7.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(56, 17);
+            this.label7.Size = new System.Drawing.Size(71, 17);
             this.label7.TabIndex = 0;
             this.label7.Text = "EWRM";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -167,7 +167,7 @@
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(427, 376);
+            this.label2.Location = new System.Drawing.Point(442, 396);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(166, 17);
@@ -181,14 +181,14 @@
             this.label8.AutoSize = true;
             this.label8.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(597, 376);
+            this.label8.Location = new System.Drawing.Point(612, 396);
             this.label8.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(56, 17);
+            this.label8.Size = new System.Drawing.Size(71, 17);
             this.label8.TabIndex = 0;
             this.label8.Text = "EWRM";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTipMatchReport.SetToolTip(this.label8, "Expected Win Ratio");
+            this.toolTipMatchReport.SetToolTip(this.label8, "EWR on the selected map");
             // 
             // label9
             // 
@@ -196,14 +196,14 @@
             this.label9.AutoSize = true;
             this.label9.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(657, 376);
+            this.label9.Location = new System.Drawing.Point(687, 396);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(56, 17);
             this.label9.TabIndex = 0;
             this.label9.Text = "EWR";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTipMatchReport.SetToolTip(this.label9, "EWR on the selected map");
+            this.toolTipMatchReport.SetToolTip(this.label9, "Expected Win Ratio");
             // 
             // label5
             // 
@@ -211,7 +211,7 @@
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(717, 359);
+            this.label5.Location = new System.Drawing.Point(747, 379);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(81, 34);
@@ -225,7 +225,7 @@
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(802, 376);
+            this.label3.Location = new System.Drawing.Point(832, 396);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(101, 17);
@@ -243,7 +243,7 @@
             this.label10.Location = new System.Drawing.Point(223, 3);
             this.label10.Margin = new System.Windows.Forms.Padding(3);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(574, 42);
+            this.label10.Size = new System.Drawing.Size(604, 42);
             this.label10.TabIndex = 0;
             this.label10.Text = "Report Match";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -270,7 +270,7 @@
             this.tblLOPnlMatchReport.SetColumnSpan(this.label12, 4);
             this.label12.Dock = System.Windows.Forms.DockStyle.Right;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(773, 51);
+            this.label12.Location = new System.Drawing.Point(803, 51);
             this.label12.Margin = new System.Windows.Forms.Padding(3);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(129, 26);
@@ -284,7 +284,7 @@
             this.label13.AutoSize = true;
             this.label13.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(428, 57);
+            this.label13.Location = new System.Drawing.Point(443, 57);
             this.label13.Margin = new System.Windows.Forms.Padding(3);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(164, 20);
@@ -298,7 +298,7 @@
             this.label29.AutoSize = true;
             this.label29.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(428, 140);
+            this.label29.Location = new System.Drawing.Point(443, 140);
             this.label29.Margin = new System.Windows.Forms.Padding(3);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(164, 17);
@@ -309,8 +309,8 @@
             // btnAddGame
             // 
             this.btnAddGame.AutoSize = true;
-            this.btnAddGame.Location = new System.Drawing.Point(6, 360);
-            this.btnAddGame.Margin = new System.Windows.Forms.Padding(6, 12, 6, 6);
+            this.btnAddGame.Location = new System.Drawing.Point(6, 380);
+            this.btnAddGame.Margin = new System.Windows.Forms.Padding(6, 32, 6, 6);
             this.btnAddGame.Name = "btnAddGame";
             this.btnAddGame.Size = new System.Drawing.Size(103, 30);
             this.btnAddGame.TabIndex = 1;
@@ -321,7 +321,7 @@
             // btnEnterMatchReport
             // 
             this.btnEnterMatchReport.Enabled = false;
-            this.btnEnterMatchReport.Location = new System.Drawing.Point(806, 6);
+            this.btnEnterMatchReport.Location = new System.Drawing.Point(836, 6);
             this.btnEnterMatchReport.Margin = new System.Windows.Forms.Padding(6);
             this.btnEnterMatchReport.Name = "btnEnterMatchReport";
             this.btnEnterMatchReport.Size = new System.Drawing.Size(93, 36);
@@ -334,11 +334,12 @@
             // 
             this.pnlGameReports.AutoScroll = true;
             this.pnlGameReports.AutoScrollMargin = new System.Drawing.Size(0, 5);
-            this.pnlGameReports.Location = new System.Drawing.Point(0, 396);
+            this.pnlGameReports.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlGameReports.Location = new System.Drawing.Point(0, 416);
             this.pnlGameReports.Margin = new System.Windows.Forms.Padding(0);
             this.pnlGameReports.Name = "pnlGameReports";
             this.pnlGameReports.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
-            this.pnlGameReports.Size = new System.Drawing.Size(925, 294);
+            this.pnlGameReports.Size = new System.Drawing.Size(955, 334);
             this.pnlGameReports.TabIndex = 1;
             // 
             // MatchReport
@@ -350,7 +351,7 @@
             this.Controls.Add(this.tblLOPnlMatchReport);
             this.DoubleBuffered = true;
             this.Name = "MatchReport";
-            this.Size = new System.Drawing.Size(925, 690);
+            this.Size = new System.Drawing.Size(955, 750);
             this.tblLOPnlMatchReport.ResumeLayout(false);
             this.tblLOPnlMatchReport.PerformLayout();
             this.ResumeLayout(false);

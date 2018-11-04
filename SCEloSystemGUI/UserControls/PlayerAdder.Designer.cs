@@ -51,11 +51,16 @@
             this.btnRemoveImage = new System.Windows.Forms.Button();
             this.txtBxIRLName = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.chkBxShowDateTimeAdder = new System.Windows.Forms.CheckBox();
+            this.dateTimePickerBirthDate = new System.Windows.Forms.DateTimePicker();
             this.tblLOPnlPlayerAdder.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUDStartRating)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tblLOPnlPlayerAdder
@@ -69,21 +74,24 @@
             this.tblLOPnlPlayerAdder.Controls.Add(this.txtBxName, 1, 1);
             this.tblLOPnlPlayerAdder.Controls.Add(this.lbHeading, 0, 0);
             this.tblLOPnlPlayerAdder.Controls.Add(this.label1, 0, 1);
-            this.tblLOPnlPlayerAdder.Controls.Add(this.btnAdd, 1, 8);
-            this.tblLOPnlPlayerAdder.Controls.Add(this.tableLayoutPanel2, 0, 4);
-            this.tblLOPnlPlayerAdder.Controls.Add(this.label3, 0, 3);
-            this.tblLOPnlPlayerAdder.Controls.Add(this.label4, 0, 5);
-            this.tblLOPnlPlayerAdder.Controls.Add(this.label5, 0, 6);
-            this.tblLOPnlPlayerAdder.Controls.Add(this.label6, 0, 7);
-            this.tblLOPnlPlayerAdder.Controls.Add(this.tableLayoutPanel3, 1, 3);
-            this.tblLOPnlPlayerAdder.Controls.Add(this.numUDStartRating, 1, 7);
-            this.tblLOPnlPlayerAdder.Controls.Add(this.tableLayoutPanel1, 1, 4);
+            this.tblLOPnlPlayerAdder.Controls.Add(this.btnAdd, 1, 9);
+            this.tblLOPnlPlayerAdder.Controls.Add(this.tableLayoutPanel2, 0, 5);
+            this.tblLOPnlPlayerAdder.Controls.Add(this.label3, 0, 4);
+            this.tblLOPnlPlayerAdder.Controls.Add(this.label4, 0, 6);
+            this.tblLOPnlPlayerAdder.Controls.Add(this.label5, 0, 7);
+            this.tblLOPnlPlayerAdder.Controls.Add(this.label6, 0, 8);
+            this.tblLOPnlPlayerAdder.Controls.Add(this.tableLayoutPanel3, 1, 4);
+            this.tblLOPnlPlayerAdder.Controls.Add(this.numUDStartRating, 1, 8);
+            this.tblLOPnlPlayerAdder.Controls.Add(this.tableLayoutPanel1, 1, 5);
             this.tblLOPnlPlayerAdder.Controls.Add(this.txtBxIRLName, 1, 2);
             this.tblLOPnlPlayerAdder.Controls.Add(this.label7, 0, 2);
+            this.tblLOPnlPlayerAdder.Controls.Add(this.label8, 0, 3);
+            this.tblLOPnlPlayerAdder.Controls.Add(this.tableLayoutPanel4, 1, 3);
             this.tblLOPnlPlayerAdder.Location = new System.Drawing.Point(0, 0);
             this.tblLOPnlPlayerAdder.Margin = new System.Windows.Forms.Padding(0);
             this.tblLOPnlPlayerAdder.Name = "tblLOPnlPlayerAdder";
-            this.tblLOPnlPlayerAdder.RowCount = 11;
+            this.tblLOPnlPlayerAdder.RowCount = 12;
+            this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -95,7 +103,7 @@
             this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlPlayerAdder.Size = new System.Drawing.Size(400, 400);
+            this.tblLOPnlPlayerAdder.Size = new System.Drawing.Size(400, 430);
             this.tblLOPnlPlayerAdder.TabIndex = 1;
             // 
             // txtBxName
@@ -118,7 +126,7 @@
             this.lbHeading.Location = new System.Drawing.Point(3, 0);
             this.lbHeading.Name = "lbHeading";
             this.lbHeading.Size = new System.Drawing.Size(374, 30);
-            this.lbHeading.TabIndex = 1;
+            this.lbHeading.TabIndex = 21;
             this.lbHeading.Text = "[missing]";
             this.lbHeading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -130,7 +138,7 @@
             this.label1.Location = new System.Drawing.Point(3, 30);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(134, 30);
-            this.label1.TabIndex = 2;
+            this.label1.TabIndex = 21;
             this.label1.Text = "Name";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -140,11 +148,11 @@
             this.btnAdd.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnAdd.Enabled = false;
             this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAdd.Location = new System.Drawing.Point(254, 344);
+            this.btnAdd.Location = new System.Drawing.Point(254, 374);
             this.btnAdd.Margin = new System.Windows.Forms.Padding(6, 14, 6, 4);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(120, 32);
-            this.btnAdd.TabIndex = 8;
+            this.btnAdd.TabIndex = 10;
             this.btnAdd.Text = "A&dd to system";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -158,7 +166,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Controls.Add(this.label2, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnBrowse, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 210);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 240);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
@@ -174,7 +182,7 @@
             this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(54, 30);
-            this.label2.TabIndex = 2;
+            this.label2.TabIndex = 21;
             this.label2.Text = "Image";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -186,7 +194,7 @@
             this.btnBrowse.Margin = new System.Windows.Forms.Padding(4);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(72, 22);
-            this.btnBrowse.TabIndex = 4;
+            this.btnBrowse.TabIndex = 6;
             this.btnBrowse.Text = "&Browse...";
             this.btnBrowse.UseVisualStyleBackColor = true;
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
@@ -196,10 +204,10 @@
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(3, 90);
+            this.label3.Location = new System.Drawing.Point(3, 120);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(134, 120);
-            this.label3.TabIndex = 2;
+            this.label3.TabIndex = 21;
             this.label3.Text = "Aliases";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -208,10 +216,10 @@
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(3, 240);
+            this.label4.Location = new System.Drawing.Point(3, 270);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(134, 30);
-            this.label4.TabIndex = 2;
+            this.label4.TabIndex = 21;
             this.label4.Text = "Country";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -220,10 +228,10 @@
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(3, 270);
+            this.label5.Location = new System.Drawing.Point(3, 300);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(134, 30);
-            this.label5.TabIndex = 2;
+            this.label5.TabIndex = 21;
             this.label5.Text = "Team";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -232,10 +240,10 @@
             this.label6.AutoSize = true;
             this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(3, 300);
+            this.label6.Location = new System.Drawing.Point(3, 330);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(134, 30);
-            this.label6.TabIndex = 2;
+            this.label6.TabIndex = 21;
             this.label6.Text = "Start rating";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -249,7 +257,7 @@
             this.tableLayoutPanel3.Controls.Add(this.btnRemoveAlias, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.lstViewAliases, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(143, 93);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(143, 123);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -265,7 +273,7 @@
             this.txtBxAlias.Margin = new System.Windows.Forms.Padding(3, 3, 3, 1);
             this.txtBxAlias.Name = "txtBxAlias";
             this.txtBxAlias.Size = new System.Drawing.Size(200, 23);
-            this.txtBxAlias.TabIndex = 2;
+            this.txtBxAlias.TabIndex = 4;
             this.txtBxAlias.TextChanged += new System.EventHandler(this.txtBxAlias_TextChanged);
             // 
             // btnAddAlias
@@ -277,7 +285,7 @@
             this.btnAddAlias.Margin = new System.Windows.Forms.Padding(4, 4, 3, 1);
             this.btnAddAlias.Name = "btnAddAlias";
             this.btnAddAlias.Size = new System.Drawing.Size(21, 22);
-            this.btnAddAlias.TabIndex = 3;
+            this.btnAddAlias.TabIndex = 5;
             this.btnAddAlias.Text = "+";
             this.btnAddAlias.UseVisualStyleBackColor = true;
             this.btnAddAlias.Click += new System.EventHandler(this.btnAddAlias_Click);
@@ -291,7 +299,7 @@
             this.btnRemoveAlias.Margin = new System.Windows.Forms.Padding(4, 4, 3, 4);
             this.btnRemoveAlias.Name = "btnRemoveAlias";
             this.btnRemoveAlias.Size = new System.Drawing.Size(21, 22);
-            this.btnRemoveAlias.TabIndex = 3;
+            this.btnRemoveAlias.TabIndex = 16;
             this.btnRemoveAlias.Text = "-";
             this.btnRemoveAlias.UseVisualStyleBackColor = true;
             this.btnRemoveAlias.Click += new System.EventHandler(this.btnRemoveAlias_Click);
@@ -304,7 +312,7 @@
             this.lstViewAliases.Margin = new System.Windows.Forms.Padding(0);
             this.lstViewAliases.Name = "lstViewAliases";
             this.lstViewAliases.Size = new System.Drawing.Size(206, 84);
-            this.lstViewAliases.TabIndex = 4;
+            this.lstViewAliases.TabIndex = 15;
             this.lstViewAliases.UseCompatibleStateImageBehavior = false;
             this.lstViewAliases.View = System.Windows.Forms.View.List;
             this.lstViewAliases.SelectedIndexChanged += new System.EventHandler(this.lstViewAliases_SelectedIndexChanged);
@@ -313,12 +321,12 @@
             // 
             this.numUDStartRating.Dock = System.Windows.Forms.DockStyle.Fill;
             this.numUDStartRating.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numUDStartRating.Location = new System.Drawing.Point(146, 303);
+            this.numUDStartRating.Location = new System.Drawing.Point(146, 333);
             this.numUDStartRating.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             this.numUDStartRating.Name = "numUDStartRating";
             this.numUDStartRating.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.numUDStartRating.Size = new System.Drawing.Size(228, 23);
-            this.numUDStartRating.TabIndex = 7;
+            this.numUDStartRating.TabIndex = 9;
             this.numUDStartRating.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numUDStartRating.ThousandsSeparator = true;
             // 
@@ -330,7 +338,7 @@
             this.tableLayoutPanel1.Controls.Add(this.lbFileName, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnRemoveImage, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(143, 213);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(143, 243);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -346,7 +354,7 @@
             this.lbFileName.Margin = new System.Windows.Forms.Padding(0, 3, 6, 3);
             this.lbFileName.Name = "lbFileName";
             this.lbFileName.Size = new System.Drawing.Size(200, 18);
-            this.lbFileName.TabIndex = 2;
+            this.lbFileName.TabIndex = 20;
             this.lbFileName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lbFileName.TextChanged += new System.EventHandler(this.lbFileName_TextChanged);
             // 
@@ -360,7 +368,7 @@
             this.btnRemoveImage.Margin = new System.Windows.Forms.Padding(4, 1, 3, 1);
             this.btnRemoveImage.Name = "btnRemoveImage";
             this.btnRemoveImage.Size = new System.Drawing.Size(21, 22);
-            this.btnRemoveImage.TabIndex = 3;
+            this.btnRemoveImage.TabIndex = 17;
             this.btnRemoveImage.Text = "x";
             this.btnRemoveImage.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnRemoveImage.UseVisualStyleBackColor = true;
@@ -384,9 +392,58 @@
             this.label7.Location = new System.Drawing.Point(3, 60);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(134, 30);
-            this.label7.TabIndex = 2;
+            this.label7.TabIndex = 21;
             this.label7.Text = "IRL-name";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(3, 90);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(134, 30);
+            this.label8.TabIndex = 21;
+            this.label8.Text = "Birth Date";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Controls.Add(this.chkBxShowDateTimeAdder, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.dateTimePickerBirthDate, 1, 0);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(146, 93);
+            this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(228, 24);
+            this.tableLayoutPanel4.TabIndex = 22;
+            // 
+            // chkBxShowDateTimeAdder
+            // 
+            this.chkBxShowDateTimeAdder.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chkBxShowDateTimeAdder.Location = new System.Drawing.Point(3, 0);
+            this.chkBxShowDateTimeAdder.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.chkBxShowDateTimeAdder.Name = "chkBxShowDateTimeAdder";
+            this.chkBxShowDateTimeAdder.Size = new System.Drawing.Size(17, 24);
+            this.chkBxShowDateTimeAdder.TabIndex = 2;
+            this.chkBxShowDateTimeAdder.UseVisualStyleBackColor = true;
+            this.chkBxShowDateTimeAdder.CheckedChanged += new System.EventHandler(this.chkBxShowDateTimeAdder_CheckedChanged);
+            // 
+            // dateTimePickerBirthDate
+            // 
+            this.dateTimePickerBirthDate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dateTimePickerBirthDate.Location = new System.Drawing.Point(23, 0);
+            this.dateTimePickerBirthDate.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.dateTimePickerBirthDate.Name = "dateTimePickerBirthDate";
+            this.dateTimePickerBirthDate.Size = new System.Drawing.Size(205, 20);
+            this.dateTimePickerBirthDate.TabIndex = 3;
+            this.dateTimePickerBirthDate.Visible = false;
             // 
             // PlayerAdder
             // 
@@ -395,7 +452,7 @@
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.tblLOPnlPlayerAdder);
             this.Name = "PlayerAdder";
-            this.Size = new System.Drawing.Size(400, 400);
+            this.Size = new System.Drawing.Size(400, 430);
             this.tblLOPnlPlayerAdder.ResumeLayout(false);
             this.tblLOPnlPlayerAdder.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -404,6 +461,7 @@
             this.tableLayoutPanel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUDStartRating)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -433,5 +491,9 @@
         private System.Windows.Forms.Button btnRemoveImage;
         private System.Windows.Forms.TextBox txtBxIRLName;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.CheckBox chkBxShowDateTimeAdder;
+        private System.Windows.Forms.DateTimePicker dateTimePickerBirthDate;
     }
 }

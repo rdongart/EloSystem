@@ -272,7 +272,7 @@
             this.tabControlMain.Margin = new System.Windows.Forms.Padding(16);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(945, 718);
+            this.tabControlMain.Size = new System.Drawing.Size(945, 778);
             this.tabControlMain.TabIndex = 1;
             // 
             // tabPageReportMatch
@@ -280,7 +280,7 @@
             this.tabPageReportMatch.Location = new System.Drawing.Point(4, 22);
             this.tabPageReportMatch.Name = "tabPageReportMatch";
             this.tabPageReportMatch.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageReportMatch.Size = new System.Drawing.Size(937, 692);
+            this.tabPageReportMatch.Size = new System.Drawing.Size(937, 752);
             this.tabPageReportMatch.TabIndex = 0;
             this.tabPageReportMatch.Text = "Report Match";
             this.tabPageReportMatch.UseVisualStyleBackColor = true;
@@ -373,7 +373,7 @@
             this.tabPageAddPlayer.Location = new System.Drawing.Point(4, 22);
             this.tabPageAddPlayer.Name = "tabPageAddPlayer";
             this.tabPageAddPlayer.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAddPlayer.Size = new System.Drawing.Size(937, 692);
+            this.tabPageAddPlayer.Size = new System.Drawing.Size(937, 752);
             this.tabPageAddPlayer.TabIndex = 4;
             this.tabPageAddPlayer.Text = "Add Player";
             this.tabPageAddPlayer.UseVisualStyleBackColor = true;
@@ -389,16 +389,16 @@
             this.tblLOPnlPlayers.Name = "tblLOPnlPlayers";
             this.tblLOPnlPlayers.Padding = new System.Windows.Forms.Padding(16);
             this.tblLOPnlPlayers.RowCount = 2;
-            this.tblLOPnlPlayers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 420F));
+            this.tblLOPnlPlayers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 450F));
             this.tblLOPnlPlayers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlPlayers.Size = new System.Drawing.Size(931, 686);
+            this.tblLOPnlPlayers.Size = new System.Drawing.Size(931, 746);
             this.tblLOPnlPlayers.TabIndex = 1;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(997, 787);
+            this.ClientSize = new System.Drawing.Size(997, 847);
             this.Controls.Add(this.tabControlMain);
             this.Controls.Add(this.menuStripMainForm);
             this.MainMenuStrip = this.menuStripMainForm;

@@ -28,11 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tblLOPnlGameReport = new System.Windows.Forms.TableLayoutPanel();
             this.lbGameHeader = new System.Windows.Forms.Label();
             this.lbPl1RatingVsRace = new System.Windows.Forms.Label();
             this.lbEWRPlayer1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lbMapWRPlayer1Race = new System.Windows.Forms.Label();
             this.cmbBxPlayer1Race = new System.Windows.Forms.ComboBox();
             this.cmbBxMap = new System.Windows.Forms.ComboBox();
             this.btnRemoveGame = new System.Windows.Forms.Button();
@@ -40,11 +41,12 @@
             this.lbPl2Win = new System.Windows.Forms.Label();
             this.cmbBxPlayer2Race = new System.Windows.Forms.ComboBox();
             this.lbEWRPlayer2 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lbMapWRPlayer2Race = new System.Windows.Forms.Label();
             this.lbPl2RatingVsRace = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.rdBtnPl2Win = new System.Windows.Forms.RadioButton();
             this.rdBtnPl1Win = new System.Windows.Forms.RadioButton();
+            this.toolTipGameReport = new System.Windows.Forms.ToolTip(this.components);
             this.tblLOPnlGameReport.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -56,18 +58,17 @@
             this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 105F));
             this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
             this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
             this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 170F));
-            this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
             this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
             this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 105F));
             this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tblLOPnlGameReport.Controls.Add(this.lbGameHeader, 0, 0);
             this.tblLOPnlGameReport.Controls.Add(this.lbPl1RatingVsRace, 2, 0);
             this.tblLOPnlGameReport.Controls.Add(this.lbEWRPlayer1, 3, 0);
-            this.tblLOPnlGameReport.Controls.Add(this.label3, 4, 0);
+            this.tblLOPnlGameReport.Controls.Add(this.lbMapWRPlayer1Race, 4, 0);
             this.tblLOPnlGameReport.Controls.Add(this.cmbBxPlayer1Race, 1, 0);
             this.tblLOPnlGameReport.Controls.Add(this.cmbBxMap, 5, 0);
             this.tblLOPnlGameReport.Controls.Add(this.btnRemoveGame, 9, 1);
@@ -75,7 +76,7 @@
             this.tblLOPnlGameReport.Controls.Add(this.lbPl2Win, 8, 1);
             this.tblLOPnlGameReport.Controls.Add(this.cmbBxPlayer2Race, 9, 0);
             this.tblLOPnlGameReport.Controls.Add(this.lbEWRPlayer2, 7, 0);
-            this.tblLOPnlGameReport.Controls.Add(this.label5, 6, 0);
+            this.tblLOPnlGameReport.Controls.Add(this.lbMapWRPlayer2Race, 6, 0);
             this.tblLOPnlGameReport.Controls.Add(this.lbPl2RatingVsRace, 8, 0);
             this.tblLOPnlGameReport.Controls.Add(this.panel1, 3, 1);
             this.tblLOPnlGameReport.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
@@ -85,7 +86,7 @@
             this.tblLOPnlGameReport.RowCount = 2;
             this.tblLOPnlGameReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tblLOPnlGameReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
-            this.tblLOPnlGameReport.Size = new System.Drawing.Size(905, 88);
+            this.tblLOPnlGameReport.Size = new System.Drawing.Size(935, 88);
             this.tblLOPnlGameReport.TabIndex = 0;
             // 
             // lbGameHeader
@@ -113,7 +114,6 @@
             this.lbPl1RatingVsRace.Name = "lbPl1RatingVsRace";
             this.lbPl1RatingVsRace.Size = new System.Drawing.Size(79, 17);
             this.lbPl1RatingVsRace.TabIndex = 4;
-            this.lbPl1RatingVsRace.Text = "[missing]";
             this.lbPl1RatingVsRace.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbEWRPlayer1
@@ -125,23 +125,23 @@
             this.lbEWRPlayer1.Location = new System.Drawing.Point(308, 3);
             this.lbEWRPlayer1.Margin = new System.Windows.Forms.Padding(3);
             this.lbEWRPlayer1.Name = "lbEWRPlayer1";
-            this.lbEWRPlayer1.Size = new System.Drawing.Size(54, 34);
+            this.lbEWRPlayer1.Size = new System.Drawing.Size(54, 17);
             this.lbEWRPlayer1.TabIndex = 4;
-            this.lbEWRPlayer1.Text = "[missing]";
             this.lbEWRPlayer1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label3
+            // lbMapWRPlayer1Race
             // 
-            this.label3.AutoEllipsis = true;
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(368, 3);
-            this.label3.Margin = new System.Windows.Forms.Padding(3);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 34);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "[missing]";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbMapWRPlayer1Race.AutoEllipsis = true;
+            this.lbMapWRPlayer1Race.AutoSize = true;
+            this.lbMapWRPlayer1Race.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbMapWRPlayer1Race.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbMapWRPlayer1Race.Location = new System.Drawing.Point(368, 3);
+            this.lbMapWRPlayer1Race.Margin = new System.Windows.Forms.Padding(3);
+            this.lbMapWRPlayer1Race.Name = "lbMapWRPlayer1Race";
+            this.lbMapWRPlayer1Race.Size = new System.Drawing.Size(69, 34);
+            this.lbMapWRPlayer1Race.TabIndex = 4;
+            this.lbMapWRPlayer1Race.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTipGameReport.SetToolTip(this.lbMapWRPlayer1Race, " Player 1 Race Corrected WR on this map");
             // 
             // cmbBxPlayer1Race
             // 
@@ -160,16 +160,17 @@
             this.cmbBxMap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBxMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbBxMap.FormattingEnabled = true;
-            this.cmbBxMap.Location = new System.Drawing.Point(428, 3);
+            this.cmbBxMap.Location = new System.Drawing.Point(443, 3);
             this.cmbBxMap.Name = "cmbBxMap";
             this.cmbBxMap.Size = new System.Drawing.Size(164, 23);
             this.cmbBxMap.TabIndex = 5;
+            this.cmbBxMap.SelectedIndexChanged += new System.EventHandler(this.cmbBxMap_SelectedIndexChanged);
             // 
             // btnRemoveGame
             // 
             this.btnRemoveGame.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnRemoveGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveGame.Location = new System.Drawing.Point(806, 52);
+            this.btnRemoveGame.Location = new System.Drawing.Point(836, 52);
             this.btnRemoveGame.Margin = new System.Windows.Forms.Padding(6, 12, 6, 12);
             this.btnRemoveGame.Name = "btnRemoveGame";
             this.btnRemoveGame.Size = new System.Drawing.Size(93, 24);
@@ -201,7 +202,7 @@
             this.lbPl2Win.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPl2Win.Font = new System.Drawing.Font("Elephant", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPl2Win.ForeColor = System.Drawing.Color.ForestGreen;
-            this.lbPl2Win.Location = new System.Drawing.Point(718, 43);
+            this.lbPl2Win.Location = new System.Drawing.Point(748, 43);
             this.lbPl2Win.Margin = new System.Windows.Forms.Padding(3);
             this.lbPl2Win.Name = "lbPl2Win";
             this.lbPl2Win.Size = new System.Drawing.Size(79, 42);
@@ -215,7 +216,7 @@
             this.cmbBxPlayer2Race.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBxPlayer2Race.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbBxPlayer2Race.FormattingEnabled = true;
-            this.cmbBxPlayer2Race.Location = new System.Drawing.Point(803, 3);
+            this.cmbBxPlayer2Race.Location = new System.Drawing.Point(833, 3);
             this.cmbBxPlayer2Race.Margin = new System.Windows.Forms.Padding(3, 3, 5, 3);
             this.cmbBxPlayer2Race.Name = "cmbBxPlayer2Race";
             this.cmbBxPlayer2Race.Size = new System.Drawing.Size(97, 23);
@@ -227,26 +228,26 @@
             this.lbEWRPlayer2.AutoSize = true;
             this.lbEWRPlayer2.Dock = System.Windows.Forms.DockStyle.Top;
             this.lbEWRPlayer2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbEWRPlayer2.Location = new System.Drawing.Point(658, 3);
+            this.lbEWRPlayer2.Location = new System.Drawing.Point(688, 3);
             this.lbEWRPlayer2.Margin = new System.Windows.Forms.Padding(3);
             this.lbEWRPlayer2.Name = "lbEWRPlayer2";
-            this.lbEWRPlayer2.Size = new System.Drawing.Size(54, 34);
+            this.lbEWRPlayer2.Size = new System.Drawing.Size(54, 17);
             this.lbEWRPlayer2.TabIndex = 4;
-            this.lbEWRPlayer2.Text = "[missing]";
             this.lbEWRPlayer2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label5
+            // lbMapWRPlayer2Race
             // 
-            this.label5.AutoEllipsis = true;
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(598, 3);
-            this.label5.Margin = new System.Windows.Forms.Padding(3);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(51, 34);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "[missing]";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbMapWRPlayer2Race.AutoEllipsis = true;
+            this.lbMapWRPlayer2Race.AutoSize = true;
+            this.lbMapWRPlayer2Race.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbMapWRPlayer2Race.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbMapWRPlayer2Race.Location = new System.Drawing.Point(613, 3);
+            this.lbMapWRPlayer2Race.Margin = new System.Windows.Forms.Padding(3);
+            this.lbMapWRPlayer2Race.Name = "lbMapWRPlayer2Race";
+            this.lbMapWRPlayer2Race.Size = new System.Drawing.Size(69, 34);
+            this.lbMapWRPlayer2Race.TabIndex = 4;
+            this.lbMapWRPlayer2Race.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTipGameReport.SetToolTip(this.lbMapWRPlayer2Race, " Player 2 Race Corrected WR on this map");
             // 
             // lbPl2RatingVsRace
             // 
@@ -254,12 +255,11 @@
             this.lbPl2RatingVsRace.AutoSize = true;
             this.lbPl2RatingVsRace.Dock = System.Windows.Forms.DockStyle.Top;
             this.lbPl2RatingVsRace.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPl2RatingVsRace.Location = new System.Drawing.Point(718, 3);
+            this.lbPl2RatingVsRace.Location = new System.Drawing.Point(748, 3);
             this.lbPl2RatingVsRace.Margin = new System.Windows.Forms.Padding(3);
             this.lbPl2RatingVsRace.Name = "lbPl2RatingVsRace";
             this.lbPl2RatingVsRace.Size = new System.Drawing.Size(79, 17);
             this.lbPl2RatingVsRace.TabIndex = 4;
-            this.lbPl2RatingVsRace.Text = "[missing]";
             this.lbPl2RatingVsRace.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel1
@@ -270,7 +270,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(308, 43);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(404, 42);
+            this.panel1.Size = new System.Drawing.Size(434, 42);
             this.panel1.TabIndex = 6;
             // 
             // rdBtnPl2Win
@@ -279,7 +279,7 @@
             this.rdBtnPl2Win.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.rdBtnPl2Win.Dock = System.Windows.Forms.DockStyle.Right;
             this.rdBtnPl2Win.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdBtnPl2Win.Location = new System.Drawing.Point(355, 0);
+            this.rdBtnPl2Win.Location = new System.Drawing.Point(385, 0);
             this.rdBtnPl2Win.Name = "rdBtnPl2Win";
             this.rdBtnPl2Win.Size = new System.Drawing.Size(49, 42);
             this.rdBtnPl2Win.TabIndex = 0;
@@ -308,7 +308,7 @@
             this.Controls.Add(this.tblLOPnlGameReport);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "GameReport";
-            this.Size = new System.Drawing.Size(905, 84);
+            this.Size = new System.Drawing.Size(935, 84);
             this.tblLOPnlGameReport.ResumeLayout(false);
             this.tblLOPnlGameReport.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -324,9 +324,9 @@
         private System.Windows.Forms.Label lbGameHeader;
         private System.Windows.Forms.Label lbPl1RatingVsRace;
         private System.Windows.Forms.Label lbEWRPlayer1;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lbMapWRPlayer1Race;
         private System.Windows.Forms.Label lbPl2RatingVsRace;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lbMapWRPlayer2Race;
         private System.Windows.Forms.Label lbEWRPlayer2;
         private System.Windows.Forms.ComboBox cmbBxPlayer1Race;
         private System.Windows.Forms.ComboBox cmbBxMap;
@@ -336,5 +336,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.RadioButton rdBtnPl2Win;
         private System.Windows.Forms.RadioButton rdBtnPl1Win;
+        private System.Windows.Forms.ToolTip toolTipGameReport;
     }
 }

@@ -212,39 +212,69 @@ namespace SCEloSystemGUI.UserControls
 
         private void UpdateControlValues()
         {
-            if (this.HasSelectedRaces() && this.Player1 != null && this.Player2 != null)
+
+            if (this.HasSelectedRaces())
             {
-                // set the expected win ratio
-                double player1EWR = EloData.ExpectedWinRatio(this.Player1.RatingsVs.GetValueFor(this.racePlayer2), this.Player2.RatingsVs.GetValueFor(this.racePlayer1));
-
-                this.lbEWRPlayer1.Text = String.Format("{0}%", (100 * player1EWR).RoundToInt());
-                this.lbEWRPlayer2.Text = String.Format("{0}%", (100 * (1 - player1EWR)).RoundToInt());
-
-                if (this.WinnerPlayer != null)
+                if (this.cmbBxMap.SelectedIndex > -1)
                 {
-                    // set the rating values
-                    int ratingChange = EloData.RatingChange(this.WinnerPlayer, this.Player1 == this.WinnerPlayer ? this.racePlayer1 : this.racePlayer2, this.WinnerPlayer == this.Player1 ? this.Player2 : this.Player1
-                        , this.WinnerPlayer == this.Player1 ? this.racePlayer2 : this.racePlayer1);
+                    Tuple<string, Map> selectedMapItem = this.cmbBxMap.SelectedItem as Tuple<string, Map>;
 
-                    int player1RatingPoints = this.WinnerPlayer == this.Player1 ? ratingChange : ratingChange * -1;
+                    RaceMatchupResults stats;
 
-                    this.lbPl1RatingVsRace.Text = player1RatingPoints.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                    if (selectedMapItem != null && selectedMapItem.Item2.Stats.TryGetMatchup(this.racePlayer1, this.racePlayer2, out stats))
+                    {
+                        string statsTextA = String.Format("{0}%\n{1}/{2}", (100 * stats.WinRatioRace1CorrectedForExpectedWR()).RoundToInt(), stats.Race1Wins, stats.TotalGames);
+                        string statsTextB = String.Format("{0}%\n{1}/{2}", (100 * stats.WinRatioRace2CorrectedForExpectedWR()).RoundToInt(), stats.Race2Wins, stats.TotalGames);
 
-                    if (player1RatingPoints < 0) { this.lbPl1RatingVsRace.ForeColor = Color.Red; }
-                    else if (player1RatingPoints > 0) { this.lbPl1RatingVsRace.ForeColor = Color.ForestGreen; }
-                    else { this.lbPl1RatingVsRace.ForeColor = Color.Black; }
+                        if(this.racePlayer1 == stats.Race1)
+                        {
+                            this.lbMapWRPlayer1Race.Text = statsTextA;
+
+                            this.lbMapWRPlayer2Race.Text = statsTextB;
+                        }
+                        else
+                        {
+                            this.lbMapWRPlayer1Race.Text = statsTextB;
+
+                            this.lbMapWRPlayer2Race.Text = statsTextA;
+                        }
+                        
+                    }
+                }
+
+                if (this.Player1 != null && this.Player2 != null)
+                {
+                    // set the expected win ratio
+                    double player1EWR = EloData.ExpectedWinRatio(this.Player1.RatingsVs.GetValueFor(this.racePlayer2), this.Player2.RatingsVs.GetValueFor(this.racePlayer1));
+
+                    this.lbEWRPlayer1.Text = String.Format("{0}%", (100 * player1EWR).RoundToInt());
+                    this.lbEWRPlayer2.Text = String.Format("{0}%", (100 * (1 - player1EWR)).RoundToInt());
+
+                    if (this.WinnerPlayer != null)
+                    {
+                        // set the rating values
+                        int ratingChange = EloData.RatingChange(this.WinnerPlayer, this.Player1 == this.WinnerPlayer ? this.racePlayer1 : this.racePlayer2, this.WinnerPlayer == this.Player1 ? this.Player2 : this.Player1
+                            , this.WinnerPlayer == this.Player1 ? this.racePlayer2 : this.racePlayer1);
+
+                        int player1RatingPoints = this.WinnerPlayer == this.Player1 ? ratingChange : ratingChange * -1;
+
+                        this.lbPl1RatingVsRace.Text = player1RatingPoints == 0 ? "0" : player1RatingPoints.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+
+                        if (player1RatingPoints < 0) { this.lbPl1RatingVsRace.ForeColor = Color.Red; }
+                        else if (player1RatingPoints > 0) { this.lbPl1RatingVsRace.ForeColor = Color.ForestGreen; }
+                        else { this.lbPl1RatingVsRace.ForeColor = Color.Black; }
 
 
-                    int player2RatingPoints = this.WinnerPlayer == this.Player2 ? ratingChange : ratingChange * -1;
+                        int player2RatingPoints = this.WinnerPlayer == this.Player2 ? ratingChange : ratingChange * -1;
 
-                    this.lbPl2RatingVsRace.Text = player2RatingPoints.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                        this.lbPl2RatingVsRace.Text = player2RatingPoints == 0 ? "0" : player2RatingPoints.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
 
-                    if (player2RatingPoints < 0) { this.lbPl2RatingVsRace.ForeColor = Color.Red; }
-                    else if (player2RatingPoints > 0) { this.lbPl2RatingVsRace.ForeColor = Color.ForestGreen; }
-                    else { this.lbPl2RatingVsRace.ForeColor = Color.Black; }
+                        if (player2RatingPoints < 0) { this.lbPl2RatingVsRace.ForeColor = Color.Red; }
+                        else if (player2RatingPoints > 0) { this.lbPl2RatingVsRace.ForeColor = Color.ForestGreen; }
+                        else { this.lbPl2RatingVsRace.ForeColor = Color.Black; }
+                    }
                 }
             }
-
         }
 
         private void OnMapPoolUpdate(object sender, EventArgs e)
@@ -295,6 +325,11 @@ namespace SCEloSystemGUI.UserControls
                 case PlayerSlotType.Player2: this.cmbBxPlayer2Race.SelectedIndex = (int)race; break;
                 default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PlayerSlotType).Name, playerSlot.ToString()));
             }
+        }
+
+        private void cmbBxMap_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.UpdateControlValues();
         }
     }
 }

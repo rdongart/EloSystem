@@ -236,11 +236,15 @@ namespace EloSystem
             return this.AddPlayer(name, new string[] { }, String.Empty, EloSystemStaticMembers.START_RATING_DEFAULT, team, country, image);
         }
 
-        public bool AddPlayer(string name, IEnumerable<string> aliases, string irlName = "", int startRating = EloSystemStaticMembers.START_RATING_DEFAULT, Team team = null, Country country = null, Image image = null)
+        public bool AddPlayer(string name, IEnumerable<string> aliases, string irlName = "", int startRating = EloSystemStaticMembers.START_RATING_DEFAULT, Team team = null, Country country = null
+            , Image image = null, DateTime birthDate = new DateTime())
         {
             if (name != string.Empty && !this.players.Any(player => player.Name == name))
             {
-                this.players.Add(new SCPlayer(name, startRating, this.AddNewImage(image), aliases, team, country) { IRLName = irlName });
+                var player = new SCPlayer(name, startRating, this.AddNewImage(image), aliases, team, country) { IRLName = irlName };
+                player.SetBirthDate(birthDate);
+
+                this.players.Add(player);
                 this.DataWasChanged = true;
                 return true;
             }

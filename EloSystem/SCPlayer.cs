@@ -11,6 +11,7 @@ namespace EloSystem
     {
         private const int MINIMUM_GAMES_THRESHOLD = 10; // the minimum number of games for a particular rating value to be given full influence on the total rating
 
+        private DateTime birthDate;
         private List<string> aliases;
         public Country Country { get; set; }
         public ResultVariables RatingsVs { get; private set; }
@@ -44,6 +45,7 @@ namespace EloSystem
             this.Stats = new WinRateCounter();
             this.RatingsVs = new ResultVariables(startRating);
             this.Team = team;
+            this.birthDate = new DateTime();
         }
 
         private static double GetRatingInfluence(int numberOfGames)
@@ -54,13 +56,14 @@ namespace EloSystem
         #region Implementing ISerializable
         private enum Field
         {
-            Aliases, GameStats, IRLName, Name, Country, Ratings, Team
+            Aliases, BirthDate, GameStats, IRLName, Name, Country, Ratings, Team
         }
         new public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
 
             info.AddValue(Field.Aliases.ToString(), (List<string>)this.aliases);
+            info.AddValue(Field.BirthDate.ToString(), (DateTime)this.birthDate);
 
             if (this.Country != null) { info.AddValue(Field.Country.ToString(), (Country)this.Country); }
 
@@ -81,6 +84,7 @@ namespace EloSystem
                     switch (field)
                     {
                         case Field.Aliases: this.aliases = (List<string>)info.GetValue(field.ToString(), typeof(List<string>)); break;
+                        case Field.BirthDate: this.birthDate = (DateTime)info.GetValue(field.ToString(), typeof(DateTime)); break;
                         case Field.Country: this.Country = (Country)info.GetValue(field.ToString(), typeof(Country)); break;
                         case Field.GameStats: this.Stats = (WinRateCounter)info.GetValue(field.ToString(), typeof(WinRateCounter)); break;
                         case Field.IRLName: this.IRLName = (string)info.GetString(field.ToString()); break;
@@ -135,12 +139,19 @@ namespace EloSystem
             return this.aliases.Remove(alias);
         }
 
+        public bool TryGetBirthDate(out DateTime birthDate)
+        {
+            birthDate = this.birthDate;
+
+            return this.birthDate > DateTime.MinValue;
+        }
+
         public Race GetPrimaryRace()
         {
             if (this.Stats.GamesTotal() <= 0) { return Race.Random; }
 
             // make groups of all the opponent races where the player plays the same race and order so the most played race grouping is on top
-            var groupingBySubPrimary = Enum.GetValues(typeof(Race)).Cast<Race>().Where(race => this.Stats.GamesWith(race) > 0).Select(race => new { SubPrimary = this.GetPrimaryRaceVs(race) }).GroupBy(item =>
+            var groupingBySubPrimary = Enum.GetValues(typeof(Race)).Cast<Race>().Where(race => this.Stats.GamesVs(race) > 0).Select(race => new { SubPrimary = this.GetPrimaryRaceVs(race) }).GroupBy(item =>
                    item.SubPrimary).OrderByDescending(grouping => grouping.Count()).ToList();
 
             // check if the first place is different from the second place
@@ -164,6 +175,11 @@ namespace EloSystem
         public void AddAlias(string alias)
         {
             this.aliases.Add(alias);
+        }
+
+        public void SetBirthDate(DateTime birthday)
+        {
+            this.birthDate = birthday;
         }
     }
 }

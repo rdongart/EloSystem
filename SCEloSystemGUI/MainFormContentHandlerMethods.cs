@@ -112,7 +112,7 @@ namespace SCEloSystemGUI
                 MainForm.DisplayContentEditSuccesMessage();
             }
         }
-
+                
         private void TeamAdder_OnAddButtonClick(object sender, ContentAddingEventArgs e)
         {
             this.AddTeamsToImgCmbBox();

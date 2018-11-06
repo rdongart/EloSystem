@@ -75,6 +75,12 @@
     <Compile Include="MainFormResourceHandler.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MapStatsDisplay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MapStatsDisplay.Designer.cs">
+      <DependentUpon>MapStatsDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="ResourceItem.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +151,9 @@
     <Compile Include="WindowConstants.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MapStatsDisplay.resx">
+      <DependentUpon>MapStatsDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StartMenu.resx">
       <DependentUpon>StartMenu.cs</DependentUpon>

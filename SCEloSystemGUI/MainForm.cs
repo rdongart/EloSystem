@@ -10,6 +10,7 @@ namespace SCEloSystemGUI
     {
         private ContentAdder countryAdder;
         private ContentAdder teamAdder;
+        private ContentAdder tournamentAdder;
         private Dictionary<int, ResourceItem> resMemory = new Dictionary<int, ResourceItem>();
         private EloData eloSystem;
         private HasNameContentAdder<Tileset> tileSetAdder;

@@ -67,8 +67,10 @@
     <Compile Include="RaceMatchupResults.cs" />
     <Compile Include="SCPlayer.cs" />
     <Compile Include="EloSystemStaticMembers.cs" />
+    <Compile Include="Season.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="Tileset.cs" />
+    <Compile Include="Tournament.cs" />
     <Compile Include="WinRateCounter.cs" />
     <Compile Include="WinRateStats.cs" />
   </ItemGroup>

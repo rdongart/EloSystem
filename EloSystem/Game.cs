@@ -8,6 +8,7 @@
     public class Game
     {
         public Map Map { get; private set; }
+        public Match Match { get; private set; }
         public Race Player1Race { get; private set; }
         public Race Player2Race { get; private set; }
         public Race WinnersRace
@@ -34,14 +35,19 @@
                 return this.Winner == this.Player1 ? this.Player2 : this.Player1;
             }
         }
+        public Season Season { get; private set; }
+        public Tournament Tournament { get; private set; }
 
-        internal Game(SCPlayer player1, SCPlayer player2, GameEntry gameData)
-            : this(gameData.Map, player1, gameData.Player1Race, player2, gameData.Player2Race, gameData.WinnerWas == PlayerSlotType.Player1 ? player1 : player2)
+        internal Game(SCPlayer player1, SCPlayer player2, GameEntry gameData, Tournament tournament = null, Season season = null)
+            : this(tournament, season, gameData.Map, player1, gameData.Player1Race, player2, gameData.Player2Race, gameData.WinnerWas == PlayerSlotType.Player1 ? player1 : player2)
         {
 
         }
-        internal Game(Map map, SCPlayer player1, Race player1Race, SCPlayer player2, Race player2Race, SCPlayer winner)
+
+        internal Game(Tournament tournament, Season season, Map map, SCPlayer player1, Race player1Race, SCPlayer player2, Race player2Race, SCPlayer winner)
         {
+            this.Tournament = tournament;
+            this.Season = season;
             this.Map = map;
             this.Player1 = player1;
             this.Player1Race = player1Race;
@@ -49,6 +55,5 @@
             this.Player2Race = player2Race;
             this.Winner = winner;
         }
-
     }
 }

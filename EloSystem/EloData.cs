@@ -29,10 +29,17 @@ namespace EloSystem
         }
         private List<Country> countries;
         private List<Map> maps;
-        private List<Match> matches;
         private List<SCPlayer> players;
         private List<Team> teams;
         private List<Tileset> tileSets;
+        private List<Tournament> tournaments;
+        private Tournament defaultTournament
+        {
+            get
+            {
+                return this.tournaments[0];
+            }
+        }
         [field: NonSerialized]
         private ResourceHandler resHandler;
         private string path
@@ -54,10 +61,10 @@ namespace EloSystem
 
             this.countries = new List<Country>();
             this.maps = new List<Map>();
-            this.matches = new List<Match>();
             this.players = new List<SCPlayer>();
             this.teams = new List<Team>();
             this.tileSets = new List<Tileset>();
+            this.tournaments = new List<Tournament>() { new Tournament("", EloData.IMAGEID_NO_IMAGE) };
             this.DataWasChanged = true;
             this.resHandler = new ResourceHandler(StaticMembers.SaveDirectory + name);
         }
@@ -144,13 +151,13 @@ namespace EloSystem
         #region Implementing ISerializable
         private enum Field
         {
-            Countries, Maps, Matches, Name, ImagesSaved, Players, Teams, TileSets
+            Countries, Maps, Name, ImagesSaved, Players, Teams, TileSets, Tournaments
         }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(Field.Countries.ToString(), (List<Country>)this.countries);
             info.AddValue(Field.Maps.ToString(), (List<Map>)this.maps);
-            info.AddValue(Field.Matches.ToString(), (List<Match>)this.matches);
+            info.AddValue(Field.Tournaments.ToString(), (List<Tournament>)this.tournaments);
             info.AddValue(Field.Name.ToString(), (string)this.Name);
             info.AddValue(Field.ImagesSaved.ToString(), (int)this.imagesSaved);
             info.AddValue(Field.Players.ToString(), (List<SCPlayer>)this.players);
@@ -169,7 +176,7 @@ namespace EloSystem
                     {
                         case Field.Countries: this.countries = (List<Country>)info.GetValue(field.ToString(), typeof(List<Country>)); break;
                         case Field.Maps: this.maps = (List<Map>)info.GetValue(field.ToString(), typeof(List<Map>)); break;
-                        case Field.Matches: this.matches = (List<Match>)info.GetValue(field.ToString(), typeof(List<Match>)); break;
+                        case Field.Tournaments: this.tournaments = (List<Tournament>)info.GetValue(field.ToString(), typeof(List<Tournament>)); break;
                         case Field.Name: this.Name = (string)info.GetString(field.ToString()); break;
                         case Field.ImagesSaved: this.imagesSaved = (int)info.GetInt32(field.ToString()); break;
                         case Field.Players: this.players = (List<SCPlayer>)info.GetValue(field.ToString(), typeof(List<SCPlayer>)); break;
@@ -251,6 +258,18 @@ namespace EloSystem
             else { return false; }
         }
 
+        public bool AddSeason(string name, Tournament tournament)
+        {
+            if (name != string.Empty && !tournament.GetSeasons().Any(season => season.Name == name))
+            {
+                tournament.AddSeason(new Season(name));
+
+                this.DataWasChanged = true;
+                return true;
+            }
+            else { return false; }
+        }
+
         public bool AddTeam(string name, Image image = null)
         {
             if (name != string.Empty && !this.teams.Any(team => team.Name == name))
@@ -275,12 +294,23 @@ namespace EloSystem
             else { return false; }
         }
 
+        public bool AddTournament(string name, Image image = null)
+        {
+            if (name != string.Empty && !this.tournaments.Any(tournament => tournament.Name == name))
+            {
+                this.tournaments.Add(new Tournament(name, this.AddNewImage(image)));
+
+                this.DataWasChanged = true;
+                return true;
+            }
+            else { return false; }
+        }
+
         public void RemoveCountry(string name)
         {
             Country countryToRemove = this.GetCountry(name);
 
             this.RemoveCountry(countryToRemove);
-
         }
 
         public void RemoveCountry(Country country)
@@ -290,6 +320,8 @@ namespace EloSystem
             if (country.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(country.ImageID); }
 
             this.countries.Remove(country);
+
+            this.DataWasChanged = true;
         }
 
         public void RemoveMap(string name)
@@ -297,8 +329,6 @@ namespace EloSystem
             Map mapToRemove = this.GetMap(name);
 
             this.RemoveMap(mapToRemove);
-
-            this.MapPoolChanged.Invoke(this, new EventArgs());
         }
 
         public void RemoveMap(Map map)
@@ -308,6 +338,10 @@ namespace EloSystem
             if (map.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(map.ImageID); }
 
             this.maps.Remove(map);
+
+            this.MapPoolChanged.Invoke(this, new EventArgs());
+
+            this.DataWasChanged = true;
         }
 
         public void RemovePlayer(string name)
@@ -315,7 +349,6 @@ namespace EloSystem
             SCPlayer playerToRemove = this.GetPlayer(name);
 
             this.RemovePlayer(playerToRemove);
-
         }
 
         public void RemovePlayer(SCPlayer player)
@@ -325,6 +358,24 @@ namespace EloSystem
             if (player.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(player.ImageID); }
 
             this.players.Remove(player);
+
+            this.DataWasChanged = true;
+        }
+
+        public void RemoveSeason(string name, Tournament tournament)
+        {
+            Season seasonToRemove = tournament.GetSeasons().FirstOrDefault(season => season.Name == name);
+
+            this.RemoveSeason(seasonToRemove, tournament);
+        }
+
+        public void RemoveSeason(Season season, Tournament tournament)
+        {
+            if (season == null || tournament == this.defaultTournament) { return; }
+
+            tournament.RemoveSeason(season);
+
+            this.DataWasChanged = true;
         }
 
         public void RemoveTeam(string name)
@@ -332,7 +383,6 @@ namespace EloSystem
             Team teamToRemove = this.GetTeam(name);
 
             this.RemoveTeam(teamToRemove);
-
         }
 
         public void RemoveTeam(Team team)
@@ -342,6 +392,15 @@ namespace EloSystem
             if (team.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(team.ImageID); }
 
             this.teams.Remove(team);
+
+            this.DataWasChanged = true;
+        }
+
+        public void RemoveTileSet(string name)
+        {
+            Tileset tilesetToRemove = this.GetTileSet(name);
+
+            this.RemoveTileSet(tilesetToRemove);
         }
 
         public void RemoveTileSet(Tileset tileSet)
@@ -349,16 +408,39 @@ namespace EloSystem
             if (tileSet == null) { return; }
 
             this.tileSets.Remove(tileSet);
+
+            this.DataWasChanged = true;
+        }
+
+        public void RemoveTournament(string name)
+        {
+            Tournament tournamentToRemove = this.GetTournament(name);
+
+            this.RemoveTournament(tournamentToRemove);
+        }
+
+        public void RemoveTournament(Tournament tournament)
+        {
+            if (tournament == null || tournament == this.defaultTournament) { return; }
+
+            this.tournaments.Remove(tournament);
+
+            this.DataWasChanged = true;
         }
 
         public void ReportMatch(SCPlayer player1, SCPlayer player2, GameEntry[] entries)
+        {
+            this.ReportMatch(player1, player2, entries, this.defaultTournament.DefaultSeason);
+        }
+
+        public void ReportMatch(SCPlayer player1, SCPlayer player2, GameEntry[] entries, Season season)
         {
             var match = new Match(player1, player2, entries.Select(entry => new GameEntry(entry.WinnerWas, entry.Player1Race, entry.Player2Race, entry.Map)));
 
             EloData.UpdateMapStats(match);
             EloData.UpdatePlayerStats(match);
 
-            this.matches.Add(match);
+            season.AddMatch(match);
 
             this.DataWasChanged = true;
         }
@@ -401,9 +483,9 @@ namespace EloSystem
             foreach (Country country in this.countries.ToList()) { yield return country; }
         }
 
-        public IEnumerable<Game> GetGames()
+        public IEnumerable<Game> GetAllGames()
         {
-            foreach (Game game in this.matches.SelectMany(match => match.GetGames()).ToList()) { yield return game; }
+            foreach (Game game in this.tournaments.SelectMany(tournament => tournament.GetGames()).ToList()) { yield return game; }
         }
 
         public IEnumerable<Map> GetMaps()
@@ -411,14 +493,9 @@ namespace EloSystem
             foreach (Map map in this.maps.ToList()) { yield return map; }
         }
 
-        public IEnumerable<Match> GetMatches()
-        {
-            foreach (Match match in this.matches.ToList()) { yield return match; }
-        }
-
         public IEnumerable<SCPlayer> GetPlayers()
         {
-            foreach (SCPlayer player in this.players.ToList()) { yield return player; }
+            foreach (SCPlayer player in this.players.ToList(this.players.Count)) { yield return player; }
         }
 
         public IEnumerable<Team> GetTeams()
@@ -429,6 +506,11 @@ namespace EloSystem
         public IEnumerable<Tileset> GetTileSets()
         {
             foreach (Tileset tileSet in this.tileSets.ToList()) { yield return tileSet; }
+        }
+
+        public IEnumerable<Tournament> GetTournaments()
+        {
+            foreach (Tournament tournamet in this.tournaments.ToList()) { yield return tournamet; }
         }
 
         public bool TryGetImage(int imageID, out EloImage eloImg)
@@ -458,5 +540,9 @@ namespace EloSystem
             return this.tileSets.FirstOrDefault(tileSet => tileSet.Name == name);
         }
 
+        public Tournament GetTournament(string name)
+        {
+            return this.tournaments.FirstOrDefault(tournament => tournament.Name == name);
+        }
     }
 }

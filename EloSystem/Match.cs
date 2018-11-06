@@ -11,6 +11,7 @@ namespace EloSystem
         private List<GameEntry> games;
         public SCPlayer Player1 { get; private set; }
         public SCPlayer Player2 { get; private set; }
+        public Tournament Tournament { get; private set; }
 
         internal Match(SCPlayer player1, SCPlayer player2, IEnumerable<GameEntry> games)
         {
@@ -55,20 +56,15 @@ namespace EloSystem
             }
         }
         #endregion
-        
+
         internal IEnumerable<GameEntry> GetEntries()
         {
             foreach (GameEntry entry in this.games.ToList()) { yield return entry; }
         }
 
-        private Game ConvertToGame(GameEntry entry)
+        internal IEnumerable<Game> GetGames()
         {
-            return new Game(this.Player1, this.Player2, entry);
-        }
-
-        public IEnumerable<Game> GetGames()
-        {
-            return this.games.Select(entry => this.ConvertToGame(entry));
+            foreach (Game game in this.games.Select(entry => new Game(this.Player1, this.Player2, entry))) { yield return game; }
         }
     }
 }

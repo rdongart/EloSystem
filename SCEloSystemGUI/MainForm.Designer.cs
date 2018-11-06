@@ -35,6 +35,8 @@
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mapStatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,18 +65,22 @@
             this.tblLOPnlTeams = new System.Windows.Forms.TableLayoutPanel();
             this.tabPageAddPlayer = new System.Windows.Forms.TabPage();
             this.tblLOPnlPlayers = new System.Windows.Forms.TableLayoutPanel();
+            this.tabPageEditTournaments = new System.Windows.Forms.TabPage();
+            this.tblLOPnlTournaments = new System.Windows.Forms.TableLayoutPanel();
             this.menuStripMainForm.SuspendLayout();
             this.tabControlMain.SuspendLayout();
             this.tabPageAddMap.SuspendLayout();
             this.tabPageAddCountry.SuspendLayout();
             this.tabPageAddTeam.SuspendLayout();
             this.tabPageAddPlayer.SuspendLayout();
+            this.tabPageEditTournaments.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStripMainForm
             // 
             this.menuStripMainForm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.showToolStripMenuItem,
             this.editToolStripMenuItem,
             this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem});
@@ -126,6 +132,21 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.exitToolStripMenuItem.Text = "&Close";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // showToolStripMenuItem
+            // 
+            this.showToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mapStatsToolStripMenuItem});
+            this.showToolStripMenuItem.Name = "showToolStripMenuItem";
+            this.showToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.showToolStripMenuItem.Text = "&Show";
+            // 
+            // mapStatsToolStripMenuItem
+            // 
+            this.mapStatsToolStripMenuItem.Name = "mapStatsToolStripMenuItem";
+            this.mapStatsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.mapStatsToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.mapStatsToolStripMenuItem.Text = "&Map Stats";
             // 
             // editToolStripMenuItem
             // 
@@ -268,6 +289,7 @@
             this.tabControlMain.Controls.Add(this.tabPageAddCountry);
             this.tabControlMain.Controls.Add(this.tabPageAddTeam);
             this.tabControlMain.Controls.Add(this.tabPageAddPlayer);
+            this.tabControlMain.Controls.Add(this.tabPageEditTournaments);
             this.tabControlMain.Location = new System.Drawing.Point(25, 56);
             this.tabControlMain.Margin = new System.Windows.Forms.Padding(16);
             this.tabControlMain.Name = "tabControlMain";
@@ -291,7 +313,7 @@
             this.tabPageAddMap.Location = new System.Drawing.Point(4, 22);
             this.tabPageAddMap.Name = "tabPageAddMap";
             this.tabPageAddMap.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAddMap.Size = new System.Drawing.Size(937, 692);
+            this.tabPageAddMap.Size = new System.Drawing.Size(937, 752);
             this.tabPageAddMap.TabIndex = 1;
             this.tabPageAddMap.Text = "Add Map";
             this.tabPageAddMap.UseVisualStyleBackColor = true;
@@ -310,7 +332,7 @@
             this.tblLOPnlMaps.RowCount = 2;
             this.tblLOPnlMaps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 360F));
             this.tblLOPnlMaps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlMaps.Size = new System.Drawing.Size(931, 686);
+            this.tblLOPnlMaps.Size = new System.Drawing.Size(931, 746);
             this.tblLOPnlMaps.TabIndex = 0;
             // 
             // tabPageAddCountry
@@ -319,7 +341,7 @@
             this.tabPageAddCountry.Location = new System.Drawing.Point(4, 22);
             this.tabPageAddCountry.Name = "tabPageAddCountry";
             this.tabPageAddCountry.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAddCountry.Size = new System.Drawing.Size(937, 692);
+            this.tabPageAddCountry.Size = new System.Drawing.Size(937, 752);
             this.tabPageAddCountry.TabIndex = 2;
             this.tabPageAddCountry.Text = "Add Country";
             this.tabPageAddCountry.UseVisualStyleBackColor = true;
@@ -337,7 +359,7 @@
             this.tblLOPnlCountries.RowCount = 2;
             this.tblLOPnlCountries.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 198F));
             this.tblLOPnlCountries.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlCountries.Size = new System.Drawing.Size(931, 686);
+            this.tblLOPnlCountries.Size = new System.Drawing.Size(931, 746);
             this.tblLOPnlCountries.TabIndex = 1;
             // 
             // tabPageAddTeam
@@ -346,7 +368,7 @@
             this.tabPageAddTeam.Location = new System.Drawing.Point(4, 22);
             this.tabPageAddTeam.Name = "tabPageAddTeam";
             this.tabPageAddTeam.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAddTeam.Size = new System.Drawing.Size(937, 692);
+            this.tabPageAddTeam.Size = new System.Drawing.Size(937, 752);
             this.tabPageAddTeam.TabIndex = 3;
             this.tabPageAddTeam.Text = "Add Team";
             this.tabPageAddTeam.UseVisualStyleBackColor = true;
@@ -364,7 +386,7 @@
             this.tblLOPnlTeams.RowCount = 2;
             this.tblLOPnlTeams.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 198F));
             this.tblLOPnlTeams.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlTeams.Size = new System.Drawing.Size(931, 686);
+            this.tblLOPnlTeams.Size = new System.Drawing.Size(931, 746);
             this.tblLOPnlTeams.TabIndex = 1;
             // 
             // tabPageAddPlayer
@@ -394,6 +416,30 @@
             this.tblLOPnlPlayers.Size = new System.Drawing.Size(931, 746);
             this.tblLOPnlPlayers.TabIndex = 1;
             // 
+            // tabPageEditTournaments
+            // 
+            this.tabPageEditTournaments.Controls.Add(this.tblLOPnlTournaments);
+            this.tabPageEditTournaments.Location = new System.Drawing.Point(4, 22);
+            this.tabPageEditTournaments.Name = "tabPageEditTournaments";
+            this.tabPageEditTournaments.Size = new System.Drawing.Size(937, 752);
+            this.tabPageEditTournaments.TabIndex = 5;
+            this.tabPageEditTournaments.Text = "Add Tournament & Seasons";
+            this.tabPageEditTournaments.UseVisualStyleBackColor = true;
+            // 
+            // tblLOPnlTournaments
+            // 
+            this.tblLOPnlTournaments.ColumnCount = 2;
+            this.tblLOPnlTournaments.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tblLOPnlTournaments.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tblLOPnlTournaments.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tblLOPnlTournaments.Location = new System.Drawing.Point(0, 0);
+            this.tblLOPnlTournaments.Name = "tblLOPnlTournaments";
+            this.tblLOPnlTournaments.RowCount = 2;
+            this.tblLOPnlTournaments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tblLOPnlTournaments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tblLOPnlTournaments.Size = new System.Drawing.Size(937, 752);
+            this.tblLOPnlTournaments.TabIndex = 0;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -411,6 +457,7 @@
             this.tabPageAddCountry.ResumeLayout(false);
             this.tabPageAddTeam.ResumeLayout(false);
             this.tabPageAddPlayer.ResumeLayout(false);
+            this.tabPageEditTournaments.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -452,5 +499,9 @@
         private System.Windows.Forms.TableLayoutPanel tblLOPnlTeams;
         private System.Windows.Forms.TabPage tabPageAddPlayer;
         private System.Windows.Forms.TableLayoutPanel tblLOPnlPlayers;
+        private System.Windows.Forms.ToolStripMenuItem showToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mapStatsToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPageEditTournaments;
+        private System.Windows.Forms.TableLayoutPanel tblLOPnlTournaments;
     }
 }

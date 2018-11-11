@@ -1,5 +1,0 @@
-- add a SeasonAdder control;
-- update UI logic handling UI adding a Tournament;
-- ensture that default tournament objects and default season on the tournament class are not accessible outside of and EloData object;
-- add tournament, season, and date selection to the MatchReport control;
-

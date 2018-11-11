@@ -36,7 +36,7 @@
             }
         }
         public Season Season { get; private set; }
-        public Tournament Tournament { get; private set; }
+        public Tournament Tournament { get; internal set; }
 
         internal Game(SCPlayer player1, SCPlayer player2, GameEntry gameData, Tournament tournament = null, Season season = null)
             : this(tournament, season, gameData.Map, player1, gameData.Player1Race, player2, gameData.Player2Race, gameData.WinnerWas == PlayerSlotType.Player1 ? player1 : player2)

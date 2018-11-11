@@ -54,6 +54,7 @@ namespace SCEloSystemGUI
                 case ContentTypes.Map: currentContent = this.eloSystem.GetMap(adder.ContentName); break;
                 case ContentTypes.Player: currentContent = this.eloSystem.GetPlayer(adder.ContentName); break;
                 case ContentTypes.Team: currentContent = this.eloSystem.GetTeam(adder.ContentName); break;
+                case ContentTypes.Tournament: currentContent = this.eloSystem.GetTournament(adder.ContentName); break;
                 default: throw new Exception(String.Format("{0} is an unkonwn {1} in the current context.", adder.ContentType.ToString(), typeof(ContentTypes).Name));
             }
 
@@ -66,6 +67,7 @@ namespace SCEloSystemGUI
                     case ContentTypes.Map: this.eloSystem.RemoveMap(currentContent as Map); break;
                     case ContentTypes.Player: this.eloSystem.RemovePlayer(currentContent as SCPlayer); break;
                     case ContentTypes.Team: this.eloSystem.RemoveTeam(currentContent as Team); break;
+                    case ContentTypes.Tournament: this.eloSystem.RemoveTournament(currentContent as Tournament); break;
                     default: throw new Exception(String.Format("{0} is an unkonwn {1} in the current context.", adder.ContentType.ToString(), typeof(ContentTypes).Name));
                 }
             }
@@ -87,10 +89,20 @@ namespace SCEloSystemGUI
 
                     break;
                 case ContentTypes.Team: this.eloSystem.AddTeam(adder.ContentName, adder.SelectedImage); break;
+                case ContentTypes.Tournament: this.eloSystem.AddTournament(adder.ContentName, adder.SelectedImage); break;
                 default: throw new Exception(String.Format("{0} is an unkonwn {1} in the current context.", adder.ContentType.ToString(), typeof(ContentTypes).Name));
             }
 
             MessageBox.Show(string.Format("Your {0} was added succesfully.", adder.ContentType.ToString().ToLower()));
+        }
+
+        private void AddSeason(object sender, EventArgs e)
+        {
+            var adderSender = sender as SeasonAdder;
+
+            if (seasonAdder == null || adderSender.SelectedTournament == null) { return; }
+
+            this.eloSystem.AddSeason(adderSender.ContentName, adderSender.SelectedTournament);
         }
 
         private void AddTilSet(object sender, EventArgs e)
@@ -112,7 +124,7 @@ namespace SCEloSystemGUI
                 MainForm.DisplayContentEditSuccesMessage();
             }
         }
-                
+
         private void TeamAdder_OnAddButtonClick(object sender, ContentAddingEventArgs e)
         {
             this.AddTeamsToImgCmbBox();
@@ -131,6 +143,11 @@ namespace SCEloSystemGUI
         private void PlayerAdder_OnAddButtonClick(object sender, ContentAddingEventArgs e)
         {
             this.AddPlayersToImgCmbBox();
+        }
+
+        private void TournamentAdder_OnAddButtonClick(object sender, ContentAddingEventArgs e)
+        {
+            this.AddTournamentsToImgCmbBox();
         }
 
         private void AddTileSetsToCmbBox()
@@ -183,7 +200,6 @@ namespace SCEloSystemGUI
             EloGUIControlsStaticMembers.AddPlayersToImgCmbBox(this.matchReport.ImgCmbBxPlayer2, this.eloSystem);
         }
 
-
         private void AddTeamsToImgCmbBox()
         {
             var currentSelection = this.playerAdder.ImgCmbBxTeams.SelectedValue as Team;
@@ -213,6 +229,10 @@ namespace SCEloSystemGUI
             }
         }
 
+        private void AddTournamentsToImgCmbBox()
+        {
+            this.seasonAdder.AddTournamentItems(this.eloSystem.GetTournaments(), this.ImageGetterMethod);
+        }
     }
 
 }

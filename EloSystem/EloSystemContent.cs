@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace EloSystem
 {
     [Serializable]
-    abstract public class EloSystemContent : ISerializable, IHasName, IHasImage
+    abstract public class EloSystemContent : ISerializable, IHasName, IHasImageID
     {
         public string Name { get; private set; }
         public int ImageID { get; internal set; }

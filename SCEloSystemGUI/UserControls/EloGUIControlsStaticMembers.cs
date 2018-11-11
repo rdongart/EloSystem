@@ -9,11 +9,31 @@ using System.Windows.Forms;
 
 namespace SCEloSystemGUI.UserControls
 {
+    public delegate Image ImageGetter(int imdageID);
+
     internal static class EloGUIControlsStaticMembers
     {
         internal const string DEFAULT_TXTBX_TEXT = "Type the name here...";
 
         private static string initialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonPictures);
+
+        internal static ImageComboBox CreateStandardContentAdderImageComboBox()
+        {
+            return new ImageComboBox()
+            {
+                Dock = DockStyle.Fill,
+                DrawMode = DrawMode.OwnerDrawFixed,
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                DropDownWidth = 154,
+                Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
+                FormattingEnabled = true,
+                ImageMargin = new Padding(4, 2, 4, 2),
+                ItemHeight = 18,
+                Margin = new Padding(6, 3, 6, 3),
+                SelectedItemFont = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
+                Size = new Size(154, 24),
+            };
+        }
 
         [STAThread]
         internal static bool TryGetFilePathFromUser(out string filePath)
@@ -70,7 +90,5 @@ namespace SCEloSystemGUI.UserControls
 
             if (currentSelection != null && items.Any(item => item.Item2 == currentSelection)) { imgCmbBx.SelectedIndex = items.IndexOf(items.First(item => item.Item2 == currentSelection)); }
         }
-
-
     }
 }

@@ -2,7 +2,7 @@
 
 namespace EloSystem
 {
-    public interface IHasImage
+    public interface IHasImageID
     {
         int ImageID { get; }
     }

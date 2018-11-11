@@ -52,7 +52,19 @@ namespace EloSystem
         [field: NonSerialized]
         public bool DataWasChanged { get; private set; }
         [field: NonSerialized]
+        public EventHandler CountryPoolChanged = delegate { };
+        [field: NonSerialized]
         public EventHandler MapPoolChanged = delegate { };
+        [field: NonSerialized]
+        public EventHandler PlayerPoolChanged = delegate { };
+        [field: NonSerialized]
+        public EventHandler SeasonPoolChanged = delegate { };
+        [field: NonSerialized]
+        public EventHandler TeamPoolChanged = delegate { };
+        [field: NonSerialized]
+        public EventHandler TilesetPoolChanged = delegate { };
+        [field: NonSerialized]
+        public EventHandler TournamentPoolChanged = delegate { };
         public string Name { get; private set; }
 
         public EloData(string name)
@@ -218,6 +230,9 @@ namespace EloSystem
                 this.countries.Add(new Country(name, this.AddNewImage(image)));
 
                 this.DataWasChanged = true;
+
+                this.CountryPoolChanged.Invoke(this, new EventArgs());
+
                 return true;
             }
             else { return false; }
@@ -253,6 +268,9 @@ namespace EloSystem
 
                 this.players.Add(player);
                 this.DataWasChanged = true;
+
+                this.PlayerPoolChanged.Invoke(this, new EventArgs());
+
                 return true;
             }
             else { return false; }
@@ -265,6 +283,9 @@ namespace EloSystem
                 tournament.AddSeason(new Season(name));
 
                 this.DataWasChanged = true;
+
+                this.SeasonPoolChanged.Invoke(this, new EventArgs());
+
                 return true;
             }
             else { return false; }
@@ -277,6 +298,9 @@ namespace EloSystem
                 this.teams.Add(new Team(name, this.AddNewImage(image)));
 
                 this.DataWasChanged = true;
+
+                this.TeamPoolChanged.Invoke(this, new EventArgs());
+
                 return true;
             }
             else { return false; }
@@ -289,6 +313,9 @@ namespace EloSystem
                 this.tileSets.Add(new Tileset(name));
 
                 this.DataWasChanged = true;
+
+                this.TilesetPoolChanged.Invoke(this, new EventArgs());
+
                 return true;
             }
             else { return false; }
@@ -301,6 +328,9 @@ namespace EloSystem
                 this.tournaments.Add(new Tournament(name, this.AddNewImage(image)));
 
                 this.DataWasChanged = true;
+
+                this.TournamentPoolChanged.Invoke(this, new EventArgs());
+
                 return true;
             }
             else { return false; }
@@ -319,9 +349,12 @@ namespace EloSystem
 
             if (country.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(country.ImageID); }
 
-            this.countries.Remove(country);
+            if (this.countries.Remove(country))
+            {
+                this.DataWasChanged = true;
 
-            this.DataWasChanged = true;
+                this.CountryPoolChanged.Invoke(this, new EventArgs());
+            }
         }
 
         public void RemoveMap(string name)
@@ -337,11 +370,12 @@ namespace EloSystem
 
             if (map.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(map.ImageID); }
 
-            this.maps.Remove(map);
+            if (this.maps.Remove(map))
+            {
+                this.DataWasChanged = true;
 
-            this.MapPoolChanged.Invoke(this, new EventArgs());
-
-            this.DataWasChanged = true;
+                this.MapPoolChanged.Invoke(this, new EventArgs());
+            }
         }
 
         public void RemovePlayer(string name)
@@ -357,9 +391,12 @@ namespace EloSystem
 
             if (player.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(player.ImageID); }
 
-            this.players.Remove(player);
+            if (this.players.Remove(player))
+            {
+                this.DataWasChanged = true;
 
-            this.DataWasChanged = true;
+                this.PlayerPoolChanged.Invoke(this, new EventArgs());
+            }
         }
 
         public void RemoveSeason(string name, Tournament tournament)
@@ -373,9 +410,12 @@ namespace EloSystem
         {
             if (season == null || tournament == this.defaultTournament) { return; }
 
-            tournament.RemoveSeason(season);
+            if (tournament.RemoveSeason(season))
+            {
+                this.DataWasChanged = true;
 
-            this.DataWasChanged = true;
+                this.SeasonPoolChanged.Invoke(this, new EventArgs());
+            }
         }
 
         public void RemoveTeam(string name)
@@ -391,9 +431,12 @@ namespace EloSystem
 
             if (team.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(team.ImageID); }
 
-            this.teams.Remove(team);
+            if (this.teams.Remove(team))
+            {
+                this.DataWasChanged = true;
 
-            this.DataWasChanged = true;
+                this.TeamPoolChanged.Invoke(this, new EventArgs());
+            }
         }
 
         public void RemoveTileSet(string name)
@@ -407,9 +450,12 @@ namespace EloSystem
         {
             if (tileSet == null) { return; }
 
-            this.tileSets.Remove(tileSet);
+            if (this.tileSets.Remove(tileSet))
+            {
+                this.DataWasChanged = true;
 
-            this.DataWasChanged = true;
+                this.TilesetPoolChanged.Invoke(this, new EventArgs());
+            }
         }
 
         public void RemoveTournament(string name)
@@ -423,9 +469,12 @@ namespace EloSystem
         {
             if (tournament == null || tournament == this.defaultTournament) { return; }
 
-            this.tournaments.Remove(tournament);
+            if (this.tournaments.Remove(tournament))
+            {
+                this.DataWasChanged = true;
 
-            this.DataWasChanged = true;
+                this.TournamentPoolChanged.Invoke(this, new EventArgs());
+            }
         }
 
         public void ReportMatch(SCPlayer player1, SCPlayer player2, GameEntry[] entries)
@@ -433,14 +482,35 @@ namespace EloSystem
             this.ReportMatch(player1, player2, entries, this.defaultTournament.DefaultSeason);
         }
 
+        public void ReportMatch(SCPlayer player1, SCPlayer player2, GameEntry[] entries, DateTime date)
+        {
+            this.ReportMatch(player1, player2, entries, this.defaultTournament.DefaultSeason, date);
+        }
+
         public void ReportMatch(SCPlayer player1, SCPlayer player2, GameEntry[] entries, Season season)
         {
-            var match = new Match(player1, player2, entries.Select(entry => new GameEntry(entry.WinnerWas, entry.Player1Race, entry.Player2Race, entry.Map)));
+            this.ReportMatch(player1, player2, entries, season, DateTime.Today);
+        }
+
+        public void ReportMatch(SCPlayer player1, SCPlayer player2, GameEntry[] entries, Tournament tournament)
+        {
+            this.ReportMatch(player1, player2, entries, tournament == null ? this.defaultTournament.DefaultSeason : tournament.DefaultSeason, DateTime.Today);
+        }
+
+        public void ReportMatch(SCPlayer player1, SCPlayer player2, GameEntry[] entries, Tournament tournament, DateTime date)
+        {
+            this.ReportMatch(player1, player2, entries, tournament == null ? this.defaultTournament.DefaultSeason : tournament.DefaultSeason, date);
+        }
+
+        public void ReportMatch(SCPlayer player1, SCPlayer player2, GameEntry[] entries, Season season, DateTime date)
+        {
+            var match = new Match(player1, player2, entries.Select(entry => new GameEntry(entry.WinnerWas, entry.Player1Race, entry.Player2Race, entry.Map)), date);
 
             EloData.UpdateMapStats(match);
             EloData.UpdatePlayerStats(match);
 
-            season.AddMatch(match);
+            if (season != null) { season.AddMatch(match); }
+            else { this.defaultTournament.DefaultSeason.AddMatch(match); }
 
             this.DataWasChanged = true;
         }
@@ -485,7 +555,14 @@ namespace EloSystem
 
         public IEnumerable<Game> GetAllGames()
         {
-            foreach (Game game in this.tournaments.SelectMany(tournament => tournament.GetGames()).ToList()) { yield return game; }
+            foreach (Game game in this.defaultTournament.GetGames().ToList())
+            {
+                game.Tournament = null;
+
+                yield return game;
+            }
+
+            foreach (Game game in this.tournaments.Skip(1).SelectMany(tournament => tournament.GetGames()).ToList()) { yield return game; }
         }
 
         public IEnumerable<Map> GetMaps()
@@ -510,7 +587,7 @@ namespace EloSystem
 
         public IEnumerable<Tournament> GetTournaments()
         {
-            foreach (Tournament tournamet in this.tournaments.ToList()) { yield return tournamet; }
+            foreach (Tournament tournamet in this.tournaments.Skip(1).ToList()) { yield return tournamet; }
         }
 
         public bool TryGetImage(int imageID, out EloImage eloImg)

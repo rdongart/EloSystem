@@ -4,13 +4,12 @@ using System.Linq;
 using System.Runtime.Serialization;
 
 namespace EloSystem
-
 {
     [Serializable]
     public class Tournament : EloSystemContent, ISerializable
     {
         private List<Season> seasons;
-        public Season DefaultSeason
+        internal Season DefaultSeason
         {
             get
             {
@@ -54,19 +53,21 @@ namespace EloSystem
         }
         #endregion
 
+        internal bool RemoveSeason(Season season)
+        {
+            if (season != this.DefaultSeason) { return this.seasons.Remove(season); }
+            else { return false; }
+        }
+
         internal void AddSeason(Season season)
         {
             this.seasons.Add(season);
         }
 
-        internal void RemoveSeason(Season season)
-        {
-            if (season != this.DefaultSeason) { this.seasons.Remove(season); }
-        }
-
         public IEnumerable<Game> GetGames()
         {
-            foreach (Game game in this.seasons.SelectMany(season => season.GetMatches().SelectMany(match => match.GetEntries().Select(entry => new Game(match.Player1, match.Player2, entry, this, season)))))
+            foreach (Game game in this.seasons.SelectMany(season => season.GetMatches().SelectMany(match => match.GetEntries().Select(entry =>
+                new Game(match.Player1, match.Player2, entry, this, season.Equals(this.DefaultSeason) ? null : season)))))
             {
                 yield return game;
             }
@@ -74,7 +75,7 @@ namespace EloSystem
 
         public IEnumerable<Season> GetSeasons()
         {
-            foreach (Season season in this.seasons) { yield return season; }
+            foreach (Season season in this.seasons.Skip(1)) { yield return season; }
         }
     }
 }

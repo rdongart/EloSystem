@@ -1,6 +1,4 @@
 ﻿using CustomControls;
-using EloSystem;
-using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -29,19 +27,6 @@ namespace SCEloSystemGUI
 
             }
         }
-
-        //internal static void SaveEloData(EloData dataFile, string fileName)
-        //{
-        //    //try
-        //    //{
-        //        dataFile.SaveData(fileName, EloSystemGUIStaticMethods.ShouldExistingFileBeReplaced);
-
-
-        //        MessageBox.Show("Elo System saved!", "", MessageBoxButtons.OK);
-        //    //}
-        //    //catch (IOException ioExeption) { MessageBox.Show(ioExeption.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-        //    //catch (Exception exeption) { MessageBox.Show(exeption.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-        //}
 
         private static bool IsInvalidFilename(string fileName)
         {

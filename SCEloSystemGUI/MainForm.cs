@@ -1,4 +1,6 @@
-﻿using EloSystem;
+﻿using EloSystem.ResourceManagement;
+using System.Drawing;
+using EloSystem;
 using SCEloSystemGUI.UserControls;
 using System;
 using System.Collections.Generic;
@@ -17,6 +19,7 @@ namespace SCEloSystemGUI
         private MapAdder mapAdder;
         private MatchReport matchReport;
         private PlayerAdder playerAdder;
+        private SeasonAdder seasonAdder;
 
         internal MainForm(EloData eloSystem)
         {
@@ -41,6 +44,10 @@ namespace SCEloSystemGUI
             this.tileSetAdder.OnAddButtonClick += this.TileSetAdder_OnAddButtonClick;
             this.tblLOPnlMaps.Controls.Add(this.tileSetAdder, 1, 0);
 
+            this.seasonAdder = new SeasonAdder();
+            this.seasonAdder.OnAddButtonClick += this.AddSeason;
+            this.tblLOPnlTournaments.Controls.Add(this.seasonAdder, 1, 0);
+
             this.mapAdder = new MapAdder() { ContentType = ContentTypes.Map };
             this.mapAdder.OnAddButtonClick += this.AddContent;
             this.tblLOPnlMaps.Controls.Add(this.mapAdder, 0, 0);
@@ -60,6 +67,11 @@ namespace SCEloSystemGUI
             this.playerAdder.OnAddButtonClick += PlayerAdder_OnAddButtonClick;
             this.tblLOPnlPlayers.Controls.Add(this.playerAdder, 0, 0);
 
+            this.tournamentAdder = new ContentAdder() { ContentType = ContentTypes.Tournament };
+            this.tournamentAdder.OnAddButtonClick += this.AddContent;
+            this.tournamentAdder.OnAddButtonClick += this.TournamentAdder_OnAddButtonClick;
+            this.tblLOPnlTournaments.Controls.Add(this.tournamentAdder, 0, 0);
+
             this.matchReport = new MatchReport();
             this.tabPageReportMatch.Controls.Add(this.matchReport);
             this.matchReport.EloDataSource = () => { return this.eloSystem; };
@@ -68,6 +80,7 @@ namespace SCEloSystemGUI
             this.AddCountriesToImgCmbBox();
             this.AddTeamsToImgCmbBox();
             this.AddPlayersToImgCmbBox();
+            this.AddTournamentsToImgCmbBox();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -87,6 +100,12 @@ namespace SCEloSystemGUI
 
         }
 
+        private Image ImageGetterMethod(int imageID)
+        {
+            EloImage eloImg;
 
+            if (this.eloSystem.TryGetImage(imageID, out eloImg)) { return eloImg.Image; }
+            else { return null; }
+        }
     }
 }

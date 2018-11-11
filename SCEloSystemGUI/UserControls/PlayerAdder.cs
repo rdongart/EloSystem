@@ -13,7 +13,7 @@ namespace SCEloSystemGUI.UserControls
     internal partial class PlayerAdder : UserControl, IContentAdder
     {
         internal const string DEFAULT_TXTBXALIAS_TEXT = "Type alias here...";
-        
+
         internal Country SelectedCountry
         {
             get
@@ -94,31 +94,13 @@ namespace SCEloSystemGUI.UserControls
             this.numUDStartRating.Maximum = int.MaxValue;
             this.numUDStartRating.Value = EloSystemStaticMembers.START_RATING_DEFAULT;
 
-            this.ImgCmbBxCountries = PlayerAdder.CreateStandardImageComboBox();
+            this.ImgCmbBxCountries = EloGUIControlsStaticMembers.CreateStandardContentAdderImageComboBox();
             this.ImgCmbBxCountries.TabIndex = 7;
             this.tblLOPnlPlayerAdder.Controls.Add(this.ImgCmbBxCountries, 1, 6);
 
-            this.ImgCmbBxTeams = PlayerAdder.CreateStandardImageComboBox();
+            this.ImgCmbBxTeams = EloGUIControlsStaticMembers.CreateStandardContentAdderImageComboBox();
             this.ImgCmbBxTeams.TabIndex = 8;
             this.tblLOPnlPlayerAdder.Controls.Add(this.ImgCmbBxTeams, 1, 7);
-        }
-
-        private static ImageComboBox CreateStandardImageComboBox()
-        {
-            return new ImageComboBox()
-            {
-                Dock = DockStyle.Fill,
-                DrawMode = DrawMode.OwnerDrawFixed,
-                DropDownStyle = ComboBoxStyle.DropDownList,
-                DropDownWidth = 154,
-                Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
-                FormattingEnabled = true,
-                ImageMargin = new Padding(4, 2, 4, 2),
-                ItemHeight = 18,
-                Margin = new Padding(6, 3, 6, 3),
-                SelectedItemFont = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
-                Size = new Size(154, 24),
-            };
         }
 
         private void txtBxAlias_TextChanged(object sender, EventArgs e)

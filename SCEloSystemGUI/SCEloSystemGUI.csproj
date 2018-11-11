@@ -81,6 +81,7 @@
     <Compile Include="MapStatsDisplay.Designer.cs">
       <DependentUpon>MapStatsDisplay.cs</DependentUpon>
     </Compile>
+    <Compile Include="MatchContextSelector.cs" />
     <Compile Include="ResourceItem.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +122,12 @@
     <Compile Include="UserControls\HasNameContentAdder.Designer.cs">
       <DependentUpon>HasNameContentAdder.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ImageComboBoxImprovedItemHandling.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\ImageComboBoxImprovedItemHandling.Designer.cs">
+      <DependentUpon>ImageComboBoxImprovedItemHandling.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MapAdder.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -148,6 +155,12 @@
       <DependentUpon>PlayerMatchStatsDisplay.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\RaceSelectionEventArgs.cs" />
+    <Compile Include="UserControls\SeasonAdder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\SeasonAdder.Designer.cs">
+      <DependentUpon>SeasonAdder.cs</DependentUpon>
+    </Compile>
     <Compile Include="WindowConstants.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -188,6 +201,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\PlayerMatchStatsDisplay.resx">
       <DependentUpon>PlayerMatchStatsDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\SeasonAdder.resx">
+      <DependentUpon>SeasonAdder.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

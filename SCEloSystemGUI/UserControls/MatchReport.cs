@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using EloSystem.ResourceManagement;
 
 namespace SCEloSystemGUI.UserControls
 {
@@ -22,17 +23,32 @@ namespace SCEloSystemGUI.UserControls
             }
             set
             {
+                if (this.eloDataSource != null)
+                {
+                    this.eloDataSource().SeasonPoolChanged -= this.OnSeasonPoolChanged;
+                    this.eloDataSource().TournamentPoolChanged -= this.OnTournamentPoolChanged;
+                }
+
                 this.eloDataSource = value;
 
                 if (this.player1StatsDisplay != null) { this.player1StatsDisplay.EloDataSource = value; }
 
                 if (this.player2StatsDisplay != null) { this.player2StatsDisplay.EloDataSource = value; }
+
+                if (this.eloDataSource != null)
+                {
+                    this.eloDataSource().SeasonPoolChanged += this.OnSeasonPoolChanged;
+                    this.eloDataSource().TournamentPoolChanged += this.OnTournamentPoolChanged;
+
+                    this.AddTournaments();
+                }
             }
         }
+        private bool racesAreBeingAutoSet;
         private List<GameReport> gameReports;
+        private MatchContextSelector contextSelector;
         private PlayerMatchStatsDisplay player1StatsDisplay;
         private PlayerMatchStatsDisplay player2StatsDisplay;
-        private bool racesAreBeingAutoSet;
         private ResourceGetter eloDataSource;
 
         public MatchReport()
@@ -42,37 +58,31 @@ namespace SCEloSystemGUI.UserControls
             this.player1StatsDisplay = new PlayerMatchStatsDisplay() { Margin = new Padding(3) };
             this.player2StatsDisplay = new PlayerMatchStatsDisplay() { Margin = new Padding(58, 3, 3, 3) };
 
+            this.contextSelector = new MatchContextSelector(MatchReport.GetTournamentPickerComboBox(), this.cmbBxSeasonPicker);
+
+            this.tblLOPnlMatchContext.Controls.Add(this.contextSelector.TournamentSelector, 1, 0);
+
             this.tblLOPnlMatchReport.SetRowSpan(this.player1StatsDisplay, 7);
             this.tblLOPnlMatchReport.SetColumnSpan(this.player1StatsDisplay, 5);
-            this.tblLOPnlMatchReport.Controls.Add(this.player1StatsDisplay, 0, 4);
+            this.tblLOPnlMatchReport.Controls.Add(this.player1StatsDisplay, 0, 6);
 
             this.tblLOPnlMatchReport.SetRowSpan(this.player2StatsDisplay, 7);
             this.tblLOPnlMatchReport.SetColumnSpan(this.player2StatsDisplay, 5);
-            this.tblLOPnlMatchReport.Controls.Add(this.player2StatsDisplay, 5, 4);
+            this.tblLOPnlMatchReport.Controls.Add(this.player2StatsDisplay, 5, 6);
 
             this.ImgCmbBxPlayer1 = MatchReport.GetPlayerSelectionComboBox();
-            this.tblLOPnlMatchReport.Controls.Add(this.ImgCmbBxPlayer1, 1, 2);
+            this.tblLOPnlMatchReport.Controls.Add(this.ImgCmbBxPlayer1, 1, 4);
             this.tblLOPnlMatchReport.SetColumnSpan(this.ImgCmbBxPlayer1, 4);
             this.ImgCmbBxPlayer1.SelectedIndexChanged += this.ImgCmbBxPlayer1_SelectedIndexChanged;
 
             this.ImgCmbBxPlayer2 = MatchReport.GetPlayerSelectionComboBox();
-            this.tblLOPnlMatchReport.Controls.Add(this.ImgCmbBxPlayer2, 6, 2);
+            this.tblLOPnlMatchReport.Controls.Add(this.ImgCmbBxPlayer2, 6, 4);
             this.tblLOPnlMatchReport.SetColumnSpan(this.ImgCmbBxPlayer2, 4);
             this.ImgCmbBxPlayer2.SelectedIndexChanged += this.ImgCmbBxPlayer2_SelectedIndexChanged;
 
             this.gameReports = new List<GameReport>();
-        }
 
-        private void ImgCmbBxPlayer2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.player2StatsDisplay.AddPlayerStats(this.ImgCmbBxPlayer2.SelectedValue as SCPlayer);
-            this.gameReports.ForEach(gr => gr.Player2 = this.ImgCmbBxPlayer2.SelectedValue as SCPlayer);
-        }
-
-        private void ImgCmbBxPlayer1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.player1StatsDisplay.AddPlayerStats(this.ImgCmbBxPlayer1.SelectedValue as SCPlayer);
-            this.gameReports.ForEach(gr => gr.Player1 = this.ImgCmbBxPlayer1.SelectedValue as SCPlayer);
+            this.dtpMatchDate.Value = DateTime.Today;
         }
 
         private static GameReport RetrieveGameReportFromChild(Control child)
@@ -101,6 +111,37 @@ namespace SCEloSystemGUI.UserControls
                 SelectedItemFont = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 Size = new Size(160, 28),
             };
+        }
+
+        private static ImageComboBoxImprovedItemHandling GetTournamentPickerComboBox()
+        {
+            return new ImageComboBoxImprovedItemHandling()
+            {
+                Dock = DockStyle.Fill,
+                DrawMode = DrawMode.OwnerDrawFixed,
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                DropDownWidth = 240,
+                MaxDropDownItems = 18,
+                Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
+                FormattingEnabled = true,
+                ImageMargin = new Padding(3, 1, 3, 1),
+                ItemHeight = 20,
+                Margin = new Padding(4, 4, 4, 4),
+                SelectedItemFont = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
+                Size = new Size(160, 28),
+            };
+        }
+
+        private void ImgCmbBxPlayer2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.player2StatsDisplay.AddPlayerStats(this.ImgCmbBxPlayer2.SelectedValue as SCPlayer);
+            this.gameReports.ForEach(gr => gr.Player2 = this.ImgCmbBxPlayer2.SelectedValue as SCPlayer);
+        }
+
+        private void ImgCmbBxPlayer1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.player1StatsDisplay.AddPlayerStats(this.ImgCmbBxPlayer1.SelectedValue as SCPlayer);
+            this.gameReports.ForEach(gr => gr.Player1 = this.ImgCmbBxPlayer1.SelectedValue as SCPlayer);
         }
 
         private void ArrangeGameReportLocations()
@@ -223,7 +264,15 @@ namespace SCEloSystemGUI.UserControls
 
             if (ply1 != null && ply2 != null && !reports.Any(rep => rep.Status == GameReportStatus.Failure))
             {
-                this.EloDataSource().ReportMatch(ply1, ply2, reports.Select(item => item.GameReport).ToArray());
+                if (this.contextSelector.SelectedSeason != null)
+                {
+                    this.EloDataSource().ReportMatch(ply1, ply2, reports.Select(item => item.GameReport).ToArray(), this.contextSelector.SelectedSeason, this.dtpMatchDate.Value);
+                }
+                else if (this.contextSelector.SelectedTournament != null)
+                {
+                    this.EloDataSource().ReportMatch(ply1, ply2, reports.Select(item => item.GameReport).ToArray(), this.contextSelector.SelectedTournament, this.dtpMatchDate.Value);
+                }
+                else { this.EloDataSource().ReportMatch(ply1, ply2, reports.Select(item => item.GameReport).ToArray(), this.dtpMatchDate.Value); }
 
                 this.ResetControls();
             }
@@ -237,5 +286,44 @@ namespace SCEloSystemGUI.UserControls
             this.ImgCmbBxPlayer2.SelectedIndex = -1;
         }
 
+        private void OnSeasonPoolChanged(object sender, EventArgs e)
+        {
+            this.UpdateSeasons();
+        }
+
+        private void OnTournamentPoolChanged(object sender, EventArgs e)
+        {
+            this.AddTournaments();
+        }
+
+        private void UpdateSeasons()
+        {
+            if (this.EloDataSource() == null) { return; }
+
+            EloData source = this.EloDataSource();
+
+            if (source == null) { return; }
+
+            this.contextSelector.UpdateSeason();
+        }
+
+        private void AddTournaments()
+        {
+            if (this.EloDataSource() == null) { return; }
+
+            EloData source = this.EloDataSource();
+
+            if (source == null) { return; }
+
+            this.contextSelector.AddItems(source.GetTournaments(), this.ImageGetter);
+        }
+
+        private Image ImageGetter(int imageID)
+        {
+            EloImage eloImg;
+
+            if (this.EloDataSource().TryGetImage(imageID, out eloImg)) { return eloImg.Image; }
+            else { return null; }
+        }
     }
 }

@@ -113,6 +113,12 @@
     <Compile Include="UserControls\ContentAdder.Designer.cs">
       <DependentUpon>ContentAdder.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\DblNameContentEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\DblNameContentEditor.Designer.cs">
+      <DependentUpon>DblNameContentEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\GameReport.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -164,6 +170,12 @@
     <Compile Include="UserControls\SeasonAdder.Designer.cs">
       <DependentUpon>SeasonAdder.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\DblNameContentAdder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\DblNameContentAdder.Designer.cs">
+      <DependentUpon>DblNameContentAdder.cs</DependentUpon>
+    </Compile>
     <Compile Include="WindowConstants.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -187,6 +199,9 @@
     <EmbeddedResource Include="UserControls\ContentAdder.resx">
       <DependentUpon>ContentAdder.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\DblNameContentEditor.resx">
+      <DependentUpon>DblNameContentEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\GameReport.resx">
       <DependentUpon>GameReport.cs</DependentUpon>
     </EmbeddedResource>
@@ -207,6 +222,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\SeasonAdder.resx">
       <DependentUpon>SeasonAdder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\DblNameContentAdder.resx">
+      <DependentUpon>DblNameContentAdder.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

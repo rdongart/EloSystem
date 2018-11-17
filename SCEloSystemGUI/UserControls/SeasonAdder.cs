@@ -69,7 +69,7 @@ namespace SCEloSystemGUI.UserControls
             this.imgCmbBxTournaments.ImageMember = "Item3";
 
             var items = (new Tuple<string, Tournament, Image>[] { Tuple.Create<string, Tournament, Image>("none", null, null) }).Concat(tournaments.OrderBy(tournament => tournament.Name).Select(tournament =>
-                Tuple.Create<string, Tournament, Image>(tournament.Name, tournament, resourceGetter(tournament.ImageID)))).ToList();
+                Tuple.Create<string, Tournament, Image>(String.Format("{0}{1}",tournament.Name, tournament.NameLong != string.Empty ? " (" + tournament.NameLong + ")" : string.Empty), tournament, resourceGetter(tournament.ImageID)))).ToList();
 
             this.imgCmbBxTournaments.DataSource = items;
 

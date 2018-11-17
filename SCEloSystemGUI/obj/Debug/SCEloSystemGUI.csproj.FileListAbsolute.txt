@@ -31,3 +31,5 @@ C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\ob
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\bin\Debug\ObjectListView.dll
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\bin\Debug\ObjectListView.pdb
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\bin\Debug\ObjectListView.xml
+C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.UserControls.DblNameContentAdder.resources
+C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.UserControls.DblNameContentEditor.resources

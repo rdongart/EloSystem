@@ -339,6 +339,7 @@
             // cmbBxTileset
             // 
             this.cmbBxTileset.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbBxTileset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBxTileset.FormattingEnabled = true;
             this.cmbBxTileset.Location = new System.Drawing.Point(143, 243);
             this.cmbBxTileset.Name = "cmbBxTileset";
@@ -360,6 +361,7 @@
             // cmbBxMapType
             // 
             this.cmbBxMapType.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbBxMapType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBxMapType.FormattingEnabled = true;
             this.cmbBxMapType.Location = new System.Drawing.Point(143, 213);
             this.cmbBxMapType.Name = "cmbBxMapType";

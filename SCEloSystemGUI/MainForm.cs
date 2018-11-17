@@ -12,8 +12,9 @@ namespace SCEloSystemGUI
     public partial class MainForm : Form
     {
         private ContentAdder countryAdder;
-        private ContentAdder teamAdder;
-        private ContentAdder tournamentAdder;
+        private DblNameContentAdder teamAdder;
+        private DblNameContentAdder tournamentAdder;
+        private DblNameContentEditor<Tournament> tournamentEditor;
         private Dictionary<int, ResourceItem> resMemory = new Dictionary<int, ResourceItem>();
         private EloData eloSystem;
         private HasNameContentAdder<Tileset> tileSetAdder;
@@ -59,7 +60,7 @@ namespace SCEloSystemGUI
             this.countryAdder.OnAddButtonClick += this.CountryAdder_OnAddButtonClick;
             this.tblLOPnlCountries.Controls.Add(this.countryAdder, 0, 0);
 
-            this.teamAdder = new ContentAdder() { ContentType = ContentTypes.Team };
+            this.teamAdder = new DblNameContentAdder() { ContentType = ContentTypes.Team };
             this.teamAdder.OnAddButtonClick += this.AddContent;
             this.teamAdder.OnAddButtonClick += this.TeamAdder_OnAddButtonClick;
             this.tblLOPnlTeams.Controls.Add(this.teamAdder, 0, 0);
@@ -69,10 +70,15 @@ namespace SCEloSystemGUI
             this.playerAdder.OnAddButtonClick += PlayerAdder_OnAddButtonClick;
             this.tblLOPnlPlayers.Controls.Add(this.playerAdder, 0, 0);
 
-            this.tournamentAdder = new ContentAdder() { ContentType = ContentTypes.Tournament };
+            this.tournamentAdder = new DblNameContentAdder() { ContentType = ContentTypes.Tournament };
             this.tournamentAdder.OnAddButtonClick += this.AddContent;
             this.tournamentAdder.OnAddButtonClick += this.TournamentAdder_OnAddButtonClick;
             this.tblLOPnlTournaments.Controls.Add(this.tournamentAdder, 0, 0);
+
+            this.tournamentEditor = new DblNameContentEditor<Tournament>() { ContentName = "Tornament", ResourceGetter = this.ImageGetterMethod };
+            this.tournamentEditor.EditButtonClicked += this.EditContent;
+            this.tournamentEditor.EditButtonClicked += this.TournamentEdited_OnEditedButtonClick;
+            this.tblLOPnlTournaments.Controls.Add(this.tournamentEditor, 0, 1);
 
             this.matchReport = new MatchReport();
             this.tblLoPnlReportMatch.Controls.Add(this.matchReport, 0, 0);
@@ -96,7 +102,7 @@ namespace SCEloSystemGUI
 
             if (e.CloseReason == CloseReason.WindowsShutDown) { return; }
 
-            if (this.eloSystem.DataWasChanged)
+            if (this.eloSystem.ContentHasBeenChanged)
             {
                 switch (MessageBox.Show("If you close this Elo System, all changes not saved will be lost. Are you sure you would like to close?", "Close?", MessageBoxButtons.OKCancel))
                 {

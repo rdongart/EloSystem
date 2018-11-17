@@ -27,7 +27,7 @@ namespace SCEloSystemGUI.UserControls
         /// <param name="items"></param>
         /// <param name="getter"></param>
         /// <param name="includeEmptyItem">Should the first item in the combobox hold an empty item.</param>
-        public void AddItems<T>(T[] items, Func<int, Image> getter, bool includeEmptyItem) where T : class, IHasName, IHasImageID
+        public void AddItems<T>(T[] items, ImageGetter getter, bool includeEmptyItem) where T : class, IHasName, IHasImageID
         {
             var currentSelection = this.SelectedValue as T;
 

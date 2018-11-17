@@ -6,7 +6,7 @@ namespace EloSystem
     [Serializable]
     abstract public class EloSystemContent : ISerializable, IHasName, IHasImageID
     {
-        public string Name { get; private set; }
+        public string Name { get; set; }
         public int ImageID { get; internal set; }
 
         internal EloSystemContent(string name, int imageID)

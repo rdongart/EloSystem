@@ -17,6 +17,24 @@ namespace SCEloSystemGUI.UserControls
 
         private static string initialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonPictures);
 
+        internal static ImageComboBoxImprovedItemHandling CreateStandardImprovedImageComboBox()
+        {
+            return new ImageComboBoxImprovedItemHandling()
+            {
+                Dock = DockStyle.Fill,
+                DrawMode = DrawMode.OwnerDrawFixed,
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                DropDownWidth = 160,
+                Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
+                FormattingEnabled = true,
+                ImageMargin = new Padding(4, 2, 4, 2),
+                ItemHeight = 18,
+                Margin = new Padding(6, 3, 6, 3),
+                SelectedItemFont = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
+                Size = new Size(154, 24),
+            };
+        }
+
         internal static ImageComboBox CreateStandardContentAdderImageComboBox()
         {
             return new ImageComboBox()

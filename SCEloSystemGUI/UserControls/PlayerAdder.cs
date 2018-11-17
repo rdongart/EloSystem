@@ -64,7 +64,7 @@ namespace SCEloSystemGUI.UserControls
             }
         }
         public event EventHandler<ContentAddingEventArgs> OnAddButtonClick = delegate { };
-        public Image SelectedImage { get; private set; }
+        public Image NewImage { get; private set; }
         public ImageComboBox ImgCmbBxCountries { get; private set; }
         public ImageComboBox ImgCmbBxTeams { get; private set; }
         public string ContentName
@@ -147,7 +147,7 @@ namespace SCEloSystemGUI.UserControls
             if (EloGUIControlsStaticMembers.TryGetFilePathFromUser(out filePath))
             {
                 this.lbFileName.Text = filePath;
-                this.SelectedImage = Bitmap.FromFile(filePath);
+                this.NewImage = Bitmap.FromFile(filePath);
             }
         }
 
@@ -155,7 +155,7 @@ namespace SCEloSystemGUI.UserControls
         {
             this.OnAddButtonClick.Invoke(sender, new ContentAddingEventArgs(this));
 
-            if (this.SelectedImage != null) { this.SelectedImage.Dispose(); }
+            if (this.NewImage != null) { this.NewImage.Dispose(); }
 
             this.lbFileName.Text = string.Empty;
 

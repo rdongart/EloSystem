@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace EloSystem
 {
     [Serializable]
-    public class Tournament : EloSystemContent, ISerializable
+    public class Tournament : EloSystemContent, IHasDblName, ISerializable
     {
         private List<Season> seasons;
         internal Season DefaultSeason
@@ -16,16 +16,18 @@ namespace EloSystem
                 return this.seasons[0];
             }
         }
+        public string NameLong { get; set; }
 
         internal Tournament(string name, int imageID) : base(name, imageID)
         {
             this.seasons = new List<Season>() { new Season("N/A") };
+            this.NameLong = string.Empty;
         }
 
         #region Implementing ISerializable
         private enum Field
         {
-            Seasons
+            NameLong, Seasons
         }
 
         public new void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -33,6 +35,7 @@ namespace EloSystem
             base.GetObjectData(info, context);
 
             info.AddValue(Field.Seasons.ToString(), (List<Season>)this.seasons);
+            info.AddValue(Field.NameLong.ToString(), (string)this.NameLong);
         }
 
         internal Tournament(SerializationInfo info, StreamingContext context) : base(info, context)
@@ -45,6 +48,7 @@ namespace EloSystem
                 {
                     switch (field)
                     {
+                        case Field.NameLong: this.NameLong = (string)info.GetString(field.ToString()); break;
                         case Field.Seasons: this.seasons = (List<Season>)info.GetValue(field.ToString(), typeof(List<Season>)); break;
                     }
                 }

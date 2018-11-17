@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace SCEloSystemGUI.UserControls
 {
-    internal partial class ContentAdder : UserControl, IContentAdder
+    public partial class DblNameContentAdder : UserControl, IContentAdder
     {
         public ContentTypes ContentType
         {
@@ -25,17 +25,28 @@ namespace SCEloSystemGUI.UserControls
         {
             get
             {
-                return this.txtBxName.Text;
+                return this.NameShort;
+            }
+        }
+        public string NameLong
+        {
+            get
+            {
+                return this.txtBxNameLong.Text;
+            }
+        }
+        public string NameShort
+        {
+            get
+            {
+                return this.txtBxNameShort.Text;
             }
         }
         private ContentTypes contentType;
 
-        public ContentAdder()
+        public DblNameContentAdder()
         {
             InitializeComponent();
-
-            this.txtBxName.Text = EloGUIControlsStaticMembers.DEFAULT_TXTBX_TEXT;
-            this.btnAdd.Enabled = false;
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -50,9 +61,9 @@ namespace SCEloSystemGUI.UserControls
 
         }
 
-        private void txtBxName_TextChanged(object sender, EventArgs e)
+        private void txtBxNameShort_TextChanged(object sender, EventArgs e)
         {
-            if (this.txtBxName.Text != string.Empty) { this.btnAdd.Enabled = true; }
+            if (this.txtBxNameShort.Text != string.Empty) { this.btnAdd.Enabled = true; }
             else { this.btnAdd.Enabled = false; }
         }
 
@@ -75,7 +86,8 @@ namespace SCEloSystemGUI.UserControls
             if (this.NewImage != null) { this.NewImage.Dispose(); }
 
             this.lbFileName.Text = string.Empty;
-            this.txtBxName.Text = EloGUIControlsStaticMembers.DEFAULT_TXTBX_TEXT;
+            this.txtBxNameShort.Text = EloGUIControlsStaticMembers.DEFAULT_TXTBX_TEXT;
+            this.txtBxNameLong.Text = string.Empty;
             this.btnAdd.Enabled = false;
         }
     }

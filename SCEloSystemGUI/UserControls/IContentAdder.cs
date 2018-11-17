@@ -7,7 +7,7 @@ namespace SCEloSystemGUI.UserControls
     {
         ContentTypes ContentType { get; }
         event EventHandler<ContentAddingEventArgs> OnAddButtonClick;
-        Image SelectedImage { get; }
+        Image NewImage { get; }
         string ContentName { get; }
     }
 }

@@ -164,6 +164,22 @@ namespace SCEloSystemGUI
             MessageBox.Show(String.Format("Content was successfully edited."));
         }
 
+        private void EditContent(object sender, EventArgs e)
+        {
+            var editorSender = sender as DblNameContentEditor<Tournament>;
+
+            if (editorSender != null) { this.EditContent<Tournament>(editorSender); }
+        }
+
+        private void EditContent<T>(DblNameContentEditor<T> editor) where T : EloSystemContent, IHasDblName
+        {
+            editor.SelectedItem.Name = editor.NameShort;
+            editor.SelectedItem.NameLong = editor.NameLong;
+            
+            if (editor.NewImage != null) { this.eloSystem.EidtImage(editor.SelectedItem, editor.NewImage); }
+            else if (editor.RemoveCurrentImage) { this.eloSystem.EidtImage(editor.SelectedItem, null); }
+        }
+
         private void AddContent(object sender, ContentAddingEventArgs e)
         {
             IContentAdder adder = e.ContentAdder;
@@ -198,22 +214,28 @@ namespace SCEloSystemGUI
 
             switch (adder.ContentType)
             {
-                case ContentTypes.Country: this.eloSystem.AddCountry(adder.ContentName, adder.SelectedImage); break;
+                case ContentTypes.Country: this.eloSystem.AddCountry(adder.ContentName, adder.NewImage); break;
                 case ContentTypes.Map:
                     var mapAdder = e.ContentAdder as MapAdder;
 
-                    this.eloSystem.AddMap(mapAdder.ContentName, mapAdder.MapType, mapAdder.MapSize, mapAdder.SelectedImage);
+                    this.eloSystem.AddMap(mapAdder.ContentName, mapAdder.MapType, mapAdder.MapSize, mapAdder.NewImage);
 
                     break;
                 case ContentTypes.Player:
                     var playerAdder = e.ContentAdder as PlayerAdder;
 
                     this.eloSystem.AddPlayer(playerAdder.ContentName, playerAdder.GetAliases(), playerAdder.IRLName, playerAdder.StartRating, playerAdder.SelectedTeam, playerAdder.SelectedCountry
-                        , playerAdder.SelectedImage, playerAdder.BirthDateWasSet ? playerAdder.BirthDate : new DateTime());
+                        , playerAdder.NewImage, playerAdder.BirthDateWasSet ? playerAdder.BirthDate : new DateTime());
 
                     break;
-                case ContentTypes.Team: this.eloSystem.AddTeam(adder.ContentName, adder.SelectedImage); break;
-                case ContentTypes.Tournament: this.eloSystem.AddTournament(adder.ContentName, adder.SelectedImage); break;
+                case ContentTypes.Team:
+                    var teamAdder = e.ContentAdder as DblNameContentAdder;
+
+                    this.eloSystem.AddTeam(teamAdder.NameShort, teamAdder.NameLong, teamAdder.NewImage); break;
+                case ContentTypes.Tournament:
+                    var tournamentAdder = e.ContentAdder as DblNameContentAdder;
+
+                    this.eloSystem.AddTournament(tournamentAdder.NameShort, tournamentAdder.NameLong, adder.NewImage); break;
                 default: throw new Exception(String.Format("{0} is an unkonwn {1} in the current context.", adder.ContentType.ToString(), typeof(ContentTypes).Name));
             }
 
@@ -270,6 +292,11 @@ namespace SCEloSystemGUI
         }
 
         private void TournamentAdder_OnAddButtonClick(object sender, ContentAddingEventArgs e)
+        {
+            this.AddTournamentsToImgCmbBox();
+        }
+
+        private void TournamentEdited_OnEditedButtonClick(object sender, EventArgs e)
         {
             this.AddTournamentsToImgCmbBox();
         }
@@ -342,7 +369,7 @@ namespace SCEloSystemGUI
             this.playerAdder.ImgCmbBxTeams.ImageMember = "Item3";
 
             var items = (new Tuple<string, Team, Image>[] { Tuple.Create<string, Team, Image>("none", null, null) }).Concat(this.eloSystem.GetTeams().OrderBy(team => team.Name).Select(team =>
-                Tuple.Create<string, Team, Image>(team.Name, team, GetImage(team)))).ToList();
+                Tuple.Create<string, Team, Image>(String.Format("{0}{1}", team.Name, team.NameLong != string.Empty ? " (" + team.NameLong + ")" : string.Empty), team, GetImage(team)))).ToList();
 
             this.playerAdder.ImgCmbBxTeams.DataSource = items;
 
@@ -356,6 +383,8 @@ namespace SCEloSystemGUI
         private void AddTournamentsToImgCmbBox()
         {
             this.seasonAdder.AddTournamentItems(this.eloSystem.GetTournaments(), this.ImageGetterMethod);
+
+            this.tournamentEditor.AddContentItems(this.eloSystem.GetTournaments(), this.ImageGetterMethod);
         }
 
         private void AddRecentMatches()
@@ -367,6 +396,8 @@ namespace SCEloSystemGUI
         {
             this.AddRecentMatches();
         }
+
+
     }
 
 }

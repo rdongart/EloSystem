@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 namespace EloSystem
 {
     [Serializable]
-    public abstract    class HasNameContent : IHasName, ISerializable
+    public abstract class HasNameContent : IHasName, ISerializable
     {
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         internal HasNameContent(string name)
         {

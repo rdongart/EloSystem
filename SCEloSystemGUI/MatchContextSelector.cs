@@ -66,7 +66,7 @@ namespace SCEloSystemGUI
             else { this.SeasonSelector.SelectedIndex = -1; }
         }
 
-        public void AddItems(IEnumerable<Tournament> items, Func<int, Image> getter)
+        public void AddItems(IEnumerable<Tournament> items, ImageGetter getter)
         {
             this.TournamentSelector.AddItems(items.ToArray(), getter, true);
         }

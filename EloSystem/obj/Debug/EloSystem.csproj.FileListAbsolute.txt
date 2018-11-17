@@ -5,3 +5,4 @@ C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystem\bin\Deb
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystem\obj\Debug\EloSystem.dll
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystem\obj\Debug\EloSystem.pdb
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystem\bin\Debug\EloSystem.dll.config
+C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystem\obj\Debug\EloSystem.csprojResolveAssemblyReference.cache

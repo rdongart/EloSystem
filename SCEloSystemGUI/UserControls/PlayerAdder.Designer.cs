@@ -104,7 +104,7 @@
             this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tblLOPnlPlayerAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLOPnlPlayerAdder.Size = new System.Drawing.Size(400, 430);
-            this.tblLOPnlPlayerAdder.TabIndex = 1;
+            this.tblLOPnlPlayerAdder.TabIndex = 0;
             // 
             // txtBxName
             // 
@@ -114,7 +114,7 @@
             this.txtBxName.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             this.txtBxName.Name = "txtBxName";
             this.txtBxName.Size = new System.Drawing.Size(228, 23);
-            this.txtBxName.TabIndex = 0;
+            this.txtBxName.TabIndex = 1;
             this.txtBxName.TextChanged += new System.EventHandler(this.txtBxName_TextChanged);
             // 
             // lbHeading
@@ -126,7 +126,7 @@
             this.lbHeading.Location = new System.Drawing.Point(3, 0);
             this.lbHeading.Name = "lbHeading";
             this.lbHeading.Size = new System.Drawing.Size(374, 30);
-            this.lbHeading.TabIndex = 21;
+            this.lbHeading.TabIndex = 18;
             this.lbHeading.Text = "[missing]";
             this.lbHeading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -138,7 +138,7 @@
             this.label1.Location = new System.Drawing.Point(3, 30);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(134, 30);
-            this.label1.TabIndex = 21;
+            this.label1.TabIndex = 19;
             this.label1.Text = "Name";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -152,7 +152,7 @@
             this.btnAdd.Margin = new System.Windows.Forms.Padding(6, 14, 6, 4);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(120, 32);
-            this.btnAdd.TabIndex = 10;
+            this.btnAdd.TabIndex = 14;
             this.btnAdd.Text = "A&dd to system";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -172,7 +172,7 @@
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(140, 30);
-            this.tableLayoutPanel2.TabIndex = 3;
+            this.tableLayoutPanel2.TabIndex = 9;
             // 
             // label2
             // 
@@ -182,7 +182,7 @@
             this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(54, 30);
-            this.label2.TabIndex = 21;
+            this.label2.TabIndex = 23;
             this.label2.Text = "Image";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -194,7 +194,7 @@
             this.btnBrowse.Margin = new System.Windows.Forms.Padding(4);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(72, 22);
-            this.btnBrowse.TabIndex = 6;
+            this.btnBrowse.TabIndex = 10;
             this.btnBrowse.Text = "&Browse...";
             this.btnBrowse.UseVisualStyleBackColor = true;
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
@@ -207,7 +207,7 @@
             this.label3.Location = new System.Drawing.Point(3, 120);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(134, 120);
-            this.label3.TabIndex = 21;
+            this.label3.TabIndex = 22;
             this.label3.Text = "Aliases";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -219,7 +219,7 @@
             this.label4.Location = new System.Drawing.Point(3, 270);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(134, 30);
-            this.label4.TabIndex = 21;
+            this.label4.TabIndex = 24;
             this.label4.Text = "Country";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -231,7 +231,7 @@
             this.label5.Location = new System.Drawing.Point(3, 300);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(134, 30);
-            this.label5.TabIndex = 21;
+            this.label5.TabIndex = 25;
             this.label5.Text = "Team";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -243,7 +243,7 @@
             this.label6.Location = new System.Drawing.Point(3, 330);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(134, 30);
-            this.label6.TabIndex = 21;
+            this.label6.TabIndex = 26;
             this.label6.Text = "Start rating";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -263,7 +263,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(234, 114);
-            this.tableLayoutPanel3.TabIndex = 5;
+            this.tableLayoutPanel3.TabIndex = 6;
             // 
             // txtBxAlias
             // 
@@ -273,7 +273,7 @@
             this.txtBxAlias.Margin = new System.Windows.Forms.Padding(3, 3, 3, 1);
             this.txtBxAlias.Name = "txtBxAlias";
             this.txtBxAlias.Size = new System.Drawing.Size(200, 23);
-            this.txtBxAlias.TabIndex = 4;
+            this.txtBxAlias.TabIndex = 7;
             this.txtBxAlias.TextChanged += new System.EventHandler(this.txtBxAlias_TextChanged);
             // 
             // btnAddAlias
@@ -285,7 +285,7 @@
             this.btnAddAlias.Margin = new System.Windows.Forms.Padding(4, 4, 3, 1);
             this.btnAddAlias.Name = "btnAddAlias";
             this.btnAddAlias.Size = new System.Drawing.Size(21, 22);
-            this.btnAddAlias.TabIndex = 5;
+            this.btnAddAlias.TabIndex = 8;
             this.btnAddAlias.Text = "+";
             this.btnAddAlias.UseVisualStyleBackColor = true;
             this.btnAddAlias.Click += new System.EventHandler(this.btnAddAlias_Click);
@@ -326,7 +326,7 @@
             this.numUDStartRating.Name = "numUDStartRating";
             this.numUDStartRating.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.numUDStartRating.Size = new System.Drawing.Size(228, 23);
-            this.numUDStartRating.TabIndex = 9;
+            this.numUDStartRating.TabIndex = 13;
             this.numUDStartRating.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numUDStartRating.ThousandsSeparator = true;
             // 
@@ -382,7 +382,7 @@
             this.txtBxIRLName.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             this.txtBxIRLName.Name = "txtBxIRLName";
             this.txtBxIRLName.Size = new System.Drawing.Size(228, 23);
-            this.txtBxIRLName.TabIndex = 1;
+            this.txtBxIRLName.TabIndex = 2;
             // 
             // label7
             // 
@@ -392,7 +392,7 @@
             this.label7.Location = new System.Drawing.Point(3, 60);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(134, 30);
-            this.label7.TabIndex = 21;
+            this.label7.TabIndex = 20;
             this.label7.Text = "IRL-name";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -422,7 +422,7 @@
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(228, 24);
-            this.tableLayoutPanel4.TabIndex = 22;
+            this.tableLayoutPanel4.TabIndex = 3;
             // 
             // chkBxShowDateTimeAdder
             // 
@@ -431,7 +431,7 @@
             this.chkBxShowDateTimeAdder.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.chkBxShowDateTimeAdder.Name = "chkBxShowDateTimeAdder";
             this.chkBxShowDateTimeAdder.Size = new System.Drawing.Size(17, 24);
-            this.chkBxShowDateTimeAdder.TabIndex = 2;
+            this.chkBxShowDateTimeAdder.TabIndex = 4;
             this.chkBxShowDateTimeAdder.UseVisualStyleBackColor = true;
             this.chkBxShowDateTimeAdder.CheckedChanged += new System.EventHandler(this.chkBxShowDateTimeAdder_CheckedChanged);
             // 
@@ -442,7 +442,7 @@
             this.dateTimePickerBirthDate.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.dateTimePickerBirthDate.Name = "dateTimePickerBirthDate";
             this.dateTimePickerBirthDate.Size = new System.Drawing.Size(205, 20);
-            this.dateTimePickerBirthDate.TabIndex = 3;
+            this.dateTimePickerBirthDate.TabIndex = 5;
             this.dateTimePickerBirthDate.Visible = false;
             // 
             // PlayerAdder

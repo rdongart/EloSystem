@@ -33,7 +33,7 @@ namespace SCEloSystemGUI.UserControls
                 if (this.imgCmbBxTournaments.SelectedIndex < 0) { return null; }
                 else
                 {
-                    var selectedItem = this.imgCmbBxTournaments.SelectedItem as Tuple<string, Tournament,Image>;
+                    var selectedItem = this.imgCmbBxTournaments.SelectedItem as Tuple<string, Tournament, Image>;
 
                     return selectedItem == null ? null : selectedItem.Item2;
                 }
@@ -53,13 +53,11 @@ namespace SCEloSystemGUI.UserControls
 
         private void ImgCmbBxTournaments_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.SelectedTournament == null)
-            {
-                this.txtBxName.Enabled = this.SelectedTournament == null;
-                this.txtBxName.Text = string.Empty;
-            }
+            this.txtBxName.Enabled = this.SelectedTournament != null;
+
+            if (this.SelectedTournament == null) { this.txtBxName.Text = string.Empty; }
             else if (this.txtBxName.Text == string.Empty) { this.txtBxName.Text = SeasonAdder.DEFAULT_TXTBXSEASONNAME_TEXT; }
-            
+
         }
 
         internal void AddTournamentItems(IEnumerable<Tournament> tournaments, ImageGetter resourceGetter)

@@ -95,11 +95,11 @@ namespace SCEloSystemGUI.UserControls
             this.numUDStartRating.Value = EloSystemStaticMembers.START_RATING_DEFAULT;
 
             this.ImgCmbBxCountries = EloGUIControlsStaticMembers.CreateStandardContentAdderImageComboBox();
-            this.ImgCmbBxCountries.TabIndex = 7;
+            this.ImgCmbBxCountries.TabIndex = 11;
             this.tblLOPnlPlayerAdder.Controls.Add(this.ImgCmbBxCountries, 1, 6);
 
             this.ImgCmbBxTeams = EloGUIControlsStaticMembers.CreateStandardContentAdderImageComboBox();
-            this.ImgCmbBxTeams.TabIndex = 8;
+            this.ImgCmbBxTeams.TabIndex = 12;
             this.tblLOPnlPlayerAdder.Controls.Add(this.ImgCmbBxTeams, 1, 7);
         }
 

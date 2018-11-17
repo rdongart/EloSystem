@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.Runtime.Serialization;
+using System.Drawing;
+
 
 namespace EloSystem
 {
@@ -13,8 +15,9 @@ namespace EloSystem
     public class Map : EloSystemContent, ISerializable
     {
         private List<string> descriptions;
-        public MapPlayerType MapType { get; private set; }
+        public MapPlayerType MapType { get; set; }
         public MapStats Stats { get; private set; }
+        public Size Size { get; set; }
         public Tileset Tileset { get; set; }
 
         internal Map(string name, int imageID, MapPlayerType mapType) : base(name, imageID)
@@ -27,13 +30,14 @@ namespace EloSystem
         #region Implementing ISerializable
         private enum Field
         {
-            Descriptions, MapType, Stats, Tileset
+            Descriptions, MapType, Size, Stats, Tileset
         }
         new public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
 
             info.AddValue(Field.Descriptions.ToString(), (List<string>)this.descriptions);
+            info.AddValue(Field.Size.ToString(), (Size)this.Size);
             info.AddValue(Field.Stats.ToString(), (MapStats)this.Stats);
             info.AddValue(Field.MapType.ToString(), (byte)this.MapType);
             info.AddValue(Field.Tileset.ToString(), (Tileset)this.Tileset);
@@ -51,6 +55,7 @@ namespace EloSystem
                     {
                         case Field.Descriptions: this.descriptions = (List<string>)info.GetValue(field.ToString(), typeof(List<string>)); break;
                         case Field.MapType: this.MapType = (MapPlayerType)info.GetByte(field.ToString()); break;
+                        case Field.Size: this.Size = (Size)info.GetValue(field.ToString(), typeof(Size)); break;
                         case Field.Stats: this.Stats = (MapStats)info.GetValue(field.ToString(), typeof(MapStats)); break;
                         case Field.Tileset: this.Tileset = (Tileset)info.GetValue(field.ToString(), typeof(Tileset)); break;
                     }

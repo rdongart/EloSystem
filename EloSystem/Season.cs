@@ -54,7 +54,7 @@ namespace EloSystem
             foreach (Match match in this.matches.ToList(this.matches.Count)) { yield return match; }
         }
 
-        public void AddMatch(Match match)
+        internal void AddMatch(Match match)
         {
             this.matches.Add(match);
         }

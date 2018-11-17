@@ -1,4 +1,5 @@
-﻿using EloSystem.ResourceManagement;
+﻿using BrightIdeasSoftware;
+using EloSystem.ResourceManagement;
 using System.Drawing;
 using EloSystem;
 using SCEloSystemGUI.UserControls;
@@ -20,6 +21,7 @@ namespace SCEloSystemGUI
         private MatchReport matchReport;
         private PlayerAdder playerAdder;
         private SeasonAdder seasonAdder;
+        private ObjectListView oLstVRecentMatches;
 
         internal MainForm(EloData eloSystem)
         {
@@ -73,14 +75,19 @@ namespace SCEloSystemGUI
             this.tblLOPnlTournaments.Controls.Add(this.tournamentAdder, 0, 0);
 
             this.matchReport = new MatchReport();
-            this.tabPageReportMatch.Controls.Add(this.matchReport);
+            this.tblLoPnlReportMatch.Controls.Add(this.matchReport, 0, 0);
             this.matchReport.EloDataSource = () => { return this.eloSystem; };
+
+            this.oLstVRecentMatches = MainForm.CreateMatchListView();
+            this.tblLoPnlRecentMatches.Controls.Add(this.oLstVRecentMatches, 0, 1);
+            this.matchReport.MatchReported += this.OnMatchReported;
 
             this.AddTileSetsToCmbBox();
             this.AddCountriesToImgCmbBox();
             this.AddTeamsToImgCmbBox();
             this.AddPlayersToImgCmbBox();
             this.AddTournamentsToImgCmbBox();
+            this.AddRecentMatches();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

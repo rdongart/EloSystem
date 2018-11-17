@@ -47,6 +47,9 @@
     <Reference Include="MLCommon">
       <HintPath>..\..\MLCommon\MLCommon\bin\Release\MLCommon.dll</HintPath>
     </Reference>
+    <Reference Include="ObjectListView">
+      <HintPath>..\..\..\Code Snippets\Visual C#\My Code Snippets\ObjectListViewDemo\ObjectListView\bin\Release\ObjectListView.dll</HintPath>
+    </Reference>
     <Reference Include="Properties.Resources.Designer.cs">
       <HintPath>..\..\..\..\Visual Studio 2010\Projects\ManagerLife\ManagerLife\External Dependencies\Properties.Resources.Designer.cs.dll</HintPath>
     </Reference>

@@ -50,6 +50,7 @@ namespace SCEloSystemGUI.UserControls
         private PlayerMatchStatsDisplay player1StatsDisplay;
         private PlayerMatchStatsDisplay player2StatsDisplay;
         private ResourceGetter eloDataSource;
+        public EventHandler MatchReported = delegate { };
 
         public MatchReport()
         {
@@ -64,10 +65,12 @@ namespace SCEloSystemGUI.UserControls
 
             this.tblLOPnlMatchReport.SetRowSpan(this.player1StatsDisplay, 7);
             this.tblLOPnlMatchReport.SetColumnSpan(this.player1StatsDisplay, 5);
+            this.player1StatsDisplay.Dock = DockStyle.Fill;
             this.tblLOPnlMatchReport.Controls.Add(this.player1StatsDisplay, 0, 6);
 
             this.tblLOPnlMatchReport.SetRowSpan(this.player2StatsDisplay, 7);
             this.tblLOPnlMatchReport.SetColumnSpan(this.player2StatsDisplay, 5);
+            this.player2StatsDisplay.Dock = DockStyle.Fill;
             this.tblLOPnlMatchReport.Controls.Add(this.player2StatsDisplay, 5, 6);
 
             this.ImgCmbBxPlayer1 = MatchReport.GetPlayerSelectionComboBox();
@@ -273,6 +276,8 @@ namespace SCEloSystemGUI.UserControls
                     this.EloDataSource().ReportMatch(ply1, ply2, reports.Select(item => item.GameReport).ToArray(), this.contextSelector.SelectedTournament, this.dtpMatchDate.Value);
                 }
                 else { this.EloDataSource().ReportMatch(ply1, ply2, reports.Select(item => item.GameReport).ToArray(), this.dtpMatchDate.Value); }
+
+                this.MatchReported.Invoke(this, new EventArgs());
 
                 this.ResetControls();
             }

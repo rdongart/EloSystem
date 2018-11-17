@@ -51,7 +51,6 @@
             this.tblLOPnlSeasonAdder.Controls.Add(this.btnAdd, 1, 3);
             this.tblLOPnlSeasonAdder.Controls.Add(this.label2, 0, 1);
             this.tblLOPnlSeasonAdder.Location = new System.Drawing.Point(0, 0);
-            this.tblLOPnlSeasonAdder.Margin = new System.Windows.Forms.Padding(0);
             this.tblLOPnlSeasonAdder.Name = "tblLOPnlSeasonAdder";
             this.tblLOPnlSeasonAdder.RowCount = 6;
             this.tblLOPnlSeasonAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -131,9 +130,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.tblLOPnlSeasonAdder);
             this.Name = "SeasonAdder";
-            this.Size = new System.Drawing.Size(360, 160);
+            this.Size = new System.Drawing.Size(358, 158);
             this.tblLOPnlSeasonAdder.ResumeLayout(false);
             this.tblLOPnlSeasonAdder.PerformLayout();
             this.ResumeLayout(false);

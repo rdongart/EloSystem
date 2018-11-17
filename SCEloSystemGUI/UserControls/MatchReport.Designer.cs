@@ -39,22 +39,22 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
             this.btnAddGame = new System.Windows.Forms.Button();
             this.btnEnterMatchReport = new System.Windows.Forms.Button();
-            this.toolTipMatchReport = new System.Windows.Forms.ToolTip(this.components);
-            this.pnlGameReports = new System.Windows.Forms.Panel();
             this.tblLOPnlMatchContext = new System.Windows.Forms.TableLayoutPanel();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
             this.dtpMatchDate = new System.Windows.Forms.DateTimePicker();
             this.cmbBxSeasonPicker = new System.Windows.Forms.ComboBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.toolTipMatchReport = new System.Windows.Forms.ToolTip(this.components);
+            this.pnlGameReports = new System.Windows.Forms.Panel();
             this.tblLOPnlMatchReport.SuspendLayout();
             this.tblLOPnlMatchContext.SuspendLayout();
             this.SuspendLayout();
@@ -83,15 +83,15 @@
             this.tblLOPnlMatchReport.Controls.Add(this.label9, 7, 13);
             this.tblLOPnlMatchReport.Controls.Add(this.label5, 8, 13);
             this.tblLOPnlMatchReport.Controls.Add(this.label3, 9, 13);
-            this.tblLOPnlMatchReport.Controls.Add(this.label10, 2, 0);
             this.tblLOPnlMatchReport.Controls.Add(this.label11, 1, 3);
             this.tblLOPnlMatchReport.Controls.Add(this.label12, 6, 3);
             this.tblLOPnlMatchReport.Controls.Add(this.label13, 5, 3);
-            this.tblLOPnlMatchReport.Controls.Add(this.label29, 5, 5);
             this.tblLOPnlMatchReport.Controls.Add(this.btnAddGame, 0, 13);
             this.tblLOPnlMatchReport.Controls.Add(this.btnEnterMatchReport, 9, 0);
             this.tblLOPnlMatchReport.Controls.Add(this.tblLOPnlMatchContext, 0, 2);
             this.tblLOPnlMatchReport.Controls.Add(this.label17, 0, 1);
+            this.tblLOPnlMatchReport.Controls.Add(this.label10, 1, 0);
+            this.tblLOPnlMatchReport.Controls.Add(this.label29, 0, 5);
             this.tblLOPnlMatchReport.Location = new System.Drawing.Point(0, 0);
             this.tblLOPnlMatchReport.Margin = new System.Windows.Forms.Padding(0);
             this.tblLOPnlMatchReport.Name = "tblLOPnlMatchReport";
@@ -111,7 +111,7 @@
             this.tblLOPnlMatchReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tblLOPnlMatchReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 68F));
             this.tblLOPnlMatchReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlMatchReport.Size = new System.Drawing.Size(955, 464);
+            this.tblLOPnlMatchReport.Size = new System.Drawing.Size(955, 512);
             this.tblLOPnlMatchReport.TabIndex = 0;
             // 
             // label1
@@ -246,20 +246,6 @@
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTipMatchReport.SetToolTip(this.label3, "Select player 2\'s race");
             // 
-            // label10
-            // 
-            this.label10.AutoEllipsis = true;
-            this.tblLOPnlMatchReport.SetColumnSpan(this.label10, 7);
-            this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(223, 3);
-            this.label10.Margin = new System.Windows.Forms.Padding(3);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(604, 42);
-            this.label10.TabIndex = 0;
-            this.label10.Text = "Report Match";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // label11
             // 
             this.label11.AutoEllipsis = true;
@@ -304,20 +290,6 @@
             this.label13.Text = "Vs.";
             this.label13.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // label29
-            // 
-            this.label29.AutoEllipsis = true;
-            this.label29.AutoSize = true;
-            this.label29.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(443, 236);
-            this.label29.Margin = new System.Windows.Forms.Padding(3);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(164, 17);
-            this.label29.TabIndex = 0;
-            this.label29.Text = "Player Stats";
-            this.label29.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
             // btnAddGame
             // 
             this.btnAddGame.AutoSize = true;
@@ -341,18 +313,6 @@
             this.btnEnterMatchReport.Text = "Enter &Report";
             this.btnEnterMatchReport.UseVisualStyleBackColor = true;
             this.btnEnterMatchReport.Click += new System.EventHandler(this.btnEnterMatchReport_Click);
-            // 
-            // pnlGameReports
-            // 
-            this.pnlGameReports.AutoScroll = true;
-            this.pnlGameReports.AutoScrollMargin = new System.Drawing.Size(0, 5);
-            this.pnlGameReports.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlGameReports.Location = new System.Drawing.Point(0, 464);
-            this.pnlGameReports.Margin = new System.Windows.Forms.Padding(0);
-            this.pnlGameReports.Name = "pnlGameReports";
-            this.pnlGameReports.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
-            this.pnlGameReports.Size = new System.Drawing.Size(955, 334);
-            this.pnlGameReports.TabIndex = 1;
             // 
             // tblLOPnlMatchContext
             // 
@@ -420,6 +380,25 @@
             this.label16.Text = "Date:";
             this.label16.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // dtpMatchDate
+            // 
+            this.dtpMatchDate.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dtpMatchDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpMatchDate.Location = new System.Drawing.Point(740, 3);
+            this.dtpMatchDate.Name = "dtpMatchDate";
+            this.dtpMatchDate.Size = new System.Drawing.Size(192, 23);
+            this.dtpMatchDate.TabIndex = 2;
+            // 
+            // cmbBxSeasonPicker
+            // 
+            this.cmbBxSeasonPicker.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbBxSeasonPicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbBxSeasonPicker.FormattingEnabled = true;
+            this.cmbBxSeasonPicker.Location = new System.Drawing.Point(429, 3);
+            this.cmbBxSeasonPicker.Name = "cmbBxSeasonPicker";
+            this.cmbBxSeasonPicker.Size = new System.Drawing.Size(190, 24);
+            this.cmbBxSeasonPicker.TabIndex = 3;
+            // 
             // label17
             // 
             this.label17.AutoEllipsis = true;
@@ -435,24 +414,44 @@
             this.label17.Text = "Select Match Context:";
             this.label17.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // dateTimePicker1
+            // label10
             // 
-            this.dtpMatchDate.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dtpMatchDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpMatchDate.Location = new System.Drawing.Point(740, 3);
-            this.dtpMatchDate.Name = "dateTimePicker1";
-            this.dtpMatchDate.Size = new System.Drawing.Size(192, 23);
-            this.dtpMatchDate.TabIndex = 2;
+            this.tblLOPnlMatchReport.SetColumnSpan(this.label10, 8);
+            this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(118, 3);
+            this.label10.Margin = new System.Windows.Forms.Padding(3);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(709, 42);
+            this.label10.TabIndex = 0;
+            this.label10.Text = "Report Match";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // cmbBxSeasonPicker
+            // label29
             // 
-            this.cmbBxSeasonPicker.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cmbBxSeasonPicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbBxSeasonPicker.FormattingEnabled = true;
-            this.cmbBxSeasonPicker.Location = new System.Drawing.Point(429, 3);
-            this.cmbBxSeasonPicker.Name = "cmbBxSeasonPicker";
-            this.cmbBxSeasonPicker.Size = new System.Drawing.Size(190, 24);
-            this.cmbBxSeasonPicker.TabIndex = 3;
+            this.label29.AutoEllipsis = true;
+            this.tblLOPnlMatchReport.SetColumnSpan(this.label29, 10);
+            this.label29.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.Location = new System.Drawing.Point(3, 236);
+            this.label29.Margin = new System.Windows.Forms.Padding(3);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(929, 17);
+            this.label29.TabIndex = 0;
+            this.label29.Text = "Player Stats";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // pnlGameReports
+            // 
+            this.pnlGameReports.AutoScroll = true;
+            this.pnlGameReports.AutoScrollMargin = new System.Drawing.Size(0, 5);
+            this.pnlGameReports.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlGameReports.Location = new System.Drawing.Point(0, 512);
+            this.pnlGameReports.Margin = new System.Windows.Forms.Padding(0);
+            this.pnlGameReports.Name = "pnlGameReports";
+            this.pnlGameReports.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
+            this.pnlGameReports.Size = new System.Drawing.Size(955, 388);
+            this.pnlGameReports.TabIndex = 1;
             // 
             // MatchReport
             // 
@@ -463,7 +462,7 @@
             this.Controls.Add(this.tblLOPnlMatchReport);
             this.DoubleBuffered = true;
             this.Name = "MatchReport";
-            this.Size = new System.Drawing.Size(955, 798);
+            this.Size = new System.Drawing.Size(955, 900);
             this.tblLOPnlMatchReport.ResumeLayout(false);
             this.tblLOPnlMatchReport.PerformLayout();
             this.tblLOPnlMatchContext.ResumeLayout(false);

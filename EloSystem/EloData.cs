@@ -56,6 +56,8 @@ namespace EloSystem
         [field: NonSerialized]
         public EventHandler MapPoolChanged = delegate { };
         [field: NonSerialized]
+        public EventHandler MatchPoolChanged = delegate { };
+        [field: NonSerialized]
         public EventHandler PlayerPoolChanged = delegate { };
         [field: NonSerialized]
         public EventHandler SeasonPoolChanged = delegate { };
@@ -238,11 +240,11 @@ namespace EloSystem
             else { return false; }
         }
 
-        public bool AddMap(string name, MapPlayerType maptype, Image image = null)
+        public bool AddMap(string name, MapPlayerType maptype, Size size, Image image = null)
         {
             if (name != string.Empty && !this.maps.Any(map => map.Name == name))
             {
-                this.maps.Add(new Map(name, this.AddNewImage(image), maptype));
+                this.maps.Add(new Map(name, this.AddNewImage(image), maptype) { Size = size });
 
                 this.DataWasChanged = true;
 
@@ -261,7 +263,7 @@ namespace EloSystem
         public bool AddPlayer(string name, IEnumerable<string> aliases, string irlName = "", int startRating = EloSystemStaticMembers.START_RATING_DEFAULT, Team team = null, Country country = null
             , Image image = null, DateTime birthDate = new DateTime())
         {
-            if (name != string.Empty && !this.players.Any(player => player.Name == name))
+            if (name != string.Empty)
             {
                 var player = new SCPlayer(name, startRating, this.AddNewImage(image), aliases, team, country) { IRLName = irlName };
                 player.SetBirthDate(birthDate);
@@ -489,12 +491,12 @@ namespace EloSystem
 
         public void ReportMatch(SCPlayer player1, SCPlayer player2, GameEntry[] entries, Season season)
         {
-            this.ReportMatch(player1, player2, entries, season, DateTime.Today);
+            this.ReportMatch(player1, player2, entries, season, DateTime.Now);
         }
 
         public void ReportMatch(SCPlayer player1, SCPlayer player2, GameEntry[] entries, Tournament tournament)
         {
-            this.ReportMatch(player1, player2, entries, tournament == null ? this.defaultTournament.DefaultSeason : tournament.DefaultSeason, DateTime.Today);
+            this.ReportMatch(player1, player2, entries, tournament == null ? this.defaultTournament.DefaultSeason : tournament.DefaultSeason, DateTime.Now);
         }
 
         public void ReportMatch(SCPlayer player1, SCPlayer player2, GameEntry[] entries, Tournament tournament, DateTime date)
@@ -513,6 +515,8 @@ namespace EloSystem
             else { this.defaultTournament.DefaultSeason.AddMatch(match); }
 
             this.DataWasChanged = true;
+
+            this.MatchPoolChanged.Invoke(this, new EventArgs());
         }
 
         /// <summary>

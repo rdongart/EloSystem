@@ -44,6 +44,13 @@ namespace SCEloSystemGUI.UserControls
                 return (this.cmbBxMapType.SelectedItem as Tuple<string, MapPlayerType>).Item2;
             }
         }
+        public Size MapSize
+        {
+            get
+            {
+                return new Size((int)this.numUDWidth.Value, (int)this.numUDHeight.Value);
+            }
+        }
         public string ContentName
         {
             get

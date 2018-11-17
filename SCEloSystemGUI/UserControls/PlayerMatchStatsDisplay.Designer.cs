@@ -117,28 +117,24 @@
             // 
             // lbPlRaceVsRandom
             // 
-            this.lbPlRaceVsRandom.AutoEllipsis = true;
-            this.lbPlRaceVsRandom.AutoSize = true;
             this.lbPlRaceVsRandom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlRaceVsRandom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPlRaceVsRandom.Location = new System.Drawing.Point(377, 165);
-            this.lbPlRaceVsRandom.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.lbPlRaceVsRandom.Location = new System.Drawing.Point(376, 163);
+            this.lbPlRaceVsRandom.Margin = new System.Windows.Forms.Padding(1);
             this.lbPlRaceVsRandom.Name = "lbPlRaceVsRandom";
-            this.lbPlRaceVsRandom.Size = new System.Drawing.Size(61, 20);
+            this.lbPlRaceVsRandom.Size = new System.Drawing.Size(63, 24);
             this.lbPlRaceVsRandom.TabIndex = 0;
             this.lbPlRaceVsRandom.Text = "[missing]";
             this.lbPlRaceVsRandom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbPlRaceVsProtoss
             // 
-            this.lbPlRaceVsProtoss.AutoEllipsis = true;
-            this.lbPlRaceVsProtoss.AutoSize = true;
             this.lbPlRaceVsProtoss.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlRaceVsProtoss.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPlRaceVsProtoss.Location = new System.Drawing.Point(312, 165);
-            this.lbPlRaceVsProtoss.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.lbPlRaceVsProtoss.Location = new System.Drawing.Point(311, 163);
+            this.lbPlRaceVsProtoss.Margin = new System.Windows.Forms.Padding(1);
             this.lbPlRaceVsProtoss.Name = "lbPlRaceVsProtoss";
-            this.lbPlRaceVsProtoss.Size = new System.Drawing.Size(61, 20);
+            this.lbPlRaceVsProtoss.Size = new System.Drawing.Size(63, 24);
             this.lbPlRaceVsProtoss.TabIndex = 0;
             this.lbPlRaceVsProtoss.Text = "[missing]";
             this.lbPlRaceVsProtoss.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -149,38 +145,34 @@
             this.lbPlWRVsRandom.AutoSize = true;
             this.lbPlWRVsRandom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlWRVsRandom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPlWRVsRandom.Location = new System.Drawing.Point(377, 139);
-            this.lbPlWRVsRandom.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.lbPlWRVsRandom.Location = new System.Drawing.Point(376, 137);
+            this.lbPlWRVsRandom.Margin = new System.Windows.Forms.Padding(1);
             this.lbPlWRVsRandom.Name = "lbPlWRVsRandom";
-            this.lbPlWRVsRandom.Size = new System.Drawing.Size(61, 20);
+            this.lbPlWRVsRandom.Size = new System.Drawing.Size(63, 24);
             this.lbPlWRVsRandom.TabIndex = 0;
             this.lbPlWRVsRandom.Text = "[missing]";
             this.lbPlWRVsRandom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbPlRaceVsTerran
             // 
-            this.lbPlRaceVsTerran.AutoEllipsis = true;
-            this.lbPlRaceVsTerran.AutoSize = true;
             this.lbPlRaceVsTerran.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlRaceVsTerran.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPlRaceVsTerran.Location = new System.Drawing.Point(247, 165);
-            this.lbPlRaceVsTerran.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.lbPlRaceVsTerran.Location = new System.Drawing.Point(246, 163);
+            this.lbPlRaceVsTerran.Margin = new System.Windows.Forms.Padding(1);
             this.lbPlRaceVsTerran.Name = "lbPlRaceVsTerran";
-            this.lbPlRaceVsTerran.Size = new System.Drawing.Size(61, 20);
+            this.lbPlRaceVsTerran.Size = new System.Drawing.Size(63, 24);
             this.lbPlRaceVsTerran.TabIndex = 0;
             this.lbPlRaceVsTerran.Text = "[missing]";
             this.lbPlRaceVsTerran.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbPlRaceVsZerg
             // 
-            this.lbPlRaceVsZerg.AutoEllipsis = true;
-            this.lbPlRaceVsZerg.AutoSize = true;
             this.lbPlRaceVsZerg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlRaceVsZerg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPlRaceVsZerg.Location = new System.Drawing.Point(182, 165);
-            this.lbPlRaceVsZerg.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.lbPlRaceVsZerg.Location = new System.Drawing.Point(181, 163);
+            this.lbPlRaceVsZerg.Margin = new System.Windows.Forms.Padding(1);
             this.lbPlRaceVsZerg.Name = "lbPlRaceVsZerg";
-            this.lbPlRaceVsZerg.Size = new System.Drawing.Size(61, 20);
+            this.lbPlRaceVsZerg.Size = new System.Drawing.Size(63, 24);
             this.lbPlRaceVsZerg.TabIndex = 0;
             this.lbPlRaceVsZerg.Text = "[missing]";
             this.lbPlRaceVsZerg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -191,26 +183,24 @@
             this.lbPlWRVsProtoss.AutoSize = true;
             this.lbPlWRVsProtoss.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlWRVsProtoss.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPlWRVsProtoss.Location = new System.Drawing.Point(312, 139);
-            this.lbPlWRVsProtoss.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.lbPlWRVsProtoss.Location = new System.Drawing.Point(311, 137);
+            this.lbPlWRVsProtoss.Margin = new System.Windows.Forms.Padding(1);
             this.lbPlWRVsProtoss.Name = "lbPlWRVsProtoss";
-            this.lbPlWRVsProtoss.Size = new System.Drawing.Size(61, 20);
+            this.lbPlWRVsProtoss.Size = new System.Drawing.Size(63, 24);
             this.lbPlWRVsProtoss.TabIndex = 0;
             this.lbPlWRVsProtoss.Text = "[missing]";
             this.lbPlWRVsProtoss.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbPlRaceMain
             // 
-            this.lbPlRaceMain.AutoEllipsis = true;
-            this.lbPlRaceMain.AutoSize = true;
             this.lbPlRaceMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlRaceMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPlRaceMain.Location = new System.Drawing.Point(117, 165);
-            this.lbPlRaceMain.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.lbPlRaceMain.Location = new System.Drawing.Point(116, 163);
+            this.lbPlRaceMain.Margin = new System.Windows.Forms.Padding(1);
             this.lbPlRaceMain.Name = "lbPlRaceMain";
-            this.lbPlRaceMain.Size = new System.Drawing.Size(61, 20);
+            this.lbPlRaceMain.Size = new System.Drawing.Size(63, 24);
             this.lbPlRaceMain.TabIndex = 0;
-            this.lbPlRaceMain.Text = "[missing]";
+            this.lbPlRaceMain.Text = "Zerg";
             this.lbPlRaceMain.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbPlRatingMain
@@ -219,10 +209,10 @@
             this.lbPlRatingMain.AutoSize = true;
             this.lbPlRatingMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlRatingMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPlRatingMain.Location = new System.Drawing.Point(117, 113);
-            this.lbPlRatingMain.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.lbPlRatingMain.Location = new System.Drawing.Point(116, 111);
+            this.lbPlRatingMain.Margin = new System.Windows.Forms.Padding(1);
             this.lbPlRatingMain.Name = "lbPlRatingMain";
-            this.lbPlRatingMain.Size = new System.Drawing.Size(61, 20);
+            this.lbPlRatingMain.Size = new System.Drawing.Size(63, 24);
             this.lbPlRatingMain.TabIndex = 0;
             this.lbPlRatingMain.Text = "[missing]";
             this.lbPlRatingMain.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -233,10 +223,10 @@
             this.lbPlWRVsTerran.AutoSize = true;
             this.lbPlWRVsTerran.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlWRVsTerran.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPlWRVsTerran.Location = new System.Drawing.Point(247, 139);
-            this.lbPlWRVsTerran.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.lbPlWRVsTerran.Location = new System.Drawing.Point(246, 137);
+            this.lbPlWRVsTerran.Margin = new System.Windows.Forms.Padding(1);
             this.lbPlWRVsTerran.Name = "lbPlWRVsTerran";
-            this.lbPlWRVsTerran.Size = new System.Drawing.Size(61, 20);
+            this.lbPlWRVsTerran.Size = new System.Drawing.Size(63, 24);
             this.lbPlWRVsTerran.TabIndex = 0;
             this.lbPlWRVsTerran.Text = "[missing]";
             this.lbPlWRVsTerran.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -247,10 +237,10 @@
             this.lbPlRatingVsZerg.AutoSize = true;
             this.lbPlRatingVsZerg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlRatingVsZerg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPlRatingVsZerg.Location = new System.Drawing.Point(182, 113);
-            this.lbPlRatingVsZerg.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.lbPlRatingVsZerg.Location = new System.Drawing.Point(181, 111);
+            this.lbPlRatingVsZerg.Margin = new System.Windows.Forms.Padding(1);
             this.lbPlRatingVsZerg.Name = "lbPlRatingVsZerg";
-            this.lbPlRatingVsZerg.Size = new System.Drawing.Size(61, 20);
+            this.lbPlRatingVsZerg.Size = new System.Drawing.Size(63, 24);
             this.lbPlRatingVsZerg.TabIndex = 0;
             this.lbPlRatingVsZerg.Text = "[missing]";
             this.lbPlRatingVsZerg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -261,10 +251,10 @@
             this.lbPlRatingVsTerran.AutoSize = true;
             this.lbPlRatingVsTerran.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlRatingVsTerran.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPlRatingVsTerran.Location = new System.Drawing.Point(247, 113);
-            this.lbPlRatingVsTerran.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.lbPlRatingVsTerran.Location = new System.Drawing.Point(246, 111);
+            this.lbPlRatingVsTerran.Margin = new System.Windows.Forms.Padding(1);
             this.lbPlRatingVsTerran.Name = "lbPlRatingVsTerran";
-            this.lbPlRatingVsTerran.Size = new System.Drawing.Size(61, 20);
+            this.lbPlRatingVsTerran.Size = new System.Drawing.Size(63, 24);
             this.lbPlRatingVsTerran.TabIndex = 0;
             this.lbPlRatingVsTerran.Text = "[missing]";
             this.lbPlRatingVsTerran.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -275,10 +265,10 @@
             this.lbPlWRVsZerg.AutoSize = true;
             this.lbPlWRVsZerg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlWRVsZerg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPlWRVsZerg.Location = new System.Drawing.Point(182, 139);
-            this.lbPlWRVsZerg.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.lbPlWRVsZerg.Location = new System.Drawing.Point(181, 137);
+            this.lbPlWRVsZerg.Margin = new System.Windows.Forms.Padding(1);
             this.lbPlWRVsZerg.Name = "lbPlWRVsZerg";
-            this.lbPlWRVsZerg.Size = new System.Drawing.Size(61, 20);
+            this.lbPlWRVsZerg.Size = new System.Drawing.Size(63, 24);
             this.lbPlWRVsZerg.TabIndex = 0;
             this.lbPlWRVsZerg.Text = "[missing]";
             this.lbPlWRVsZerg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -289,10 +279,10 @@
             this.lbPlRatingVsProtoss.AutoSize = true;
             this.lbPlRatingVsProtoss.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlRatingVsProtoss.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPlRatingVsProtoss.Location = new System.Drawing.Point(312, 113);
-            this.lbPlRatingVsProtoss.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.lbPlRatingVsProtoss.Location = new System.Drawing.Point(311, 111);
+            this.lbPlRatingVsProtoss.Margin = new System.Windows.Forms.Padding(1);
             this.lbPlRatingVsProtoss.Name = "lbPlRatingVsProtoss";
-            this.lbPlRatingVsProtoss.Size = new System.Drawing.Size(61, 20);
+            this.lbPlRatingVsProtoss.Size = new System.Drawing.Size(63, 24);
             this.lbPlRatingVsProtoss.TabIndex = 0;
             this.lbPlRatingVsProtoss.Text = "[missing]";
             this.lbPlRatingVsProtoss.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -303,10 +293,10 @@
             this.lbPlRatingVsRandom.AutoSize = true;
             this.lbPlRatingVsRandom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlRatingVsRandom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPlRatingVsRandom.Location = new System.Drawing.Point(377, 113);
-            this.lbPlRatingVsRandom.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.lbPlRatingVsRandom.Location = new System.Drawing.Point(376, 111);
+            this.lbPlRatingVsRandom.Margin = new System.Windows.Forms.Padding(1);
             this.lbPlRatingVsRandom.Name = "lbPlRatingVsRandom";
-            this.lbPlRatingVsRandom.Size = new System.Drawing.Size(61, 20);
+            this.lbPlRatingVsRandom.Size = new System.Drawing.Size(63, 24);
             this.lbPlRatingVsRandom.TabIndex = 0;
             this.lbPlRatingVsRandom.Text = "[missing]";
             this.lbPlRatingVsRandom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -387,10 +377,10 @@
             this.lbPlWRMain.AutoSize = true;
             this.lbPlWRMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlWRMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPlWRMain.Location = new System.Drawing.Point(117, 139);
-            this.lbPlWRMain.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.lbPlWRMain.Location = new System.Drawing.Point(116, 137);
+            this.lbPlWRMain.Margin = new System.Windows.Forms.Padding(1);
             this.lbPlWRMain.Name = "lbPlWRMain";
-            this.lbPlWRMain.Size = new System.Drawing.Size(61, 20);
+            this.lbPlWRMain.Size = new System.Drawing.Size(63, 24);
             this.lbPlWRMain.TabIndex = 0;
             this.lbPlWRMain.Text = "[missing]";
             this.lbPlWRMain.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -519,8 +509,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.tblLOPnlPlayerStats);
             this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "PlayerMatchStatsDisplay";
-            this.Size = new System.Drawing.Size(440, 188);
+            this.Size = new System.Drawing.Size(442, 190);
             this.tblLOPnlPlayerStats.ResumeLayout(false);
             this.tblLOPnlPlayerStats.PerformLayout();
             this.ResumeLayout(false);

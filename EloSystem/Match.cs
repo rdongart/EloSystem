@@ -67,5 +67,15 @@ namespace EloSystem
         {
             foreach (Game game in this.games.Select(entry => new Game(this.Player1, this.Player2, entry))) { yield return game; }
         }
+
+        public int RatingChangeBy(PlayerSlotType player)
+        {
+            return this.games.Where(game => game.WinnerWas == player).Sum(game => game.RatingChange) - this.games.Where(game => game.WinnerWas != player).Sum(game => game.RatingChange);
+        }
+
+        public int WinsBy(PlayerSlotType player)
+        {
+            return this.games.Count(game => game.WinnerWas == player);
+        }
     }
 }

@@ -107,7 +107,7 @@
             this.btnAdd.Margin = new System.Windows.Forms.Padding(6, 14, 6, 4);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(120, 32);
-            this.btnAdd.TabIndex = 4;
+            this.btnAdd.TabIndex = 1;
             this.btnAdd.Text = "A&dd to system";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -116,9 +116,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "HasNameContentAdder";
-            this.Size = new System.Drawing.Size(360, 130);
+            this.Size = new System.Drawing.Size(358, 128);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);

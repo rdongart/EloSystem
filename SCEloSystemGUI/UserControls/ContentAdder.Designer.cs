@@ -144,7 +144,7 @@
             this.btnBrowse.Margin = new System.Windows.Forms.Padding(4);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(72, 22);
-            this.btnBrowse.TabIndex = 3;
+            this.btnBrowse.TabIndex = 1;
             this.btnBrowse.Text = "&Browse...";
             this.toolTipContentAdder.SetToolTip(this.btnBrowse, "Browse for an image");
             this.btnBrowse.UseVisualStyleBackColor = true;
@@ -160,7 +160,7 @@
             this.btnAdd.Margin = new System.Windows.Forms.Padding(6, 14, 6, 4);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(120, 32);
-            this.btnAdd.TabIndex = 4;
+            this.btnAdd.TabIndex = 2;
             this.btnAdd.Text = "A&dd to system";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);

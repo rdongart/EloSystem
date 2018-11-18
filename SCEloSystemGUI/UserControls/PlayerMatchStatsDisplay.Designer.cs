@@ -60,7 +60,11 @@
             this.lbPlAliases = new System.Windows.Forms.Label();
             this.lbPlCountry = new System.Windows.Forms.Label();
             this.toolTipStatsDisplay = new System.Windows.Forms.ToolTip(this.components);
+            this.picBxCountry = new System.Windows.Forms.PictureBox();
+            this.picBoxTeam = new System.Windows.Forms.PictureBox();
             this.tblLOPnlPlayerStats.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBxCountry)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxTeam)).BeginInit();
             this.SuspendLayout();
             // 
             // tblLOPnlPlayerStats
@@ -98,9 +102,11 @@
             this.tblLOPnlPlayerStats.Controls.Add(this.label20, 2, 3);
             this.tblLOPnlPlayerStats.Controls.Add(this.label22, 4, 3);
             this.tblLOPnlPlayerStats.Controls.Add(this.label21, 3, 3);
-            this.tblLOPnlPlayerStats.Controls.Add(this.lbPlTeam, 1, 1);
+            this.tblLOPnlPlayerStats.Controls.Add(this.lbPlTeam, 2, 1);
             this.tblLOPnlPlayerStats.Controls.Add(this.lbPlAliases, 1, 2);
-            this.tblLOPnlPlayerStats.Controls.Add(this.lbPlCountry, 1, 0);
+            this.tblLOPnlPlayerStats.Controls.Add(this.lbPlCountry, 2, 0);
+            this.tblLOPnlPlayerStats.Controls.Add(this.picBxCountry, 1, 0);
+            this.tblLOPnlPlayerStats.Controls.Add(this.picBoxTeam, 1, 1);
             this.tblLOPnlPlayerStats.Location = new System.Drawing.Point(0, 0);
             this.tblLOPnlPlayerStats.Margin = new System.Windows.Forms.Padding(0);
             this.tblLOPnlPlayerStats.Name = "tblLOPnlPlayerStats";
@@ -462,14 +468,14 @@
             // lbPlTeam
             // 
             this.lbPlTeam.AutoEllipsis = true;
-            this.tblLOPnlPlayerStats.SetColumnSpan(this.lbPlTeam, 5);
+            this.tblLOPnlPlayerStats.SetColumnSpan(this.lbPlTeam, 4);
             this.lbPlTeam.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlTeam.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPlTeam.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lbPlTeam.Location = new System.Drawing.Point(118, 29);
+            this.lbPlTeam.Location = new System.Drawing.Point(183, 29);
             this.lbPlTeam.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlTeam.Name = "lbPlTeam";
-            this.lbPlTeam.Size = new System.Drawing.Size(319, 20);
+            this.lbPlTeam.Size = new System.Drawing.Size(254, 20);
             this.lbPlTeam.TabIndex = 0;
             this.lbPlTeam.Text = "[missing]";
             this.lbPlTeam.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -492,17 +498,37 @@
             // lbPlCountry
             // 
             this.lbPlCountry.AutoEllipsis = true;
-            this.tblLOPnlPlayerStats.SetColumnSpan(this.lbPlCountry, 5);
+            this.tblLOPnlPlayerStats.SetColumnSpan(this.lbPlCountry, 4);
             this.lbPlCountry.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlCountry.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPlCountry.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lbPlCountry.Location = new System.Drawing.Point(118, 3);
+            this.lbPlCountry.Location = new System.Drawing.Point(183, 3);
             this.lbPlCountry.Margin = new System.Windows.Forms.Padding(3);
             this.lbPlCountry.Name = "lbPlCountry";
-            this.lbPlCountry.Size = new System.Drawing.Size(319, 20);
+            this.lbPlCountry.Size = new System.Drawing.Size(254, 20);
             this.lbPlCountry.TabIndex = 0;
             this.lbPlCountry.Text = "[missing]";
             this.lbPlCountry.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // picBxCountry
+            // 
+            this.picBxCountry.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picBxCountry.Location = new System.Drawing.Point(118, 3);
+            this.picBxCountry.Name = "picBxCountry";
+            this.picBxCountry.Size = new System.Drawing.Size(59, 20);
+            this.picBxCountry.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picBxCountry.TabIndex = 1;
+            this.picBxCountry.TabStop = false;
+            // 
+            // picBoxTeam
+            // 
+            this.picBoxTeam.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picBoxTeam.Location = new System.Drawing.Point(118, 29);
+            this.picBoxTeam.Name = "picBoxTeam";
+            this.picBoxTeam.Size = new System.Drawing.Size(59, 20);
+            this.picBoxTeam.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picBoxTeam.TabIndex = 1;
+            this.picBoxTeam.TabStop = false;
             // 
             // PlayerMatchStatsDisplay
             // 
@@ -514,6 +540,8 @@
             this.Size = new System.Drawing.Size(442, 190);
             this.tblLOPnlPlayerStats.ResumeLayout(false);
             this.tblLOPnlPlayerStats.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBxCountry)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxTeam)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -551,5 +579,7 @@
         private System.Windows.Forms.Label lbPlTeam;
         private System.Windows.Forms.Label lbPlAliases;
         private System.Windows.Forms.ToolTip toolTipStatsDisplay;
+        private System.Windows.Forms.PictureBox picBxCountry;
+        private System.Windows.Forms.PictureBox picBoxTeam;
     }
 }

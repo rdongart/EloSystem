@@ -30,38 +30,58 @@ namespace SCEloSystemGUI.UserControls
 
             EloImage countryRes;
 
-            if (this.lbPlCountry.Image != null) { this.lbPlCountry.Image.Dispose(); }
-            this.lbPlCountry.Image = null;
-            this.toolTipStatsDisplay.SetToolTip(this.lbPlCountry, string.Empty);
+            if (this.picBxCountry.Image != null) { this.picBxCountry.Image.Dispose(); }
+            this.picBxCountry.Image = null;
+            this.toolTipStatsDisplay.SetToolTip(this.picBxCountry, string.Empty);
             this.lbPlCountry.Text = string.Empty;
+
+            this.tblLOPnlPlayerStats.Controls.Remove(this.picBxCountry);
+            this.tblLOPnlPlayerStats.Controls.Remove(this.lbPlCountry);
 
             if (player.Country != null)
             {
                 if (this.EloDataSource().TryGetImage(player.Country.ImageID, out countryRes))
                 {
-                    this.lbPlCountry.Image = countryRes.Image;
+                    this.picBxCountry.Image = countryRes.Image;
 
-                    this.toolTipStatsDisplay.SetToolTip(this.lbPlCountry, player.Country.Name);
+                    this.tblLOPnlPlayerStats.Controls.Add(this.picBxCountry, 1, 0);
+
+                    this.toolTipStatsDisplay.SetToolTip(this.picBxCountry, player.Country.Name);
                 }
-                else { this.lbPlCountry.Text = player.Country.Name; }
+                else
+                {
+                    this.lbPlCountry.Text = player.Country.Name;
+                    this.tblLOPnlPlayerStats.Controls.Add(this.lbPlCountry, 1, 0);
+                    this.tblLOPnlPlayerStats.SetColumnSpan(this.lbPlCountry, 5);
+                }
             }
 
             EloImage teamRes;
 
-            if (this.lbPlTeam.Image != null) { this.lbPlTeam.Image.Dispose(); }
-            this.lbPlTeam.Image = null;
-            this.toolTipStatsDisplay.SetToolTip(this.lbPlTeam, string.Empty);
+            if (this.picBoxTeam.Image != null) { this.picBoxTeam.Image.Dispose(); }
+            this.picBoxTeam.Image = null;
+            this.toolTipStatsDisplay.SetToolTip(this.picBoxTeam, string.Empty);
             this.lbPlTeam.Text = string.Empty;
+
+            this.tblLOPnlPlayerStats.Controls.Remove(this.picBoxTeam);
+            this.tblLOPnlPlayerStats.Controls.Remove(this.lbPlTeam);
 
             if (player.Team != null)
             {
                 if (this.EloDataSource().TryGetImage(player.Team.ImageID, out teamRes))
                 {
-                    this.lbPlTeam.Image = teamRes.Image;
+                    this.picBoxTeam.Image = teamRes.Image;
 
-                    this.toolTipStatsDisplay.SetToolTip(this.lbPlTeam, player.Team.Name);
+                    this.tblLOPnlPlayerStats.Controls.Add(this.picBoxTeam, 1, 0);
+
+                    this.toolTipStatsDisplay.SetToolTip(this.picBoxTeam, player.Team.Name);
                 }
-                else { this.lbPlTeam.Text = player.Team.Name; }
+                else
+                {
+                    this.lbPlTeam.Text = player.Team.Name;
+                    this.tblLOPnlPlayerStats.Controls.Add(this.lbPlTeam, 1, 0);
+                    this.tblLOPnlPlayerStats.SetColumnSpan(this.lbPlTeam, 5);
+                }
             }
 
             this.lbPlAliases.Text = String.Join(", ", player.GetAliases());

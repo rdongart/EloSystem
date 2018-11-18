@@ -1,8 +1,0 @@
-- Add a NameLong string property to Team for longer names;
-- Add a NameLong string property to Tournament for longer names;
-- Add a remove image button to ContentAdder;
-- Add a control for entering Team objects;
-- Add method on EloData class for editing images of content;
-- Add control for editing Tournament objects.
-
-

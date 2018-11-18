@@ -25,13 +25,14 @@ namespace SCEloSystemGUI
             var olvClmTournament = new OLVColumn() { Width = 130, Text = "Tournament" };
             var olvClmSeason = new OLVColumn() { Width = 110, Text = "Season" };
 
-            matchLV.Size = new Size(690, 630);
+            matchLV.Size = new Size(694, 700);
             matchLV.HasCollapsibleGroups = false;
             matchLV.ShowGroups = false;
             matchLV.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             matchLV.RowHeight = 22;
             matchLV.UseCellFormatEvents = true;
             matchLV.FormatCell += MatchLV_FormatCell;
+            matchLV.Scrollable = true;
 
             matchLV.AllColumns.AddRange(new OLVColumn[] { olvClmEmpty, olvClmPlayer1, olvClmRatingChangePlayer1, olvClmResult, olvClmRatingChangePlayer2, olvClmPlayer2, olvClmTournament, olvClmSeason });
 
@@ -164,18 +165,25 @@ namespace SCEloSystemGUI
             MessageBox.Show(String.Format("Content was successfully edited."));
         }
 
-        private void EditContent(object sender, EventArgs e)
+        private void OnEditTournament(object sender, EventArgs e)
         {
             var editorSender = sender as DblNameContentEditor<Tournament>;
 
             if (editorSender != null) { this.EditContent<Tournament>(editorSender); }
         }
 
+        private void OnEditTeam(object sender, EventArgs e)
+        {
+            var editorSender = sender as DblNameContentEditor<Team>;
+
+            if (editorSender != null) { this.EditContent<Team>(editorSender); }
+        }
+
         private void EditContent<T>(DblNameContentEditor<T> editor) where T : EloSystemContent, IHasDblName
         {
             editor.SelectedItem.Name = editor.NameShort;
             editor.SelectedItem.NameLong = editor.NameLong;
-            
+
             if (editor.NewImage != null) { this.eloSystem.EidtImage(editor.SelectedItem, editor.NewImage); }
             else if (editor.RemoveCurrentImage) { this.eloSystem.EidtImage(editor.SelectedItem, null); }
         }
@@ -301,6 +309,11 @@ namespace SCEloSystemGUI
             this.AddTournamentsToImgCmbBox();
         }
 
+        private void TeamEdited_OnEditedButtonClick(object sender, EventArgs e)
+        {
+            this.AddTeamsToImgCmbBox();
+        }
+
         private void AddTileSetsToCmbBox()
         {
             var selectedItem = this.mapAdder.cmbBxTileset.SelectedItem != null ? (this.mapAdder.cmbBxTileset.SelectedItem as Tuple<string, Tileset>).Item2 : null;
@@ -353,6 +366,8 @@ namespace SCEloSystemGUI
 
         private void AddTeamsToImgCmbBox()
         {
+            this.teamEditor.AddContentItems(this.eloSystem.GetTeams(), this.ImageGetterMethod);
+
             var currentSelection = this.playerAdder.ImgCmbBxTeams.SelectedValue as Team;
 
             Func<Team, Image> GetImage = c =>
@@ -389,7 +404,7 @@ namespace SCEloSystemGUI
 
         private void AddRecentMatches()
         {
-            this.oLstVRecentMatches.SetObjects(this.eloSystem.GetAllGames().Reverse().GroupBy(game => game.Match));
+            this.oLstVRecentMatches.SetObjects(this.eloSystem.GetAllGames().OrderByDescending(game=>game.Match.Date).GroupBy(game => game.Match).Take(50));
         }
 
         private void OnMatchReported(object sender, EventArgs e)

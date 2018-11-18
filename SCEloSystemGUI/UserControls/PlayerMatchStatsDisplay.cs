@@ -72,14 +72,14 @@ namespace SCEloSystemGUI.UserControls
                 {
                     this.picBoxTeam.Image = teamRes.Image;
 
-                    this.tblLOPnlPlayerStats.Controls.Add(this.picBoxTeam, 1, 0);
+                    this.tblLOPnlPlayerStats.Controls.Add(this.picBoxTeam, 1, 1);
 
                     this.toolTipStatsDisplay.SetToolTip(this.picBoxTeam, player.Team.Name);
                 }
                 else
                 {
                     this.lbPlTeam.Text = player.Team.Name;
-                    this.tblLOPnlPlayerStats.Controls.Add(this.lbPlTeam, 1, 0);
+                    this.tblLOPnlPlayerStats.Controls.Add(this.lbPlTeam, 1, 1);
                     this.tblLOPnlPlayerStats.SetColumnSpan(this.lbPlTeam, 5);
                 }
             }

@@ -513,9 +513,10 @@
             // picBxCountry
             // 
             this.picBxCountry.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picBxCountry.Location = new System.Drawing.Point(118, 3);
+            this.picBxCountry.Location = new System.Drawing.Point(117, 2);
+            this.picBxCountry.Margin = new System.Windows.Forms.Padding(2);
             this.picBxCountry.Name = "picBxCountry";
-            this.picBxCountry.Size = new System.Drawing.Size(59, 20);
+            this.picBxCountry.Size = new System.Drawing.Size(61, 22);
             this.picBxCountry.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picBxCountry.TabIndex = 1;
             this.picBxCountry.TabStop = false;
@@ -523,9 +524,10 @@
             // picBoxTeam
             // 
             this.picBoxTeam.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picBoxTeam.Location = new System.Drawing.Point(118, 29);
+            this.picBoxTeam.Location = new System.Drawing.Point(117, 28);
+            this.picBoxTeam.Margin = new System.Windows.Forms.Padding(2);
             this.picBoxTeam.Name = "picBoxTeam";
-            this.picBoxTeam.Size = new System.Drawing.Size(59, 20);
+            this.picBoxTeam.Size = new System.Drawing.Size(61, 22);
             this.picBoxTeam.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picBoxTeam.TabIndex = 1;
             this.picBoxTeam.TabStop = false;

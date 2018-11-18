@@ -14,6 +14,7 @@ namespace SCEloSystemGUI
         private ContentAdder countryAdder;
         private DblNameContentAdder teamAdder;
         private DblNameContentAdder tournamentAdder;
+        private DblNameContentEditor<Team> teamEditor;
         private DblNameContentEditor<Tournament> tournamentEditor;
         private Dictionary<int, ResourceItem> resMemory = new Dictionary<int, ResourceItem>();
         private EloData eloSystem;
@@ -76,9 +77,14 @@ namespace SCEloSystemGUI
             this.tblLOPnlTournaments.Controls.Add(this.tournamentAdder, 0, 0);
 
             this.tournamentEditor = new DblNameContentEditor<Tournament>() { ContentName = "Tornament", ResourceGetter = this.ImageGetterMethod };
-            this.tournamentEditor.EditButtonClicked += this.EditContent;
+            this.tournamentEditor.EditButtonClicked += this.OnEditTournament;
             this.tournamentEditor.EditButtonClicked += this.TournamentEdited_OnEditedButtonClick;
             this.tblLOPnlTournaments.Controls.Add(this.tournamentEditor, 0, 1);
+
+            this.teamEditor = new DblNameContentEditor<Team>() { ContentName = "Team", ResourceGetter = this.ImageGetterMethod };
+            this.teamEditor.EditButtonClicked += this.OnEditTeam;
+            this.teamEditor.EditButtonClicked += this.TeamEdited_OnEditedButtonClick;
+            this.tblLOPnlTeams.Controls.Add(this.teamEditor, 0, 1);
 
             this.matchReport = new MatchReport();
             this.tblLoPnlReportMatch.Controls.Add(this.matchReport, 0, 0);

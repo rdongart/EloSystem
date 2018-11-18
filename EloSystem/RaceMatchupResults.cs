@@ -7,9 +7,29 @@ namespace EloSystem
     public class RaceMatchupResults : ISerializable
     {
         public Race Race1 { get; private set; }
-        public Race race2 { get; private set; }
-        public int Race1Wins { get; private set; }
-        public int Race2Wins { get; private set; }
+        public Race Race2 { get; private set; }
+        public int Race1Wins
+        {
+            get
+            {
+                return this.Race1 == this.Race2 ? this.race1Wins + this.race2Wins : this.race1Wins;
+            }
+            private set
+            {
+                this.race1Wins = value;
+            }
+        }
+        public int Race2Wins
+        {
+            get
+            {
+                return this.Race1 == this.Race2 ? this.race1Wins + this.race2Wins : this.race2Wins;
+            }
+            private set
+            {
+                this.race2Wins = value;
+            }
+        }
         public int TotalGames
         {
             get
@@ -18,11 +38,13 @@ namespace EloSystem
             }
         }
         private double race1ExpWinRatio;
+        private int race1Wins;
+        private int race2Wins;
 
         internal RaceMatchupResults(Race race1, Race race2)
         {
             this.Race1 = race1;
-            this.race2 = race2;
+            this.Race2 = race2;
         }
 
         private static double CorrectedWinRatio(double expectedWinRatio, double actualWinRatio)
@@ -46,7 +68,7 @@ namespace EloSystem
             info.AddValue(Field.Race1.ToString(), (byte)this.Race1);
             info.AddValue(Field.Race1ExpWinRatio.ToString(), (double)this.race1ExpWinRatio);
             info.AddValue(Field.Race1Wins.ToString(), (int)this.Race1Wins);
-            info.AddValue(Field.Race2.ToString(), (byte)this.race2);
+            info.AddValue(Field.Race2.ToString(), (byte)this.Race2);
             info.AddValue(Field.Race2Wins.ToString(), (int)this.Race2Wins);
         }
         internal RaceMatchupResults(SerializationInfo info, StreamingContext context)
@@ -62,7 +84,7 @@ namespace EloSystem
                         case Field.Race1: this.Race1 = (Race)info.GetByte(field.ToString()); break;
                         case Field.Race1ExpWinRatio: this.race1ExpWinRatio = (double)info.GetDouble(field.ToString()); break;
                         case Field.Race1Wins: this.Race1Wins = (int)info.GetInt32(field.ToString()); break;
-                        case Field.Race2: this.race2 = (Race)info.GetByte(field.ToString()); break;
+                        case Field.Race2: this.Race2 = (Race)info.GetByte(field.ToString()); break;
                         case Field.Race2Wins: this.Race2Wins = (int)info.GetInt32(field.ToString()); break;
                     }
                 }
@@ -73,13 +95,13 @@ namespace EloSystem
 
         internal bool IsMatchupFor(Race race1, Race race2)
         {
-            return (race1 == this.Race1 && race2 == this.race2) || (race1 == this.race2 && race2 == this.Race1);
+            return (race1 == this.Race1 && race2 == this.Race2) || (race1 == this.Race2 && race2 == this.Race1);
         }
 
         internal void AddMatchupData(Race raceWinner, int race1Rating, int race2Rating)
         {
             if (this.Race1 == raceWinner) { this.Race1Wins++; }
-            else if (this.race2 == raceWinner) { this.Race2Wins++; }
+            else if (this.Race2 == raceWinner) { this.Race2Wins++; }
             else { return; }
 
             this.race1ExpWinRatio += EloData.ExpectedWinRatio(race1Rating, race2Rating);
@@ -87,12 +109,12 @@ namespace EloSystem
 
         public double WinRatioRace1()
         {
-            return this.Race1Wins / (double)(this.Race1Wins + this.Race2Wins);
+            return this.Race1 == this.Race2 ? EloData.EXP_WIN_RATIO_MAX : this.Race1Wins / (double)(this.Race1Wins + this.Race2Wins);
         }
 
         public double WinRatioRace2()
         {
-            return this.Race2Wins / (double)(this.Race1Wins + this.Race2Wins);
+            return this.Race1 == this.Race2 ? EloData.EXP_WIN_RATIO_MAX : this.Race2Wins / (double)(this.Race1Wins + this.Race2Wins);
         }
 
         /// <summary>
@@ -101,7 +123,7 @@ namespace EloSystem
         /// <returns></returns>
         public double WinRatioRace1CorrectedForExpectedWR()
         {
-            return RaceMatchupResults.CorrectedWinRatio(this.race1ExpWinRatio / (double)this.TotalGames, this.WinRatioRace1());
+            return this.Race1 == this.Race2 ? EloData.EXP_WIN_RATIO_MAX : RaceMatchupResults.CorrectedWinRatio(this.race1ExpWinRatio / (double)this.TotalGames, this.WinRatioRace1());
         }
 
         /// <summary>
@@ -110,7 +132,7 @@ namespace EloSystem
         /// <returns></returns>
         public double WinRatioRace2CorrectedForExpectedWR()
         {
-            return EloData.EXP_WIN_RATIO_MAX - this.WinRatioRace1CorrectedForExpectedWR();
+            return this.Race1 == this.Race2 ? EloData.EXP_WIN_RATIO_MAX : EloData.EXP_WIN_RATIO_MAX - this.WinRatioRace1CorrectedForExpectedWR();
         }
     }
 }

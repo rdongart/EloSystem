@@ -52,7 +52,7 @@
             this.btnLoad.Margin = new System.Windows.Forms.Padding(8);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(121, 52);
-            this.btnLoad.TabIndex = 0;
+            this.btnLoad.TabIndex = 1;
             this.btnLoad.Text = "&Load";
             this.btnLoad.UseVisualStyleBackColor = true;
             this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
@@ -64,7 +64,7 @@
             this.btnClose.Margin = new System.Windows.Forms.Padding(8);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(121, 52);
-            this.btnClose.TabIndex = 0;
+            this.btnClose.TabIndex = 2;
             this.btnClose.Text = "&Close";
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);

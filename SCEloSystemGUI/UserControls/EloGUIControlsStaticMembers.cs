@@ -28,10 +28,10 @@ namespace SCEloSystemGUI.UserControls
                 Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 FormattingEnabled = true,
                 ImageMargin = new Padding(4, 2, 4, 2),
-                ItemHeight = 18,
+                ItemHeight = 20,
                 Margin = new Padding(6, 3, 6, 3),
                 SelectedItemFont = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
-                Size = new Size(154, 24),
+                Size = new Size(154, 26),
             };
         }
 
@@ -42,14 +42,14 @@ namespace SCEloSystemGUI.UserControls
                 Dock = DockStyle.Fill,
                 DrawMode = DrawMode.OwnerDrawFixed,
                 DropDownStyle = ComboBoxStyle.DropDownList,
-                DropDownWidth = 154,
-                Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
+                DropDownWidth = 160,                
+                Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 FormattingEnabled = true,
                 ImageMargin = new Padding(4, 2, 4, 2),
-                ItemHeight = 18,
+                ItemHeight = 20,
                 Margin = new Padding(6, 3, 6, 3),
                 SelectedItemFont = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
-                Size = new Size(154, 24),
+                Size = new Size(154, 26),
             };
         }
 

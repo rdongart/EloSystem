@@ -223,10 +223,20 @@ namespace SCEloSystemGUI.UserControls
 
                     if (selectedMapItem != null && selectedMapItem.Item2.Stats.TryGetMatchup(this.racePlayer1, this.racePlayer2, out stats))
                     {
-                        string statsTextA = String.Format("{0}%\n{1}/{2}", (100 * stats.WinRatioRace1CorrectedForExpectedWR()).RoundToInt(), stats.Race1Wins, stats.TotalGames);
-                        string statsTextB = String.Format("{0}%\n{1}/{2}", (100 * stats.WinRatioRace2CorrectedForExpectedWR()).RoundToInt(), stats.Race2Wins, stats.TotalGames);
+                        string statsTextA, statsTextB;
 
-                        if(this.racePlayer1 == stats.Race1)
+                        if (this.racePlayer1 == this.racePlayer2)
+                        {
+                            statsTextA = String.Format("{0}\ngames",stats.TotalGames);
+                            statsTextB = statsTextA;
+                        }
+                        else
+                        {
+                            statsTextA = String.Format("{0}%\n{1}/{2}", (100 * stats.WinRatioRace1CorrectedForExpectedWR()).RoundToInt(), stats.Race1Wins, stats.TotalGames);
+                            statsTextB = String.Format("{0}%\n{1}/{2}", (100 * stats.WinRatioRace2CorrectedForExpectedWR()).RoundToInt(), stats.Race2Wins, stats.TotalGames);
+                        }
+
+                        if (this.racePlayer1 == stats.Race1)
                         {
                             this.lbMapWRPlayer1Race.Text = statsTextA;
 
@@ -238,7 +248,7 @@ namespace SCEloSystemGUI.UserControls
 
                             this.lbMapWRPlayer2Race.Text = statsTextA;
                         }
-                        
+
                     }
                 }
 

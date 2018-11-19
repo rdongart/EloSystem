@@ -8,28 +8,8 @@ namespace EloSystem
     {
         public Race Race1 { get; private set; }
         public Race Race2 { get; private set; }
-        public int Race1Wins
-        {
-            get
-            {
-                return this.Race1 == this.Race2 ? this.race1Wins + this.race2Wins : this.race1Wins;
-            }
-            private set
-            {
-                this.race1Wins = value;
-            }
-        }
-        public int Race2Wins
-        {
-            get
-            {
-                return this.Race1 == this.Race2 ? this.race1Wins + this.race2Wins : this.race2Wins;
-            }
-            private set
-            {
-                this.race2Wins = value;
-            }
-        }
+        public int Race1Wins { get; private set; }
+        public int Race2Wins { get; private set; }
         public int TotalGames
         {
             get

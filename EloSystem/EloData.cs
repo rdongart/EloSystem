@@ -204,6 +204,8 @@ namespace EloSystem
 
             this.resHandler = new ResourceHandler(StaticMembers.SaveDirectory + this.Name);
             this.ContentHasBeenChanged = false;
+
+            
         }
         #endregion
 

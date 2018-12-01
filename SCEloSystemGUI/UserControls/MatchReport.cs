@@ -56,31 +56,27 @@ namespace SCEloSystemGUI.UserControls
         {
             InitializeComponent();
 
-            this.player1StatsDisplay = new PlayerMatchStatsDisplay() { Margin = new Padding(3) };
-            this.player2StatsDisplay = new PlayerMatchStatsDisplay() { Margin = new Padding(58, 3, 3, 3) };
+            this.player1StatsDisplay = new PlayerMatchStatsDisplay();
+            this.player2StatsDisplay = new PlayerMatchStatsDisplay();
 
             this.contextSelector = new MatchContextSelector(MatchReport.GetTournamentPickerComboBox(), this.cmbBxSeasonPicker);
 
             this.tblLOPnlMatchContext.Controls.Add(this.contextSelector.TournamentSelector, 1, 0);
 
-            this.tblLOPnlMatchReport.SetRowSpan(this.player1StatsDisplay, 7);
-            this.tblLOPnlMatchReport.SetColumnSpan(this.player1StatsDisplay, 5);
             this.player1StatsDisplay.Dock = DockStyle.Fill;
-            this.tblLOPnlMatchReport.Controls.Add(this.player1StatsDisplay, 0, 6);
+            this.tblLoPnlPlayers.Controls.Add(this.player1StatsDisplay, 0, 3);
 
-            this.tblLOPnlMatchReport.SetRowSpan(this.player2StatsDisplay, 7);
-            this.tblLOPnlMatchReport.SetColumnSpan(this.player2StatsDisplay, 5);
             this.player2StatsDisplay.Dock = DockStyle.Fill;
-            this.tblLOPnlMatchReport.Controls.Add(this.player2StatsDisplay, 5, 6);
+            this.tblLoPnlPlayers.Controls.Add(this.player2StatsDisplay, 2, 3);
 
             this.ImgCmbBxPlayer1 = MatchReport.GetPlayerSelectionComboBox();
-            this.tblLOPnlMatchReport.Controls.Add(this.ImgCmbBxPlayer1, 1, 4);
-            this.tblLOPnlMatchReport.SetColumnSpan(this.ImgCmbBxPlayer1, 4);
+            this.ImgCmbBxPlayer1.Margin = new Padding(6, 4, 30, 4);
+            this.tblLoPnlPlayers.Controls.Add(this.ImgCmbBxPlayer1, 0, 1);
             this.ImgCmbBxPlayer1.SelectedIndexChanged += this.ImgCmbBxPlayer1_SelectedIndexChanged;
 
             this.ImgCmbBxPlayer2 = MatchReport.GetPlayerSelectionComboBox();
-            this.tblLOPnlMatchReport.Controls.Add(this.ImgCmbBxPlayer2, 6, 4);
-            this.tblLOPnlMatchReport.SetColumnSpan(this.ImgCmbBxPlayer2, 4);
+            this.ImgCmbBxPlayer2.Margin = new Padding(30, 4, 6, 4);
+            this.tblLoPnlPlayers.Controls.Add(this.ImgCmbBxPlayer2, 2, 1);
             this.ImgCmbBxPlayer2.SelectedIndexChanged += this.ImgCmbBxPlayer2_SelectedIndexChanged;
 
             this.gameReports = new List<GameReport>();
@@ -104,15 +100,15 @@ namespace SCEloSystemGUI.UserControls
                 Dock = DockStyle.Fill,
                 DrawMode = DrawMode.OwnerDrawFixed,
                 DropDownStyle = ComboBoxStyle.DropDownList,
-                DropDownWidth = 240,
+                DropDownWidth = 260,
                 MaxDropDownItems = 18,
-                Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
+                Font = new Font("Microsoft Sans Serif", 10.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 FormattingEnabled = true,
                 ImageMargin = new Padding(3, 1, 3, 1),
-                ItemHeight = 20,
+                ItemHeight = 22,
                 Margin = new Padding(4, 4, 4, 4),
-                SelectedItemFont = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
-                Size = new Size(160, 28),
+                SelectedItemFont = new Font("Microsoft Sans Serif", 10.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
+                Size = new Size(180, 30),
             };
         }
 
@@ -267,15 +263,17 @@ namespace SCEloSystemGUI.UserControls
 
             if (ply1 != null && ply2 != null && !reports.Any(rep => rep.Status == GameReportStatus.Failure))
             {
+                int gamesWithSameDate = this.EloDataSource().GetAllGames().Count(game => game.Match.Date.Date == this.dtpMatchDate.Value.Date);
+
                 if (this.contextSelector.SelectedSeason != null)
                 {
-                    this.EloDataSource().ReportMatch(ply1, ply2, reports.Select(item => item.GameReport).ToArray(), this.contextSelector.SelectedSeason, this.dtpMatchDate.Value);
+                    this.EloDataSource().ReportMatch(ply1, ply2, reports.Select(item => item.GameReport).ToArray(), this.contextSelector.SelectedSeason, this.dtpMatchDate.Value.AddMilliseconds(gamesWithSameDate));
                 }
                 else if (this.contextSelector.SelectedTournament != null)
                 {
-                    this.EloDataSource().ReportMatch(ply1, ply2, reports.Select(item => item.GameReport).ToArray(), this.contextSelector.SelectedTournament, this.dtpMatchDate.Value);
+                    this.EloDataSource().ReportMatch(ply1, ply2, reports.Select(item => item.GameReport).ToArray(), this.contextSelector.SelectedTournament, this.dtpMatchDate.Value.AddMilliseconds(gamesWithSameDate));
                 }
-                else { this.EloDataSource().ReportMatch(ply1, ply2, reports.Select(item => item.GameReport).ToArray(), this.dtpMatchDate.Value); }
+                else { this.EloDataSource().ReportMatch(ply1, ply2, reports.Select(item => item.GameReport).ToArray(), this.dtpMatchDate.Value.AddMilliseconds(gamesWithSameDate)); }
 
                 this.MatchReported.Invoke(this, new EventArgs());
 

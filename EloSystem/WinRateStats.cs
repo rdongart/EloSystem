@@ -6,8 +6,8 @@ namespace EloSystem
     [Serializable]
     public class WinRateStats : ISerializable
     {
-        internal protected SCResultsMatrix totalGames;
-        internal protected SCResultsMatrix wins;
+        protected SCResultsMatrix totalGames;
+        protected SCResultsMatrix wins;
 
         internal WinRateStats()
         {

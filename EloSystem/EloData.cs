@@ -1,4 +1,5 @@
-﻿using CustomExtensionMethods;
+﻿using System.Text.RegularExpressions;
+using CustomExtensionMethods;
 using EloSystem.IO;
 using EloSystem.ResourceManagement;
 using System;
@@ -205,7 +206,7 @@ namespace EloSystem
             this.resHandler = new ResourceHandler(StaticMembers.SaveDirectory + this.Name);
             this.ContentHasBeenChanged = false;
 
-            
+
         }
         #endregion
 
@@ -596,6 +597,19 @@ namespace EloSystem
         public IEnumerable<SCPlayer> GetPlayers()
         {
             foreach (SCPlayer player in this.players.ToList(this.players.Count)) { yield return player; }
+        }
+
+        public IEnumerable<SCPlayer> SearchPlayers(Regex pattern)
+        {
+            return this.SearchPlayers(new Regex[] { pattern });
+        }
+
+        public IEnumerable<SCPlayer> SearchPlayers(IEnumerable<Regex> patterns)
+        {
+            foreach (SCPlayer player in this.players.ToList(this.players.Count))
+            {
+                if (patterns.Any(pattern => player.NamesMatches(pattern))) { yield return player; }
+            }
         }
 
         public IEnumerable<Team> GetTeams()

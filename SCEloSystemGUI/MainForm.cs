@@ -11,6 +11,7 @@ namespace SCEloSystemGUI
 {
     public partial class MainForm : Form
     {
+        private bool contentWasEdited;
         private ContentAdder countryAdder;
         private DblNameContentAdder teamAdder;
         private DblNameContentAdder tournamentAdder;
@@ -21,13 +22,15 @@ namespace SCEloSystemGUI
         private HasNameContentAdder<Tileset> tileSetAdder;
         private MapAdder mapAdder;
         private MatchReport matchReport;
-        private PlayerAdder playerAdder;
+        private PlayerEditor playerAdder;
         private SeasonAdder seasonAdder;
         private ObjectListView oLstVRecentMatches;
 
         internal MainForm(EloData eloSystem)
         {
             InitializeComponent();
+
+            this.contentWasEdited = false;
 
             this.eloSystem = eloSystem;
 
@@ -66,9 +69,11 @@ namespace SCEloSystemGUI
             this.teamAdder.OnAddButtonClick += this.TeamAdder_OnAddButtonClick;
             this.tblLOPnlTeams.Controls.Add(this.teamAdder, 0, 0);
 
-            this.playerAdder = new PlayerAdder() { ContentType = ContentTypes.Player };
+            this.playerAdder = new PlayerEditor() { ContentType = ContentTypes.Player };
+            this.playerAdder.EloDataSource = () => { return this.eloSystem; };
             this.playerAdder.OnAddButtonClick += this.AddContent;
-            this.playerAdder.OnAddButtonClick += PlayerAdder_OnAddButtonClick;
+            this.playerAdder.OnAddButtonClick += this.PlayerAdder_OnAddButtonClick;
+            this.playerAdder.OnEditButtonClick += this.PlayerAdder_OnEditButtonClick;
             this.tblLOPnlPlayers.Controls.Add(this.playerAdder, 0, 0);
 
             this.tournamentAdder = new DblNameContentAdder() { ContentType = ContentTypes.Tournament };
@@ -108,7 +113,7 @@ namespace SCEloSystemGUI
 
             if (e.CloseReason == CloseReason.WindowsShutDown) { return; }
 
-            if (this.eloSystem.ContentHasBeenChanged)
+            if (this.eloSystem.ContentHasBeenChanged || this.contentWasEdited)
             {
                 switch (MessageBox.Show("If you close this Elo System, all changes not saved will be lost. Are you sure you would like to close?", "Close?", MessageBoxButtons.OKCancel))
                 {
@@ -126,5 +131,6 @@ namespace SCEloSystemGUI
             if (this.eloSystem.TryGetImage(imageID, out eloImg)) { return eloImg.Image; }
             else { return null; }
         }
+
     }
 }

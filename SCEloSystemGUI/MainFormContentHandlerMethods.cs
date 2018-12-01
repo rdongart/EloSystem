@@ -25,7 +25,7 @@ namespace SCEloSystemGUI
             var olvClmTournament = new OLVColumn() { Width = 130, Text = "Tournament" };
             var olvClmSeason = new OLVColumn() { Width = 110, Text = "Season" };
 
-            matchLV.Size = new Size(694, 700);
+            matchLV.Size = new Size(694, 850);
             matchLV.HasCollapsibleGroups = false;
             matchLV.ShowGroups = false;
             matchLV.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
@@ -230,7 +230,7 @@ namespace SCEloSystemGUI
 
                     break;
                 case ContentTypes.Player:
-                    var playerAdder = e.ContentAdder as PlayerAdder;
+                    var playerAdder = e.ContentAdder as PlayerEditor;
 
                     this.eloSystem.AddPlayer(playerAdder.ContentName, playerAdder.GetAliases(), playerAdder.IRLName, playerAdder.StartRating, playerAdder.SelectedTeam, playerAdder.SelectedCountry
                         , playerAdder.NewImage, playerAdder.BirthDateWasSet ? playerAdder.BirthDate : new DateTime());
@@ -299,6 +299,13 @@ namespace SCEloSystemGUI
             this.AddPlayersToImgCmbBox();
         }
 
+        private void PlayerAdder_OnEditButtonClick(object sender, EventArgs e)
+        {
+            this.contentWasEdited = true;
+
+            this.AddPlayersToImgCmbBox();
+        }
+
         private void TournamentAdder_OnAddButtonClick(object sender, ContentAddingEventArgs e)
         {
             this.AddTournamentsToImgCmbBox();
@@ -306,11 +313,15 @@ namespace SCEloSystemGUI
 
         private void TournamentEdited_OnEditedButtonClick(object sender, EventArgs e)
         {
+            this.contentWasEdited = true;
+
             this.AddTournamentsToImgCmbBox();
         }
 
         private void TeamEdited_OnEditedButtonClick(object sender, EventArgs e)
         {
+            this.contentWasEdited = true;
+
             this.AddTeamsToImgCmbBox();
         }
 

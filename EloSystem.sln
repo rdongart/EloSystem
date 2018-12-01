@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EloSystem", "EloSystem\EloS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCEloSystemGUI", "SCEloSystemGUI\SCEloSystemGUI.csproj", "{185B00F0-C788-4AC8-BF06-27492751299B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EloSystemExtensions", "EloSystemExtensions\EloSystemExtensions.csproj", "{8D7DA54A-D358-466F-BAF1-1EF481433C6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{185B00F0-C788-4AC8-BF06-27492751299B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{185B00F0-C788-4AC8-BF06-27492751299B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{185B00F0-C788-4AC8-BF06-27492751299B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D7DA54A-D358-466F-BAF1-1EF481433C6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D7DA54A-D358-466F-BAF1-1EF481433C6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D7DA54A-D358-466F-BAF1-1EF481433C6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D7DA54A-D358-466F-BAF1-1EF481433C6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

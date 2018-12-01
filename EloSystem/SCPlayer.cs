@@ -3,13 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 
 namespace EloSystem
 {
     [Serializable]
     public class SCPlayer : EloSystemContent, ISerializable
     {
-        private const int MINIMUM_GAMES_THRESHOLD = 10; // the minimum number of games for a particular rating value to be given full influence on the total rating
+        private const int MINIMUM_GAMES_THRESHOLD = 30; // the minimum number of games for a particular rating value to be given full influence on the total rating
+        private const double MINIMUM_GAMES_PERCENTAGE = 0.07;
 
         private DateTime birthDate;
         private List<string> aliases;
@@ -48,9 +50,9 @@ namespace EloSystem
             this.birthDate = new DateTime();
         }
 
-        private static double GetRatingInfluence(int numberOfGames)
+        private static double GetRatingInfluence(int numberOfGames, int totalGames)
         {
-            return Math.Min(1, numberOfGames / (double)SCPlayer.MINIMUM_GAMES_THRESHOLD);
+            return Math.Min(1, Math.Min((numberOfGames / (double)totalGames) / SCPlayer.MINIMUM_GAMES_PERCENTAGE, numberOfGames / (double)SCPlayer.MINIMUM_GAMES_THRESHOLD));
         }
 
         #region Implementing ISerializable
@@ -104,8 +106,8 @@ namespace EloSystem
 
         private double GetTotalInfluenceValue()
         {
-            return SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Protoss)) + SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Random))
-                + SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Terran)) + SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Zerg));
+            return SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Protoss),this.Stats.GamesTotal()) + SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Random), this.Stats.GamesTotal())
+                + SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Terran), this.Stats.GamesTotal()) + SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Zerg), this.Stats.GamesTotal());
         }
 
         public IEnumerable<string> GetAliases()
@@ -123,10 +125,10 @@ namespace EloSystem
             return this.HasPlayedAnyGames() ?
 
                 // ...calculate the rating
-                ((this.RatingsVs.Protoss * SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Protoss))
-                + this.RatingsVs.Random * SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Random))
-                + this.RatingsVs.Terran * SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Terran))
-                + this.RatingsVs.Zerg * SCPlayer.GetRatingInfluence(Stats.GamesVs(Race.Zerg)))
+                ((this.RatingsVs.Protoss * SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Protoss), this.Stats.GamesTotal())
+                + this.RatingsVs.Random * SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Random), this.Stats.GamesTotal())
+                + this.RatingsVs.Terran * SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Terran), this.Stats.GamesTotal())
+                + this.RatingsVs.Zerg * SCPlayer.GetRatingInfluence(Stats.GamesVs(Race.Zerg), this.Stats.GamesTotal()))
                 / this.GetTotalInfluenceValue()).RoundToInt()
 
                 // ...otherwise just return the default starting rating value
@@ -137,6 +139,11 @@ namespace EloSystem
         public bool RemoveAlias(string alias)
         {
             return this.aliases.Remove(alias);
+        }
+
+        public void SetAliases(IEnumerable<string> aliases)
+        {
+            this.aliases = aliases.ToList();
         }
 
         public bool TryGetBirthDate(out DateTime birthDate)
@@ -180,6 +187,11 @@ namespace EloSystem
         public void SetBirthDate(DateTime birthday)
         {
             this.birthDate = birthday;
+        }
+
+        public bool NamesMatches(Regex pattern)
+        {
+            return pattern.IsMatch(this.Name) || this.aliases.Any(alias => pattern.IsMatch(alias)) || pattern.IsMatch(this.IRLName);
         }
     }
 }

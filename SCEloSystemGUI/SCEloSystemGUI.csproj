@@ -151,11 +151,11 @@
     </Compile>
     <Compile Include="UserControls\IContentAdder.cs" />
     <Compile Include="UserControls\EloGUIControlsStaticMembers.cs" />
-    <Compile Include="UserControls\PlayerAdder.cs">
+    <Compile Include="UserControls\PlayerEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\PlayerAdder.Designer.cs">
-      <DependentUpon>PlayerAdder.cs</DependentUpon>
+    <Compile Include="UserControls\PlayerEditor.Designer.cs">
+      <DependentUpon>PlayerEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\PlayerMatchStatsDisplay.cs">
       <SubType>UserControl</SubType>
@@ -214,8 +214,8 @@
     <EmbeddedResource Include="UserControls\MatchReport.resx">
       <DependentUpon>MatchReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\PlayerAdder.resx">
-      <DependentUpon>PlayerAdder.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\PlayerEditor.resx">
+      <DependentUpon>PlayerEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\PlayerMatchStatsDisplay.resx">
       <DependentUpon>PlayerMatchStatsDisplay.cs</DependentUpon>
@@ -240,12 +240,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EloSystemExtensions\EloSystemExtensions.csproj">
+      <Project>{8d7da54a-d358-466f-baf1-1ef481433c6e}</Project>
+      <Name>EloSystemExtensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EloSystem\EloSystem.csproj">
       <Project>{0d7b55ee-364b-4609-a20c-aa622705e729}</Project>
       <Name>EloSystem</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Search.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

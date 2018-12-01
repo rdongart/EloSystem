@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using CustomControls;
-using CustomExtensionMethods;
+﻿using CustomExtensionMethods;
 using EloSystem;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 
@@ -81,7 +80,7 @@ namespace SCEloSystemGUI.UserControls
         {
             this.lstViewDescriptions.Items.Add(this.txtBxDescription.Text);
 
-            this.txtBxDescription.Text = PlayerAdder.DEFAULT_TXTBXALIAS_TEXT;
+            this.txtBxDescription.Text = string.Empty;
             this.btnAddDescription.Enabled = false;
         }
 
@@ -126,8 +125,8 @@ namespace SCEloSystemGUI.UserControls
             if (this.NewImage != null) { this.NewImage.Dispose(); }
 
             this.lbFileName.Text = string.Empty;
-            this.txtBxName.Text = EloGUIControlsStaticMembers.DEFAULT_TXTBX_TEXT;
-            this.txtBxDescription.Text = PlayerAdder.DEFAULT_TXTBXALIAS_TEXT;
+            this.txtBxName.Text = string.Empty;
+            this.txtBxDescription.Text = string.Empty;
             this.lstViewDescriptions.Items.Clear();
             this.cmbBxTileset.SelectedIndex = -1;
             this.btnAdd.Enabled = false;

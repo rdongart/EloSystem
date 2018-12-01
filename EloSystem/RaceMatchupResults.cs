@@ -18,9 +18,7 @@ namespace EloSystem
             }
         }
         private double race1ExpWinRatio;
-        private int race1Wins;
-        private int race2Wins;
-
+        
         internal RaceMatchupResults(Race race1, Race race2)
         {
             this.Race1 = race1;

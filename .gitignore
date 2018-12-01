@@ -1,2 +1,9 @@
 SCEloSystemGUI/bin/Debug/EloSystems/
 Commit notes.txt
+SCEloSystemGUI/bin/Debug/EloSystemExtensions.dll
+SCEloSystemGUI/bin/Debug/EloSystemExtensions.pdb
+SCEloSystemGUI/bin/Release/EloSystemExtensions.dll
+SCEloSystemGUI/bin/Release/EloSystemExtensions.pdb
+EloSystemExtensions/bin/
+EloSystemExtensions/obj/Debug/EloSystemExtensions.dll
+EloSystemExtensions/obj/Debug/EloSystemExtensions.pdb

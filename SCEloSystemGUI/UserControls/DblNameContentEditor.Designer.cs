@@ -291,6 +291,7 @@
             // 
             // picBxCurrentImage
             // 
+            this.picBxCurrentImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.picBxCurrentImage.Location = new System.Drawing.Point(0, 0);
             this.picBxCurrentImage.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.picBxCurrentImage.Name = "picBxCurrentImage";

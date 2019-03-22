@@ -9,11 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CustomControls;
 
 namespace SCEloSystemGUI.UserControls
 {
     public partial class DblNameContentEditor<T> : UserControl where T : EloSystemContent, IHasDblName
     {
+        private ImageGetter<T> resourceGetter;
         public bool RemoveCurrentImage
         {
             get
@@ -23,7 +25,19 @@ namespace SCEloSystemGUI.UserControls
         }
         public EventHandler EditButtonClicked = delegate { };
         public Image NewImage { get; private set; }
-        public ImageGetter ResourceGetter { private get; set; }
+        public ImageGetter<T> ResourceGetter
+        {
+            private get
+            {
+                return this.resourceGetter;
+            }
+            set
+            {
+                this.resourceGetter = value;
+
+                this.cmbBxContent.ImageGetter = this.resourceGetter;
+            }
+        }
         public string ContentName
         {
             set
@@ -53,13 +67,13 @@ namespace SCEloSystemGUI.UserControls
                 return this.cmbBxContent.SelectedValue as T;
             }
         }
-        private ImageComboBoxImprovedItemHandling cmbBxContent;
+        private ImprovedImageComboBox<T> cmbBxContent;
 
         public DblNameContentEditor()
         {
             InitializeComponent();
 
-            this.cmbBxContent = EloGUIControlsStaticMembers.CreateStandardImprovedImageComboBox();
+            this.cmbBxContent = EloGUIControlsStaticMembers.CreateStandardImprovedImageComboBox<T>(null);
             this.tblLoPnlMain.Controls.Add(this.cmbBxContent, 1, 1);
             this.cmbBxContent.SelectedIndexChanged += this.CmbBxContent_SelectedIndexChanged;
         }
@@ -71,7 +85,7 @@ namespace SCEloSystemGUI.UserControls
             {
                 this.txtBxNameShort.Text = this.SelectedItem.Name;
                 this.txtBxNameLong.Text = this.SelectedItem.NameLong;
-                this.picBxCurrentImage.Image = this.ResourceGetter(this.SelectedItem.ImageID);
+                this.picBxCurrentImage.Image = this.ResourceGetter(this.SelectedItem);
 
                 this.SetImageVisibility();
                 this.SetControlsEnabledStatus();
@@ -100,9 +114,9 @@ namespace SCEloSystemGUI.UserControls
             this.btnEdit.Enabled = this.SelectedItem != null && (this.txtBxNameShort.Text != this.SelectedItem.Name || this.txtBxNameLong.Text != this.SelectedItem.NameLong || this.lbFileName.Text != string.Empty || this.chckBxRemoveCurrentImage.Checked);
         }
 
-        internal void AddContentItems(IEnumerable<T> contentItems, ImageGetter resourceGetter)
+        internal void AddContentItems(IEnumerable<T> contentItems, ImageGetter<T> resourceGetter)
         {
-            this.cmbBxContent.AddItems<T>(contentItems.ToArray(), resourceGetter, false);
+            this.cmbBxContent.AddItems(contentItems.ToArray(), resourceGetter, false);
         }
 
         private void btnEdit_Click(object sender, EventArgs e)

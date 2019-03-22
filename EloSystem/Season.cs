@@ -58,5 +58,10 @@ namespace EloSystem
         {
             this.matches.Add(match);
         }
+
+        internal void RemoveMatch(Match match)
+        {
+            this.matches.Remove(match);
+        }
     }
 }

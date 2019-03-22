@@ -168,6 +168,7 @@ namespace EloSystem
         {
             Countries, Maps, Name, ImagesSaved, Players, Teams, TileSets, Tournaments
         }
+
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(Field.Countries.ToString(), (List<Country>)this.countries);
@@ -179,6 +180,7 @@ namespace EloSystem
             info.AddValue(Field.Teams.ToString(), (List<Team>)this.teams);
             info.AddValue(Field.TileSets.ToString(), (List<Tileset>)this.tileSets);
         }
+
         internal EloData(SerializationInfo info, StreamingContext context)
         {
             foreach (SerializationEntry entry in info)
@@ -205,8 +207,6 @@ namespace EloSystem
 
             this.resHandler = new ResourceHandler(StaticMembers.SaveDirectory + this.Name);
             this.ContentHasBeenChanged = false;
-
-
         }
         #endregion
 
@@ -658,5 +658,49 @@ namespace EloSystem
         {
             return this.tournaments.FirstOrDefault(tournament => tournament.Name == name);
         }
+
+        /// <summary>
+        /// Rolls back Elo changes from most recent matches.
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns>A sequence containing the games of the removed matches.</returns>
+        public IEnumerable<Game> RollBackLastMatches(int count)
+        {
+            var matches = this.GetAllGames().DistinctBy(m => m.Match).Select(game => new { Match = game.Match, Season = game.Season, Tournament = game.Tournament, Games = game.Match.GetGames().ToList() }).OrderByDescending(m => m.Match.Date).Take(count).ToList();
+
+            foreach (var matchObj in matches)
+            {
+                foreach (Game game in matchObj.Games)
+                {
+                    // roll back win rates
+                    game.Player1.Stats.RollBackResult(game);
+                    game.Player2.Stats.RollBackResult(game);
+
+                    // roll back elo ratings
+                    game.Player1.RatingsVs.AddValueTo(game.Player2Race, game.Winner == game.Player1 ? -game.RatingChange : game.RatingChange);
+
+                    game.Player2.RatingsVs.AddValueTo(game.Player1Race, game.Winner == game.Player2 ? -game.RatingChange : game.RatingChange);
+                }
+
+                // remove from season
+                if (matchObj.Season != null) { matchObj.Season.RemoveMatch(matchObj.Match); }
+                else if (matchObj.Tournament != null) { matchObj.Tournament.DefaultSeason.RemoveMatch(matchObj.Match); }
+                else { this.defaultTournament.DefaultSeason.RemoveMatch(matchObj.Match); }
+
+
+                // roll back map stats
+                foreach (Game game in matchObj.Games.Where(gm => gm.Map != null))
+                {
+                    game.Map.Stats.RollBackGameResult(game.Player1Race, game.Player2Race, game.WinnersRace, game.Player1.RatingsVs.GetValueFor(game.Player2Race), game.Player2.RatingsVs.GetValueFor(game.Player1Race));
+                }
+            }
+
+            this.ContentHasBeenChanged = true;
+
+            this.MatchPoolChanged.Invoke(this, new EventArgs());
+
+            return matches.SelectMany(match => match.Games);
+        }
+
     }
 }

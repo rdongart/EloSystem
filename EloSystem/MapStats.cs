@@ -52,6 +52,13 @@ namespace EloSystem
 
         }
 
+        internal void RollBackGameResult(Race racePlayer1, Race racePlayer2, Race raceWinner, int race1Rating, int race2Rating)
+        {
+            RaceMatchupResults matchup = this.raceMatchupData.FirstOrDefault(m => m.IsMatchupFor(racePlayer1, racePlayer2));
+
+            if (matchup != null) { matchup.RollBackGameResult(raceWinner, race1Rating, race2Rating); }
+        }
+
         public bool TryGetMatchup(Race race1, Race race2, out RaceMatchupResults matchup)
         {
             matchup = this.raceMatchupData.FirstOrDefault(m => m.IsMatchupFor(race1, race2));

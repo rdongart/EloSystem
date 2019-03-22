@@ -37,29 +37,8 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mapStatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.customizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.indexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageReportMatch = new System.Windows.Forms.TabPage();
-            this.tblLoPnlReportMatch = new System.Windows.Forms.TableLayoutPanel();
-            this.tblLoPnlRecentMatches = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
             this.tabPageAddMap = new System.Windows.Forms.TabPage();
             this.tblLOPnlMaps = new System.Windows.Forms.TableLayoutPanel();
             this.tabPageAddCountry = new System.Windows.Forms.TabPage();
@@ -72,9 +51,6 @@
             this.tblLOPnlTournaments = new System.Windows.Forms.TableLayoutPanel();
             this.menuStripMainForm.SuspendLayout();
             this.tabControlMain.SuspendLayout();
-            this.tabPageReportMatch.SuspendLayout();
-            this.tblLoPnlReportMatch.SuspendLayout();
-            this.tblLoPnlRecentMatches.SuspendLayout();
             this.tabPageAddMap.SuspendLayout();
             this.tabPageAddCountry.SuspendLayout();
             this.tabPageAddTeam.SuspendLayout();
@@ -86,14 +62,11 @@
             // 
             this.menuStripMainForm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.showToolStripMenuItem,
-            this.editToolStripMenuItem,
-            this.toolsToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.showToolStripMenuItem});
             this.menuStripMainForm.Location = new System.Drawing.Point(0, 0);
             this.menuStripMainForm.Margin = new System.Windows.Forms.Padding(0, 0, 0, 16);
             this.menuStripMainForm.Name = "menuStripMainForm";
-            this.menuStripMainForm.Size = new System.Drawing.Size(1724, 24);
+            this.menuStripMainForm.Size = new System.Drawing.Size(1854, 24);
             this.menuStripMainForm.TabIndex = 0;
             this.menuStripMainForm.Text = "Menu";
             // 
@@ -144,8 +117,8 @@
             this.showToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mapStatsToolStripMenuItem});
             this.showToolStripMenuItem.Name = "showToolStripMenuItem";
-            this.showToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
-            this.showToolStripMenuItem.Text = "&Show";
+            this.showToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.showToolStripMenuItem.Text = "&Stats";
             // 
             // mapStatsToolStripMenuItem
             // 
@@ -153,140 +126,6 @@
             this.mapStatsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
             this.mapStatsToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.mapStatsToolStripMenuItem.Text = "&Map Stats";
-            // 
-            // editToolStripMenuItem
-            // 
-            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.undoToolStripMenuItem,
-            this.redoToolStripMenuItem,
-            this.toolStripSeparator3,
-            this.cutToolStripMenuItem,
-            this.copyToolStripMenuItem,
-            this.pasteToolStripMenuItem,
-            this.toolStripSeparator4,
-            this.selectAllToolStripMenuItem});
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
-            this.editToolStripMenuItem.Text = "&Edit";
-            // 
-            // undoToolStripMenuItem
-            // 
-            this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.undoToolStripMenuItem.Text = "&Undo";
-            // 
-            // redoToolStripMenuItem
-            // 
-            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.redoToolStripMenuItem.Text = "&Redo";
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(141, 6);
-            // 
-            // cutToolStripMenuItem
-            // 
-            this.cutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("cutToolStripMenuItem.Image")));
-            this.cutToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.cutToolStripMenuItem.Text = "Cu&t";
-            // 
-            // copyToolStripMenuItem
-            // 
-            this.copyToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyToolStripMenuItem.Image")));
-            this.copyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.copyToolStripMenuItem.Text = "&Copy";
-            // 
-            // pasteToolStripMenuItem
-            // 
-            this.pasteToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("pasteToolStripMenuItem.Image")));
-            this.pasteToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.pasteToolStripMenuItem.Text = "&Paste";
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(141, 6);
-            // 
-            // selectAllToolStripMenuItem
-            // 
-            this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.selectAllToolStripMenuItem.Text = "Select &All";
-            // 
-            // toolsToolStripMenuItem
-            // 
-            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.customizeToolStripMenuItem,
-            this.optionsToolStripMenuItem});
-            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
-            this.toolsToolStripMenuItem.Text = "&Tools";
-            // 
-            // customizeToolStripMenuItem
-            // 
-            this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-            this.customizeToolStripMenuItem.Text = "&Customize";
-            // 
-            // optionsToolStripMenuItem
-            // 
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-            this.optionsToolStripMenuItem.Text = "&Options";
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.contentsToolStripMenuItem,
-            this.indexToolStripMenuItem,
-            this.searchToolStripMenuItem,
-            this.toolStripSeparator5,
-            this.aboutToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "&Help";
-            // 
-            // contentsToolStripMenuItem
-            // 
-            this.contentsToolStripMenuItem.Name = "contentsToolStripMenuItem";
-            this.contentsToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
-            this.contentsToolStripMenuItem.Text = "&Contents";
-            // 
-            // indexToolStripMenuItem
-            // 
-            this.indexToolStripMenuItem.Name = "indexToolStripMenuItem";
-            this.indexToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
-            this.indexToolStripMenuItem.Text = "&Index";
-            // 
-            // searchToolStripMenuItem
-            // 
-            this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
-            this.searchToolStripMenuItem.Text = "&Search";
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(119, 6);
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
-            this.aboutToolStripMenuItem.Text = "&About...";
             // 
             // tabControlMain
             // 
@@ -296,66 +135,22 @@
             this.tabControlMain.Controls.Add(this.tabPageAddTeam);
             this.tabControlMain.Controls.Add(this.tabPageAddPlayer);
             this.tabControlMain.Controls.Add(this.tabPageEditTournaments);
-            this.tabControlMain.Location = new System.Drawing.Point(25, 40);
-            this.tabControlMain.Margin = new System.Windows.Forms.Padding(16);
+            this.tabControlMain.Location = new System.Drawing.Point(12, 36);
+            this.tabControlMain.Margin = new System.Windows.Forms.Padding(12, 16, 12, 16);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(1690, 950);
+            this.tabControlMain.Size = new System.Drawing.Size(1820, 950);
             this.tabControlMain.TabIndex = 1;
             // 
             // tabPageReportMatch
             // 
-            this.tabPageReportMatch.Controls.Add(this.tblLoPnlReportMatch);
             this.tabPageReportMatch.Location = new System.Drawing.Point(4, 22);
             this.tabPageReportMatch.Name = "tabPageReportMatch";
             this.tabPageReportMatch.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageReportMatch.Size = new System.Drawing.Size(1682, 924);
+            this.tabPageReportMatch.Size = new System.Drawing.Size(1812, 924);
             this.tabPageReportMatch.TabIndex = 0;
             this.tabPageReportMatch.Text = "Report Match";
             this.tabPageReportMatch.UseVisualStyleBackColor = true;
-            // 
-            // tblLoPnlReportMatch
-            // 
-            this.tblLoPnlReportMatch.ColumnCount = 2;
-            this.tblLoPnlReportMatch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 961F));
-            this.tblLoPnlReportMatch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLoPnlReportMatch.Controls.Add(this.tblLoPnlRecentMatches, 1, 0);
-            this.tblLoPnlReportMatch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblLoPnlReportMatch.Location = new System.Drawing.Point(4, 4);
-            this.tblLoPnlReportMatch.Margin = new System.Windows.Forms.Padding(0);
-            this.tblLoPnlReportMatch.Name = "tblLoPnlReportMatch";
-            this.tblLoPnlReportMatch.RowCount = 2;
-            this.tblLoPnlReportMatch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 914F));
-            this.tblLoPnlReportMatch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLoPnlReportMatch.Size = new System.Drawing.Size(1674, 916);
-            this.tblLoPnlReportMatch.TabIndex = 0;
-            // 
-            // tblLoPnlRecentMatches
-            // 
-            this.tblLoPnlRecentMatches.ColumnCount = 2;
-            this.tblLoPnlRecentMatches.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 700F));
-            this.tblLoPnlRecentMatches.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLoPnlRecentMatches.Controls.Add(this.label1, 0, 0);
-            this.tblLoPnlRecentMatches.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblLoPnlRecentMatches.Location = new System.Drawing.Point(964, 3);
-            this.tblLoPnlRecentMatches.Name = "tblLoPnlRecentMatches";
-            this.tblLoPnlRecentMatches.RowCount = 2;
-            this.tblLoPnlRecentMatches.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 64F));
-            this.tblLoPnlRecentMatches.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLoPnlRecentMatches.Size = new System.Drawing.Size(707, 908);
-            this.tblLoPnlRecentMatches.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(694, 64);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Recent Matches";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tabPageAddMap
             // 
@@ -363,7 +158,7 @@
             this.tabPageAddMap.Location = new System.Drawing.Point(4, 22);
             this.tabPageAddMap.Name = "tabPageAddMap";
             this.tabPageAddMap.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAddMap.Size = new System.Drawing.Size(1682, 924);
+            this.tabPageAddMap.Size = new System.Drawing.Size(1812, 924);
             this.tabPageAddMap.TabIndex = 1;
             this.tabPageAddMap.Text = "Add Map";
             this.tabPageAddMap.UseVisualStyleBackColor = true;
@@ -382,7 +177,7 @@
             this.tblLOPnlMaps.RowCount = 2;
             this.tblLOPnlMaps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 390F));
             this.tblLOPnlMaps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlMaps.Size = new System.Drawing.Size(1676, 918);
+            this.tblLOPnlMaps.Size = new System.Drawing.Size(1806, 918);
             this.tblLOPnlMaps.TabIndex = 0;
             // 
             // tabPageAddCountry
@@ -391,7 +186,7 @@
             this.tabPageAddCountry.Location = new System.Drawing.Point(4, 22);
             this.tabPageAddCountry.Name = "tabPageAddCountry";
             this.tabPageAddCountry.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAddCountry.Size = new System.Drawing.Size(1682, 924);
+            this.tabPageAddCountry.Size = new System.Drawing.Size(1812, 924);
             this.tabPageAddCountry.TabIndex = 2;
             this.tabPageAddCountry.Text = "Add Country";
             this.tabPageAddCountry.UseVisualStyleBackColor = true;
@@ -409,7 +204,7 @@
             this.tblLOPnlCountries.RowCount = 2;
             this.tblLOPnlCountries.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 198F));
             this.tblLOPnlCountries.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlCountries.Size = new System.Drawing.Size(1676, 918);
+            this.tblLOPnlCountries.Size = new System.Drawing.Size(1806, 918);
             this.tblLOPnlCountries.TabIndex = 1;
             // 
             // tabPageAddTeam
@@ -418,7 +213,7 @@
             this.tabPageAddTeam.Location = new System.Drawing.Point(4, 22);
             this.tabPageAddTeam.Name = "tabPageAddTeam";
             this.tabPageAddTeam.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAddTeam.Size = new System.Drawing.Size(1682, 924);
+            this.tabPageAddTeam.Size = new System.Drawing.Size(1812, 924);
             this.tabPageAddTeam.TabIndex = 3;
             this.tabPageAddTeam.Text = "Add Team";
             this.tabPageAddTeam.UseVisualStyleBackColor = true;
@@ -436,7 +231,7 @@
             this.tblLOPnlTeams.RowCount = 2;
             this.tblLOPnlTeams.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 222F));
             this.tblLOPnlTeams.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlTeams.Size = new System.Drawing.Size(1676, 918);
+            this.tblLOPnlTeams.Size = new System.Drawing.Size(1806, 918);
             this.tblLOPnlTeams.TabIndex = 1;
             // 
             // tabPageAddPlayer
@@ -445,7 +240,7 @@
             this.tabPageAddPlayer.Location = new System.Drawing.Point(4, 22);
             this.tabPageAddPlayer.Name = "tabPageAddPlayer";
             this.tabPageAddPlayer.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAddPlayer.Size = new System.Drawing.Size(1682, 924);
+            this.tabPageAddPlayer.Size = new System.Drawing.Size(1812, 924);
             this.tabPageAddPlayer.TabIndex = 4;
             this.tabPageAddPlayer.Text = "Add Player";
             this.tabPageAddPlayer.UseVisualStyleBackColor = true;
@@ -463,7 +258,7 @@
             this.tblLOPnlPlayers.RowCount = 2;
             this.tblLOPnlPlayers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 510F));
             this.tblLOPnlPlayers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlPlayers.Size = new System.Drawing.Size(1676, 918);
+            this.tblLOPnlPlayers.Size = new System.Drawing.Size(1806, 918);
             this.tblLOPnlPlayers.TabIndex = 1;
             // 
             // tabPageEditTournaments
@@ -472,7 +267,7 @@
             this.tabPageEditTournaments.Location = new System.Drawing.Point(4, 22);
             this.tabPageEditTournaments.Name = "tabPageEditTournaments";
             this.tabPageEditTournaments.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageEditTournaments.Size = new System.Drawing.Size(1682, 924);
+            this.tabPageEditTournaments.Size = new System.Drawing.Size(1812, 924);
             this.tabPageEditTournaments.TabIndex = 5;
             this.tabPageEditTournaments.Text = "Add Tournament & Seasons";
             this.tabPageEditTournaments.UseVisualStyleBackColor = true;
@@ -490,7 +285,7 @@
             this.tblLOPnlTournaments.RowCount = 2;
             this.tblLOPnlTournaments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 222F));
             this.tblLOPnlTournaments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlTournaments.Size = new System.Drawing.Size(1676, 918);
+            this.tblLOPnlTournaments.Size = new System.Drawing.Size(1806, 918);
             this.tblLOPnlTournaments.TabIndex = 0;
             // 
             // MainForm
@@ -498,7 +293,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1724, 997);
+            this.ClientSize = new System.Drawing.Size(1854, 997);
             this.Controls.Add(this.tabControlMain);
             this.Controls.Add(this.menuStripMainForm);
             this.MainMenuStrip = this.menuStripMainForm;
@@ -507,10 +302,6 @@
             this.menuStripMainForm.ResumeLayout(false);
             this.menuStripMainForm.PerformLayout();
             this.tabControlMain.ResumeLayout(false);
-            this.tabPageReportMatch.ResumeLayout(false);
-            this.tblLoPnlReportMatch.ResumeLayout(false);
-            this.tblLoPnlRecentMatches.ResumeLayout(false);
-            this.tblLoPnlRecentMatches.PerformLayout();
             this.tabPageAddMap.ResumeLayout(false);
             this.tabPageAddCountry.ResumeLayout(false);
             this.tabPageAddTeam.ResumeLayout(false);
@@ -529,24 +320,6 @@
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem customizeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem contentsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem indexToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem searchToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.TabControl tabControlMain;
         private System.Windows.Forms.TabPage tabPageReportMatch;
         private System.Windows.Forms.TabPage tabPageAddMap;
@@ -561,8 +334,5 @@
         private System.Windows.Forms.ToolStripMenuItem mapStatsToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPageEditTournaments;
         private System.Windows.Forms.TableLayoutPanel tblLOPnlTournaments;
-        private System.Windows.Forms.TableLayoutPanel tblLoPnlReportMatch;
-        private System.Windows.Forms.TableLayoutPanel tblLoPnlRecentMatches;
-        private System.Windows.Forms.Label label1;
     }
 }

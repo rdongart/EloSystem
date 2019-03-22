@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameEntryEditorItem.cs" />
     <Compile Include="MainFormContentHandlerMethods.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,6 +86,7 @@
       <DependentUpon>MapStatsDisplay.cs</DependentUpon>
     </Compile>
     <Compile Include="MatchContextSelector.cs" />
+    <Compile Include="MatchEditorItem.cs" />
     <Compile Include="ResourceItem.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,12 +133,6 @@
     <Compile Include="UserControls\HasNameContentAdder.Designer.cs">
       <DependentUpon>HasNameContentAdder.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\ImageComboBoxImprovedItemHandling.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UserControls\ImageComboBoxImprovedItemHandling.Designer.cs">
-      <DependentUpon>ImageComboBoxImprovedItemHandling.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\MapAdder.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -151,6 +147,9 @@
     </Compile>
     <Compile Include="UserControls\IContentAdder.cs" />
     <Compile Include="UserControls\EloGUIControlsStaticMembers.cs" />
+    <Compile Include="UserControls\MatchReportScaffold.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControls\PlayerEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>

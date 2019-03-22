@@ -17,7 +17,7 @@ namespace SCEloSystemGUI.UserControls
     {
         internal const string DEFAULT_TXTBXSEASONNAME_TEXT = "Type season name here...";
 
-        private ImageComboBox imgCmbBxTournaments;
+        private ImprovedImageComboBox<Tournament> imgCmbBxTournaments;
         public event EventHandler OnAddButtonClick = delegate { };
         public string ContentName
         {
@@ -44,7 +44,7 @@ namespace SCEloSystemGUI.UserControls
         {
             InitializeComponent();
 
-            this.imgCmbBxTournaments = EloGUIControlsStaticMembers.CreateStandardContentAdderImageComboBox();
+            this.imgCmbBxTournaments = EloGUIControlsStaticMembers.CreateStandardImprovedImageComboBox<Tournament>(null);
             this.imgCmbBxTournaments.TabIndex = 0;
             this.tblLOPnlSeasonAdder.Controls.Add(this.imgCmbBxTournaments, 1, 1);
 
@@ -60,21 +60,9 @@ namespace SCEloSystemGUI.UserControls
 
         }
 
-        internal void AddTournamentItems(IEnumerable<Tournament> tournaments, ImageGetter resourceGetter)
+        internal void AddTournamentItems(IEnumerable<Tournament> tournaments, ImageGetter<Tournament> resourceGetter)
         {
-            var currentSelection = this.imgCmbBxTournaments.SelectedValue as Tournament;
-
-            this.imgCmbBxTournaments.DisplayMember = "Item1";
-            this.imgCmbBxTournaments.ValueMember = "Item2";
-            this.imgCmbBxTournaments.ImageMember = "Item3";
-
-            var items = (new Tuple<string, Tournament, Image>[] { Tuple.Create<string, Tournament, Image>("none", null, null) }).Concat(tournaments.OrderBy(tournament => tournament.Name).Select(tournament =>
-                Tuple.Create<string, Tournament, Image>(String.Format("{0}{1}",tournament.Name, tournament.NameLong != string.Empty ? " (" + tournament.NameLong + ")" : string.Empty), tournament, resourceGetter(tournament.ImageID)))).ToList();
-
-            this.imgCmbBxTournaments.DataSource = items;
-
-            if (currentSelection != null && items.Any(item => item.Item2 == currentSelection)) { this.imgCmbBxTournaments.SelectedIndex = items.IndexOf(items.First(item => item.Item2 == currentSelection)); }
-            else { this.txtBxName.Enabled = false; }
+            this.imgCmbBxTournaments.AddItems(tournaments.ToArray(), true);
         }
 
         private void txtBxName_TextChanged(object sender, EventArgs e)

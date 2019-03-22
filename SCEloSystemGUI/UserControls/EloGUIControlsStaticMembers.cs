@@ -9,17 +9,15 @@ using System.Windows.Forms;
 
 namespace SCEloSystemGUI.UserControls
 {
-    public delegate Image ImageGetter(int imdageID);
-
     internal static class EloGUIControlsStaticMembers
     {
         internal const string DEFAULT_TXTBX_TEXT = "Type the name here...";
 
         private static string initialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonPictures);
 
-        internal static ImageComboBoxImprovedItemHandling CreateStandardImprovedImageComboBox()
+        internal static ImprovedImageComboBox<T> CreateStandardImprovedImageComboBox<T>(ImageGetter<T> imageGetter) where T : class, IHasName
         {
-            return new ImageComboBoxImprovedItemHandling()
+            return new ImprovedImageComboBox<T>()
             {
                 Dock = DockStyle.Fill,
                 DrawMode = DrawMode.OwnerDrawFixed,
@@ -32,27 +30,11 @@ namespace SCEloSystemGUI.UserControls
                 Margin = new Padding(6, 3, 6, 3),
                 SelectedItemFont = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 Size = new Size(154, 26),
+                ImageGetter = imageGetter,
+                NameGetter = t => t.Name                
             };
         }
-
-        internal static ImageComboBox CreateStandardContentAdderImageComboBox()
-        {
-            return new ImageComboBox()
-            {
-                Dock = DockStyle.Fill,
-                DrawMode = DrawMode.OwnerDrawFixed,
-                DropDownStyle = ComboBoxStyle.DropDownList,
-                DropDownWidth = 160,                
-                Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
-                FormattingEnabled = true,
-                ImageMargin = new Padding(4, 2, 4, 2),
-                ItemHeight = 20,
-                Margin = new Padding(6, 3, 6, 3),
-                SelectedItemFont = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
-                Size = new Size(154, 26),
-            };
-        }
-
+                
         [STAThread]
         internal static bool TryGetFilePathFromUser(out string filePath)
         {
@@ -80,33 +62,6 @@ namespace SCEloSystemGUI.UserControls
                 else { return false; }
 
             }
-        }
-
-        public static void AddPlayersToImgCmbBox(ImageComboBox imgCmbBx, EloData eloSystem)
-        {
-            var currentSelection = imgCmbBx.SelectedValue as SCPlayer;
-
-            Func<SCPlayer, Image> GetImage = c =>
-            {
-                EloImage eloImg;
-
-                if (eloSystem.TryGetImage(c.ImageID, out eloImg)) { return eloImg.Image; }
-                else { return null; }
-
-            };
-
-            Func<SCPlayer, bool> HasExtraIdentifiers = player => { return player.IRLName != String.Empty || player.Team != null; };
-
-            imgCmbBx.DisplayMember = "Item1";
-            imgCmbBx.ValueMember = "Item2";
-            imgCmbBx.ImageMember = "Item3";
-
-            var items = eloSystem.GetPlayers().OrderBy(scPlayer => scPlayer.Name).Select(scPlayer => Tuple.Create<string, SCPlayer, Image>(String.Format("{0} {1}", scPlayer.Name, HasExtraIdentifiers(scPlayer) ? "(" + scPlayer.TeamName + " | " + scPlayer.IRLName + ")" : String.Empty), scPlayer, GetImage(scPlayer))).ToList();
-
-            imgCmbBx.DataSource = items;
-
-
-            if (currentSelection != null && items.Any(item => item.Item2 == currentSelection)) { imgCmbBx.SelectedIndex = items.IndexOf(items.First(item => item.Item2 == currentSelection)); }
         }
     }
 }

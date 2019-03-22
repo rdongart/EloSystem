@@ -18,7 +18,7 @@ namespace EloSystem
             }
         }
         private double race1ExpWinRatio;
-        
+
         internal RaceMatchupResults(Race race1, Race race2)
         {
             this.Race1 = race1;
@@ -83,6 +83,15 @@ namespace EloSystem
             else { return; }
 
             this.race1ExpWinRatio += EloData.ExpectedWinRatio(race1Rating, race2Rating);
+        }
+
+        internal void RollBackGameResult(Race raceWinner, int race1Rating, int race2Rating)
+        {
+            if (this.Race1 == raceWinner) { this.Race1Wins--; }
+            else if (this.Race2 == raceWinner) { this.Race2Wins--; }
+            else { return; }
+
+            this.race1ExpWinRatio -= EloData.ExpectedWinRatio(race1Rating, race2Rating);
         }
 
         public double WinRatioRace1()

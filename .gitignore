@@ -7,3 +7,12 @@ SCEloSystemGUI/bin/Release/EloSystemExtensions.pdb
 EloSystemExtensions/bin/
 EloSystemExtensions/obj/Debug/EloSystemExtensions.dll
 EloSystemExtensions/obj/Debug/EloSystemExtensions.pdb
+SCEloSystemGUI/bin/Release/EloSystems/
+EloSystem/bin/Release/EloSystem.dll
+EloSystem/bin/Release/EloSystem.pdb
+EloSystem/bin/Debug/EloSystem.dll
+SCEloSystemGUI/bin/Debug/SCEloSystemGUI.exe
+SCEloSystemGUI/bin/Release/EloSystem.dll
+SCEloSystemGUI/bin/Release/EloSystem.pdb
+SCEloSystemGUI/bin/
+EloSystem/bin/Debug/

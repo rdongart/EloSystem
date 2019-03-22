@@ -1,4 +1,5 @@
-﻿using EloSystem;
+﻿using CustomControls;
+using EloSystem;
 using SCEloSystemGUI.UserControls;
 using System;
 using System.Collections.Generic;
@@ -26,12 +27,14 @@ namespace SCEloSystemGUI
                 return this.TournamentSelector.SelectedValue as Tournament;
             }
         }
-        public ImageComboBoxImprovedItemHandling TournamentSelector { get; private set; }
+        public ImprovedImageComboBox<Tournament> TournamentSelector { get; private set; }
         public ComboBox SeasonSelector { get; private set; }
+        
+        public MatchContextSelector(ImprovedImageComboBox<Tournament> tournamentSelector) : this(tournamentSelector, new ComboBox()) { }
 
-        public MatchContextSelector(ImageComboBoxImprovedItemHandling tournamentSelector) : this(tournamentSelector, new ComboBox()) { }
-        public MatchContextSelector(ComboBox seasonSelector) : this(new ImageComboBoxImprovedItemHandling(), seasonSelector) { }
-        public MatchContextSelector(ImageComboBoxImprovedItemHandling tournamentSelector, ComboBox seasonSelector)
+        public MatchContextSelector(ComboBox seasonSelector) : this(new ImprovedImageComboBox<Tournament>(), seasonSelector) { }
+
+        public MatchContextSelector(ImprovedImageComboBox<Tournament> tournamentSelector, ComboBox seasonSelector)
         {
             this.TournamentSelector = tournamentSelector;
             this.SeasonSelector = seasonSelector;
@@ -50,30 +53,52 @@ namespace SCEloSystemGUI
 
         private void AddSeasonItems()
         {
-            if (this.SelectedTournament == null) { return; }
+            if (this.SelectedTournament == null)
+            {
+                this.SeasonSelector.SelectedIndex = -1;
 
-            List<Season> seasonList = this.SelectedTournament.GetSeasons().OrderBy(season => season.Name).ToList();
+                this.SeasonSelector.Items.Clear();
+            }
+            else
+            {
+                List<Season> seasonList = this.SelectedTournament.GetSeasons().OrderBy(season => season.Name).ToList();
 
-            var selectedItem = this.SeasonSelector.SelectedItem != null ? (this.SeasonSelector.SelectedItem as Tuple<string, Season>).Item2 : null;
+                var selectedItem = this.SeasonSelector.SelectedItem != null ? (this.SeasonSelector.SelectedItem as Tuple<string, Season>).Item2 : null;
 
-            this.SeasonSelector.DisplayMember = "Item1";
-            this.SeasonSelector.ValueMember = "Item2";
+                this.SeasonSelector.DisplayMember = "Item1";
+                this.SeasonSelector.ValueMember = "Item2";
 
-            this.SeasonSelector.Items.Clear();
-            this.SeasonSelector.Items.AddRange(seasonList.Select(season => Tuple.Create<string, Season>(season.Name, season)).ToArray());
+                this.SeasonSelector.Items.Clear();
+                this.SeasonSelector.Items.AddRange(seasonList.Select(season => Tuple.Create<string, Season>(season.Name, season)).ToArray());
 
-            if (selectedItem != null && seasonList.Contains(selectedItem)) { this.SeasonSelector.SelectedIndex = seasonList.IndexOf(selectedItem); }
-            else { this.SeasonSelector.SelectedIndex = -1; }
+                if (selectedItem != null && seasonList.Contains(selectedItem)) { this.SeasonSelector.SelectedIndex = seasonList.IndexOf(selectedItem); }
+                else { this.SeasonSelector.SelectedIndex = -1; }
+            }
         }
 
-        public void AddItems(IEnumerable<Tournament> items, ImageGetter getter)
+        public void AddItems(IEnumerable<Tournament> items)
         {
-            this.TournamentSelector.AddItems(items.ToArray(), getter, true);
+            this.TournamentSelector.AddItems(items.ToArray(), true);
         }
 
         public void UpdateSeason()
         {
             this.AddSeasonItems();
+        }
+
+        public void TrySetSelections(Tournament tournament, Season season)
+        {
+            if (tournament != null && this.TournamentSelector.Items.Cast<Tuple<string, Tournament, Image>>().Any(item => item.Item2 == tournament))
+            {
+                this.TournamentSelector.TrySetSelectedIndex(tournament);
+
+                if (season != null && this.SeasonSelector.Items.Cast<Tuple<string, Season>>().Any(item => item.Item2 == season))
+                {
+                    this.SeasonSelector.SelectedIndex = this.SeasonSelector.Items.IndexOf(this.SeasonSelector.Items.Cast<Tuple<string, Season>>().First(item => item.Item2 == season));
+                }
+                else { this.SeasonSelector.SelectedIndex = -1; }
+            }
+            else { this.TournamentSelector.SelectedIndex = 0; }
         }
     }
 }

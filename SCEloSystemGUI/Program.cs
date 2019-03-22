@@ -41,26 +41,9 @@ namespace SCEloSystemGUI
 
                         while (menu.ShowDialog() == DialogResult.OK)
                         {
-                            //switch (menu.MenuResult)
-                            //{
-                            //    case StartMenuResult.Abort:
-                            //        throw new Exception(String.Format("Unable to handle {0} with a value of {1} in the current environment."
-                            //            , typeof(StartMenuResult).Name, menu.MenuResult.ToString()));
-                            //    case StartMenuResult.RunEditor:
-                            //        var editor = new DataEditor(true);
-                            //        Application.Run(editor);
-                            //        break;
-                            //    case StartMenuResult.RunGame:
-                            //        var mainGameForm = new ManagerLifeMainForm(menu.Game);
-
-                            //        ManagerLifeGUI.UI.RegisterForm(mainGameForm);
-
                             var mainEloSystemForm = new MainForm(menu.EloSystem);
 
                             Application.Run(mainEloSystemForm);
-                            //        break;
-                            //    default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(StartMenuResult).Name, menu.MenuResult.ToString()));
-                            //}
                         }
 
                         menu.Close();
@@ -74,9 +57,6 @@ namespace SCEloSystemGUI
             }
 
             Environment.Exit(0);
-
-
-            Application.Run(new StartMenu());
         }
 
         private static void BringOldInstanceToFront(string processName)

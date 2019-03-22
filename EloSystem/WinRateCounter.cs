@@ -21,6 +21,36 @@ namespace EloSystem
         }
         #endregion
 
+        internal void RollBackResult(Game game)
+        {
+            if (game.Player1.Stats != this && game.Player2.Stats != this) { return; }
+
+            Race ownRace = game.Player1.Stats == this ? game.Player1Race : game.Player2Race;
+            Race vsRace = game.Player1.Stats == this ? game.Player2Race : game.Player1Race;
+
+            if (game.Player1.Stats == this)
+            {
+                if (game.Winner == game.Player1) { this.RollBackWin(ownRace, vsRace); }
+                else { this.RollBackLoss(ownRace, vsRace); }
+            }
+            else if (game.Player2.Stats == this)
+            {
+                if (game.Winner == game.Player2) { this.RollBackWin(ownRace, vsRace); }
+                else { this.RollBackLoss(ownRace, vsRace); }
+            }
+        }
+
+        private void RollBackLoss(Race ownRace, Race vsRace)
+        {
+            this.DecrementTotalGames(ownRace, vsRace);
+        }
+
+        private void RollBackWin(Race ownRace, Race vsRace)
+        {
+            this.wins.GamesAs(ownRace).AddValueTo(vsRace, -1);
+            this.DecrementTotalGames(ownRace, vsRace);
+        }
+
         internal void ReportLoss(Race ownRace, Race vsRace)
         {
             this.IncrementTotalGames(ownRace, vsRace);
@@ -35,6 +65,11 @@ namespace EloSystem
         private void IncrementTotalGames(Race ownRace, Race vsRace)
         {
             this.totalGames.GamesAs(ownRace).AddValueTo(vsRace, 1);
+        }
+
+        private void DecrementTotalGames(Race ownRace, Race vsRace)
+        {
+            this.totalGames.GamesAs(ownRace).AddValueTo(vsRace, -1);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace SCEloSystemGUI.UserControls
 {
-    partial class ImageComboBoxImprovedItemHandling
+    partial class ImageComboBoxImprovedItemHandling<T> 
     {
         /// <summary>
         /// Required designer variable.

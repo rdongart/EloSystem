@@ -44,14 +44,14 @@ namespace SCEloSystemGUI.UserControls
                 {
                     this.picBxCountry.Image = countryRes.Image;
 
-                    this.tblLOPnlPlayerStats.Controls.Add(this.picBxCountry, 1, 0);
+                    this.tblLOPnlPlayerStats.Controls.Add(this.picBxCountry, 2, 0);
 
                     this.toolTipStatsDisplay.SetToolTip(this.picBxCountry, player.Country.Name);
                 }
                 else
                 {
                     this.lbPlCountry.Text = player.Country.Name;
-                    this.tblLOPnlPlayerStats.Controls.Add(this.lbPlCountry, 1, 0);
+                    this.tblLOPnlPlayerStats.Controls.Add(this.lbPlCountry, 2, 0);
                     this.tblLOPnlPlayerStats.SetColumnSpan(this.lbPlCountry, 5);
                 }
             }
@@ -72,14 +72,14 @@ namespace SCEloSystemGUI.UserControls
                 {
                     this.picBoxTeam.Image = teamRes.Image;
 
-                    this.tblLOPnlPlayerStats.Controls.Add(this.picBoxTeam, 1, 1);
+                    this.tblLOPnlPlayerStats.Controls.Add(this.picBoxTeam, 2, 1);
 
                     this.toolTipStatsDisplay.SetToolTip(this.picBoxTeam, player.Team.Name);
                 }
                 else
                 {
                     this.lbPlTeam.Text = player.Team.Name;
-                    this.tblLOPnlPlayerStats.Controls.Add(this.lbPlTeam, 1, 1);
+                    this.tblLOPnlPlayerStats.Controls.Add(this.lbPlTeam, 2, 1);
                     this.tblLOPnlPlayerStats.SetColumnSpan(this.lbPlTeam, 5);
                 }
             }

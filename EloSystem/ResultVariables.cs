@@ -107,7 +107,7 @@ namespace EloSystem
                 default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Race).Name, race.ToString()));
             }
         }
-        public void AddValueTo(Race race, int value)
+        internal void AddValueTo(Race race, int value)
         {
             switch (race)
             {
@@ -118,5 +118,6 @@ namespace EloSystem
                 default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Race).Name, race.ToString()));
             }
         }
+
     }
 }

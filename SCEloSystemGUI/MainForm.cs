@@ -24,7 +24,6 @@ namespace SCEloSystemGUI
         private MatchReport matchReport;
         private PlayerEditor playerAdder;
         private SeasonAdder seasonAdder;
-        private ObjectListView oLstVRecentMatches;
 
         internal MainForm(EloData eloSystem)
         {
@@ -91,20 +90,15 @@ namespace SCEloSystemGUI
             this.teamEditor.EditButtonClicked += this.TeamEdited_OnEditedButtonClick;
             this.tblLOPnlTeams.Controls.Add(this.teamEditor, 0, 1);
 
-            this.matchReport = new MatchReport();
-            this.tblLoPnlReportMatch.Controls.Add(this.matchReport, 0, 0);
+            this.matchReport = new MatchReport() { Margin = new Padding(6) };
+            this.tabPageReportMatch.Controls.Add(this.matchReport);
             this.matchReport.EloDataSource = () => { return this.eloSystem; };
-
-            this.oLstVRecentMatches = MainForm.CreateMatchListView();
-            this.tblLoPnlRecentMatches.Controls.Add(this.oLstVRecentMatches, 0, 1);
-            this.matchReport.MatchReported += this.OnMatchReported;
 
             this.AddTileSetsToCmbBox();
             this.AddCountriesToImgCmbBox();
             this.AddTeamsToImgCmbBox();
             this.AddPlayersToImgCmbBox();
             this.AddTournamentsToImgCmbBox();
-            this.AddRecentMatches();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -124,13 +118,12 @@ namespace SCEloSystemGUI
 
         }
 
-        private Image ImageGetterMethod(int imageID)
+        private Image ImageGetterMethod(IHasImageID item)
         {
             EloImage eloImg;
 
-            if (this.eloSystem.TryGetImage(imageID, out eloImg)) { return eloImg.Image; }
+            if (this.eloSystem.TryGetImage(item.ImageID, out eloImg)) { return eloImg.Image; }
             else { return null; }
         }
-
     }
 }

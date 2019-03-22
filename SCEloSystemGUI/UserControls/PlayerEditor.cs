@@ -61,7 +61,7 @@ namespace SCEloSystemGUI.UserControls
             }
             internal set
             {
-                this.lbHeading.Text = String.Format("Create or edit {0}", value.ToString().ToLower());
+                this.lbHeading.Text = String.Format("Add or edit {0}", value.ToString().ToLower());
 
                 this.contentType = value;
             }
@@ -76,8 +76,8 @@ namespace SCEloSystemGUI.UserControls
         public event EventHandler<ContentAddingEventArgs> OnAddButtonClick = delegate { };
         public event EventHandler OnEditButtonClick = delegate { };
         public Image NewImage { get; private set; }
-        public ImageComboBox ImgCmbBxCountries { get; private set; }
-        public ImageComboBox ImgCmbBxTeams { get; private set; }
+        public ImprovedImageComboBox<Country> ImgCmbBxCountries { get; private set; }
+        public ImprovedImageComboBox<Team> ImgCmbBxTeams { get; private set; }
         public string ContentName
         {
             get
@@ -105,12 +105,12 @@ namespace SCEloSystemGUI.UserControls
             this.numUDStartRating.Maximum = int.MaxValue;
             this.numUDStartRating.Value = EloSystemStaticMembers.START_RATING_DEFAULT;
 
-            this.ImgCmbBxCountries = EloGUIControlsStaticMembers.CreateStandardContentAdderImageComboBox();
+            this.ImgCmbBxCountries = EloGUIControlsStaticMembers.CreateStandardImprovedImageComboBox<Country>(null);
             this.ImgCmbBxCountries.TabIndex = 11;
             this.ImgCmbBxCountries.SelectedIndexChanged += this.ImgCmbBx_SelectedIndexChanged;
             this.tblLOPnlPlayerEditor.Controls.Add(this.ImgCmbBxCountries, 4, 7);
 
-            this.ImgCmbBxTeams = EloGUIControlsStaticMembers.CreateStandardContentAdderImageComboBox();
+            this.ImgCmbBxTeams = EloGUIControlsStaticMembers.CreateStandardImprovedImageComboBox<Team>(null);
             this.ImgCmbBxTeams.SelectedIndexChanged += this.ImgCmbBx_SelectedIndexChanged;
             this.ImgCmbBxTeams.TabIndex = 12;
             this.tblLOPnlPlayerEditor.Controls.Add(this.ImgCmbBxTeams, 4, 8);

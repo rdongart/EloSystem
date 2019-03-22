@@ -19,6 +19,20 @@ namespace SCEloSystemGUI.UserControls
 
     public partial class GameReport : UserControl
     {
+        internal int RaceIndexPlayer1
+        {
+            get
+            {
+                return this.cmbBxPlayer1Race.SelectedIndex;
+            }
+        }
+        internal int RaceIndexPlayer2
+        {
+            get
+            {
+                return this.cmbBxPlayer2Race.SelectedIndex;
+            }
+        }
         internal ResourceGetter EloDataSource
         {
             private get
@@ -130,6 +144,29 @@ namespace SCEloSystemGUI.UserControls
             this.rdBtnPl2Win.CheckedChanged += this.RdBtnPlWin_CheckedChanged;
         }
 
+        public GameReport(GameEntryEditorItem editorItem, SCPlayer player1, SCPlayer player2, ResourceGetter resourceGetter) : this()
+        {
+            this.EloDataSource = resourceGetter;
+
+            this.cmbBxPlayer1Race.SelectedIndex = (int)editorItem.Player1Race;
+            this.cmbBxPlayer2Race.SelectedIndex = (int)editorItem.Player2Race;
+
+            if (editorItem.Map != null && this.cmbBxMap.Items.Cast<Tuple<string, Map>>().Any(item => item.Item2 == editorItem.Map))
+            {
+                this.cmbBxMap.SelectedIndex = this.cmbBxMap.Items.Cast<Tuple<string, Map>>().IndexOf(this.cmbBxMap.Items.Cast<Tuple<string, Map>>().First(item => item.Item2 == editorItem.Map));
+            }
+            else { this.cmbBxMap.SelectedIndex = -1; }
+
+            if (editorItem.Player1IsSetToWinner) { this.rdBtnPl1Win.Checked = true; }
+            else if (editorItem.Player2IsSetToWinner) { this.rdBtnPl2Win.Checked = true; }
+
+            this.player1 = player1;
+            this.player2 = player2;
+
+            this.UpdateControlValues();
+            this.SetTextOnWinnerRadioButtons();
+        }
+
         private void RdBtnPlWin_CheckedChanged(object sender, EventArgs e)
         {
             if (this.rdBtnPl1Win.Checked)
@@ -212,7 +249,6 @@ namespace SCEloSystemGUI.UserControls
 
         private void UpdateControlValues()
         {
-
             if (this.HasSelectedRaces())
             {
                 if (this.cmbBxMap.SelectedIndex > -1)
@@ -227,7 +263,7 @@ namespace SCEloSystemGUI.UserControls
 
                         if (this.racePlayer1 == this.racePlayer2)
                         {
-                            statsTextA = String.Format("{0}\ngames",stats.TotalGames);
+                            statsTextA = String.Format("{0}\ngames", stats.TotalGames);
                             statsTextB = statsTextA;
                         }
                         else
@@ -300,8 +336,8 @@ namespace SCEloSystemGUI.UserControls
         {
             switch (slot)
             {
-                case PlayerSlotType.Player1: return this.cmbBxPlayer1Race.SelectedIndex > 0;
-                case PlayerSlotType.Player2: return this.cmbBxPlayer2Race.SelectedIndex > 0;
+                case PlayerSlotType.Player1: return this.cmbBxPlayer1Race.SelectedIndex > -1;
+                case PlayerSlotType.Player2: return this.cmbBxPlayer2Race.SelectedIndex > -1;
                 default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PlayerSlotType).Name, slot.ToString()));
             }
         }
@@ -312,19 +348,19 @@ namespace SCEloSystemGUI.UserControls
 
             if (this.WinnerPlayer == null || !this.HasSelectedRaces()) { return GameReportStatus.Failure; }
 
-            Func<Map> GetMapOrDefault = () =>
-            {
-                var mapTpl = this.cmbBxMap.SelectedItem as Tuple<string, Map>;
-
-                return (mapTpl != null) ? mapTpl.Item2 : null;
-
-            };
-
-            gameReport = new GameEntry(this.WinnerSlot, (this.cmbBxPlayer1Race.SelectedItem as Tuple<string, Race>).Item2, (this.cmbBxPlayer2Race.SelectedItem as Tuple<string, Race>).Item2, GetMapOrDefault());
+            gameReport = new GameEntry(this.WinnerSlot, (this.cmbBxPlayer1Race.SelectedItem as Tuple<string, Race>).Item2, (this.cmbBxPlayer2Race.SelectedItem as Tuple<string, Race>).Item2
+                , this.GetMapOrDefault());
 
 
             if (this.cmbBxMap.SelectedIndex < 0 || this.cmbBxMap.SelectedItem == null) { return GameReportStatus.MapIsMissing; }
             else { return GameReportStatus.Ready; }
+        }
+
+        public Map GetMapOrDefault()
+        {
+            var mapTpl = this.cmbBxMap.SelectedItem as Tuple<string, Map>;
+
+            return (mapTpl != null) ? mapTpl.Item2 : null;
         }
 
         public void SetRaceFor(PlayerSlotType playerSlot, Race race)
@@ -340,6 +376,8 @@ namespace SCEloSystemGUI.UserControls
         private void cmbBxMap_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.UpdateControlValues();
+
+            this.GameDataReported.Invoke(this, new EventArgs());
         }
     }
 }

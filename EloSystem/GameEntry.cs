@@ -15,6 +15,18 @@ namespace EloSystem
         public int RatingChange { get; internal set; }
         public Race Player1Race { get; private set; }
         public Race Player2Race { get; private set; }
+        public Race WinnersRace
+        {
+            get
+            {
+                switch (this.WinnerWas)
+                {
+                    case PlayerSlotType.Player1: return this.Player1Race;
+                    case PlayerSlotType.Player2: return this.Player2Race;
+                    default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PlayerSlotType).Name, this.WinnerWas.ToString()));
+                }
+            }
+        }
         public PlayerSlotType WinnerWas { get; private set; }
         public string MapName
         {

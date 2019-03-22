@@ -1,141 +1,18 @@
-﻿using BrightIdeasSoftware;
+﻿using CustomControls;
+using BrightIdeasSoftware;
 using EloSystem;
-using EloSystem.ResourceManagement;
 using SCEloSystemGUI.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using SCEloSystemGUI.Properties;
 
 namespace SCEloSystemGUI
 {
     public partial class MainForm
     {
-        private static ObjectListView CreateMatchListView()
-        {
-            var matchLV = new ObjectListView();
-
-            var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null };
-            var olvClmPlayer1 = new OLVColumn() { Width = 130, Text = "Player 1" };
-            var olvClmRatingChangePlayer1 = new OLVColumn() { Width = 50, Text = "Rating Change" };
-            var olvClmResult = new OLVColumn() { Width = 70, Text = "Result" };
-            var olvClmRatingChangePlayer2 = new OLVColumn() { Width = 50, Text = "Rating Change" };
-            var olvClmPlayer2 = new OLVColumn() { Width = 130, Text = "Player 2" };
-            var olvClmTournament = new OLVColumn() { Width = 130, Text = "Tournament" };
-            var olvClmSeason = new OLVColumn() { Width = 110, Text = "Season" };
-
-            matchLV.Size = new Size(694, 850);
-            matchLV.HasCollapsibleGroups = false;
-            matchLV.ShowGroups = false;
-            matchLV.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            matchLV.RowHeight = 22;
-            matchLV.UseCellFormatEvents = true;
-            matchLV.FormatCell += MatchLV_FormatCell;
-            matchLV.Scrollable = true;
-
-            matchLV.AllColumns.AddRange(new OLVColumn[] { olvClmEmpty, olvClmPlayer1, olvClmRatingChangePlayer1, olvClmResult, olvClmRatingChangePlayer2, olvClmPlayer2, olvClmTournament, olvClmSeason });
-
-            matchLV.Columns.AddRange(new ColumnHeader[] { olvClmEmpty, olvClmPlayer1, olvClmRatingChangePlayer1, olvClmResult, olvClmRatingChangePlayer2, olvClmPlayer2, olvClmTournament, olvClmSeason });
-
-            foreach (OLVColumn clm in new OLVColumn[] { olvClmRatingChangePlayer1, olvClmResult, olvClmRatingChangePlayer2 })
-            {
-                clm.HeaderTextAlign = HorizontalAlignment.Center;
-                clm.TextAlign = HorizontalAlignment.Center;
-            }
-
-            matchLV.AlternateRowBackColor = Color.FromArgb(217, 217, 217);
-            matchLV.UseAlternatingBackColors = true;
-
-            matchLV.FullRowSelect = false;
-
-            olvClmPlayer1.AspectGetter = obj =>
-            {
-                var match = obj as IGrouping<Match, Game>;
-
-                if (match != null) { return match.Key.Player1.Name; }
-                else { return ""; }
-            };
-
-            olvClmRatingChangePlayer1.AspectGetter = obj =>
-            {
-                var match = obj as IGrouping<Match, Game>;
-
-                if (match != null)
-                {
-                    int ratingChange = match.Key.RatingChangeBy(PlayerSlotType.Player1);
-
-                    return String.Format("{0}{1}", ratingChange > 0 ? "+" : "", ratingChange.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT));
-                }
-                else { return ""; }
-            };
-
-            olvClmResult.AspectGetter = obj =>
-            {
-                var match = obj as IGrouping<Match, Game>;
-
-                if (match != null) { return String.Format("{0} - {1}", match.Key.WinsBy(PlayerSlotType.Player1), match.Key.WinsBy(PlayerSlotType.Player2)); }
-                else { return ""; }
-            };
-
-            olvClmRatingChangePlayer2.AspectGetter = obj =>
-            {
-                var match = obj as IGrouping<Match, Game>;
-
-                if (match != null)
-                {
-                    int ratingChange = match.Key.RatingChangeBy(PlayerSlotType.Player2);
-
-                    return String.Format("{0}{1}", ratingChange > 0 ? "+" : "", ratingChange.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT));
-                }
-                else { return ""; }
-            };
-
-            olvClmPlayer2.AspectGetter = obj =>
-            {
-                var match = obj as IGrouping<Match, Game>;
-
-                if (match != null) { return match.Key.Player2.Name; }
-                else { return ""; }
-            };
-
-            olvClmTournament.AspectGetter = obj =>
-            {
-                var match = obj as IGrouping<Match, Game>;
-
-                if (match != null && match.First().Tournament != null) { return match.First().Tournament.Name; }
-                else { return ""; }
-            };
-
-            olvClmSeason.AspectGetter = obj =>
-            {
-                var match = obj as IGrouping<Match, Game>;
-
-                if (match != null && match.First().Season != null) { return match.First().Season.Name; }
-                else { return ""; }
-            };
-
-            return matchLV;
-        }
-
-        private static void MatchLV_FormatCell(object sender, FormatCellEventArgs e)
-        {
-            if (e.ColumnIndex == 2 || e.ColumnIndex == 4)
-            {
-                int cellValue;
-
-                if (int.TryParse(e.SubItem.Text, out cellValue))
-                {
-                    if (cellValue < 0) { e.SubItem.ForeColor = Color.Red; }
-                    else if (cellValue > 0) { e.SubItem.ForeColor = Color.ForestGreen; }
-                    else
-                    {
-                        e.SubItem.ForeColor = SystemColors.ControlText;
-                    }
-                }
-            }
-        }
-
         private static void DisplayContentEditFailureMessage()
         {
             MessageBox.Show(String.Format("A failure occurred while trying to add edit content."));
@@ -342,68 +219,26 @@ namespace SCEloSystemGUI
 
         private void AddCountriesToImgCmbBox()
         {
-            var currentSelection = this.playerAdder.ImgCmbBxCountries.SelectedValue as Country;
+            ImageGetter<Country> getter = this.ImageGetterMethod;
 
-            Func<Country, Image> GetImage = c =>
-            {
-                EloImage eloImg;
-
-                if (this.eloSystem.TryGetImage(c.ImageID, out eloImg)) { return eloImg.Image; }
-                else { return null; }
-
-            };
-
-            this.playerAdder.ImgCmbBxCountries.DisplayMember = "Item1";
-            this.playerAdder.ImgCmbBxCountries.ValueMember = "Item2";
-            this.playerAdder.ImgCmbBxCountries.ImageMember = "Item3";
-
-            var items = (new Tuple<string, Country, Image>[] { Tuple.Create<string, Country, Image>("none", null, null) }).Concat(this.eloSystem.GetCountries().OrderBy(country => country.Name).Select(country =>
-                Tuple.Create<string, Country, Image>(country.Name, country, GetImage(country)))).ToList();
-
-            this.playerAdder.ImgCmbBxCountries.DataSource = items;
-
-
-            if (currentSelection != null && items.Any(item => item.Item2 == currentSelection))
-            {
-                this.playerAdder.ImgCmbBxCountries.SelectedIndex = items.IndexOf(items.First(item => item.Item2 == currentSelection));
-            }
+            this.playerAdder.ImgCmbBxCountries.AddItems(this.eloSystem.GetCountries().ToArray(), getter, true);
         }
 
         private void AddPlayersToImgCmbBox()
         {
-            EloGUIControlsStaticMembers.AddPlayersToImgCmbBox(this.matchReport.ImgCmbBxPlayer1, this.eloSystem);
-            EloGUIControlsStaticMembers.AddPlayersToImgCmbBox(this.matchReport.ImgCmbBxPlayer2, this.eloSystem);
+            SCPlayer[] players = this.eloSystem.GetPlayers().ToArray();
+
+            this.matchReport.ImgCmbBxPlayer1.AddItems(players, false);
+            this.matchReport.ImgCmbBxPlayer2.AddItems(players, false);
         }
 
         private void AddTeamsToImgCmbBox()
         {
             this.teamEditor.AddContentItems(this.eloSystem.GetTeams(), this.ImageGetterMethod);
 
-            var currentSelection = this.playerAdder.ImgCmbBxTeams.SelectedValue as Team;
+            ImageGetter<Team> getter = this.ImageGetterMethod;
 
-            Func<Team, Image> GetImage = c =>
-            {
-                EloImage eloImg;
-
-                if (this.eloSystem.TryGetImage(c.ImageID, out eloImg)) { return eloImg.Image; }
-                else { return null; }
-
-            };
-
-            this.playerAdder.ImgCmbBxTeams.DisplayMember = "Item1";
-            this.playerAdder.ImgCmbBxTeams.ValueMember = "Item2";
-            this.playerAdder.ImgCmbBxTeams.ImageMember = "Item3";
-
-            var items = (new Tuple<string, Team, Image>[] { Tuple.Create<string, Team, Image>("none", null, null) }).Concat(this.eloSystem.GetTeams().OrderBy(team => team.Name).Select(team =>
-                Tuple.Create<string, Team, Image>(String.Format("{0}{1}", team.Name, team.NameLong != string.Empty ? " (" + team.NameLong + ")" : string.Empty), team, GetImage(team)))).ToList();
-
-            this.playerAdder.ImgCmbBxTeams.DataSource = items;
-
-
-            if (currentSelection != null && items.Any(item => item.Item2 == currentSelection))
-            {
-                this.playerAdder.ImgCmbBxTeams.SelectedIndex = items.IndexOf(items.First(item => item.Item2 == currentSelection));
-            }
+            this.playerAdder.ImgCmbBxTeams.AddItems(this.eloSystem.GetTeams().ToArray(), getter, true);
         }
 
         private void AddTournamentsToImgCmbBox()
@@ -411,19 +246,7 @@ namespace SCEloSystemGUI
             this.seasonAdder.AddTournamentItems(this.eloSystem.GetTournaments(), this.ImageGetterMethod);
 
             this.tournamentEditor.AddContentItems(this.eloSystem.GetTournaments(), this.ImageGetterMethod);
-        }
-
-        private void AddRecentMatches()
-        {
-            this.oLstVRecentMatches.SetObjects(this.eloSystem.GetAllGames().OrderByDescending(game=>game.Match.Date).GroupBy(game => game.Match).Take(50));
-        }
-
-        private void OnMatchReported(object sender, EventArgs e)
-        {
-            this.AddRecentMatches();
-        }
-
-
+        }                
     }
 
 }

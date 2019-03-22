@@ -65,7 +65,7 @@ namespace EloSystem
 
         internal IEnumerable<Game> GetGames()
         {
-            foreach (Game game in this.games.Select(entry => new Game(this.Player1, this.Player2, entry))) { yield return game; }
+            foreach (Game game in this.games.Select(entry => new Game(entry, this))) { yield return game; }
         }
 
         public int RatingChangeBy(PlayerSlotType player)

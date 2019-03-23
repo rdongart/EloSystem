@@ -61,6 +61,15 @@ namespace SCEloSystemGUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to In order to remove a player from the elo system, you must first remove all matches that the player appears in..
+        /// </summary>
+        internal static string RemovePlayerRule {
+            get {
+                return ResourceManager.GetString("RemovePlayerRule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Search {

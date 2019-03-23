@@ -55,29 +55,30 @@ namespace SCEloSystemGUI
             this.tblLOPnlTournaments.Controls.Add(this.seasonAdder, 1, 0);
 
             this.mapAdder = new MapAdder() { ContentType = ContentTypes.Map };
-            this.mapAdder.OnAddButtonClick += this.AddContent;
+            this.mapAdder.OnAddPlayer += this.AddContent;
             this.tblLOPnlMaps.Controls.Add(this.mapAdder, 0, 0);
 
             this.countryAdder = new ContentAdder() { ContentType = ContentTypes.Country };
-            this.countryAdder.OnAddButtonClick += this.AddContent;
-            this.countryAdder.OnAddButtonClick += this.CountryAdder_OnAddButtonClick;
+            this.countryAdder.OnAddPlayer += this.AddContent;
+            this.countryAdder.OnAddPlayer += this.CountryAdder_OnAddButtonClick;
             this.tblLOPnlCountries.Controls.Add(this.countryAdder, 0, 0);
 
             this.teamAdder = new DblNameContentAdder() { ContentType = ContentTypes.Team };
-            this.teamAdder.OnAddButtonClick += this.AddContent;
-            this.teamAdder.OnAddButtonClick += this.TeamAdder_OnAddButtonClick;
+            this.teamAdder.OnAddPlayer += this.AddContent;
+            this.teamAdder.OnAddPlayer += this.TeamAdder_OnAddButtonClick;
             this.tblLOPnlTeams.Controls.Add(this.teamAdder, 0, 0);
 
             this.playerAdder = new PlayerEditor() { ContentType = ContentTypes.Player };
             this.playerAdder.EloDataSource = () => { return this.eloSystem; };
-            this.playerAdder.OnAddButtonClick += this.AddContent;
-            this.playerAdder.OnAddButtonClick += this.PlayerAdder_OnAddButtonClick;
-            this.playerAdder.OnEditButtonClick += this.PlayerAdder_OnEditButtonClick;
+            this.playerAdder.OnAddPlayer += this.AddContent;
+            this.playerAdder.OnAddPlayer += this.PlayerAdder_OnAddButtonClick;
+            this.playerAdder.OnEditButtonClick += this.PlayerAdder_OnPlayerDatabaseEdited;
+            this.playerAdder.OnRemoveButtonClick += this.PlayerAdder_OnPlayerDatabaseEdited;
             this.tblLOPnlPlayers.Controls.Add(this.playerAdder, 0, 0);
 
             this.tournamentAdder = new DblNameContentAdder() { ContentType = ContentTypes.Tournament };
-            this.tournamentAdder.OnAddButtonClick += this.AddContent;
-            this.tournamentAdder.OnAddButtonClick += this.TournamentAdder_OnAddButtonClick;
+            this.tournamentAdder.OnAddPlayer += this.AddContent;
+            this.tournamentAdder.OnAddPlayer += this.TournamentAdder_OnAddButtonClick;
             this.tblLOPnlTournaments.Controls.Add(this.tournamentAdder, 0, 0);
 
             this.tournamentEditor = new DblNameContentEditor<Tournament>() { ContentName = "Tornament", ResourceGetter = this.ImageGetterMethod };

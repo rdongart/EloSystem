@@ -12,6 +12,13 @@ namespace SCEloSystemGUI
         private List<GameEntryEditorItem> editedGames;
         private readonly List<Game> sourceGames;
         private readonly Match sourceMatch;
+        public bool DateWasEdited
+        {
+            get
+            {
+                return this.DateValue.CompareTo(this.sourceMatch.Date) != 0;
+            }
+        }
         public DateTime DateValue { get; set; }
         /// <summary>
         /// The date from which this match's results could influence the ratings given from other matches.

@@ -25,7 +25,7 @@ namespace SCEloSystemGUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("20000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("110")]
         public uint NoRecentMatches {
             get {
                 return ((uint)(this["NoRecentMatches"]));

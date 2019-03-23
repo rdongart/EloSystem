@@ -35,8 +35,8 @@ namespace SCEloSystemGUI.UserControls
             this.toolTipStatsDisplay.SetToolTip(this.picBxCountry, string.Empty);
             this.lbPlCountry.Text = string.Empty;
 
-            this.tblLOPnlPlayerStats.Controls.Remove(this.picBxCountry);
-            this.tblLOPnlPlayerStats.Controls.Remove(this.lbPlCountry);
+            this.tblLoPnlPlayerAffiliations .Controls.Remove(this.picBxCountry);
+            this.tblLoPnlPlayerAffiliations.Controls.Remove(this.lbPlCountry);
 
             if (player.Country != null)
             {
@@ -44,15 +44,15 @@ namespace SCEloSystemGUI.UserControls
                 {
                     this.picBxCountry.Image = countryRes.Image;
 
-                    this.tblLOPnlPlayerStats.Controls.Add(this.picBxCountry, 2, 0);
+                    this.tblLoPnlPlayerAffiliations.Controls.Add(this.picBxCountry, 0, 0);
 
                     this.toolTipStatsDisplay.SetToolTip(this.picBxCountry, player.Country.Name);
                 }
                 else
                 {
                     this.lbPlCountry.Text = player.Country.Name;
-                    this.tblLOPnlPlayerStats.Controls.Add(this.lbPlCountry, 2, 0);
-                    this.tblLOPnlPlayerStats.SetColumnSpan(this.lbPlCountry, 5);
+                    this.tblLoPnlPlayerAffiliations.Controls.Add(this.lbPlCountry, 0, 0);
+                    this.tblLoPnlPlayerAffiliations.SetColumnSpan(this.lbPlCountry, 2);
                 }
             }
 
@@ -63,8 +63,8 @@ namespace SCEloSystemGUI.UserControls
             this.toolTipStatsDisplay.SetToolTip(this.picBoxTeam, string.Empty);
             this.lbPlTeam.Text = string.Empty;
 
-            this.tblLOPnlPlayerStats.Controls.Remove(this.picBoxTeam);
-            this.tblLOPnlPlayerStats.Controls.Remove(this.lbPlTeam);
+            this.tblLoPnlPlayerAffiliations.Controls.Remove(this.picBoxTeam);
+            this.tblLoPnlPlayerAffiliations.Controls.Remove(this.lbPlTeam);
 
             if (player.Team != null)
             {
@@ -72,17 +72,31 @@ namespace SCEloSystemGUI.UserControls
                 {
                     this.picBoxTeam.Image = teamRes.Image;
 
-                    this.tblLOPnlPlayerStats.Controls.Add(this.picBoxTeam, 2, 1);
+                    this.tblLoPnlPlayerAffiliations.Controls.Add(this.picBoxTeam, 0, 1);
 
                     this.toolTipStatsDisplay.SetToolTip(this.picBoxTeam, player.Team.Name);
                 }
                 else
                 {
                     this.lbPlTeam.Text = player.Team.Name;
-                    this.tblLOPnlPlayerStats.Controls.Add(this.lbPlTeam, 2, 1);
-                    this.tblLOPnlPlayerStats.SetColumnSpan(this.lbPlTeam, 5);
+                    this.tblLoPnlPlayerAffiliations.Controls.Add(this.lbPlTeam, 0, 1);
+                    this.tblLoPnlPlayerAffiliations.SetColumnSpan(this.lbPlTeam, 2);
                 }
             }
+
+            EloImage playerRes;
+
+            if (this.picBxPlayer.Image != null) { this.picBxPlayer.Image.Dispose(); }
+            this.picBxPlayer.Image = null;
+            this.toolTipStatsDisplay.SetToolTip(this.picBxPlayer, string.Empty);
+
+            if(this.EloDataSource().TryGetImage(player.ImageID,out playerRes))
+            {
+                this.picBxPlayer.Image = playerRes.Image;
+
+                this.toolTipStatsDisplay.SetToolTip(this.picBxPlayer, player.Name);
+            }
+            
 
             this.lbPlAliases.Text = String.Join(", ", player.GetAliases());
 

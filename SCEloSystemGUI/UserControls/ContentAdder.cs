@@ -19,7 +19,7 @@ namespace SCEloSystemGUI.UserControls
                 this.contentType = value;
             }
         }
-        public event EventHandler<ContentAddingEventArgs> OnAddButtonClick = delegate { };
+        public event EventHandler<ContentAddingEventArgs> OnAddPlayer = delegate { };
         public Image NewImage { get; private set; }
         public string ContentName
         {
@@ -70,9 +70,11 @@ namespace SCEloSystemGUI.UserControls
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            this.OnAddButtonClick.Invoke(sender, new ContentAddingEventArgs(this));
+            this.OnAddPlayer.Invoke(sender, new ContentAddingEventArgs(this));
 
             if (this.NewImage != null) { this.NewImage.Dispose(); }
+
+            this.NewImage = null;
 
             this.lbFileName.Text = string.Empty;
             this.txtBxName.Text = EloGUIControlsStaticMembers.DEFAULT_TXTBX_TEXT;

@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="NoRecentMatches" Type="System.UInt32" Scope="Application">
-      <Value Profile="(Default)">20000</Value>
+      <Value Profile="(Default)">110</Value>
     </Setting>
   </Settings>
 </SettingsFile>

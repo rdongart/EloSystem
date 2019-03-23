@@ -287,7 +287,7 @@ namespace SCEloSystemGUI.UserControls
                 MaxDropDownItems = 18,
                 Font = new Font("Microsoft Sans Serif", 10.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 FormattingEnabled = true,
-                ImageMargin = new Padding(3, 1, 3, 1),
+                ImageMargin = new Padding(3, 2, 3, 2),
                 ItemHeight = 22,
                 Margin = new Padding(4, 4, 4, 4),
                 SelectedItemFont = new Font("Microsoft Sans Serif", 10.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
@@ -500,7 +500,7 @@ namespace SCEloSystemGUI.UserControls
                 if (season != null) { this.EloDataSource().ReportMatch(player1, player2, games.ToArray(), season, date); }
                 else if (tournament != null) { this.EloDataSource().ReportMatch(player1, player2, games.ToArray(), tournament, date); }
                 else { this.EloDataSource().ReportMatch(player1, player2, games.ToArray(), date); }
-                               
+
             }
         }
 
@@ -569,7 +569,8 @@ namespace SCEloSystemGUI.UserControls
             {
                 MatchEditorItem match = eMatchesToReenter.Current;
 
-                this.EnterMatchReport(match.Player1, match.Player2, match.GetGames().Select(game => new GameEntry(game.WinnerWas, game.Player1Race, game.Player2Race, game.Map)), match.Season, match.Tournament, match.DateValue);
+                this.EnterMatchReport(match.Player1, match.Player2, match.GetGames().Select(game => new GameEntry(game.WinnerWas, game.Player1Race, game.Player2Race, game.Map)), match.Season, match.Tournament
+                    , match.DateWasEdited ? this.GetNextMatchDateValue(match.DateValue) : match.DateValue);
             }
 
             this.MatchReported.Invoke(this, new EventArgs());

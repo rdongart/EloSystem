@@ -1,4 +1,5 @@
-﻿using BrightIdeasSoftware;
+﻿using SCEloSystemGUI.Properties;
+using BrightIdeasSoftware;
 using CustomControls;
 using CustomExtensionMethods;
 using EloSystem;
@@ -73,7 +74,8 @@ namespace SCEloSystemGUI.UserControls
                 return this.dateTimePickerBirthDate.Value;
             }
         }
-        public event EventHandler<ContentAddingEventArgs> OnAddButtonClick = delegate { };
+        public event EventHandler<ContentAddingEventArgs> OnAddPlayer = delegate { };
+        public event EventHandler OnRemoveButtonClick = delegate { };
         public event EventHandler OnEditButtonClick = delegate { };
         public Image NewImage { get; private set; }
         public ImprovedImageComboBox<Country> ImgCmbBxCountries { get; private set; }
@@ -99,7 +101,7 @@ namespace SCEloSystemGUI.UserControls
 
             this.txtBxName.Text = string.Empty;
             this.txtBxAlias.Text = string.Empty;
-            this.btnAdd.Enabled = false;
+            this.btnAddEdit.Enabled = false;
             this.btnAddAlias.Enabled = false;
 
             this.numUDStartRating.Maximum = int.MaxValue;
@@ -121,11 +123,13 @@ namespace SCEloSystemGUI.UserControls
             this.tblLOPnlPlayerEditor.SetRowSpan(this.lstVSearchResults, 6);
 
             this.rdBtnAddNew.Checked = true;
+
+            this.toolTipPlayerEditor.SetToolTip(this.btnRemovePlayer, Resources.RemovePlayerRule);
         }
 
         private void ImgCmbBx_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.SetbtnAddEnabledStatus();
+            this.SetbtnAddRemoveEnabledStatus();
         }
 
         private void LstVSearchResults_SelectionChanged(object sender, EventArgs e)
@@ -137,7 +141,7 @@ namespace SCEloSystemGUI.UserControls
                 if (selectedPlayer != null) { this.MakeEditable(selectedPlayer); }
             }
 
-            this.SetbtnAddEnabledStatus();
+            this.SetbtnAddRemoveEnabledStatus();
         }
 
         private static ObjectListView CreatePlayerSearchResultListView()
@@ -199,7 +203,7 @@ namespace SCEloSystemGUI.UserControls
             if (this.txtBxAlias.Text != string.Empty) { this.btnAddAlias.Enabled = true; }
             else { this.btnAddAlias.Enabled = false; }
 
-            this.SetbtnAddEnabledStatus();
+            this.SetbtnAddRemoveEnabledStatus();
         }
 
         private void btnAddAlias_Click(object sender, EventArgs e)
@@ -209,7 +213,7 @@ namespace SCEloSystemGUI.UserControls
             this.txtBxAlias.Text = string.Empty;
             this.btnAddAlias.Enabled = false;
 
-            this.SetbtnAddEnabledStatus();
+            this.SetbtnAddRemoveEnabledStatus();
         }
 
         private void lstViewAliases_SelectedIndexChanged(object sender, EventArgs e)
@@ -228,29 +232,40 @@ namespace SCEloSystemGUI.UserControls
 
             this.btnRemoveAlias.Enabled = false;
 
-            this.SetbtnAddEnabledStatus();
+            this.SetbtnAddRemoveEnabledStatus();
         }
 
         private void txtBxName_TextChanged(object sender, EventArgs e)
         {
-            this.SetbtnAddEnabledStatus();
+            this.SetbtnAddRemoveEnabledStatus();
         }
 
-        private void SetbtnAddEnabledStatus()
+        /// <summary>
+        /// Set the enabled status of buttons for adding and removing players to/from the elo system
+        /// </summary>
+        private void SetbtnAddRemoveEnabledStatus()
         {
-            if (this.rdBtnAddNew.Checked) { this.btnAdd.Enabled = this.txtBxName.Text != string.Empty; }
+            if (this.rdBtnAddNew.Checked)
+            {
+                this.btnAddEdit.Enabled = this.txtBxName.Text != string.Empty;
+                this.btnRemovePlayer.Enabled = false;
+            }
             else if (this.rdBtnEdit.Checked && this.lstVSearchResults.SelectedItem != null)
             {
-                SCPlayer playerToEdit = this.lstVSearchResults.SelectedItem.RowObject as SCPlayer;
+                var playerToEdit = this.lstVSearchResults.SelectedItem.RowObject as SCPlayer;
 
-                if (playerToEdit == null) { this.btnAdd.Enabled = false; }
+                if (playerToEdit == null)
+                {
+                    this.btnAddEdit.Enabled = false;
+                    this.btnRemovePlayer.Enabled = false;
+                }
                 else
                 {
                     DateTime birthDateCurrent;
 
                     string[] newAliases = this.lstViewAliases.Items.Cast<ListViewItem>().Select(item => item.Text).ToArray();
 
-                    this.btnAdd.Enabled = playerToEdit.Name != this.txtBxName.Text
+                    this.btnAddEdit.Enabled = playerToEdit.Name != this.txtBxName.Text
                         || playerToEdit.IRLName != this.txtBxIRLName.Text
                         || (this.chkBxShowDateTimeAdder.Checked && (!playerToEdit.TryGetBirthDate(out birthDateCurrent)
                         || this.dateTimePickerBirthDate.Value != birthDateCurrent))
@@ -260,9 +275,15 @@ namespace SCEloSystemGUI.UserControls
                         || this.lbFileName.Text != string.Empty
                         || (this.ImgCmbBxCountries.SelectedValue as Country) != playerToEdit.Country
                         || (this.ImgCmbBxTeams.SelectedValue as Team) != playerToEdit.Team;
+
+                    this.btnRemovePlayer.Enabled = this.EloDataSource().GamesByPlayer(playerToEdit).IsEmpty();
                 }
             }
-            else { this.btnAdd.Enabled = false; }
+            else
+            {
+                this.btnAddEdit.Enabled = false;
+                this.btnRemovePlayer.Enabled = false;
+            }
 
         }
 
@@ -281,7 +302,7 @@ namespace SCEloSystemGUI.UserControls
         {
             if (this.rdBtnAddNew.Checked)
             {
-                this.OnAddButtonClick.Invoke(sender, new ContentAddingEventArgs(this));
+                this.OnAddPlayer.Invoke(sender, new ContentAddingEventArgs(this));
 
                 this.ClearFields();
             }
@@ -305,16 +326,22 @@ namespace SCEloSystemGUI.UserControls
 
                     playerToEdit.Team = this.ImgCmbBxTeams.SelectedValue as Team;
 
+                    this.lbFileName.Text = string.Empty;
+
                     this.OnEditButtonClick.Invoke(sender, new EventArgs());
                 }
 
-                this.SetbtnAddEnabledStatus();
+                this.SetbtnAddRemoveEnabledStatus();
             }
         }
 
         private void ClearFields()
         {
-            if (this.NewImage != null) { this.NewImage.Dispose(); }
+            if (this.NewImage != null)
+            {
+                this.NewImage.Dispose();
+                this.NewImage = null;
+            }
 
             this.lbFileName.Text = string.Empty;
 
@@ -328,7 +355,7 @@ namespace SCEloSystemGUI.UserControls
             this.ImgCmbBxCountries.SelectedIndex = -1;
             this.ImgCmbBxTeams.SelectedIndex = -1;
             this.numUDStartRating.Value = EloSystemStaticMembers.START_RATING_DEFAULT;
-            this.btnAdd.Enabled = false;
+            this.btnAddEdit.Enabled = false;
             this.btnAddAlias.Enabled = false;
             this.btnRemoveAlias.Enabled = false;
             this.chkBxShowDateTimeAdder.Checked = false;
@@ -350,13 +377,15 @@ namespace SCEloSystemGUI.UserControls
         private void lbFileName_TextChanged(object sender, EventArgs e)
         {
             this.btnRemoveImage.Enabled = this.lbFileName.Text != string.Empty;
+
+            if (this.rdBtnEdit.Checked && this.lstVSearchResults.SelectedItem != null && (this.lstVSearchResults.SelectedItem.RowObject as SCPlayer) != null) { this.SetbtnAddRemoveEnabledStatus(); }
         }
 
         private void chkBxShowDateTimeAdder_CheckedChanged(object sender, EventArgs e)
         {
             this.dateTimePickerBirthDate.Visible = this.chkBxShowDateTimeAdder.Checked;
 
-            this.SetbtnAddEnabledStatus();
+            this.SetbtnAddRemoveEnabledStatus();
         }
 
         private void rdBtnAddNew_CheckedChanged(object sender, EventArgs e)
@@ -423,7 +452,7 @@ namespace SCEloSystemGUI.UserControls
             this.ImgCmbBxCountries.Enabled = true;
             this.ImgCmbBxTeams.Enabled = true;
             this.numUDStartRating.Enabled = false;
-            this.btnAdd.Enabled = true;
+            this.btnAddEdit.Enabled = true;
         }
 
         private void SetCurrentCountry(Country currentCountry)
@@ -475,7 +504,7 @@ namespace SCEloSystemGUI.UserControls
                 this.ImgCmbBxTeams.Enabled = true;
                 this.numUDStartRating.Enabled = true;
 
-                this.btnAdd.Text = "Add to system";
+                this.btnAddEdit.Text = "Add to system";
             }
             else if (this.rdBtnEdit.Checked)
             {
@@ -492,9 +521,9 @@ namespace SCEloSystemGUI.UserControls
                 this.ImgCmbBxCountries.Enabled = false;
                 this.ImgCmbBxTeams.Enabled = false;
                 this.numUDStartRating.Enabled = false;
-                this.btnAdd.Enabled = false;
+                this.btnAddEdit.Enabled = false;
 
-                this.btnAdd.Text = "Save changes";
+                this.btnAddEdit.Text = "Save changes";
             }
         }
 
@@ -521,7 +550,7 @@ namespace SCEloSystemGUI.UserControls
 
         private void SearchPlayersWithPattern()
         {
-            this.AddPlayersToListView(this.EloDataSource().FindPlayerMatches(this.txtBxFilter.Text).OrderBy(player => player.Name));
+            this.AddPlayersToListView(this.EloDataSource().PlayerLookup(this.txtBxFilter.Text).OrderBy(player => player.Name));
         }
 
         private void AddPlayersToListView(IEnumerable<SCPlayer> players)
@@ -536,12 +565,12 @@ namespace SCEloSystemGUI.UserControls
 
         private void txtBxIRLName_TextChanged(object sender, EventArgs e)
         {
-            this.SetbtnAddEnabledStatus();
+            this.SetbtnAddRemoveEnabledStatus();
         }
 
         private void dateTimePickerBirthDate_ValueChanged(object sender, EventArgs e)
         {
-            if (this.dateTimePickerBirthDate.Visible) { this.SetbtnAddEnabledStatus(); }
+            if (this.dateTimePickerBirthDate.Visible) { this.SetbtnAddRemoveEnabledStatus(); }
         }
 
         private void SetImageVisibility()
@@ -553,7 +582,31 @@ namespace SCEloSystemGUI.UserControls
         {
             this.SetImageVisibility();
 
-            this.SetbtnAddEnabledStatus();
+            this.SetbtnAddRemoveEnabledStatus();
+        }
+
+        private void btnRemovePlayer_EnabledChanged(object sender, EventArgs e)
+        {
+            if (!this.btnRemovePlayer.Enabled) { this.toolTipPlayerEditor.SetToolTip(this.btnRemovePlayer, Resources.RemovePlayerRule); }
+            else { this.toolTipPlayerEditor.SetToolTip(this.btnRemovePlayer, ""); }
+        }
+
+        private void btnRemovePlayer_Click(object sender, EventArgs e)
+        {
+            var playerToEdit = this.lstVSearchResults.SelectedItem.RowObject as SCPlayer;
+
+            if (playerToEdit != null && MessageBox.Show(String.Format("Are you sure you would like to irrevokably remove the player {0} from the data base?", playerToEdit.Name), "Remove player?"
+                , MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                this.EloDataSource().RemovePlayer(playerToEdit);
+
+                this.OnRemoveButtonClick.Invoke(sender, new ContentAddingEventArgs(this));
+
+                this.ClearFields();
+
+                this.lstVSearchResults.ClearObjects();
+            }
+
         }
     }
 }

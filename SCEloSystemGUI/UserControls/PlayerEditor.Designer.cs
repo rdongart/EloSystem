@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tblLOPnlPlayerEditor = new System.Windows.Forms.TableLayoutPanel();
             this.tblLoPnlCurrentImage = new System.Windows.Forms.TableLayoutPanel();
             this.picBxCurrentImage = new System.Windows.Forms.PictureBox();
@@ -35,7 +36,6 @@
             this.txtBxName = new System.Windows.Forms.TextBox();
             this.lbHeading = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnAdd = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.btnBrowse = new System.Windows.Forms.Button();
@@ -69,6 +69,10 @@
             this.rdBtnEdit = new System.Windows.Forms.RadioButton();
             this.label11 = new System.Windows.Forms.Label();
             this.lbCurrentImage = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnAddEdit = new System.Windows.Forms.Button();
+            this.btnRemovePlayer = new System.Windows.Forms.Button();
+            this.toolTipPlayerEditor = new System.Windows.Forms.ToolTip(this.components);
             this.tblLOPnlPlayerEditor.SuspendLayout();
             this.tblLoPnlCurrentImage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBxCurrentImage)).BeginInit();
@@ -79,6 +83,7 @@
             this.tblLoPnlBirthDate.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tblLOPnlPlayerEditor
@@ -96,7 +101,6 @@
             this.tblLOPnlPlayerEditor.Controls.Add(this.txtBxName, 4, 1);
             this.tblLOPnlPlayerEditor.Controls.Add(this.lbHeading, 0, 0);
             this.tblLOPnlPlayerEditor.Controls.Add(this.label1, 3, 1);
-            this.tblLOPnlPlayerEditor.Controls.Add(this.btnAdd, 4, 10);
             this.tblLOPnlPlayerEditor.Controls.Add(this.tableLayoutPanel2, 3, 6);
             this.tblLOPnlPlayerEditor.Controls.Add(this.label3, 3, 4);
             this.tblLOPnlPlayerEditor.Controls.Add(this.label4, 3, 7);
@@ -115,6 +119,7 @@
             this.tblLOPnlPlayerEditor.Controls.Add(this.tableLayoutPanel6, 1, 1);
             this.tblLOPnlPlayerEditor.Controls.Add(this.label11, 0, 3);
             this.tblLOPnlPlayerEditor.Controls.Add(this.lbCurrentImage, 3, 5);
+            this.tblLOPnlPlayerEditor.Controls.Add(this.tableLayoutPanel1, 4, 10);
             this.tblLOPnlPlayerEditor.Location = new System.Drawing.Point(0, 0);
             this.tblLOPnlPlayerEditor.Margin = new System.Windows.Forms.Padding(0);
             this.tblLOPnlPlayerEditor.Name = "tblLOPnlPlayerEditor";
@@ -211,21 +216,6 @@
             this.label1.TabIndex = 19;
             this.label1.Text = "Name";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdd.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnAdd.Enabled = false;
-            this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAdd.Location = new System.Drawing.Point(804, 434);
-            this.btnAdd.Margin = new System.Windows.Forms.Padding(6, 14, 6, 4);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(120, 32);
-            this.btnAdd.TabIndex = 14;
-            this.btnAdd.Text = "A&dd to system";
-            this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // tableLayoutPanel2
             // 
@@ -669,6 +659,54 @@
             this.lbCurrentImage.Text = "Current Image";
             this.lbCurrentImage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.btnAddEdit, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnRemovePlayer, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(690, 420);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(4);
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(240, 50);
+            this.tableLayoutPanel1.TabIndex = 30;
+            // 
+            // btnAddEdit
+            // 
+            this.btnAddEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddEdit.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnAddEdit.Enabled = false;
+            this.btnAddEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddEdit.Location = new System.Drawing.Point(126, 8);
+            this.btnAddEdit.Margin = new System.Windows.Forms.Padding(6, 4, 0, 4);
+            this.btnAddEdit.Name = "btnAddEdit";
+            this.btnAddEdit.Size = new System.Drawing.Size(110, 34);
+            this.btnAddEdit.TabIndex = 14;
+            this.btnAddEdit.Text = "A&dd to system";
+            this.btnAddEdit.UseVisualStyleBackColor = true;
+            this.btnAddEdit.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // btnRemovePlayer
+            // 
+            this.btnRemovePlayer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRemovePlayer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnRemovePlayer.Enabled = false;
+            this.btnRemovePlayer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemovePlayer.Location = new System.Drawing.Point(4, 8);
+            this.btnRemovePlayer.Margin = new System.Windows.Forms.Padding(0, 4, 6, 4);
+            this.btnRemovePlayer.Name = "btnRemovePlayer";
+            this.btnRemovePlayer.Size = new System.Drawing.Size(110, 34);
+            this.btnRemovePlayer.TabIndex = 14;
+            this.btnRemovePlayer.Text = "Remove";
+            this.btnRemovePlayer.UseVisualStyleBackColor = true;
+            this.btnRemovePlayer.EnabledChanged += new System.EventHandler(this.btnRemovePlayer_EnabledChanged);
+            this.btnRemovePlayer.Click += new System.EventHandler(this.btnRemovePlayer_Click);
+            // 
             // PlayerEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -693,6 +731,7 @@
             this.tableLayoutPanel5.PerformLayout();
             this.tableLayoutPanel6.ResumeLayout(false);
             this.tableLayoutPanel6.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -703,7 +742,7 @@
         private System.Windows.Forms.TextBox txtBxName;
         private System.Windows.Forms.Label lbHeading;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Button btnAddEdit;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnBrowse;
@@ -740,5 +779,8 @@
         private System.Windows.Forms.PictureBox picBxCurrentImage;
         private System.Windows.Forms.CheckBox chckBxRemoveCurrentImage;
         private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button btnRemovePlayer;
+        private System.Windows.Forms.ToolTip toolTipPlayerEditor;
     }
 }

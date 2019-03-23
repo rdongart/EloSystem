@@ -18,9 +18,9 @@ namespace SCEloSystemGUI
             MessageBox.Show(String.Format("A failure occurred while trying to add edit content."));
         }
 
-        private static bool ShouldContentBeReplaced(string name, string type)
+        private static bool ShouldSimilarNamedContentBeAdded(string name, string type)
         {
-            DialogResult dlgResult = MessageBox.Show(String.Format("A {0} named {1} already exists. Are you sure you would like to overwrite that {0}?", type, name), "Name is already in use", MessageBoxButtons.OKCancel);
+            DialogResult dlgResult = MessageBox.Show(String.Format("A {0} named {1} already exists. Are you sure you would like to add new content with and identical name?", type, name), "Name is already in use", MessageBoxButtons.OKCancel);
 
             switch (dlgResult)
             {
@@ -83,20 +83,8 @@ namespace SCEloSystemGUI
                 default: throw new Exception(String.Format("{0} is an unkonwn {1} in the current context.", adder.ContentType.ToString(), typeof(ContentTypes).Name));
             }
 
-            if (currentContent != null && MainForm.ShouldContentBeReplaced(adder.ContentName, adder.ContentType.ToString()) == false) { return; }
-            else if (currentContent != null)
-            {
-                switch (adder.ContentType)
-                {
-                    case ContentTypes.Country: this.eloSystem.RemoveCountry(currentContent as Country); break;
-                    case ContentTypes.Map: this.eloSystem.RemoveMap(currentContent as Map); break;
-                    case ContentTypes.Player: this.eloSystem.RemovePlayer(currentContent as SCPlayer); break;
-                    case ContentTypes.Team: this.eloSystem.RemoveTeam(currentContent as Team); break;
-                    case ContentTypes.Tournament: this.eloSystem.RemoveTournament(currentContent as Tournament); break;
-                    default: throw new Exception(String.Format("{0} is an unkonwn {1} in the current context.", adder.ContentType.ToString(), typeof(ContentTypes).Name));
-                }
-            }
-
+            if (currentContent != null && !MainForm.ShouldSimilarNamedContentBeAdded(adder.ContentName, adder.ContentType.ToString())) { return; }
+            
             switch (adder.ContentType)
             {
                 case ContentTypes.Country: this.eloSystem.AddCountry(adder.ContentName, adder.NewImage); break;
@@ -176,7 +164,7 @@ namespace SCEloSystemGUI
             this.AddPlayersToImgCmbBox();
         }
 
-        private void PlayerAdder_OnEditButtonClick(object sender, EventArgs e)
+        private void PlayerAdder_OnPlayerDatabaseEdited(object sender, EventArgs e)
         {
             this.contentWasEdited = true;
 

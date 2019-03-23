@@ -409,7 +409,7 @@ namespace EloSystem
 
         public void RemovePlayer(SCPlayer player)
         {
-            if (player == null) { return; }
+            if (player == null || this.GetAllGames().Any(game => game.Player1.Equals(player) || game.Player2.Equals(player))) { return; }
 
             if (player.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(player.ImageID); }
 

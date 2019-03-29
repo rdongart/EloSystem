@@ -64,9 +64,9 @@
             this.pnlMatchReport = new System.Windows.Forms.Panel();
             this.tblLoPnlRecentMatches = new System.Windows.Forms.TableLayoutPanel();
             this.label10 = new System.Windows.Forms.Label();
-            this.btnRollBackLastMatch = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label18 = new System.Windows.Forms.Label();
+            this.btnRollBackLastMatch = new System.Windows.Forms.Button();
             this.tblLOPnlMatchReport.SuspendLayout();
             this.tblLOPnlMatchContext.SuspendLayout();
             this.tblLoPnlPlayers.SuspendLayout();
@@ -351,6 +351,7 @@
             this.dtpMatchDate.Name = "dtpMatchDate";
             this.dtpMatchDate.Size = new System.Drawing.Size(208, 23);
             this.dtpMatchDate.TabIndex = 2;
+            this.dtpMatchDate.ValueChanged += new System.EventHandler(this.dtpMatchDate_ValueChanged);
             // 
             // cmbBxSeasonPicker
             // 
@@ -609,16 +610,6 @@
             this.label10.Text = "Recent Match Reports";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnRollBackLastMatch
-            // 
-            this.btnRollBackLastMatch.Location = new System.Drawing.Point(3, 29);
-            this.btnRollBackLastMatch.Name = "btnRollBackLastMatch";
-            this.btnRollBackLastMatch.Size = new System.Drawing.Size(120, 26);
-            this.btnRollBackLastMatch.TabIndex = 24;
-            this.btnRollBackLastMatch.Text = "Roll back last match";
-            this.btnRollBackLastMatch.UseVisualStyleBackColor = true;
-            this.btnRollBackLastMatch.Click += new System.EventHandler(this.btnRollBackLastMatch_Click);
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
@@ -645,6 +636,16 @@
             this.label18.Size = new System.Drawing.Size(127, 17);
             this.label18.TabIndex = 0;
             this.label18.Text = "Match List Tools";
+            // 
+            // btnRollBackLastMatch
+            // 
+            this.btnRollBackLastMatch.Location = new System.Drawing.Point(3, 29);
+            this.btnRollBackLastMatch.Name = "btnRollBackLastMatch";
+            this.btnRollBackLastMatch.Size = new System.Drawing.Size(120, 26);
+            this.btnRollBackLastMatch.TabIndex = 24;
+            this.btnRollBackLastMatch.Text = "Roll back last match";
+            this.btnRollBackLastMatch.UseVisualStyleBackColor = true;
+            this.btnRollBackLastMatch.Click += new System.EventHandler(this.btnRollBackLastMatch_Click);
             // 
             // MatchReport
             // 

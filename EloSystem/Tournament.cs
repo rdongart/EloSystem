@@ -18,9 +18,9 @@ namespace EloSystem
         }
         public string NameLong { get; set; }
 
-        internal Tournament(string name, int imageID) : base(name, imageID)
+        internal Tournament(string name, int imageID, int tournamentID) : base(name, imageID, tournamentID)
         {
-            this.seasons = new List<Season>() { new Season("N/A") };
+            this.seasons = new List<Season>() { new Season("N/A", 0) };
             this.NameLong = string.Empty;
         }
 
@@ -74,6 +74,11 @@ namespace EloSystem
             {
                 yield return game;
             }
+        }
+
+        internal IEnumerable<Match> GetMatches()
+        {
+            foreach (Match match in this.seasons.SelectMany(season => season.GetMatches())) { yield return match; }
         }
 
         public IEnumerable<Season> GetSeasons()

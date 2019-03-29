@@ -8,7 +8,7 @@ namespace EloSystem
     {
         public string NameLong { get; set; }
 
-        internal Team(string name, int imageID) : base(name, imageID)
+        internal Team(string name, int imageID, int id) : base(name, imageID, id)
         {
             this.NameLong = string.Empty;
         }

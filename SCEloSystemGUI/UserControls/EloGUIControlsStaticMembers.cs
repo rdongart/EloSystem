@@ -34,7 +34,16 @@ namespace SCEloSystemGUI.UserControls
                 NameGetter = t => t.Name                
             };
         }
-                
+
+        internal static string ConvertRatingChangeString(string ratingChangeTxt)
+        {
+            int ratingChangeValue = 0;
+
+            bool hasRatingValue = int.TryParse(ratingChangeTxt, out ratingChangeValue);
+
+            return String.Format("{0}{1}", ratingChangeValue > 0 ? "+" : "", hasRatingValue ? ratingChangeValue.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT) : ratingChangeTxt);
+        }
+
         [STAThread]
         internal static bool TryGetFilePathFromUser(out string filePath)
         {

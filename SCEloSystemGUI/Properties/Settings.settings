@@ -2,8 +2,11 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SCEloSystemGUI.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="NoRecentMatches" Type="System.UInt32" Scope="Application">
-      <Value Profile="(Default)">110</Value>
+    <Setting Name="NoRecentMatches" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">130</Value>
+    </Setting>
+    <Setting Name="PlayerDevelopmentScope" Type="SCEloSystemGUI.PlayerDevScope" Scope="User">
+      <Value Profile="(Default)">Months_4</Value>
     </Setting>
   </Settings>
 </SettingsFile>

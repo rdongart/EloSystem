@@ -11,12 +11,12 @@ namespace SCEloSystemGUI
         private int seasonIndex = 0;
         private List<GameEntryEditorItem> editedGames;
         private readonly List<Game> sourceGames;
-        private readonly Match sourceMatch;
+        internal readonly Match SourceMatch;
         public bool DateWasEdited
         {
             get
             {
-                return this.DateValue.CompareTo(this.sourceMatch.Date) != 0;
+                return this.DateValue.CompareTo(this.SourceMatch.Date) != 0;
             }
         }
         public DateTime DateValue { get; set; }
@@ -27,7 +27,7 @@ namespace SCEloSystemGUI
         {
             get
             {
-                return this.DateValue.CompareTo(this.sourceMatch.Date) < 0 ? this.DateValue : this.sourceMatch.Date;
+                return this.DateValue.CompareTo(this.SourceMatch.Date) < 0 ? this.DateValue : this.SourceMatch.Date;
             }
         }
         public int SeasonIndex
@@ -54,7 +54,7 @@ namespace SCEloSystemGUI
 
         internal MatchEditorItem(IEnumerable<Game> games, Match match)
         {
-            this.sourceMatch = match;
+            this.SourceMatch = match;
             this.sourceGames = games.ToList();
 
             this.SetInitialProperties();
@@ -62,11 +62,11 @@ namespace SCEloSystemGUI
 
         private void SetInitialProperties()
         {
-            this.DateValue = this.sourceMatch.Date;
+            this.DateValue = this.SourceMatch.Date;
             this.Tournament = this.sourceGames.First().Tournament;
             this.SeasonIndex = this.Tournament == null ? -1 : this.Tournament.GetSeasons().IndexOf(this.sourceGames.First().Season);
-            this.Player1 = this.sourceMatch.Player1;
-            this.Player2 = this.sourceMatch.Player2;
+            this.Player1 = this.SourceMatch.Player1;
+            this.Player2 = this.SourceMatch.Player2;
 
             this.editedGames = this.sourceGames.Select(game => new GameEntryEditorItem(game)).ToList();
         }
@@ -110,8 +110,8 @@ namespace SCEloSystemGUI
 
         public bool HasBeenEdited()
         {
-            return this.Tournament != this.sourceGames.First().Tournament || this.Season != this.sourceGames.First().Season || this.DateValue.Date.CompareTo(this.sourceMatch.Date.Date) != 0
-                || this.Player1 != this.sourceMatch.Player1 || this.Player2 != this.sourceMatch.Player2 || this.sourceGames.Where((game, index) => this.editedGames[index].IsDifferentFrom(game)).Any();
+            return this.Tournament != this.sourceGames.First().Tournament || this.Season != this.sourceGames.First().Season || this.DateValue.Date.CompareTo(this.SourceMatch.Date.Date) != 0
+                || this.Player1 != this.SourceMatch.Player1 || this.Player2 != this.SourceMatch.Player2 || this.sourceGames.Where((game, index) => this.editedGames[index].IsDifferentFrom(game)).Any();
         }
 
         public void SetGames(IEnumerable<GameEntryEditorItem> gameReports)

@@ -126,5 +126,12 @@ namespace SCEloSystemGUI
             if (this.eloSystem.TryGetImage(item.ImageID, out eloImg)) { return eloImg.Image; }
             else { return null; }
         }
+
+        private void toolStripMenuItemPlayerStats_Click(object sender, EventArgs e)
+        {
+            var plStatsForm = new PlayerStats(() => { return this.eloSystem; });
+
+            plStatsForm.ShowDialog();
+        }
     }
 }

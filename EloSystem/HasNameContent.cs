@@ -6,21 +6,24 @@ namespace EloSystem
     [Serializable]
     public abstract class HasNameContent : IHasName, ISerializable
     {
+        public int ID { get; private set; }
         public string Name { get; set; }
 
-        internal HasNameContent(string name)
+        internal HasNameContent(string name, int id)
         {
             this.Name = name;
+            this.ID = id;
         }
 
         #region Implementing ISerializable
         private enum Field
         {
-            ImageID, Name
+            ID, Name
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            info.AddValue(Field.ID.ToString(), (int)this.ID);
             info.AddValue(Field.Name.ToString(), (string)this.Name);
         }
 
@@ -34,6 +37,7 @@ namespace EloSystem
                 {
                     switch (field)
                     {
+                        case Field.ID: this.ID = (int)info.GetInt32(field.ToString()); break;
                         case Field.Name: this.Name = (string)info.GetString(field.ToString()); break;
                     }
                 }

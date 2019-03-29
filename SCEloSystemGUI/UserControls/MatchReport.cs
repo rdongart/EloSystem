@@ -1,18 +1,22 @@
-﻿using SCEloSystemGUI.Properties;
+﻿using BrightIdeasSoftware;
+using CustomControls;
+using CustomExtensionMethods;
 using EloSystem;
 using EloSystem.ResourceManagement;
+using SCEloSystemGUI.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using CustomControls;
-using BrightIdeasSoftware;
-using CustomExtensionMethods;
 
 namespace SCEloSystemGUI.UserControls
 {
     public delegate EloData ResourceGetter();
+
+    public delegate double Player1EWRGetter(Race player1Race, Race player2Race);
+
+    public delegate int RatingChangeGetter(PlayerSlotType winner, Race player1Race, Race player2Race);
 
     public partial class MatchReport : UserControl
     {
@@ -59,6 +63,8 @@ namespace SCEloSystemGUI.UserControls
         private ResourceGetter eloDataSource;
         private ObjectListView oLstVRecentMatches;
         private MatchEditorItem editorMatch;
+        private PlayerStatsClone player1Stats;
+        private PlayerStatsClone player2Stats;
         public EventHandler MatchReported = delegate { };
 
         public MatchReport()
@@ -103,21 +109,6 @@ namespace SCEloSystemGUI.UserControls
             this.MatchReported += this.OnMatchReported;
         }
 
-        private void MatchReportabilitySelector_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (this.rdBtnEditNewMatchReport.Checked) { this.UpdateMatchReportability(); }
-        }
-
-        private void OLstVRecentMatches_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!this.rdBtnEditNewMatchReport.Checked) { return; }
-
-            if (this.oLstVRecentMatches.SelectedItem != null && this.oLstVRecentMatches.SelectedItem.RowObject != null)
-            {
-                this.LoadMatchIntoEditor(this.oLstVRecentMatches.SelectedItem.RowObject as MatchEditorItem);
-            }
-        }
-
         private static ObjectListView CreateMatchListView()
         {
             var matchLV = new ObjectListView()
@@ -135,8 +126,6 @@ namespace SCEloSystemGUI.UserControls
                 UseAlternatingBackColors = true,
                 UseCellFormatEvents = true,
             };
-
-            matchLV.FormatCell += MatchReport.MatchLV_FormatCell;
 
             var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null };
             var olvClmDate = new OLVColumn() { Width = 90, Text = "Date" };
@@ -191,7 +180,7 @@ namespace SCEloSystemGUI.UserControls
             {
                 var match = obj as MatchEditorItem;
 
-                if (match != null) { return MatchReport.ConvertRatingString(match.RatingChangeBy(PlayerSlotType.Player1)); }
+                if (match != null) { return EloGUIControlsStaticMembers.ConvertRatingChangeString(match.RatingChangeBy(PlayerSlotType.Player1)); }
                 else { return ""; }
             };
 
@@ -207,7 +196,7 @@ namespace SCEloSystemGUI.UserControls
             {
                 var match = obj as MatchEditorItem;
 
-                if (match != null) { return MatchReport.ConvertRatingString(match.RatingChangeBy(PlayerSlotType.Player2)); }
+                if (match != null) { return EloGUIControlsStaticMembers.ConvertRatingChangeString(match.RatingChangeBy(PlayerSlotType.Player2)); }
                 else { return ""; }
             };
 
@@ -238,31 +227,9 @@ namespace SCEloSystemGUI.UserControls
             return matchLV;
         }
 
-        private static string ConvertRatingString(string ratingChangeTxt)
-        {
-            int ratingChangeValue = 0;
-
-            bool hasRatingValue = int.TryParse(ratingChangeTxt, out ratingChangeValue);
-
-            return String.Format("{0}{1}", ratingChangeValue > 0 ? "+" : "", hasRatingValue ? ratingChangeValue.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT) : ratingChangeTxt);
-        }
-
         private static void MatchLV_FormatCell(object sender, FormatCellEventArgs e)
         {
-            if (e.ColumnIndex == 3 || e.ColumnIndex == 5)
-            {
-                int cellValue;
-
-                if (int.TryParse(e.SubItem.Text, out cellValue))
-                {
-                    if (cellValue < 0) { e.SubItem.ForeColor = Color.Red; }
-                    else if (cellValue > 0) { e.SubItem.ForeColor = Color.ForestGreen; }
-                    else
-                    {
-                        e.SubItem.ForeColor = SystemColors.ControlText;
-                    }
-                }
-            }
+            if (e.ColumnIndex == 3 || e.ColumnIndex == 5) { EloSystemGUIStaticMembers.FormatRatingChangeOLVCell(e.SubItem); }
         }
 
         private static GameReport RetrieveGameReportFromChild(Control child)
@@ -318,6 +285,41 @@ namespace SCEloSystemGUI.UserControls
             };
         }
 
+        private double CalculatePlayer1EWR(Race player1Race, Race player2Race)
+        {
+            if (this.player1Stats == null || this.player2Stats == null) { return 0; }
+
+            return EloData.ExpectedWinRatio(this.player1Stats, player1Race, this.player2Stats, player2Race);
+        }
+
+        private int CalculateRatingChange(PlayerSlotType winner, Race player1Race, Race player2Race)
+        {
+            if (this.player1Stats == null || this.player2Stats == null) { return 0; }
+
+            switch (winner)
+            {
+                case PlayerSlotType.Player1: return EloData.RatingChange(this.player1Stats, player1Race, this.player2Stats, player2Race);
+                case PlayerSlotType.Player2: return EloData.RatingChange(this.player2Stats, player2Race, this.player1Stats, player1Race);
+                default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PlayerSlotType).Name, winner.ToString()));
+            }
+
+        }
+
+        private void MatchReportabilitySelector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.rdBtnEditNewMatchReport.Checked) { this.UpdateMatchReportability(); }
+        }
+
+        private void OLstVRecentMatches_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!this.rdBtnEditNewMatchReport.Checked) { return; }
+
+            if (this.oLstVRecentMatches.SelectedItem != null && this.oLstVRecentMatches.SelectedItem.RowObject != null)
+            {
+                this.LoadMatchIntoEditor(this.oLstVRecentMatches.SelectedItem.RowObject as MatchEditorItem);
+            }
+        }
+
         private void OnMatchReported(object sender, EventArgs e)
         {
             this.AddRecentMatches();
@@ -335,14 +337,52 @@ namespace SCEloSystemGUI.UserControls
 
         private void ImgCmbBxPlayer2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.player2StatsDisplay.AddPlayerStats(this.ImgCmbBxPlayer2.SelectedValue as SCPlayer);
-            this.gameReports.ForEach(gr => gr.Player2 = this.ImgCmbBxPlayer2.SelectedValue as SCPlayer);
+            var selectedPlayer = this.ImgCmbBxPlayer2.SelectedValue as SCPlayer;
+
+            if (selectedPlayer == null) { return; }
+
+            this.SetPlayer2Stats(selectedPlayer);
+
+            this.player2StatsDisplay.AddPlayerStats(selectedPlayer);
+            this.gameReports.ForEach(gr => gr.Player2 = selectedPlayer);
+
+        }
+
+        private void SetPlayer1Stats(SCPlayer player1)
+        {
+            if (player1 == null) { return; }
+
+            if (this.rdBtnAddNewMatchReport.Checked) { this.player1Stats = this.EloDataSource().PlayerStatsAtPointInTime(player1, this.dtpMatchDate.Value); }
+            else if (this.rdBtnEditNewMatchReport.Checked && !this.editorMatch.DateWasEdited)
+            {
+                this.player1Stats = this.EloDataSource().PlayerStatsAtPointInTime(player1, this.dtpMatchDate.Value, this.editorMatch.SourceMatch.DailyIndex);
+            }
+
+        }
+
+        private void SetPlayer2Stats(SCPlayer player2)
+        {
+            if (player2 == null) { return; }
+
+            if (this.rdBtnAddNewMatchReport.Checked) { this.player2Stats = this.EloDataSource().PlayerStatsAtPointInTime(player2, this.dtpMatchDate.Value); }
+            else if (this.rdBtnEditNewMatchReport.Checked && !this.editorMatch.DateWasEdited)
+            {
+                this.player2Stats = this.EloDataSource().PlayerStatsAtPointInTime(player2, this.dtpMatchDate.Value, this.editorMatch.SourceMatch.DailyIndex);
+            }
+
         }
 
         private void ImgCmbBxPlayer1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.player1StatsDisplay.AddPlayerStats(this.ImgCmbBxPlayer1.SelectedValue as SCPlayer);
-            this.gameReports.ForEach(gr => gr.Player1 = this.ImgCmbBxPlayer1.SelectedValue as SCPlayer);
+            var selectedPlayer = this.ImgCmbBxPlayer1.SelectedValue as SCPlayer;
+
+            if (selectedPlayer == null) { return; }
+
+            this.SetPlayer1Stats(selectedPlayer);
+
+            this.player1StatsDisplay.AddPlayerStats(selectedPlayer);
+            this.gameReports.ForEach(gr => gr.Player1 = selectedPlayer);
+
         }
 
         private void ArrangeGameReportLocations()
@@ -370,7 +410,7 @@ namespace SCEloSystemGUI.UserControls
         {
             if (this.rdBtnAddNewMatchReport.Checked)
             {
-                var nextGameReport = new GameReport()
+                var nextGameReport = new GameReport(this.CalculatePlayer1EWR, this.CalculateRatingChange)
                 {
                     EloDataSource = this.eloDataSource,
                     Player1 = this.ImgCmbBxPlayer1.SelectedValue as SCPlayer,
@@ -391,7 +431,10 @@ namespace SCEloSystemGUI.UserControls
                     gameEditor.SetRace(PlayerSlotType.Player2, (Race)lastGame.Player2Race);
                 }
 
-                this.AddGameReport(new GameReport(gameEditor, this.editorMatch.Player1, this.editorMatch.Player2, this.EloDataSource) { EloDataSource = this.EloDataSource });
+                this.AddGameReport(new GameReport(gameEditor, this.editorMatch.Player1, this.editorMatch.Player2, this.EloDataSource, this.CalculatePlayer1EWR, this.CalculateRatingChange)
+                {
+                    EloDataSource = this.EloDataSource
+                });
             }
         }
 
@@ -551,26 +594,17 @@ namespace SCEloSystemGUI.UserControls
 
         private void ReenterAnyChanges()
         {
-            IEnumerable<MatchEditorItem> matches = this.oLstVRecentMatches.Items.OfType<OLVListItem>().Select(item => item.RowObject as MatchEditorItem);
+            MatchEditorItem editedMatch = this.oLstVRecentMatches.Items.OfType<OLVListItem>().Select(item => item.RowObject as MatchEditorItem).FirstOrDefault(mEdit => mEdit.HasBeenEdited());
 
-            if (matches.Where(match => match.HasBeenEdited()).IsEmpty()) { return; }
+            if (editedMatch == null) { return; }
 
-            var lastEditedItem = matches.Last(item => item.HasBeenEdited());
-
-            List<MatchEditorItem> matchesToReenter = matches.TakeWhile(item => item.DateValue.CompareTo(lastEditedItem.DateValue) > -1).ToList();
-
-            this.EloDataSource().RollBackLastMatches(matchesToReenter.Count);
-
-            matchesToReenter.Reverse();
-
-            IEnumerator<MatchEditorItem> eMatchesToReenter = matchesToReenter.GetEnumerator();
-
-            while (eMatchesToReenter.MoveNext())
+            if (editedMatch.Season != null)
             {
-                MatchEditorItem match = eMatchesToReenter.Current;
-
-                this.EnterMatchReport(match.Player1, match.Player2, match.GetGames().Select(game => new GameEntry(game.WinnerWas, game.Player1Race, game.Player2Race, game.Map)), match.Season, match.Tournament
-                    , match.DateWasEdited ? this.GetNextMatchDateValue(match.DateValue) : match.DateValue);
+                this.EloDataSource().ReplaceMatch(editedMatch.SourceMatch, editedMatch.Player1, editedMatch.Player2, editedMatch.GetGames().Select(game => new GameEntry(game.WinnerWas, game.Player1Race, game.Player2Race, game.Map)).ToArray(), editedMatch.Season);
+            }
+            else
+            {
+                this.EloDataSource().ReplaceMatch(editedMatch.SourceMatch, editedMatch.Player1, editedMatch.Player2, editedMatch.GetGames().Select(game => new GameEntry(game.WinnerWas, game.Player1Race, game.Player2Race, game.Map)).ToArray(), editedMatch.Tournament);
             }
 
             this.MatchReported.Invoke(this, new EventArgs());
@@ -666,6 +700,8 @@ namespace SCEloSystemGUI.UserControls
 
             if (this.unfinishedReport != null) { this.ContinueUnfinishedReport(); }
 
+            this.btnAddGame.Enabled = true;
+
             this.oLstVRecentMatches.FullRowSelect = false;
         }
 
@@ -718,7 +754,10 @@ namespace SCEloSystemGUI.UserControls
             this.ImgCmbBxPlayer1.TrySetSelectedIndex(item.Player1);
             this.ImgCmbBxPlayer2.TrySetSelectedIndex(item.Player2);
 
-            foreach (GameEntryEditorItem game in item.GetGames()) { this.AddGameReport(new GameReport(game, item.Player1, item.Player2, this.EloDataSource) { EloDataSource = this.EloDataSource }); }
+            foreach (GameEntryEditorItem game in item.GetGames())
+            {
+                this.AddGameReport(new GameReport(game, item.Player1, item.Player2, this.EloDataSource, this.CalculatePlayer1EWR, this.CalculateRatingChange) { EloDataSource = this.EloDataSource });
+            }
 
             this.suspendMatchReportabilityCheck = false;
 
@@ -733,6 +772,15 @@ namespace SCEloSystemGUI.UserControls
 
             this.ImgCmbBxPlayer1.AddItems(this.EloDataSource().GetPlayers().ToArray(), false);
             this.ImgCmbBxPlayer2.AddItems(this.EloDataSource().GetPlayers().ToArray(), false);
+        }
+
+        private void dtpMatchDate_ValueChanged(object sender, EventArgs e)
+        {
+            this.SetPlayer1Stats(this.ImgCmbBxPlayer1.SelectedValue as SCPlayer);
+
+            this.SetPlayer2Stats(this.ImgCmbBxPlayer2.SelectedValue as SCPlayer);
+
+            this.gameReports.ForEach(gameRep => gameRep.UpdateControlValues());
         }
     }
 }

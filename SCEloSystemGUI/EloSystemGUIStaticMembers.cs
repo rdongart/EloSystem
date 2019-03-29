@@ -1,4 +1,6 @@
-﻿using CustomControls;
+﻿using BrightIdeasSoftware;
+using CustomControls;
+using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -33,6 +35,18 @@ namespace SCEloSystemGUI
             Regex checkForInvalidChararacters = new Regex("[" + Regex.Escape(new string(Path.GetInvalidFileNameChars())) + "]");
 
             return checkForInvalidChararacters.IsMatch(fileName);
+        }
+
+        internal static void FormatRatingChangeOLVCell(OLVListSubItem subItem)
+        {
+            int cellValue;
+
+            if (int.TryParse(subItem.Text, out cellValue))
+            {
+                if (cellValue < 0) { subItem.ForeColor = Color.Red; }
+                else if (cellValue > 0) { subItem.ForeColor = Color.ForestGreen; }
+                else { subItem.ForeColor = SystemColors.ControlText; }
+            }
         }
         
     }

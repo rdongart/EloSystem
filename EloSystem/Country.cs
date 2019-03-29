@@ -6,7 +6,7 @@ namespace EloSystem
     [Serializable]
     public class Country : EloSystemContent, ISerializable
     {
-        internal Country(string name, int imageID) : base(name, imageID)
+        internal Country(string name, int imageID, int id) : base(name, imageID,id)
         {
 
         }

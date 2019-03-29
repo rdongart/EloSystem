@@ -43,7 +43,7 @@ namespace EloSystem
             }
         }
         #endregion
-
+        
         public int GamesInMathcup(Race ownRace, Race vsRace)
         {
             return this.totalGames.GamesAs(ownRace).GetValueFor(vsRace);
@@ -78,8 +78,7 @@ namespace EloSystem
         {
             return this.wins.GamesVs(vsRace);
         }
-
-
+        
         public int WinsTotal()
         {
             return this.wins.GamesTotal();

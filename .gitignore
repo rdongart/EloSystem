@@ -16,3 +16,7 @@ SCEloSystemGUI/bin/Release/EloSystem.dll
 SCEloSystemGUI/bin/Release/EloSystem.pdb
 SCEloSystemGUI/bin/
 EloSystem/bin/Debug/
+SC Elo System Setup/Debug/SC Elo System Setup.msi
+SC Elo System Setup/Debug/setup.exe
+SC Elo System Setup/Release/SC Elo System Setup.msi
+SC Elo System Setup/Release/setup.exe

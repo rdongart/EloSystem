@@ -33,6 +33,8 @@ namespace SCEloSystemGUI.UserControls
                 return this.cmbBxPlayer2Race.SelectedIndex;
             }
         }
+        internal Player1EWRGetter Pl1EWRGetter { get; set; }
+        internal RatingChangeGetter RatingCalculator { get; private set; }
         internal ResourceGetter EloDataSource
         {
             private get
@@ -130,9 +132,12 @@ namespace SCEloSystemGUI.UserControls
         public event EventHandler<EventArgs> GameDataReported = delegate { };
         public event EventHandler<RaceSelectionEventArgs> RaceSelectionChanged = delegate { };
 
-        public GameReport()
+        public GameReport(Player1EWRGetter ewrGetter, RatingChangeGetter ratingCalculator)
         {
             InitializeComponent();
+
+            this.Pl1EWRGetter = ewrGetter;
+            this.RatingCalculator = ratingCalculator;
 
             GameReport.PopulateCombobBoxRace(this.cmbBxPlayer1Race);
             this.cmbBxPlayer1Race.SelectedIndexChanged += this.CmbBxPlayer1Race_SelectedIndexChanged;
@@ -144,7 +149,8 @@ namespace SCEloSystemGUI.UserControls
             this.rdBtnPl2Win.CheckedChanged += this.RdBtnPlWin_CheckedChanged;
         }
 
-        public GameReport(GameEntryEditorItem editorItem, SCPlayer player1, SCPlayer player2, ResourceGetter resourceGetter) : this()
+        public GameReport(GameEntryEditorItem editorItem, SCPlayer player1, SCPlayer player2, ResourceGetter resourceGetter, Player1EWRGetter ewrGetter, RatingChangeGetter ratingCalculator)
+            : this(ewrGetter, ratingCalculator)
         {
             this.EloDataSource = resourceGetter;
 
@@ -247,7 +253,7 @@ namespace SCEloSystemGUI.UserControls
             this.RemoveButtonClicked.Invoke(sender, e);
         }
 
-        private void UpdateControlValues()
+        internal void UpdateControlValues()
         {
             if (this.HasSelectedRaces())
             {
@@ -291,7 +297,7 @@ namespace SCEloSystemGUI.UserControls
                 if (this.Player1 != null && this.Player2 != null)
                 {
                     // set the expected win ratio
-                    double player1EWR = EloData.ExpectedWinRatio(this.Player1.RatingsVs.GetValueFor(this.racePlayer2), this.Player2.RatingsVs.GetValueFor(this.racePlayer1));
+                    double player1EWR = this.Pl1EWRGetter(this.racePlayer1, this.racePlayer2);
 
                     this.lbEWRPlayer1.Text = String.Format("{0}%", (100 * player1EWR).RoundToInt());
                     this.lbEWRPlayer2.Text = String.Format("{0}%", (100 * (1 - player1EWR)).RoundToInt());
@@ -299,8 +305,7 @@ namespace SCEloSystemGUI.UserControls
                     if (this.WinnerPlayer != null)
                     {
                         // set the rating values
-                        int ratingChange = EloData.RatingChange(this.WinnerPlayer, this.Player1 == this.WinnerPlayer ? this.racePlayer1 : this.racePlayer2, this.WinnerPlayer == this.Player1 ? this.Player2 : this.Player1
-                            , this.WinnerPlayer == this.Player1 ? this.racePlayer2 : this.racePlayer1);
+                        int ratingChange = this.RatingCalculator(this.WinnerPlayer == this.Player1 ? PlayerSlotType.Player1 : PlayerSlotType.Player2, this.racePlayer1, this.racePlayer2);
 
                         int player1RatingPoints = this.WinnerPlayer == this.Player1 ? ratingChange : ratingChange * -1;
 

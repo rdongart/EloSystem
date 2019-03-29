@@ -35,3 +35,4 @@ C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\ob
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Release\SCEloSystemGUI.UserControls.DblNameContentAdder.resources
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\bin\Release\EloSystemExtensions.dll
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\bin\Release\EloSystemExtensions.pdb
+C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Release\SCEloSystemGUI.PlayerStats.resources

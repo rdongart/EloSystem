@@ -6,7 +6,7 @@ namespace EloSystem
     [Serializable]
     public class Tileset : HasNameContent, ISerializable
     {
-        public Tileset(string name) : base(name)
+        public Tileset(string name, int id) : base(name, id)
         {
 
         }

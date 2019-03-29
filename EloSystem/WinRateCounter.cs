@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Linq;
+using System;
 using System.Runtime.Serialization;
 
 namespace EloSystem
@@ -21,6 +22,23 @@ namespace EloSystem
         }
         #endregion
 
+        internal WinRateCounter Clone()
+        {
+            var clone = new WinRateCounter();
+
+            foreach (Race ownRace in Enum.GetValues(typeof(Race)).Cast<Race>())
+            {
+                foreach (Race opponentRace in Enum.GetValues(typeof(Race)).Cast<Race>())
+                {
+                    clone.totalGames.GamesAs(ownRace).AddValueTo(opponentRace, this.totalGames.GamesAs(ownRace).GetValueFor(opponentRace));
+                    clone.wins.GamesAs(ownRace).AddValueTo(opponentRace, this.totalGames.GamesAs(ownRace).GetValueFor(opponentRace));
+                }
+
+            }
+
+            return clone;
+        }
+
         internal void RollBackResult(Game game)
         {
             if (game.Player1.Stats != this && game.Player2.Stats != this) { return; }
@@ -40,12 +58,12 @@ namespace EloSystem
             }
         }
 
-        private void RollBackLoss(Race ownRace, Race vsRace)
+        internal void RollBackLoss(Race ownRace, Race vsRace)
         {
             this.DecrementTotalGames(ownRace, vsRace);
         }
 
-        private void RollBackWin(Race ownRace, Race vsRace)
+        internal void RollBackWin(Race ownRace, Race vsRace)
         {
             this.wins.GamesAs(ownRace).AddValueTo(vsRace, -1);
             this.DecrementTotalGames(ownRace, vsRace);

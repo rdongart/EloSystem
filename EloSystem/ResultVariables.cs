@@ -96,17 +96,18 @@ namespace EloSystem
         }
         #endregion
 
-        public int GetValueFor(Race race)
+        internal ResultVariables Clone()
         {
-            switch (race)
-            {
-                case Race.Protoss: return this.Protoss;
-                case Race.Random: return this.Random;
-                case Race.Terran: return this.Terran;
-                case Race.Zerg: return this.Zerg;
-                default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Race).Name, race.ToString()));
-            }
+            var clone = new ResultVariables(0);
+
+            clone._protoss = this.Protoss;
+            clone._random = this.Random;
+            clone._terran = this.Terran;
+            clone._zerg = this.Zerg;
+
+            return clone;
         }
+
         internal void AddValueTo(Race race, int value)
         {
             switch (race)
@@ -115,6 +116,18 @@ namespace EloSystem
                 case Race.Random: this.Random += value; break;
                 case Race.Terran: this.Terran += value; break;
                 case Race.Zerg: this.Zerg += value; break;
+                default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Race).Name, race.ToString()));
+            }
+        }
+
+        public int GetValueFor(Race race)
+        {
+            switch (race)
+            {
+                case Race.Protoss: return this.Protoss;
+                case Race.Random: return this.Random;
+                case Race.Terran: return this.Terran;
+                case Race.Zerg: return this.Zerg;
                 default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Race).Name, race.ToString()));
             }
         }

@@ -20,7 +20,7 @@ namespace EloSystem
         public Size Size { get; set; }
         public Tileset Tileset { get; set; }
 
-        internal Map(string name, int imageID, MapPlayerType mapType) : base(name, imageID)
+        internal Map(string name, int imageID, MapPlayerType mapType,int id) : base(name, imageID,id)
         {
             this.descriptions = new List<string>();
             this.Stats = new MapStats();

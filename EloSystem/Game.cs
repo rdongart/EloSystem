@@ -26,9 +26,21 @@
                 return this.Winner == this.Player1 ? this.Player2Race : this.Player1Race;
             }
         }
-        public SCPlayer Player1 { get; set; }
-        public SCPlayer Player2 { get; set; }
-        public SCPlayer Winner { get; set; }
+        public SCPlayer Player1
+        {
+            get
+            {
+                return this.Match.Player1;
+            }
+        }
+        public SCPlayer Player2
+        {
+            get
+            {
+                return this.Match.Player2;
+            }
+        }
+        public SCPlayer Winner { get; internal set; }
         public SCPlayer Loser
         {
             get
@@ -36,15 +48,15 @@
                 return this.Winner == this.Player1 ? this.Player2 : this.Player1;
             }
         }
-        public Season Season { get; set; }
-        public Tournament Tournament { get; set; }
+        public Season Season { get; internal set; }
+        public Tournament Tournament { get; internal set; }
 
-        internal Game(GameEntry gameData, Match match) : this(match.Player1, match.Player2, gameData)
+        internal Game(GameEntry gameData, Match match) : this(match.Player1, match.Player2, gameData, match)
         {
 
         }
 
-        internal Game(SCPlayer player1, SCPlayer player2, GameEntry gameData, Match match = null, Tournament tournament = null, Season season = null)
+        internal Game(SCPlayer player1, SCPlayer player2, GameEntry gameData, Match match, Tournament tournament = null, Season season = null)
             : this(tournament, season, gameData.Map, match, player1, gameData.Player1Race, player2, gameData.Player2Race, gameData.WinnerWas == PlayerSlotType.Player1 ? player1 : player2, gameData.RatingChange)
         {
 
@@ -56,12 +68,15 @@
             this.Season = season;
             this.Map = map;
             this.Match = match;
-            this.Player1 = player1;
             this.Player1Race = player1Race;
-            this.Player2 = player2;
             this.Player2Race = player2Race;
             this.Winner = winner;
             this.RatingChange = ratingChange;
+        }
+
+        public bool HasPlayer(SCPlayer player)
+        {
+            return this.Player1 == player || this.Player2 == player;
         }
     }
 }

@@ -61,6 +61,16 @@ namespace SCEloSystemGUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Picon {
+            get {
+                object obj = ResourceManager.GetObject("Picon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In order to remove a player from the elo system, you must first remove all matches that the player appears in..
         /// </summary>
         internal static string RemovePlayerRule {
@@ -72,9 +82,39 @@ namespace SCEloSystemGUI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Ricon {
+            get {
+                object obj = ResourceManager.GetObject("Ricon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Search {
             get {
                 object obj = ResourceManager.GetObject("Search", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ticon {
+            get {
+                object obj = ResourceManager.GetObject("Ticon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Zicon {
+            get {
+                object obj = ResourceManager.GetObject("Zicon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

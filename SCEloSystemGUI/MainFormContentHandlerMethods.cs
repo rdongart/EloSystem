@@ -77,14 +77,14 @@ namespace SCEloSystemGUI
             {
                 case ContentTypes.Country: currentContent = this.eloSystem.GetCountry(adder.ContentName); break;
                 case ContentTypes.Map: currentContent = this.eloSystem.GetMap(adder.ContentName); break;
-                case ContentTypes.Player: currentContent = this.eloSystem.GetPlayer(adder.ContentName); break;
+                case ContentTypes.Player: currentContent = this.eloSystem.GetPlayers(adder.ContentName).FirstOrDefault(); break;
                 case ContentTypes.Team: currentContent = this.eloSystem.GetTeam(adder.ContentName); break;
                 case ContentTypes.Tournament: currentContent = this.eloSystem.GetTournament(adder.ContentName); break;
                 default: throw new Exception(String.Format("{0} is an unkonwn {1} in the current context.", adder.ContentType.ToString(), typeof(ContentTypes).Name));
             }
 
             if (currentContent != null && !MainForm.ShouldSimilarNamedContentBeAdded(adder.ContentName, adder.ContentType.ToString())) { return; }
-            
+
             switch (adder.ContentType)
             {
                 case ContentTypes.Country: this.eloSystem.AddCountry(adder.ContentName, adder.NewImage); break;
@@ -234,7 +234,7 @@ namespace SCEloSystemGUI
             this.seasonAdder.AddTournamentItems(this.eloSystem.GetTournaments(), this.ImageGetterMethod);
 
             this.tournamentEditor.AddContentItems(this.eloSystem.GetTournaments(), this.ImageGetterMethod);
-        }                
+        }
     }
 
 }

@@ -16,13 +16,13 @@
         "Entry"
         {
         "MsmKey" = "8:_10C60CADE0BFC9A11FCECD45A47437D8"
-        "OwnerKey" = "8:_5630F42A22FA40CE928E85902ED61C71"
+        "OwnerKey" = "8:_9174DF7C58E841CEBD24056EACB259BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_2073C3D102CA9C826D11E4322B7C2E97"
-        "OwnerKey" = "8:_5630F42A22FA40CE928E85902ED61C71"
+        "OwnerKey" = "8:_9174DF7C58E841CEBD24056EACB259BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -46,19 +46,13 @@
         "Entry"
         {
         "MsmKey" = "8:_5424C9C2F1F8A1F9FF7369AE8A7CA45F"
-        "OwnerKey" = "8:_5630F42A22FA40CE928E85902ED61C71"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_5630F42A22FA40CE928E85902ED61C71"
-        "OwnerKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9174DF7C58E841CEBD24056EACB259BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_5C284C7AC70351935ADA8B899EE8EDCF"
-        "OwnerKey" = "8:_5630F42A22FA40CE928E85902ED61C71"
+        "OwnerKey" = "8:_9174DF7C58E841CEBD24056EACB259BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -70,13 +64,19 @@
         "Entry"
         {
         "MsmKey" = "8:_7A2EF80D933B72EA0B1CA92B96C51B49"
-        "OwnerKey" = "8:_5630F42A22FA40CE928E85902ED61C71"
+        "OwnerKey" = "8:_9174DF7C58E841CEBD24056EACB259BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_88C4DA629BFA78488D0BB78994BC4716"
-        "OwnerKey" = "8:_5630F42A22FA40CE928E85902ED61C71"
+        "OwnerKey" = "8:_9174DF7C58E841CEBD24056EACB259BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9174DF7C58E841CEBD24056EACB259BC"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -88,31 +88,25 @@
         "Entry"
         {
         "MsmKey" = "8:_9B74039CE8A862DABAE5B2CE0ECBA281"
-        "OwnerKey" = "8:_5630F42A22FA40CE928E85902ED61C71"
+        "OwnerKey" = "8:_9174DF7C58E841CEBD24056EACB259BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_C929E36E9AF23224BF476541F92FC11F"
-        "OwnerKey" = "8:_5630F42A22FA40CE928E85902ED61C71"
+        "OwnerKey" = "8:_9174DF7C58E841CEBD24056EACB259BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_FDE9C9A29056E44DA1D91D3E623C2020"
-        "OwnerKey" = "8:_5630F42A22FA40CE928E85902ED61C71"
+        "OwnerKey" = "8:_9174DF7C58E841CEBD24056EACB259BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_88C4DA629BFA78488D0BB78994BC4716"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5630F42A22FA40CE928E85902ED61C71"
+        "OwnerKey" = "8:_9174DF7C58E841CEBD24056EACB259BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -163,6 +157,12 @@
         "OwnerKey" = "8:_5424C9C2F1F8A1F9FF7369AE8A7CA45F"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_88C4DA629BFA78488D0BB78994BC4716"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -181,6 +181,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -197,6 +213,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -218,7 +250,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:.NETFramework,Version=v4.5"
+                "FrameworkVersion" = "8:.NETFramework,Version=v4.6.1"
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=395269"
                 }
@@ -513,7 +545,7 @@
         {
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_1BB2E1D43A74499FA2D3BC639A41EA88"
             {
-            "DefaultLocation" = "8:[ProgramFilesFolder][Manufacturer]\\[ProductName]"
+            "DefaultLocation" = "8:[ProgramFilesFolder]\\SCEloSystem"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
@@ -524,7 +556,7 @@
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_EC499C06207B4BB7A3D505752E34E050"
                     {
                     "Name" = "8:EloSystems"
-                    "AlwaysCreate" = "11:FALSE"
+                    "AlwaysCreate" = "11:TRUE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
                     "Property" = "8:_9F1CCFC58AC84578AD8203575D1401A8"
@@ -584,7 +616,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SC Elo System Setup"
         "ProductCode" = "8:{084B983D-525E-4ADC-9C8E-817846D4D02B}"
-        "PackageCode" = "8:{00ABDCA1-0677-484C-A3A4-CBD072C209DE}"
+        "PackageCode" = "8:{7DB441F5-F5DC-4A8B-ACA3-26B7403BDEE1}"
         "UpgradeCode" = "8:{D1FB9BE6-603B-43BF-B74D-F621BD4DA670}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -592,7 +624,7 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Default Company Name"
+        "Manufacturer" = "8:GreyShades"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:SC Elo System Setup"
@@ -704,31 +736,31 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_6F74CE99608F4D3A9C4A9CBAF9BAAE15"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_1DA2857A4D6F4624B9232266B271658F"
             {
-            "Name" = "8:SC Elo System"
+            "Name" = "8:SCEloSystemGUI (Active)"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_979A4CDF420C4D6A85BC7BB1DF2EAC1E"
-            "Folder" = "8:_404B55A089CF4CC8AA31190E9214BA8C"
-            "WorkingFolder" = "8:_BF580E129EDF4E61AD73AAC938C64A45"
+            "Target" = "8:_9174DF7C58E841CEBD24056EACB259BC"
+            "Folder" = "8:_979A4CDF420C4D6A85BC7BB1DF2EAC1E"
+            "WorkingFolder" = "8:_1BB2E1D43A74499FA2D3BC639A41EA88"
             "Icon" = "8:"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_D93821D44C234953AFBD97A3EE62B659"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E84204910D134AEDB1D45A7A0F2E4906"
             {
-            "Name" = "8:SC Elo System"
+            "Name" = "8:SCEloSystemGUI (Active)"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_979A4CDF420C4D6A85BC7BB1DF2EAC1E"
-            "Folder" = "8:_979A4CDF420C4D6A85BC7BB1DF2EAC1E"
-            "WorkingFolder" = "8:_BF580E129EDF4E61AD73AAC938C64A45"
+            "Target" = "8:_9174DF7C58E841CEBD24056EACB259BC"
+            "Folder" = "8:_404B55A089CF4CC8AA31190E9214BA8C"
+            "WorkingFolder" = "8:_1BB2E1D43A74499FA2D3BC639A41EA88"
             "Icon" = "8:"
             "Feature" = "8:"
             }
@@ -1131,7 +1163,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_5630F42A22FA40CE928E85902ED61C71"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9174DF7C58E841CEBD24056EACB259BC"
             {
             "SourcePath" = "8:..\\SCEloSystemGUI\\obj\\Debug\\SCEloSystemGUI.exe"
             "TargetName" = "8:"

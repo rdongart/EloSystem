@@ -36,6 +36,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPlayerStats = new System.Windows.Forms.ToolStripMenuItem();
             this.mapStatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageReportMatch = new System.Windows.Forms.TabPage();
@@ -115,16 +116,25 @@
             // showToolStripMenuItem
             // 
             this.showToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemPlayerStats,
             this.mapStatsToolStripMenuItem});
             this.showToolStripMenuItem.Name = "showToolStripMenuItem";
             this.showToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.showToolStripMenuItem.Text = "&Stats";
             // 
+            // toolStripMenuItemPlayerStats
+            // 
+            this.toolStripMenuItemPlayerStats.Name = "toolStripMenuItemPlayerStats";
+            this.toolStripMenuItemPlayerStats.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.toolStripMenuItemPlayerStats.Size = new System.Drawing.Size(175, 22);
+            this.toolStripMenuItemPlayerStats.Text = "&Player Stats";
+            this.toolStripMenuItemPlayerStats.Click += new System.EventHandler(this.toolStripMenuItemPlayerStats_Click);
+            // 
             // mapStatsToolStripMenuItem
             // 
             this.mapStatsToolStripMenuItem.Name = "mapStatsToolStripMenuItem";
             this.mapStatsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.mapStatsToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.mapStatsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.mapStatsToolStripMenuItem.Text = "&Map Stats";
             // 
             // tabControlMain
@@ -334,5 +344,6 @@
         private System.Windows.Forms.ToolStripMenuItem mapStatsToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPageEditTournaments;
         private System.Windows.Forms.TableLayoutPanel tblLOPnlTournaments;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPlayerStats;
     }
 }

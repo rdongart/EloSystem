@@ -13,9 +13,21 @@ namespace EloSystem
     {
         internal Map Map { get; private set; }
         public int RatingChange { get; internal set; }
+        public Race LosersRace
+        {
+            get
+            {
+                switch (this.WinnerWas)
+                {
+                    case PlayerSlotType.Player1: return this.Player2Race;
+                    case PlayerSlotType.Player2: return this.Player1Race;
+                    default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PlayerSlotType).Name, this.WinnerWas.ToString()));
+                }
+            }
+        }
         public Race Player1Race { get; private set; }
         public Race Player2Race { get; private set; }
-        public Race WinnersRace
+                public Race WinnersRace
         {
             get
             {

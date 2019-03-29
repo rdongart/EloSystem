@@ -16,7 +16,7 @@ namespace EloSystem
         private DateTime birthDate;
         private List<string> aliases;
         public Country Country { get; set; }
-        public ResultVariables RatingsVs { get; private set; }
+        public ResultVariables RatingVs { get; private set; }
         public string Nationality
         {
             get
@@ -35,24 +35,46 @@ namespace EloSystem
         public Team Team { get; set; }
         public WinRateCounter Stats { get; private set; }
 
-        internal SCPlayer(string name, int startRating, int imageID, Team team = null, Country nationality = null)
-            : this(name, startRating, imageID, new string[] { }, team, nationality)
+        internal SCPlayer(string name, int startRating, int imageID, int id, Team team = null, Country nationality = null)
+            : this(name, startRating, imageID, id, new string[] { }, team, nationality)
         {
 
         }
-        internal SCPlayer(string name, int startRating, int imageID, IEnumerable<string> aliases, Team team = null, Country nationality = null) : base(name, imageID)
+        internal SCPlayer(string name, int startRating, int imageID, int id, IEnumerable<string> aliases, Team team = null, Country nationality = null) : base(name, imageID, id)
         {
             this.aliases = aliases.ToList();
             this.Country = nationality;
             this.Stats = new WinRateCounter();
-            this.RatingsVs = new ResultVariables(startRating);
+            this.RatingVs = new ResultVariables(startRating);
             this.Team = team;
             this.birthDate = new DateTime();
+        }
+
+        internal static int RatingTotal(ResultVariables ratingVs, WinRateCounter gameStats)
+        {
+            // if any games have been played
+            return gameStats.GamesTotal() > 0 ?
+
+                // ...calculate the rating
+                ((ratingVs.Protoss * SCPlayer.GetRatingInfluence(gameStats.GamesVs(Race.Protoss), gameStats.GamesTotal())
+                + ratingVs.Random * SCPlayer.GetRatingInfluence(gameStats.GamesVs(Race.Random), gameStats.GamesTotal())
+                + ratingVs.Terran * SCPlayer.GetRatingInfluence(gameStats.GamesVs(Race.Terran), gameStats.GamesTotal())
+                + ratingVs.Zerg * SCPlayer.GetRatingInfluence(gameStats.GamesVs(Race.Zerg), gameStats.GamesTotal()))
+                / SCPlayer.GetTotalInfluenceValue(gameStats)).RoundToInt()
+
+                // ...otherwise just return the default starting rating value
+                : ratingVs.Protoss;
         }
 
         private static double GetRatingInfluence(int numberOfGames, int totalGames)
         {
             return Math.Min(1, Math.Min((numberOfGames / (double)totalGames) / SCPlayer.MINIMUM_GAMES_PERCENTAGE, numberOfGames / (double)SCPlayer.MINIMUM_GAMES_THRESHOLD));
+        }
+
+        private static double GetTotalInfluenceValue(WinRateCounter gameStats)
+        {
+            return SCPlayer.GetRatingInfluence(gameStats.GamesVs(Race.Protoss), gameStats.GamesTotal()) + SCPlayer.GetRatingInfluence(gameStats.GamesVs(Race.Random), gameStats.GamesTotal())
+                + SCPlayer.GetRatingInfluence(gameStats.GamesVs(Race.Terran), gameStats.GamesTotal()) + SCPlayer.GetRatingInfluence(gameStats.GamesVs(Race.Zerg), gameStats.GamesTotal());
         }
 
         #region Implementing ISerializable
@@ -71,7 +93,7 @@ namespace EloSystem
 
             info.AddValue(Field.GameStats.ToString(), (WinRateCounter)this.Stats);
             info.AddValue(Field.IRLName.ToString(), (string)this.IRLName);
-            info.AddValue(Field.Ratings.ToString(), (ResultVariables)this.RatingsVs);
+            info.AddValue(Field.Ratings.ToString(), (ResultVariables)this.RatingVs);
 
             if (this.Team != null) { info.AddValue(Field.Team.ToString(), (Team)this.Team); }
         }
@@ -90,7 +112,7 @@ namespace EloSystem
                         case Field.Country: this.Country = (Country)info.GetValue(field.ToString(), typeof(Country)); break;
                         case Field.GameStats: this.Stats = (WinRateCounter)info.GetValue(field.ToString(), typeof(WinRateCounter)); break;
                         case Field.IRLName: this.IRLName = (string)info.GetString(field.ToString()); break;
-                        case Field.Ratings: this.RatingsVs = (ResultVariables)info.GetValue(field.ToString(), typeof(ResultVariables)); break;
+                        case Field.Ratings: this.RatingVs = (ResultVariables)info.GetValue(field.ToString(), typeof(ResultVariables)); break;
                         case Field.Team: this.Team = (Team)info.GetValue(field.ToString(), typeof(Team)); break;
                     }
                 }
@@ -104,12 +126,6 @@ namespace EloSystem
             return this.Stats.GamesTotal() > 0;
         }
 
-        private double GetTotalInfluenceValue()
-        {
-            return SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Protoss),this.Stats.GamesTotal()) + SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Random), this.Stats.GamesTotal())
-                + SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Terran), this.Stats.GamesTotal()) + SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Zerg), this.Stats.GamesTotal());
-        }
-
         public IEnumerable<string> GetAliases()
         {
             foreach (string name in this.aliases.ToList()) { yield return name; }
@@ -121,19 +137,7 @@ namespace EloSystem
         /// <returns></returns>
         public int RatingTotal()
         {
-            // if any games have been played
-            return this.HasPlayedAnyGames() ?
-
-                // ...calculate the rating
-                ((this.RatingsVs.Protoss * SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Protoss), this.Stats.GamesTotal())
-                + this.RatingsVs.Random * SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Random), this.Stats.GamesTotal())
-                + this.RatingsVs.Terran * SCPlayer.GetRatingInfluence(this.Stats.GamesVs(Race.Terran), this.Stats.GamesTotal())
-                + this.RatingsVs.Zerg * SCPlayer.GetRatingInfluence(Stats.GamesVs(Race.Zerg), this.Stats.GamesTotal()))
-                / this.GetTotalInfluenceValue()).RoundToInt()
-
-                // ...otherwise just return the default starting rating value
-                : this.RatingsVs.Protoss;
-
+            return SCPlayer.RatingTotal(this.RatingVs, this.Stats);
         }
 
         public bool RemoveAlias(string alias)

@@ -107,10 +107,10 @@ namespace SCEloSystemGUI.UserControls
             this.lbPlRaceVsZerg.Text = player.Stats.GamesVs(Race.Zerg) > 0 ? player.GetPrimaryRaceVs(Race.Zerg).ToString() : PlayerMatchStatsDisplay.INFORMATION_NA;
 
             this.lbPlRatingMain.Text = player.RatingTotal().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
-            this.lbPlRatingVsProtoss.Text = player.RatingsVs.Protoss.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
-            this.lbPlRatingVsRandom.Text = player.RatingsVs.Random.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
-            this.lbPlRatingVsTerran.Text = player.RatingsVs.Terran.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
-            this.lbPlRatingVsZerg.Text = player.RatingsVs.Zerg.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+            this.lbPlRatingVsProtoss.Text = player.RatingVs.Protoss.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+            this.lbPlRatingVsRandom.Text = player.RatingVs.Random.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+            this.lbPlRatingVsTerran.Text = player.RatingVs.Terran.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+            this.lbPlRatingVsZerg.Text = player.RatingVs.Zerg.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
 
             this.lbPlWRMain.Text = player.Stats.GamesTotal() > 0 ?
                 String.Format("{0}% ({1}/{2})", (100 * player.Stats.WinRatioTotal()).RoundToInt(), player.Stats.WinsTotal(), player.Stats.GamesTotal()) : PlayerMatchStatsDisplay.INFORMATION_NA;

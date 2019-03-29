@@ -23,12 +23,27 @@ namespace SCEloSystemGUI.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("110")]
+        [global::System.Configuration.DefaultSettingValueAttribute("130")]
         public uint NoRecentMatches {
             get {
                 return ((uint)(this["NoRecentMatches"]));
+            }
+            set {
+                this["NoRecentMatches"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Months_4")]
+        public global::SCEloSystemGUI.PlayerDevScope PlayerDevelopmentScope {
+            get {
+                return ((global::SCEloSystemGUI.PlayerDevScope)(this["PlayerDevelopmentScope"]));
+            }
+            set {
+                this["PlayerDevelopmentScope"] = value;
             }
         }
     }

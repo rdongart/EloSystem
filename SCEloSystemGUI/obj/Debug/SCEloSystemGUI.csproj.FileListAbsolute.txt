@@ -35,3 +35,4 @@ C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\ob
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.csproj.GenerateResource.Cache
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.exe
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.pdb
+C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.PlayerStats.resources

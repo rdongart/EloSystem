@@ -79,7 +79,7 @@
             this.Controls.Add(this.btnCreateNew);
             this.Name = "StartMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SC EloSystem GUI";
+            this.Text = "SC Elo";
             this.ResumeLayout(false);
 
         }

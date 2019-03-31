@@ -65,5 +65,10 @@ namespace EloSystem
 
             return matchup != null;
         }
+
+        public int TotalGames()
+        {
+            return this.raceMatchupData.Sum(stats => stats.TotalGames);
+        }
     }
 }

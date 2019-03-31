@@ -136,6 +136,7 @@
             this.mapStatsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
             this.mapStatsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.mapStatsToolStripMenuItem.Text = "&Map Stats";
+            this.mapStatsToolStripMenuItem.Click += new System.EventHandler(this.mapStatsToolStripMenuItem_Click);
             // 
             // tabControlMain
             // 
@@ -306,6 +307,7 @@
             this.ClientSize = new System.Drawing.Size(1854, 997);
             this.Controls.Add(this.tabControlMain);
             this.Controls.Add(this.menuStripMainForm);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStripMainForm;
             this.Name = "MainForm";
             this.Text = "MainForm";

@@ -1,4 +1,5 @@
-﻿using BrightIdeasSoftware;
+﻿using SCEloSystemGUI.Properties;
+using BrightIdeasSoftware;
 using EloSystem.ResourceManagement;
 using System.Drawing;
 using EloSystem;
@@ -24,10 +25,13 @@ namespace SCEloSystemGUI
         private MatchReport matchReport;
         private PlayerEditor playerAdder;
         private SeasonAdder seasonAdder;
+        private PlayerStats playerStatsDisplay;
 
         internal MainForm(EloData eloSystem)
         {
             InitializeComponent();
+
+            this.Icon = Resources.SCEloIcon;
 
             this.contentWasEdited = false;
 
@@ -129,9 +133,16 @@ namespace SCEloSystemGUI
 
         private void toolStripMenuItemPlayerStats_Click(object sender, EventArgs e)
         {
-            var plStatsForm = new PlayerStats(() => { return this.eloSystem; });
+            if (this.playerStatsDisplay == null) { this.playerStatsDisplay = new PlayerStats(() => { return this.eloSystem; }); };
 
-            plStatsForm.ShowDialog();
+            this.playerStatsDisplay.ShowDialog();
+        }
+
+        private void mapStatsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var mapStatsForm = new MapStatsDisplay(() => { return this.eloSystem; });
+
+            mapStatsForm.ShowDialog();
         }
     }
 }

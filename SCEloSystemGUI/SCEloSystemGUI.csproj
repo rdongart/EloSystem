@@ -8,11 +8,12 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SCEloSystemGUI</RootNamespace>
-    <AssemblyName>SCEloSystemGUI</AssemblyName>
+    <AssemblyName>SCElo</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -25,7 +26,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -88,7 +88,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UserControls\FilterVisibilityHandler.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="GameEntryEditorItem.cs" />
+    <Compile Include="IPlayerFilter.cs" />
     <Compile Include="MainFormContentHandlerMethods.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +120,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="TimedChangeHandler.cs" />
     <Compile Include="UserControls\ContentAddingEventArgs.cs" />
     <Compile Include="UserControls\ContentTypes.cs" />
     <Compile Include="EloSystemGUIStaticMembers.cs" />
@@ -140,6 +145,12 @@
     </Compile>
     <Compile Include="UserControls\ContentAdder.Designer.cs">
       <DependentUpon>ContentAdder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ContentFilter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\ContentFilter.Designer.cs">
+      <DependentUpon>ContentFilter.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\DblNameContentEditor.cs">
       <SubType>UserControl</SubType>
@@ -227,6 +238,9 @@
     <EmbeddedResource Include="UserControls\ContentAdder.resx">
       <DependentUpon>ContentAdder.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\ContentFilter.resx">
+      <DependentUpon>ContentFilter.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DblNameContentEditor.resx">
       <DependentUpon>DblNameContentEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -283,10 +297,8 @@
   <ItemGroup>
     <None Include="Resources\Ticon.png" />
     <None Include="Resources\Zicon.png" />
-    <None Include="Resources\Ticon_small.png" />
     <None Include="Resources\Ricon.png" />
     <None Include="Resources\Picon.png" />
-    <Content Include="SCEloIcon.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
@@ -299,6 +311,54 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="SCEloIcon v. 2.01.ico">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SCEloIcon v. 3.00.ico">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SCEloIcon v. 3.02.ico">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SCEloIcon.ico">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SCEloIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SCEloIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

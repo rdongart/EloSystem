@@ -20,3 +20,5 @@ SC Elo System Setup/Debug/SC Elo System Setup.msi
 SC Elo System Setup/Debug/setup.exe
 SC Elo System Setup/Release/SC Elo System Setup.msi
 SC Elo System Setup/Release/setup.exe
+SCEloSystemGUI/obj/Debug/SCElo.exe
+SCEloSystemGUI/obj/Release/SCElo.exe

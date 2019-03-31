@@ -1,20 +1,16 @@
-﻿using CustomExtensionMethods;
+﻿using System.Collections.Generic;
+using BrightIdeasSoftware;
+using CustomExtensionMethods;
 using CustomExtensionMethods.Drawing;
-using SCEloSystemGUI.Properties;
 using EloSystem;
 using EloSystem.ResourceManagement;
+using SCEloSystemGUI.Properties;
 using SCEloSystemGUI.UserControls;
-using BrightIdeasSoftware;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using CustomControls;
 
 namespace SCEloSystemGUI
 {
@@ -27,6 +23,8 @@ namespace SCEloSystemGUI
     {
         private const float TEXT_SIZE = 11.5F;
 
+        private List<IPlayerFilter> filters = new List<IPlayerFilter>();
+        private ContentFilter<Country> countryFilter;
         private ObjectListView olvPlayerStats;
         private ResourceGetter eloDataBase;
 
@@ -34,13 +32,45 @@ namespace SCEloSystemGUI
         {
             InitializeComponent();
 
+            this.Icon = Resources.SCEloIcon;
+
             this.eloDataBase = databaseGetter;
 
             this.olvPlayerStats = this.CreatePlayerStatsListView();
 
-            this.tblLoPnlPlayerStats.Controls.Add(this.olvPlayerStats, 0, 1);
+            this.tblLoPnlPlayerStats.Controls.Add(this.olvPlayerStats, 0, 2);
 
-            this.olvPlayerStats.AddObjects(this.eloDataBase().GetPlayers().OrderByDescending(player => player.RatingTotal()).ThenByDescending(player => player.Stats.GamesTotal()).ThenByDescending(player => player.Stats.WinRatioTotal()).Select((player, rank) => new Tuple<SCPlayer, int>(player, rank + 1)).ToArray());
+            this.countryFilter = new ContentFilter<Country>(this.eloDataBase) { Header = "Country filter", ColumnHeader = "Country" };
+            this.countryFilter.ContentGetter = PlayerStats.GetCountry;
+            this.countryFilter.SetItems(this.eloDataBase().GetCountries().OrderBy(country => country.Name));
+            this.countryFilter.FilterChanged += this.OnFilterChanged;
+
+            this.filters.Add(this.countryFilter);
+            this.tblLoPnlFilters.Controls.Add(this.countryFilter, 0, 0);
+
+            this.SetPlayerList();
+
+            this.SetbtnApllyEnabledStatus();
+
+            this.eloDataBase().CountryPoolChanged += this.OnCountryPoolChanged;
+
+            this.pnlFilters.Visible = false;
+            this.tblLoPnlPlayerStats.RowStyles[PlayerStats.FILTERROW_INDEX].Height = 0;
+        }
+
+        private static Country GetCountry(SCPlayer player)
+        {
+            return player.Country;
+        }
+
+        private void OnCountryPoolChanged(object sender, EventArgs e)
+        {
+            this.countryFilter.SetItems(this.eloDataBase().GetCountries().OrderBy(country => country.Name));
+        }
+
+        private void OnFilterChanged(object sender, EventArgs e)
+        {
+            this.btnApply.Enabled = this.filters.Any(filter => filter.HasChangesNotApplied());
         }
 
         private ObjectListView CreatePlayerStatsListView()
@@ -148,7 +178,7 @@ namespace SCEloSystemGUI
             {
                 var player = (obj as Tuple<SCPlayer, int>).Item1;
 
-                return player.RatingTotal().ToString("#,#");
+                return player.RatingTotal().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
             };
 
             olvClmRatingDevelopment.AspectGetter = obj =>
@@ -177,28 +207,28 @@ namespace SCEloSystemGUI
             {
                 var player = (obj as Tuple<SCPlayer, int>).Item1;
 
-                return player.RatingVs.Zerg.ToString("#,#");
+                return player.RatingVs.Zerg.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
             };
 
             olvClmRatingVsTerran.AspectGetter = obj =>
             {
                 var player = (obj as Tuple<SCPlayer, int>).Item1;
 
-                return player.RatingVs.Terran.ToString("#,#");
+                return player.RatingVs.Terran.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
             };
 
             olvClmRatingVsProtoss.AspectGetter = obj =>
             {
                 var player = (obj as Tuple<SCPlayer, int>).Item1;
 
-                return player.RatingVs.Protoss.ToString("#,#");
+                return player.RatingVs.Protoss.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
             };
 
             olvClmRatingVsRandom.AspectGetter = obj =>
             {
                 var player = (obj as Tuple<SCPlayer, int>).Item1;
 
-                return player.RatingVs.Random.ToString("#,#");
+                return player.RatingVs.Random.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
             };
 
             return playerStatsLV;
@@ -214,6 +244,46 @@ namespace SCEloSystemGUI
 
                 EloSystemGUIStaticMembers.FormatRatingChangeOLVCell(e.SubItem);
             }
+        }
+
+        private void SetPlayerList()
+        {
+            this.olvPlayerStats.SetObjects(this.eloDataBase().GetPlayers().Where(player => this.filters.All(filter => filter.PlayerFilter(player))).OrderByDescending(player =>
+                player.RatingTotal()).ThenByDescending(player => player.Stats.GamesTotal()).ThenByDescending(player => player.Stats.WinRatioTotal()).Select((player, rank) =>
+                    new Tuple<SCPlayer, int>(player, rank + 1)).ToArray());
+        }
+
+        private void SetbtnApllyEnabledStatus()
+        {
+            this.btnApply.Enabled = this.filters.Any(filter => filter.HasChangesNotApplied());
+        }
+
+        private void btnApply_Click(object sender, EventArgs e)
+        {
+            this.filters.ForEach(filter => filter.ApplyChanges());
+
+            this.SetPlayerList();
+
+            this.SetbtnApllyEnabledStatus();
+        }
+
+        private void btnToggleFilterVisibility_Click(object sender, EventArgs e)
+        {
+            if (!this.pnlFilters.Visible)
+            {
+                this.pnlFilters.Visible = true;
+
+                TimedChangeHandler.HandleChanges(this.ShowFilters, this.StopFilterShowProcces);
+
+                this.btnToggleFilterVisibility.Text = "Hide filters";
+            }
+            else
+            {
+                TimedChangeHandler.HandleChanges(this.HideFilters, this.StopFilterHideProcces);
+
+                this.btnToggleFilterVisibility.Text = "Show filters";
+            }
+
         }
     }
 }

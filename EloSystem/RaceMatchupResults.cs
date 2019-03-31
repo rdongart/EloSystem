@@ -96,12 +96,20 @@ namespace EloSystem
 
         public double WinRatioRace1()
         {
-            return this.Race1 == this.Race2 ? EloData.EXP_WIN_RATIO_MAX : this.Race1Wins / (double)(this.Race1Wins + this.Race2Wins);
+            if (this.Race1Wins + this.Race2Wins == 0) { return double.PositiveInfinity; }
+            else
+            {
+                return this.Race1 == this.Race2 ? EloData.EXP_WIN_RATIO_MAX : this.Race1Wins / (double)(this.Race1Wins + this.Race2Wins);
+            }
         }
 
         public double WinRatioRace2()
         {
-            return this.Race1 == this.Race2 ? EloData.EXP_WIN_RATIO_MAX : this.Race2Wins / (double)(this.Race1Wins + this.Race2Wins);
+            if (this.Race1Wins + this.Race2Wins == 0) { return double.PositiveInfinity; }
+            else
+            {
+                return this.Race1 == this.Race2 ? EloData.EXP_WIN_RATIO_MAX : this.Race2Wins / (double)(this.Race1Wins + this.Race2Wins);
+            }
         }
 
         /// <summary>
@@ -110,7 +118,11 @@ namespace EloSystem
         /// <returns></returns>
         public double WinRatioRace1CorrectedForExpectedWR()
         {
-            return this.Race1 == this.Race2 ? EloData.EXP_WIN_RATIO_MAX : RaceMatchupResults.CorrectedWinRatio(this.race1ExpWinRatio / (double)this.TotalGames, this.WinRatioRace1());
+            if (this.Race1Wins + this.Race2Wins == 0) { return double.PositiveInfinity; }
+            else
+            {
+                return this.Race1 == this.Race2 ? EloData.EXP_WIN_RATIO_MAX : RaceMatchupResults.CorrectedWinRatio(this.race1ExpWinRatio / (double)this.TotalGames, this.WinRatioRace1());
+            }
         }
 
         /// <summary>
@@ -119,7 +131,11 @@ namespace EloSystem
         /// <returns></returns>
         public double WinRatioRace2CorrectedForExpectedWR()
         {
-            return this.Race1 == this.Race2 ? EloData.EXP_WIN_RATIO_MAX : EloData.EXP_WIN_RATIO_MAX - this.WinRatioRace1CorrectedForExpectedWR();
+            if (this.Race1Wins + this.Race2Wins == 0) { return double.PositiveInfinity; }
+            else
+            {
+                return this.Race1 == this.Race2 ? EloData.EXP_WIN_RATIO_MAX : EloData.EXP_WIN_RATIO_MAX - this.WinRatioRace1CorrectedForExpectedWR();
+            }
         }
     }
 }

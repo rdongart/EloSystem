@@ -1,8 +1,8 @@
 ﻿using EloSystem;
 using EloSystem.IO;
 using MLCommon.GUI.SplashScreenWorker;
+using SCEloSystemGUI.Properties;
 using System;
-using System.IO;
 using System.Windows.Forms;
 
 namespace SCEloSystemGUI
@@ -14,6 +14,8 @@ namespace SCEloSystemGUI
         public StartMenu()
         {
             InitializeComponent();
+
+            this.Icon = Resources.SCEloIcon;
         }
 
         [STAThread]

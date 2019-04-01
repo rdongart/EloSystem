@@ -126,11 +126,9 @@ namespace SCEloSystemGUI
             {
                 var map = obj as Map;
 
-                RaceMatchupResults stats;
-
-                if (map.Stats.TryGetMatchup(Race.Terran, Race.Zerg, out stats) && stats.TotalGames > 0)
+                if (map.Stats.ZvT.TotalGames > 0)
                 {
-                    return String.Format("{0}% | {1} - {2}", (stats.WinRatioRace1CorrectedForExpectedWR() * 100).RoundToInt(), stats.Race1Wins, stats.Race2Wins);
+                    return String.Format("{0}% | {1} - {2}", (map.Stats.ZvT.WinRatioRace1CorrectedForExpectedWR() * 100).RoundToInt(), map.Stats.ZvT.Race1Wins, map.Stats.ZvT.Race2Wins);
                 }
                 else { return "-"; }
 
@@ -140,11 +138,9 @@ namespace SCEloSystemGUI
             {
                 var map = obj as Map;
 
-                RaceMatchupResults stats;
-
-                if (map.Stats.TryGetMatchup(Race.Zerg, Race.Protoss, out stats) && stats.TotalGames > 0)
+                if (map.Stats.PvZ.TotalGames > 0)
                 {
-                    return String.Format("{0}% | {1} - {2}", (stats.WinRatioRace1CorrectedForExpectedWR() * 100).RoundToInt(), stats.Race1Wins, stats.Race2Wins);
+                    return String.Format("{0}% | {1} - {2}", (map.Stats.PvZ.WinRatioRace2CorrectedForExpectedWR() * 100).RoundToInt(), map.Stats.PvZ.Race2Wins, map.Stats.PvZ.Race1Wins);
                 }
                 else { return "-"; }
 
@@ -154,11 +150,9 @@ namespace SCEloSystemGUI
             {
                 var map = obj as Map;
 
-                RaceMatchupResults stats;
-
-                if (map.Stats.TryGetMatchup(Race.Protoss, Race.Terran, out stats) && stats.TotalGames > 0)
+                if (map.Stats.PvT.TotalGames > 0)
                 {
-                    return String.Format("{0}% | {1} - {2}", (stats.WinRatioRace1CorrectedForExpectedWR() * 100).RoundToInt(), stats.Race1Wins, stats.Race2Wins);
+                    return String.Format("{0}% | {1} - {2}", (map.Stats.PvT.WinRatioRace1CorrectedForExpectedWR() * 100).RoundToInt(), map.Stats.PvT.Race1Wins, map.Stats.PvT.Race2Wins);
                 }
                 else { return "-"; }
             };
@@ -174,30 +168,21 @@ namespace SCEloSystemGUI
             {
                 var map = obj as Map;
 
-                RaceMatchupResults stats;
-
-                if (map.Stats.TryGetMatchup(Race.Terran, Race.Terran, out stats)) { return stats.TotalGames.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT); }
-                else { return "-"; }
+                return map.Stats.TvT.TotalGames.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT); 
             };
 
             olvClmZvZGames.AspectGetter = obj =>
             {
                 var map = obj as Map;
 
-                RaceMatchupResults stats;
-
-                if (map.Stats.TryGetMatchup(Race.Zerg, Race.Zerg, out stats)) { return stats.TotalGames.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT); }
-                else { return "-"; }
+                return map.Stats.ZvZ.TotalGames.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
             };
 
             olvClmPvPGames.AspectGetter = obj =>
             {
                 var map = obj as Map;
 
-                RaceMatchupResults stats;
-
-                if (map.Stats.TryGetMatchup(Race.Protoss, Race.Protoss, out stats)) { return stats.TotalGames.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT); }
-                else { return "-"; }
+                return map.Stats.PvP.TotalGames.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
             };
 
             return mapStatsLV;

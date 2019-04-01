@@ -111,14 +111,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_D5BF555D50A74F3D8475E66A79679321"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_88C4DA629BFA78488D0BB78994BC4716"
+        "OwnerKey" = "8:_9174DF7C58E841CEBD24056EACB259BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -131,12 +125,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_0C684A940DCB67335C706A21EEFD1F29"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9174DF7C58E841CEBD24056EACB259BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -173,6 +161,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_5424C9C2F1F8A1F9FF7369AE8A7CA45F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_88C4DA629BFA78488D0BB78994BC4716"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -569,26 +563,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D5BF555D50A74F3D8475E66A79679321"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\..\\Pictures\\Program resources\\EloSystem\\SCEloBanner.png"
-            "TargetName" = "8:SCEloBanner.png"
-            "Tag" = "8:"
-            "Folder" = "8:_1BB2E1D43A74499FA2D3BC639A41EA88"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
         }
         "FileType"
         {
@@ -668,7 +642,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SC Elo System Setup"
         "ProductCode" = "8:{084B983D-525E-4ADC-9C8E-817846D4D02B}"
-        "PackageCode" = "8:{48C4D486-1076-4B1D-ADD8-8F3BD23B42FC}"
+        "PackageCode" = "8:{07AE4994-722B-4342-AD62-2AF270FAB448}"
         "UpgradeCode" = "8:{D1FB9BE6-603B-43BF-B74D-F621BD4DA670}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1075,8 +1049,7 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:2"
-                            "Value" = "8:_5E4C32DA6F1C49D1BCEB9F88E63C1A02"
+                            "Setting" = "3:1"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "CopyrightWarning"

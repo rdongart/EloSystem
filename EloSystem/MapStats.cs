@@ -8,7 +8,28 @@ namespace EloSystem
     [Serializable]
     public class MapStats : ISerializable
     {
+        private const int PvT_INDEX = 0;
+        private const int PvZ_INDEX = 1;
+        private const int PvR_INDEX = 2;
+        private const int ZvT_INDEX = 3;
+        private const int ZvR_INDEX = 4;
+        private const int TvR_INDEX = 5;
+        private const int ZvZ_INDEX = 6;
+        private const int TvT_INDEX = 7;
+        private const int PvP_INDEX = 8;
+        private const int RvR_INDEX = 9;
+
         private List<RaceMatchupResults> raceMatchupData;
+        public RaceMatchupResults PvT { get { return this.raceMatchupData[MapStats.PvT_INDEX]; } }
+        public RaceMatchupResults PvZ { get { return this.raceMatchupData[MapStats.PvZ_INDEX]; } }
+        public RaceMatchupResults PvR { get { return this.raceMatchupData[MapStats.PvR_INDEX]; } }
+        public RaceMatchupResults ZvT { get { return this.raceMatchupData[MapStats.ZvT_INDEX]; } }
+        public RaceMatchupResults ZvR { get { return this.raceMatchupData[MapStats.ZvR_INDEX]; } }
+        public RaceMatchupResults TvR { get { return this.raceMatchupData[MapStats.TvR_INDEX]; } }
+        public RaceMatchupResults ZvZ { get { return this.raceMatchupData[MapStats.ZvZ_INDEX]; } }
+        public RaceMatchupResults TvT { get { return this.raceMatchupData[MapStats.TvT_INDEX]; } }
+        public RaceMatchupResults PvP { get { return this.raceMatchupData[MapStats.PvP_INDEX]; } }
+        public RaceMatchupResults RvR { get { return this.raceMatchupData[MapStats.RvR_INDEX]; } }
 
         internal MapStats()
         {

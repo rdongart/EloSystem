@@ -112,9 +112,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 1022);
             this.Controls.Add(this.tblLoPnlPlayerStats);
+            this.DoubleBuffered = true;
             this.Name = "PlayerStats";
             this.Padding = new System.Windows.Forms.Padding(6, 12, 6, 12);
-            this.Text = "PlayerStats";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Player Stats";
             this.tblLoPnlPlayerStats.ResumeLayout(false);
             this.pnlFilters.ResumeLayout(false);
             this.pnlFilters.PerformLayout();

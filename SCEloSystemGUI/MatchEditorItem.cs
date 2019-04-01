@@ -38,7 +38,8 @@ namespace SCEloSystemGUI
             }
             set
             {
-                if (this.Tournament != null && this.Tournament.GetSeasons().Count() > value) { this.seasonIndex = value; }
+                if (this.Tournament != null && this.Tournament.GetSeasons().Count() <= value) { this.seasonIndex = this.Tournament.GetSeasons().Count() - 1; }
+                else { this.seasonIndex = value; }
             }
         }
         public SCPlayer Player1 { get; set; }

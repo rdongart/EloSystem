@@ -274,8 +274,10 @@ namespace SCEloSystemGUI.UserControls
                         }
                         else
                         {
-                            statsTextA = String.Format("{0}%\n{1}/{2}", (100 * stats.WinRatioRace1CorrectedForExpectedWR()).RoundToInt(), stats.Race1Wins, stats.TotalGames);
-                            statsTextB = String.Format("{0}%\n{1}/{2}", (100 * stats.WinRatioRace2CorrectedForExpectedWR()).RoundToInt(), stats.Race2Wins, stats.TotalGames);
+                            statsTextA = String.Format("{0}\n{1}/{2}", stats.TotalGames > 0 ? (100 * stats.WinRatioRace1CorrectedForExpectedWR()).RoundToInt().ToString() + "%" : "", stats.Race1Wins
+                                , stats.TotalGames);
+                            statsTextB = String.Format("{0}\n{1}/{2}", stats.TotalGames > 0 ? (100 * stats.WinRatioRace2CorrectedForExpectedWR()).RoundToInt().ToString() + "%" : "", stats.Race2Wins
+                                , stats.TotalGames);
                         }
 
                         if (this.racePlayer1 == stats.Race1)

@@ -144,5 +144,12 @@ namespace SCEloSystemGUI
 
             mapStatsForm.ShowDialog();
         }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var aboutBox = new AboutBox();
+
+            aboutBox.ShowDialog();
+        }
     }
 }

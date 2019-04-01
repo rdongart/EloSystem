@@ -576,7 +576,12 @@ namespace SCEloSystemGUI.UserControls
             else if (this.rdBtnEditNewMatchReport.Checked)
             {
                 this.editorMatch.Tournament = this.contextSelector.SelectedTournament;
-                this.editorMatch.SeasonIndex = this.contextSelector.SeasonSelector.SelectedIndex;
+
+                if (this.editorMatch.Tournament != null && this.contextSelector.SelectedSeason != null)
+                {
+                    this.editorMatch.SeasonIndex = this.editorMatch.Tournament.GetSeasons().IndexOf(this.contextSelector.SelectedSeason);
+                }
+                else { this.editorMatch.SeasonIndex = -1; }
 
                 // only if the date has changed will the match be given a new date value because exact time values are used to retain order in matches played on same date
                 if (this.editorMatch.DateValue.Date.CompareTo(this.dtpMatchDate.Value.Date) != 0) { this.editorMatch.DateValue = this.GetNextMatchDateValue(this.dtpMatchDate.Value); }
@@ -587,6 +592,12 @@ namespace SCEloSystemGUI.UserControls
                 this.editorMatch.SetGames(this.gameReports.Select(report => new GameEntryEditorItem(report)));
 
                 this.ReenterAnyChanges();
+
+                this.editorMatch = null;
+
+                this.oLstVRecentMatches.SelectedItems.Clear();
+
+                this.PrepareControlsForNextReport();
 
                 this.UpdateMatchReportability();
             }
@@ -678,6 +689,10 @@ namespace SCEloSystemGUI.UserControls
             this.btnEnterMatchReport.Text = "Keep &Changes";
 
             this.lbMatchReportHeader.Text = "Edit Match Report";
+
+            this.editorMatch = null;
+
+            this.oLstVRecentMatches.SelectedItems.Clear();
 
             this.oLstVRecentMatches.Cursor = Cursors.Hand;
 

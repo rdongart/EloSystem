@@ -3,7 +3,7 @@
 "VSVersion" = "3:800"
 "ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
 "IsWebType" = "8:FALSE"
-"ProjectName" = "8:SC Elo System Setup"
+"ProjectName" = "8:SC Elo"
 "LanguageId" = "3:1033"
 "CodePage" = "3:1252"
 "UILanguageId" = "3:1033"
@@ -118,18 +118,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_474286FA2028862F57E4D0EB8F1F055C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0C684A940DCB67335C706A21EEFD1F29"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_10C60CADE0BFC9A11FCECD45A47437D8"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -137,6 +125,18 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_2073C3D102CA9C826D11E4322B7C2E97"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_474286FA2028862F57E4D0EB8F1F055C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_0C684A940DCB67335C706A21EEFD1F29"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -209,7 +209,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\SC Elo System Setup.msi"
+        "OutputFilename" = "8:Release\\SC Elo Setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -640,9 +640,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:SC Elo System Setup"
+        "ProductName" = "8:SC Elo"
         "ProductCode" = "8:{084B983D-525E-4ADC-9C8E-817846D4D02B}"
-        "PackageCode" = "8:{07AE4994-722B-4342-AD62-2AF270FAB448}"
+        "PackageCode" = "8:{27C043FF-B267-41D3-A339-3B8454799DFD}"
         "UpgradeCode" = "8:{D1FB9BE6-603B-43BF-B74D-F621BD4DA670}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -764,30 +764,30 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_1DA2857A4D6F4624B9232266B271658F"
             {
-            "Name" = "8:SCEloSystemGUI (Active)"
+            "Name" = "8:SC Elo"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
+            "IconIndex" = "3:32512"
             "Transitive" = "11:FALSE"
             "Target" = "8:_9174DF7C58E841CEBD24056EACB259BC"
             "Folder" = "8:_979A4CDF420C4D6A85BC7BB1DF2EAC1E"
             "WorkingFolder" = "8:_1BB2E1D43A74499FA2D3BC639A41EA88"
-            "Icon" = "8:"
+            "Icon" = "8:_9174DF7C58E841CEBD24056EACB259BC"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E84204910D134AEDB1D45A7A0F2E4906"
             {
-            "Name" = "8:SCEloSystemGUI (Active)"
+            "Name" = "8:SC Elo"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
+            "IconIndex" = "3:32512"
             "Transitive" = "11:FALSE"
             "Target" = "8:_9174DF7C58E841CEBD24056EACB259BC"
             "Folder" = "8:_404B55A089CF4CC8AA31190E9214BA8C"
             "WorkingFolder" = "8:_1BB2E1D43A74499FA2D3BC639A41EA88"
-            "Icon" = "8:"
+            "Icon" = "8:_9174DF7C58E841CEBD24056EACB259BC"
             "Feature" = "8:"
             }
         }

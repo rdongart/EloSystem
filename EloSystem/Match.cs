@@ -101,7 +101,8 @@ namespace EloSystem
 
         internal bool IsMoreRecentThan(DateTime date, int dailyMatchIndex)
         {
-            return this.Date.CompareTo(date) > 0 || (this.Date.CompareTo(date) == 0 && (this.DailyIndex <= dailyMatchIndex && dailyMatchIndex != Match.DAILYINDEX_MOSTRECENT));
+            return this.Date.CompareTo(date) > 0 || (this.Date.CompareTo(date) == 0 && ((this.DailyIndex <= dailyMatchIndex && dailyMatchIndex != Match.DAILYINDEX_MOSTRECENT)
+                || dailyMatchIndex == Match.DAILYINDEX_MOSTRECENT));
         }
     }
 }

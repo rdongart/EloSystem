@@ -49,7 +49,7 @@ namespace SCEloSystemGUI
                 RowHeight = 42,
                 Scrollable = true,
                 ShowGroups = false,
-                Size = new Size(999, 700),
+                Size = new Size(1029, 700),
                 UseAlternatingBackColors = true,
                 UseCellFormatEvents = true,
             };
@@ -59,7 +59,7 @@ namespace SCEloSystemGUI
 
             var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null };
             var olvClmImage = new OLVColumn() { Width = 54, Text = "Map" };
-            var olvClmName = new OLVColumn() { Width = 125, Text = "Name" };
+            var olvClmName = new OLVColumn() { Width = 155, Text = "Name" };
             var olvClmSpots = new OLVColumn() { Width = 55, Text = "Spots" };
             var olvClmTvZ = new OLVColumn() { Width = WINRATIOS_WIDTH, Text = "TvZ" };
             var olvClmZvP = new OLVColumn() { Width = WINRATIOS_WIDTH, Text = "ZvP" };

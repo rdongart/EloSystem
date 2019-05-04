@@ -22,3 +22,20 @@ SC Elo System Setup/Release/SC Elo System Setup.msi
 SC Elo System Setup/Release/setup.exe
 SCEloSystemGUI/obj/Debug/SCElo.exe
 SCEloSystemGUI/obj/Release/SCElo.exe
+EloSystem/obj/Debug/EloSystem.pdb
+EloSystem/obj/Debug/EloSystem.csproj.FileListAbsolute.txt
+EloSystem/obj/Debug/EloSystem.csprojResolveAssemblyReference.cache
+EloSystem/obj/Debug/EloSystem.dll
+EloSystem/obj/Release/EloSystem.dll
+EloSystem/obj/Release/EloSystem.pdb
+EloSystemExtensions/obj/Debug/EloSystemExtensions.csprojResolveAssemblyReference.cache
+EloSystemExtensions/obj/Release/EloSystemExtensions.csprojResolveAssemblyReference.cache
+EloSystemExtensions/obj/Release/EloSystemExtensions.dll
+EloSystemExtensions/obj/Release/EloSystemExtensions.pdb
+SC Elo System Setup/Release/SC Elo Setup.msi
+SCEloSystemGUI/obj/Debug/SCElo.pdb
+SCEloSystemGUI/obj/Debug/SCEloSystemGUI.csproj.GenerateResource.Cache
+SCEloSystemGUI/obj/Debug/SCEloSystemGUI.csprojResolveAssemblyReference.cache
+SCEloSystemGUI/obj/Release/SCElo.pdb
+SCEloSystemGUI/obj/Release/SCEloSystemGUI.csproj.GenerateResource.Cache
+SCEloSystemGUI/obj/Release/SCEloSystemGUI.csprojResolveAssemblyReference.cache

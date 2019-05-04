@@ -512,15 +512,16 @@ namespace SCEloSystemGUI.UserControls
                     return status != GameReportStatus.Failure;
                 });
             }
-            else if (this.rdBtnEditNewMatchReport.Checked && this.editorMatch != null)
+            else if (this.rdBtnEditNewMatchReport.Checked)
             {
-                this.btnEnterMatchReport.Enabled = this.dtpMatchDate.Value.Date.CompareTo(this.editorMatch.DateValue.Date) != 0
+                this.btnEnterMatchReport.Enabled = this.editorMatch != null 
+                    && (this.dtpMatchDate.Value.Date.CompareTo(this.editorMatch.DateValue.Date) != 0
                     || this.contextSelector.SelectedTournament != this.editorMatch.Tournament
                     || this.contextSelector.SelectedSeason != this.editorMatch.Season
                     || this.ImgCmbBxPlayer1.SelectedValue != this.editorMatch.Player1
                     || this.ImgCmbBxPlayer2.SelectedValue != this.editorMatch.Player2
                     || this.gameReports.Count != this.editorMatch.GetGames().Count()
-                    || this.editorMatch.GetGames().Where((gameEditor, index) => gameEditor.IsDifferentFrom(this.gameReports[index])).Any();
+                    || this.editorMatch.GetGames().Where((gameEditor, index) => gameEditor.IsDifferentFrom(this.gameReports[index])).Any());
             }
         }
 

@@ -51,7 +51,7 @@
             this.tblLoPnlPlayerStats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 320F));
             this.tblLoPnlPlayerStats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tblLoPnlPlayerStats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLoPnlPlayerStats.Size = new System.Drawing.Size(772, 998);
+            this.tblLoPnlPlayerStats.Size = new System.Drawing.Size(837, 998);
             this.tblLoPnlPlayerStats.TabIndex = 0;
             // 
             // pnlFilters
@@ -63,30 +63,31 @@
             this.pnlFilters.Margin = new System.Windows.Forms.Padding(0);
             this.pnlFilters.Name = "pnlFilters";
             this.pnlFilters.Padding = new System.Windows.Forms.Padding(0, 0, 15, 0);
-            this.pnlFilters.Size = new System.Drawing.Size(772, 320);
+            this.pnlFilters.Size = new System.Drawing.Size(837, 320);
             this.pnlFilters.TabIndex = 1;
             // 
             // tblLoPnlFilters
             // 
             this.tblLoPnlFilters.AutoSize = true;
-            this.tblLoPnlFilters.ColumnCount = 2;
+            this.tblLoPnlFilters.ColumnCount = 3;
+            this.tblLoPnlFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 307F));
             this.tblLoPnlFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLoPnlFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tblLoPnlFilters.Controls.Add(this.btnApply, 1, 0);
+            this.tblLoPnlFilters.Controls.Add(this.btnApply, 2, 0);
             this.tblLoPnlFilters.Dock = System.Windows.Forms.DockStyle.Top;
             this.tblLoPnlFilters.Location = new System.Drawing.Point(0, 0);
             this.tblLoPnlFilters.Margin = new System.Windows.Forms.Padding(0);
             this.tblLoPnlFilters.Name = "tblLoPnlFilters";
             this.tblLoPnlFilters.RowCount = 1;
             this.tblLoPnlFilters.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLoPnlFilters.Size = new System.Drawing.Size(757, 42);
+            this.tblLoPnlFilters.Size = new System.Drawing.Size(822, 42);
             this.tblLoPnlFilters.TabIndex = 0;
             // 
             // btnApply
             // 
             this.btnApply.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnApply.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnApply.Location = new System.Drawing.Point(660, 3);
+            this.btnApply.Location = new System.Drawing.Point(725, 3);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(94, 36);
             this.btnApply.TabIndex = 0;
@@ -100,7 +101,7 @@
             this.btnToggleFilterVisibility.Location = new System.Drawing.Point(330, 322);
             this.btnToggleFilterVisibility.Margin = new System.Windows.Forms.Padding(330, 2, 330, 2);
             this.btnToggleFilterVisibility.Name = "btnToggleFilterVisibility";
-            this.btnToggleFilterVisibility.Size = new System.Drawing.Size(112, 22);
+            this.btnToggleFilterVisibility.Size = new System.Drawing.Size(177, 22);
             this.btnToggleFilterVisibility.TabIndex = 2;
             this.btnToggleFilterVisibility.Text = "Show filters";
             this.btnToggleFilterVisibility.UseVisualStyleBackColor = true;
@@ -110,7 +111,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 1022);
+            this.ClientSize = new System.Drawing.Size(849, 1022);
             this.Controls.Add(this.tblLoPnlPlayerStats);
             this.DoubleBuffered = true;
             this.Name = "PlayerStats";

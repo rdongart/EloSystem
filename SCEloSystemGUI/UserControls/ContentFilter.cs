@@ -16,6 +16,9 @@ namespace SCEloSystemGUI.UserControls
 
     public partial class ContentFilter<T> : UserControl, IPlayerFilter where T : EloSystemContent
     {
+        private const int IMAGE_SIZE_DEFAULT = 24;
+        private const int ROW_HEIGHT_DEFAULT = 22;
+
         private bool acceptNullApplied;
         private List<T> selectedContentApplied;
         private ObjectListView contentOLV;
@@ -23,6 +26,8 @@ namespace SCEloSystemGUI.UserControls
         private string columnHeader;
         private string header;
         public ContentGetter<T> ContentGetter { get; set; }
+        public int ImageDimensionMax { get; set; }
+        public int RowHeight { get; set; }
         public string Header
         {
             get
@@ -55,6 +60,9 @@ namespace SCEloSystemGUI.UserControls
         {
             InitializeComponent();
 
+            this.ImageDimensionMax = ContentFilter<T>.IMAGE_SIZE_DEFAULT;
+            this.RowHeight = ContentFilter<T>.ROW_HEIGHT_DEFAULT;
+
             this.selectedContentApplied = new List<T>();
 
             this.eloDataBase = databaseGetter;
@@ -68,11 +76,21 @@ namespace SCEloSystemGUI.UserControls
             this.SetBtnEnabledStatus();
         }
 
-        private static void ContentFilterOLV_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private static void ContentFilterOLV_CellClick(object sender, CellClickEventArgs e)
         {
-            e.Item.Checked = e.IsSelected;
+            e.Item.Checked = !e.Item.Checked;
         }
 
+        private static void ContentFilterOLV_SelectionChanged(object sender, EventArgs e)
+        {
+            var objList = sender as ObjectListView;
+
+            if (objList == null) { return; }
+
+            foreach (ListViewItem item in objList.Items) { item.Checked = item.Selected; }
+
+        }
+        
         private void ContentOLV_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             this.SetBtnEnabledStatus();
@@ -105,7 +123,7 @@ namespace SCEloSystemGUI.UserControls
                 HasCollapsibleGroups = false,
                 Margin = new Padding(3),
                 MultiSelect = true,
-                RowHeight = 24,
+                RowHeight = this.RowHeight,
                 Scrollable = true,
                 ShowGroups = false,
                 Size = new Size(186, 300),
@@ -113,9 +131,8 @@ namespace SCEloSystemGUI.UserControls
                 UseCellFormatEvents = false,
             };
 
-            contentFilterOLV.ItemSelectionChanged += ContentFilter<T>.ContentFilterOLV_ItemSelectionChanged;
-
-
+            contentFilterOLV.CellClick += ContentFilter<T>.ContentFilterOLV_CellClick;
+  
             const int CLM_CHECKBOX_WIDTH = 21;
             const int CLM_IMAGE_WIDTH = 40;
             const int CLM_NAME_WIDTH = 110;
@@ -127,16 +144,14 @@ namespace SCEloSystemGUI.UserControls
             contentFilterOLV.AllColumns.AddRange(new OLVColumn[] { olvClmCheckBox, olvClmImage, olvClmName });
 
             contentFilterOLV.Columns.AddRange(new ColumnHeader[] { olvClmCheckBox, olvClmImage, olvClmName });
-
-            const int IMAGE_SIZE_MAX = 24;
-
+            
             olvClmImage.AspectGetter = obj =>
             {
                 var content = obj as T;
 
                 EloImage image;
 
-                if (this.eloDataBase().TryGetImage(content.ImageID, out image)) { return new Image[] { image.Image.ResizeSameAspectRatio(IMAGE_SIZE_MAX) }; }
+                if (this.eloDataBase().TryGetImage(content.ImageID, out image)) { return new Image[] { image.Image.ResizeSameAspectRatio(this.ImageDimensionMax) }; }
                 else { return null; }
 
             };

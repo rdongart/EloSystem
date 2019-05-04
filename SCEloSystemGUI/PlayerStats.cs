@@ -25,6 +25,7 @@ namespace SCEloSystemGUI
 
         private List<IPlayerFilter> filters = new List<IPlayerFilter>();
         private ContentFilter<Country> countryFilter;
+        private ContentFilter<Team> teamFilter;
         private ObjectListView olvPlayerStats;
         private ResourceGetter eloDataBase;
 
@@ -40,19 +41,27 @@ namespace SCEloSystemGUI
 
             this.tblLoPnlPlayerStats.Controls.Add(this.olvPlayerStats, 0, 2);
 
-            this.countryFilter = new ContentFilter<Country>(this.eloDataBase) { Header = "Country filter", ColumnHeader = "Country" };
+            this.countryFilter = new ContentFilter<Country>(this.eloDataBase) { Header = "Country filter", ColumnHeader = "Country", Margin = new Padding(6) };
             this.countryFilter.ContentGetter = PlayerStats.GetCountry;
             this.countryFilter.SetItems(this.eloDataBase().GetCountries().OrderBy(country => country.Name));
             this.countryFilter.FilterChanged += this.OnFilterChanged;
-
             this.filters.Add(this.countryFilter);
             this.tblLoPnlFilters.Controls.Add(this.countryFilter, 0, 0);
+
+            this.teamFilter = new ContentFilter<Team>(this.eloDataBase) { Header = "Team filter", ColumnHeader = "Team", ImageDimensionMax = 21, Margin = new Padding(6) };
+            this.teamFilter.ContentGetter = PlayerStats.GetTeam;
+            this.teamFilter.SetItems(this.eloDataBase().GetTeams().OrderBy(team => team.Name));
+            this.teamFilter.FilterChanged += this.OnFilterChanged;
+            this.filters.Add(this.teamFilter);
+            this.tblLoPnlFilters.Controls.Add(this.teamFilter, 1, 0);
 
             this.SetPlayerList();
 
             this.SetbtnApllyEnabledStatus();
 
             this.eloDataBase().CountryPoolChanged += this.OnCountryPoolChanged;
+            this.eloDataBase().PlayerPoolChanged += this.OnPlayerPoolChanged;
+            this.eloDataBase().MatchPoolChanged += this.OnMatchPoolChanged;
 
             this.pnlFilters.Visible = false;
             this.tblLoPnlPlayerStats.RowStyles[PlayerStats.FILTERROW_INDEX].Height = 0;
@@ -63,9 +72,24 @@ namespace SCEloSystemGUI
             return player.Country;
         }
 
+        private static Team GetTeam(SCPlayer player)
+        {
+            return player.Team;
+        }
+
         private void OnCountryPoolChanged(object sender, EventArgs e)
         {
             this.countryFilter.SetItems(this.eloDataBase().GetCountries().OrderBy(country => country.Name));
+        }
+
+        private void OnPlayerPoolChanged(object sender, EventArgs e)
+        {
+            this.SetPlayerList();
+        }
+
+        private void OnMatchPoolChanged(object sender, EventArgs e)
+        {
+            this.SetPlayerList();
         }
 
         private void OnFilterChanged(object sender, EventArgs e)
@@ -88,9 +112,10 @@ namespace SCEloSystemGUI
                 RowHeight = 26,
                 Scrollable = true,
                 ShowGroups = false,
-                Size = new Size(725, 900),
+                Size = new Size(790, 900),
                 UseAlternatingBackColors = true,
                 UseCellFormatEvents = true,
+                FullRowSelect = true
             };
 
             playerStatsLV.FormatCell += PlayerStats.PlayerStats_FormatCell;
@@ -98,7 +123,8 @@ namespace SCEloSystemGUI
             var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null };
             var olvClmRank = new OLVColumn() { Width = 50, Text = "Rank" };
             var olvClmName = new OLVColumn() { Width = 130, Text = "Name" };
-            var olvClmCountry = new OLVColumn() { Width = 60, Text = "Country" };
+            var olvClmCountry = new OLVColumn() { Width = 65, Text = "Country" };
+            var olvClmTeam = new OLVColumn() { Width = 60, Text = "Team" };
             var olvClmMainRace = new OLVColumn() { Width = 50, Text = "Race" };
             var olvClmRatingMain = new OLVColumn() { Width = 70, Text = "Rating - main" };
             var olvClmRatingDevelopment = new OLVColumn() { Width = 70, Text = "Development" };
@@ -107,13 +133,13 @@ namespace SCEloSystemGUI
             var olvClmRatingVsProtoss = new OLVColumn() { Width = 70, Text = "Vs Protoss" };
             var olvClmRatingVsRandom = new OLVColumn() { Width = 70, Text = "Vs Random" };
 
-            playerStatsLV.AllColumns.AddRange(new OLVColumn[] { olvClmEmpty, olvClmRank, olvClmName, olvClmCountry, olvClmMainRace, olvClmRatingMain, olvClmRatingDevelopment, olvClmRatingVsZerg
+            playerStatsLV.AllColumns.AddRange(new OLVColumn[] { olvClmEmpty, olvClmRank, olvClmName, olvClmCountry, olvClmTeam, olvClmMainRace, olvClmRatingMain, olvClmRatingDevelopment, olvClmRatingVsZerg
                 , olvClmRatingVsTerran, olvClmRatingVsProtoss, olvClmRatingVsRandom });
 
-            playerStatsLV.Columns.AddRange(new ColumnHeader[] { olvClmEmpty, olvClmRank, olvClmName, olvClmCountry, olvClmMainRace, olvClmRatingMain, olvClmRatingDevelopment, olvClmRatingVsZerg
+            playerStatsLV.Columns.AddRange(new ColumnHeader[] { olvClmEmpty, olvClmRank, olvClmName, olvClmCountry, olvClmTeam, olvClmMainRace, olvClmRatingMain, olvClmRatingDevelopment, olvClmRatingVsZerg
                 , olvClmRatingVsTerran, olvClmRatingVsProtoss, olvClmRatingVsRandom });
 
-            foreach (OLVColumn clm in new OLVColumn[] { olvClmCountry, olvClmMainRace, olvClmRatingMain, olvClmRatingDevelopment, olvClmRatingVsZerg, olvClmRatingVsTerran, olvClmRatingVsProtoss
+            foreach (OLVColumn clm in new OLVColumn[] { olvClmCountry, olvClmTeam, olvClmMainRace, olvClmRatingMain, olvClmRatingDevelopment, olvClmRatingVsZerg, olvClmRatingVsTerran, olvClmRatingVsProtoss
                 , olvClmRatingVsRandom })
             {
                 clm.HeaderTextAlign = HorizontalAlignment.Center;
@@ -134,7 +160,7 @@ namespace SCEloSystemGUI
                 return player.Name;
             };
 
-            const int IMAGE_SIZE_MAX = 28;
+            const int STANDARD_IMAGE_SIZE_MAX = 28;
 
             olvClmCountry.AspectGetter = obj =>
             {
@@ -142,13 +168,28 @@ namespace SCEloSystemGUI
 
                 EloImage flag;
 
-                if (player.Country != null && this.eloDataBase().TryGetImage(player.Country.ImageID, out flag)) { return new Image[] { flag.Image.ResizeSameAspectRatio(IMAGE_SIZE_MAX) }; }
+                if (player.Country != null && this.eloDataBase().TryGetImage(player.Country.ImageID, out flag)) { return new Image[] { flag.Image.ResizeSameAspectRatio(STANDARD_IMAGE_SIZE_MAX) }; }
+                else if (player.Country != null) { return player.Country.Name; }
                 else { return null; }
 
             };
 
-            var flagRenderer = new ImageRenderer() { Bounds = new Rectangle(4, 2, 4, 4) };
-            olvClmCountry.Renderer = flagRenderer;
+            const int TEAM_LOGO_SIZE_MAX = 23;
+
+            olvClmTeam.AspectGetter = obj =>
+            {
+                var player = (obj as Tuple<SCPlayer, int>).Item1;
+
+                EloImage teamLogo;
+
+                if (player.Team != null && this.eloDataBase().TryGetImage(player.Team.ImageID, out teamLogo)) { return new Image[] { teamLogo.Image.ResizeSameAspectRatio(TEAM_LOGO_SIZE_MAX) }; }
+                else { return player.TeamName; }
+
+            };
+
+            var imgRenderer = new ImageRenderer() { Bounds = new Rectangle(4, 2, 4, 4) };
+            olvClmCountry.Renderer = imgRenderer;
+            olvClmTeam.Renderer = imgRenderer;
 
             olvClmMainRace.AspectGetter = obj =>
             {
@@ -160,10 +201,10 @@ namespace SCEloSystemGUI
 
                     switch (primaryRace)
                     {
-                        case Race.Zerg: return new Image[] { Resources.Zicon.ResizeSameAspectRatio(IMAGE_SIZE_MAX) };
-                        case Race.Terran: return new Image[] { Resources.Ticon.ResizeSameAspectRatio(IMAGE_SIZE_MAX) };
-                        case Race.Protoss: return new Image[] { Resources.Picon.ResizeSameAspectRatio(IMAGE_SIZE_MAX) };
-                        case Race.Random: return new Image[] { Resources.Ricon.ResizeSameAspectRatio(IMAGE_SIZE_MAX) };
+                        case Race.Zerg: return new Image[] { Resources.Zicon.ResizeSameAspectRatio(STANDARD_IMAGE_SIZE_MAX) };
+                        case Race.Terran: return new Image[] { Resources.Ticon.ResizeSameAspectRatio(STANDARD_IMAGE_SIZE_MAX) };
+                        case Race.Protoss: return new Image[] { Resources.Picon.ResizeSameAspectRatio(STANDARD_IMAGE_SIZE_MAX) };
+                        case Race.Random: return new Image[] { Resources.Ricon.ResizeSameAspectRatio(STANDARD_IMAGE_SIZE_MAX) };
                         default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Race).Name, primaryRace.ToString()));
                     }
                 }
@@ -236,9 +277,9 @@ namespace SCEloSystemGUI
 
         private static void PlayerStats_FormatCell(object sender, FormatCellEventArgs e)
         {
-            if (e.ColumnIndex == 5) { e.SubItem.Font = new Font("Calibri", PlayerStats.TEXT_SIZE, FontStyle.Bold, GraphicsUnit.Point, ((byte)(0))); }
+            if (e.ColumnIndex == 6) { e.SubItem.Font = new Font("Calibri", PlayerStats.TEXT_SIZE, FontStyle.Bold, GraphicsUnit.Point, ((byte)(0))); }
 
-            if (e.ColumnIndex == 6)
+            if (e.ColumnIndex == 7)
             {
                 e.SubItem.Font = new Font("Calibri", PlayerStats.TEXT_SIZE, FontStyle.Bold, GraphicsUnit.Point, ((byte)(0)));
 

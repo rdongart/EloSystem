@@ -80,7 +80,7 @@ namespace EloSystem
 
             internal int GetMapIDNext() { return this.mapIDNext++; }
 
-            internal int GetTeamSetIDNext() { return this.teamSetIDNext++; }
+            internal int GetTeamIDNext() { return this.teamSetIDNext++; }
 
             internal int GetTileSetIDNext() { return this.tileSetIDNext++; }
 

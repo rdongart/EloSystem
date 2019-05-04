@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackwardCompatibilityFix.cs" />
     <Compile Include="EloExtensionMethods.cs" />
     <Compile Include="GameCount.cs" />
     <Compile Include="HasNameContent.cs" />

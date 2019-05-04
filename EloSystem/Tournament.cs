@@ -9,6 +9,9 @@ namespace EloSystem
     public class Tournament : EloSystemContent, IHasDblName, ISerializable
     {
         private List<Season> seasons;
+        /// <summary>
+        /// A season used when a match was entered without any season information.
+        /// </summary>
         internal Season DefaultSeason
         {
             get
@@ -83,7 +86,7 @@ namespace EloSystem
 
         public IEnumerable<Season> GetSeasons()
         {
-            foreach (Season season in this.seasons.Skip(1)) { yield return season; }
+            foreach (Season season in this.seasons.Where(s => !s.Equals(this.DefaultSeason))) { yield return season; }
         }
     }
 }

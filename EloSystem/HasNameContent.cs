@@ -6,7 +6,7 @@ namespace EloSystem
     [Serializable]
     public abstract class HasNameContent : IHasName, ISerializable
     {
-        public int ID { get; private set; }
+        public int ID { get; internal set; }
         public string Name { get; set; }
 
         internal HasNameContent(string name, int id)

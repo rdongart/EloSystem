@@ -35,6 +35,9 @@ namespace EloSystem
         private List<Team> teams;
         private List<Tileset> tileSets;
         private List<Tournament> tournaments;
+        /// <summary>
+        /// A tournament used when a match was entered without any tournament information.
+        /// </summary>
         private Tournament defaultTournament
         {
             get
@@ -747,7 +750,7 @@ namespace EloSystem
 
         public IEnumerable<Tournament> GetTournaments()
         {
-            foreach (Tournament tournamet in this.tournaments.Skip(1).ToList()) { yield return tournamet; }
+            foreach (Tournament tournamet in this.tournaments.Where(t => !t.Equals(this.defaultTournament)).ToList()) { yield return tournamet; }
         }
 
         public bool TryGetImage(int imageID, out EloImage eloImg)

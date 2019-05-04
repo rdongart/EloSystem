@@ -13,7 +13,7 @@ namespace EloSystem
             private int mapIDNext = 1;
             private int playerIDNext = 1;
             private int seasonIDNext = 1;
-            private int teamSetIDNext = 1;
+            private int teamIDNext = 1;
             private int tileSetIDNext = 1;
             private int tournamentIDNext = 1;
 
@@ -39,7 +39,7 @@ namespace EloSystem
                 info.AddValue(Field.mapIDNext.ToString(), (int)this.mapIDNext);
                 info.AddValue(Field.playerIDNext.ToString(), (int)this.playerIDNext);
                 info.AddValue(Field.seasonIDNext.ToString(), (int)this.seasonIDNext);
-                info.AddValue(Field.teamSetIDNext.ToString(), (int)this.teamSetIDNext);
+                info.AddValue(Field.teamSetIDNext.ToString(), (int)this.teamIDNext);
                 info.AddValue(Field.tileSetIDNext.ToString(), (int)this.tileSetIDNext);
                 info.AddValue(Field.tournamentIDNext.ToString(), (int)this.tournamentIDNext);
             }
@@ -57,7 +57,7 @@ namespace EloSystem
                             case Field.mapIDNext: this.mapIDNext = (int)info.GetInt32(field.ToString()); break;
                             case Field.playerIDNext: this.playerIDNext = (int)info.GetInt32(field.ToString()); break;
                             case Field.seasonIDNext: this.seasonIDNext = (int)info.GetInt32(field.ToString()); break;
-                            case Field.teamSetIDNext: this.teamSetIDNext = (int)info.GetInt32(field.ToString()); break;
+                            case Field.teamSetIDNext: this.teamIDNext = (int)info.GetInt32(field.ToString()); break;
                             case Field.tileSetIDNext: this.tileSetIDNext = (int)info.GetInt32(field.ToString()); break;
                             case Field.tournamentIDNext: this.tournamentIDNext = (int)info.GetInt32(field.ToString()); break;
                         }
@@ -80,7 +80,7 @@ namespace EloSystem
 
             internal int GetMapIDNext() { return this.mapIDNext++; }
 
-            internal int GetTeamSetIDNext() { return this.teamSetIDNext++; }
+            internal int GetTeamIDNext() { return this.teamIDNext++; }
 
             internal int GetTileSetIDNext() { return this.tileSetIDNext++; }
 

@@ -39,3 +39,5 @@ SCEloSystemGUI/obj/Debug/SCEloSystemGUI.csprojResolveAssemblyReference.cache
 SCEloSystemGUI/obj/Release/SCElo.pdb
 SCEloSystemGUI/obj/Release/SCEloSystemGUI.csproj.GenerateResource.Cache
 SCEloSystemGUI/obj/Release/SCEloSystemGUI.csprojResolveAssemblyReference.cache
+EloSystemExtensions/obj/
+SCEloSystemGUI/obj/

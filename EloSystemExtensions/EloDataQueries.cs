@@ -19,9 +19,10 @@ namespace EloSystemExtensions
         {
             const string CASEINSENSITIVE_PATTERN = @"(?i)";
             const string ANYCHAR_PATTERN = @".";
+            const int INPUT_LENGTH_FULL_MATCH_THRESHOLD = 2;
 
             if (searchInput == "") { return ed.GetPlayers(); }
-            else if (searchInput.Length == 1) { return ed.SearchPlayers(new Regex(CASEINSENSITIVE_PATTERN + searchInput)); }
+            else if (searchInput.Length <= INPUT_LENGTH_FULL_MATCH_THRESHOLD) { return ed.SearchPlayers(new Regex(CASEINSENSITIVE_PATTERN + searchInput)); }
             else { return ed.SearchPlayers(Enumerable.Range(0, searchInput.Length - 1).Select(index => new Regex(CASEINSENSITIVE_PATTERN + searchInput.Replace(index, ANYCHAR_PATTERN)))); }
         }
 

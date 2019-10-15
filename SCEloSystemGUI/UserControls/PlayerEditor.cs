@@ -329,6 +329,10 @@ namespace SCEloSystemGUI.UserControls
                     this.lbFileName.Text = string.Empty;
 
                     this.OnEditButtonClick.Invoke(sender, new EventArgs());
+
+                    this.ClearNewImage();
+
+                    this.MakeEditable(playerToEdit);
                 }
 
                 this.SetbtnAddRemoveEnabledStatus();
@@ -337,12 +341,7 @@ namespace SCEloSystemGUI.UserControls
 
         private void ClearFields()
         {
-            if (this.NewImage != null)
-            {
-                this.NewImage.Dispose();
-                this.NewImage = null;
-            }
-
+            this.ClearNewImage();
             this.lbFileName.Text = string.Empty;
 
             this.txtBxIRLName.Text = string.Empty;
@@ -360,6 +359,15 @@ namespace SCEloSystemGUI.UserControls
             this.btnRemoveAlias.Enabled = false;
             this.chkBxShowDateTimeAdder.Checked = false;
             this.dateTimePickerBirthDate.Value = DateTime.Today.AddYears(-PlayerEditor.DEFAULT_PLAYERAGE);
+        }
+
+        private void ClearNewImage()
+        {
+            if (this.NewImage != null)
+            {
+                this.NewImage.Dispose();
+                this.NewImage = null;
+            }
         }
 
         public IEnumerable<string> GetAliases()
@@ -404,8 +412,13 @@ namespace SCEloSystemGUI.UserControls
             {
                 this.tblLoPnlCurrentImage.Enabled = true;
                 this.picBxCurrentImage.Image = portrait.Image;
+                this.chckBxRemoveCurrentImage.Enabled = true;
             }
-            else { this.tblLoPnlCurrentImage.Enabled = false; }
+            else
+            {
+                this.tblLoPnlCurrentImage.Enabled = false;
+                this.chckBxRemoveCurrentImage.Enabled = false;
+            }
 
             this.txtBxName.Text = player.Name;
             this.txtBxIRLName.Text = player.IRLName;
@@ -523,7 +536,7 @@ namespace SCEloSystemGUI.UserControls
                 this.numUDStartRating.Enabled = false;
                 this.btnAddEdit.Enabled = false;
 
-                this.btnAddEdit.Text = "Save changes";
+                this.btnAddEdit.Text = "Keep edit";
             }
         }
 

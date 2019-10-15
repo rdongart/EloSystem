@@ -91,7 +91,7 @@
             this.tblLOPnlPlayerEditor.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tblLOPnlPlayerEditor.ColumnCount = 7;
             this.tblLOPnlPlayerEditor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 125F));
-            this.tblLOPnlPlayerEditor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 420F));
+            this.tblLOPnlPlayerEditor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 500F));
             this.tblLOPnlPlayerEditor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tblLOPnlPlayerEditor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 125F));
             this.tblLOPnlPlayerEditor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 240F));
@@ -137,7 +137,7 @@
             this.tblLOPnlPlayerEditor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tblLOPnlPlayerEditor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tblLOPnlPlayerEditor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlPlayerEditor.Size = new System.Drawing.Size(950, 490);
+            this.tblLOPnlPlayerEditor.Size = new System.Drawing.Size(1030, 490);
             this.tblLOPnlPlayerEditor.TabIndex = 0;
             // 
             // tblLoPnlCurrentImage
@@ -148,7 +148,7 @@
             this.tblLoPnlCurrentImage.Controls.Add(this.picBxCurrentImage, 0, 0);
             this.tblLoPnlCurrentImage.Controls.Add(this.chckBxRemoveCurrentImage, 1, 0);
             this.tblLoPnlCurrentImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblLoPnlCurrentImage.Location = new System.Drawing.Point(693, 243);
+            this.tblLoPnlCurrentImage.Location = new System.Drawing.Point(773, 243);
             this.tblLoPnlCurrentImage.Name = "tblLoPnlCurrentImage";
             this.tblLoPnlCurrentImage.RowCount = 1;
             this.tblLoPnlCurrentImage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -186,7 +186,7 @@
             // 
             this.txtBxName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBxName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBxName.Location = new System.Drawing.Point(696, 33);
+            this.txtBxName.Location = new System.Drawing.Point(776, 33);
             this.txtBxName.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             this.txtBxName.Name = "txtBxName";
             this.txtBxName.Size = new System.Drawing.Size(228, 23);
@@ -201,7 +201,7 @@
             this.lbHeading.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbHeading.Location = new System.Drawing.Point(3, 0);
             this.lbHeading.Name = "lbHeading";
-            this.lbHeading.Size = new System.Drawing.Size(924, 30);
+            this.lbHeading.Size = new System.Drawing.Size(1004, 30);
             this.lbHeading.TabIndex = 18;
             this.lbHeading.Text = "[missing]";
             this.lbHeading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -210,7 +210,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(568, 30);
+            this.label1.Location = new System.Drawing.Point(648, 30);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(48, 18);
             this.label1.TabIndex = 19;
@@ -226,7 +226,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Controls.Add(this.label2, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnBrowse, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(565, 300);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(645, 300);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
@@ -264,7 +264,7 @@
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(568, 120);
+            this.label3.Location = new System.Drawing.Point(648, 120);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(119, 120);
             this.label3.TabIndex = 22;
@@ -276,7 +276,7 @@
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(568, 330);
+            this.label4.Location = new System.Drawing.Point(648, 330);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(119, 30);
             this.label4.TabIndex = 24;
@@ -288,7 +288,7 @@
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(568, 360);
+            this.label5.Location = new System.Drawing.Point(648, 360);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(119, 30);
             this.label5.TabIndex = 25;
@@ -300,7 +300,7 @@
             this.label6.AutoSize = true;
             this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(568, 390);
+            this.label6.Location = new System.Drawing.Point(648, 390);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(119, 30);
             this.label6.TabIndex = 26;
@@ -317,7 +317,7 @@
             this.tblLoPnlAliases.Controls.Add(this.btnRemoveAlias, 1, 0);
             this.tblLoPnlAliases.Controls.Add(this.lstViewAliases, 0, 0);
             this.tblLoPnlAliases.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblLoPnlAliases.Location = new System.Drawing.Point(693, 123);
+            this.tblLoPnlAliases.Location = new System.Drawing.Point(773, 123);
             this.tblLoPnlAliases.Name = "tblLoPnlAliases";
             this.tblLoPnlAliases.RowCount = 2;
             this.tblLoPnlAliases.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -395,7 +395,7 @@
             // 
             this.numUDStartRating.Dock = System.Windows.Forms.DockStyle.Fill;
             this.numUDStartRating.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numUDStartRating.Location = new System.Drawing.Point(696, 393);
+            this.numUDStartRating.Location = new System.Drawing.Point(776, 393);
             this.numUDStartRating.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             this.numUDStartRating.Name = "numUDStartRating";
             this.numUDStartRating.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -412,7 +412,7 @@
             this.tblLoPnlImage.Controls.Add(this.lbFileName, 0, 0);
             this.tblLoPnlImage.Controls.Add(this.btnRemoveImage, 1, 0);
             this.tblLoPnlImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblLoPnlImage.Location = new System.Drawing.Point(693, 303);
+            this.tblLoPnlImage.Location = new System.Drawing.Point(773, 303);
             this.tblLoPnlImage.Name = "tblLoPnlImage";
             this.tblLoPnlImage.RowCount = 1;
             this.tblLoPnlImage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -452,7 +452,7 @@
             // 
             this.txtBxIRLName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBxIRLName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBxIRLName.Location = new System.Drawing.Point(696, 63);
+            this.txtBxIRLName.Location = new System.Drawing.Point(776, 63);
             this.txtBxIRLName.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             this.txtBxIRLName.Name = "txtBxIRLName";
             this.txtBxIRLName.Size = new System.Drawing.Size(228, 23);
@@ -464,7 +464,7 @@
             this.label7.AutoSize = true;
             this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(568, 60);
+            this.label7.Location = new System.Drawing.Point(648, 60);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(119, 30);
             this.label7.TabIndex = 20;
@@ -476,7 +476,7 @@
             this.label8.AutoSize = true;
             this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(568, 90);
+            this.label8.Location = new System.Drawing.Point(648, 90);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(119, 30);
             this.label8.TabIndex = 21;
@@ -491,7 +491,7 @@
             this.tblLoPnlBirthDate.Controls.Add(this.chkBxShowDateTimeAdder, 0, 0);
             this.tblLoPnlBirthDate.Controls.Add(this.dateTimePickerBirthDate, 1, 0);
             this.tblLoPnlBirthDate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblLoPnlBirthDate.Location = new System.Drawing.Point(696, 93);
+            this.tblLoPnlBirthDate.Location = new System.Drawing.Point(776, 93);
             this.tblLoPnlBirthDate.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             this.tblLoPnlBirthDate.Name = "tblLoPnlBirthDate";
             this.tblLoPnlBirthDate.RowCount = 1;
@@ -534,7 +534,7 @@
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(420, 30);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(500, 30);
             this.tableLayoutPanel5.TabIndex = 27;
             // 
             // txtBxFilter
@@ -545,7 +545,7 @@
             this.txtBxFilter.Location = new System.Drawing.Point(6, 3);
             this.txtBxFilter.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             this.txtBxFilter.Name = "txtBxFilter";
-            this.txtBxFilter.Size = new System.Drawing.Size(374, 23);
+            this.txtBxFilter.Size = new System.Drawing.Size(454, 23);
             this.txtBxFilter.TabIndex = 1;
             this.txtBxFilter.TextChanged += new System.EventHandler(this.txtBxName_TextChanged);
             this.txtBxFilter.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBxFilter_KeyDown);
@@ -557,7 +557,7 @@
             this.btnSearch.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnSearch.Enabled = false;
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Location = new System.Drawing.Point(389, 3);
+            this.btnSearch.Location = new System.Drawing.Point(469, 3);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(28, 24);
             this.btnSearch.TabIndex = 10;
@@ -601,7 +601,7 @@
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 1;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(420, 30);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(500, 30);
             this.tableLayoutPanel6.TabIndex = 28;
             // 
             // rdBtnAddNew
@@ -612,7 +612,7 @@
             this.rdBtnAddNew.Location = new System.Drawing.Point(6, 3);
             this.rdBtnAddNew.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             this.rdBtnAddNew.Name = "rdBtnAddNew";
-            this.rdBtnAddNew.Size = new System.Drawing.Size(198, 24);
+            this.rdBtnAddNew.Size = new System.Drawing.Size(238, 24);
             this.rdBtnAddNew.TabIndex = 0;
             this.rdBtnAddNew.TabStop = true;
             this.rdBtnAddNew.Text = "Add new";
@@ -624,10 +624,10 @@
             this.rdBtnEdit.AutoSize = true;
             this.rdBtnEdit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rdBtnEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdBtnEdit.Location = new System.Drawing.Point(216, 3);
+            this.rdBtnEdit.Location = new System.Drawing.Point(256, 3);
             this.rdBtnEdit.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             this.rdBtnEdit.Name = "rdBtnEdit";
-            this.rdBtnEdit.Size = new System.Drawing.Size(198, 24);
+            this.rdBtnEdit.Size = new System.Drawing.Size(238, 24);
             this.rdBtnEdit.TabIndex = 0;
             this.rdBtnEdit.TabStop = true;
             this.rdBtnEdit.Text = "Edit";
@@ -652,7 +652,7 @@
             this.lbCurrentImage.AutoSize = true;
             this.lbCurrentImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbCurrentImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbCurrentImage.Location = new System.Drawing.Point(568, 240);
+            this.lbCurrentImage.Location = new System.Drawing.Point(648, 240);
             this.lbCurrentImage.Name = "lbCurrentImage";
             this.lbCurrentImage.Size = new System.Drawing.Size(119, 60);
             this.lbCurrentImage.TabIndex = 24;
@@ -667,7 +667,7 @@
             this.tableLayoutPanel1.Controls.Add(this.btnAddEdit, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnRemovePlayer, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(690, 420);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(770, 420);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(4);
@@ -714,7 +714,7 @@
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.tblLOPnlPlayerEditor);
             this.Name = "PlayerEditor";
-            this.Size = new System.Drawing.Size(950, 490);
+            this.Size = new System.Drawing.Size(1030, 490);
             this.tblLOPnlPlayerEditor.ResumeLayout(false);
             this.tblLOPnlPlayerEditor.PerformLayout();
             this.tblLoPnlCurrentImage.ResumeLayout(false);

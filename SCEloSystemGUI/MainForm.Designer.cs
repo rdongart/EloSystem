@@ -74,7 +74,7 @@
             this.menuStripMainForm.Location = new System.Drawing.Point(0, 0);
             this.menuStripMainForm.Margin = new System.Windows.Forms.Padding(0, 0, 0, 16);
             this.menuStripMainForm.Name = "menuStripMainForm";
-            this.menuStripMainForm.Size = new System.Drawing.Size(1854, 24);
+            this.menuStripMainForm.Size = new System.Drawing.Size(1892, 24);
             this.menuStripMainForm.TabIndex = 0;
             this.menuStripMainForm.Text = "Menu";
             // 
@@ -199,19 +199,22 @@
             this.tabControlMain.Controls.Add(this.tabPageAddTeam);
             this.tabControlMain.Controls.Add(this.tabPageAddPlayer);
             this.tabControlMain.Controls.Add(this.tabPageEditTournaments);
-            this.tabControlMain.Location = new System.Drawing.Point(12, 36);
+            this.tabControlMain.Location = new System.Drawing.Point(10, 36);
             this.tabControlMain.Margin = new System.Windows.Forms.Padding(12, 16, 12, 16);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(1820, 950);
+            this.tabControlMain.Size = new System.Drawing.Size(1866, 950);
             this.tabControlMain.TabIndex = 1;
             // 
             // tabPageReportMatch
             // 
+            this.tabPageReportMatch.AutoScroll = true;
+            this.tabPageReportMatch.AutoScrollMargin = new System.Drawing.Size(3, 3);
+            this.tabPageReportMatch.AutoScrollMinSize = new System.Drawing.Size(0, -20);
             this.tabPageReportMatch.Location = new System.Drawing.Point(4, 22);
             this.tabPageReportMatch.Name = "tabPageReportMatch";
             this.tabPageReportMatch.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageReportMatch.Size = new System.Drawing.Size(1812, 924);
+            this.tabPageReportMatch.Size = new System.Drawing.Size(1858, 924);
             this.tabPageReportMatch.TabIndex = 0;
             this.tabPageReportMatch.Text = "Report Match";
             this.tabPageReportMatch.UseVisualStyleBackColor = true;
@@ -354,10 +357,9 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1854, 997);
+            this.ClientSize = new System.Drawing.Size(1892, 997);
             this.Controls.Add(this.tabControlMain);
             this.Controls.Add(this.menuStripMainForm);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

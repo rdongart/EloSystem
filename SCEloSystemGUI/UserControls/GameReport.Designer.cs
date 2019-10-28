@@ -57,11 +57,11 @@
             this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 115F));
             this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 105F));
             this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
-            this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
-            this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 170F));
-            this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
-            this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 65F));
+            this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 254F));
+            this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 65F));
             this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
             this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 105F));
             this.tblLOPnlGameReport.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -86,7 +86,7 @@
             this.tblLOPnlGameReport.RowCount = 2;
             this.tblLOPnlGameReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tblLOPnlGameReport.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
-            this.tblLOPnlGameReport.Size = new System.Drawing.Size(935, 88);
+            this.tblLOPnlGameReport.Size = new System.Drawing.Size(1040, 88);
             this.tblLOPnlGameReport.TabIndex = 0;
             // 
             // lbGameHeader
@@ -125,7 +125,7 @@
             this.lbEWRPlayer1.Location = new System.Drawing.Point(308, 3);
             this.lbEWRPlayer1.Margin = new System.Windows.Forms.Padding(3);
             this.lbEWRPlayer1.Name = "lbEWRPlayer1";
-            this.lbEWRPlayer1.Size = new System.Drawing.Size(54, 17);
+            this.lbEWRPlayer1.Size = new System.Drawing.Size(59, 17);
             this.lbEWRPlayer1.TabIndex = 4;
             this.lbEWRPlayer1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -135,10 +135,10 @@
             this.lbMapWRPlayer1Race.AutoSize = true;
             this.lbMapWRPlayer1Race.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbMapWRPlayer1Race.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbMapWRPlayer1Race.Location = new System.Drawing.Point(368, 3);
+            this.lbMapWRPlayer1Race.Location = new System.Drawing.Point(373, 3);
             this.lbMapWRPlayer1Race.Margin = new System.Windows.Forms.Padding(3);
             this.lbMapWRPlayer1Race.Name = "lbMapWRPlayer1Race";
-            this.lbMapWRPlayer1Race.Size = new System.Drawing.Size(69, 34);
+            this.lbMapWRPlayer1Race.Size = new System.Drawing.Size(74, 34);
             this.lbMapWRPlayer1Race.TabIndex = 4;
             this.lbMapWRPlayer1Race.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTipGameReport.SetToolTip(this.lbMapWRPlayer1Race, " Player 1 Race Corrected WR on this map");
@@ -160,9 +160,9 @@
             this.cmbBxMap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBxMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbBxMap.FormattingEnabled = true;
-            this.cmbBxMap.Location = new System.Drawing.Point(443, 3);
+            this.cmbBxMap.Location = new System.Drawing.Point(453, 3);
             this.cmbBxMap.Name = "cmbBxMap";
-            this.cmbBxMap.Size = new System.Drawing.Size(164, 23);
+            this.cmbBxMap.Size = new System.Drawing.Size(248, 23);
             this.cmbBxMap.TabIndex = 5;
             this.cmbBxMap.SelectedIndexChanged += new System.EventHandler(this.cmbBxMap_SelectedIndexChanged);
             // 
@@ -170,7 +170,7 @@
             // 
             this.btnRemoveGame.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnRemoveGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveGame.Location = new System.Drawing.Point(836, 52);
+            this.btnRemoveGame.Location = new System.Drawing.Point(940, 52);
             this.btnRemoveGame.Margin = new System.Windows.Forms.Padding(6, 12, 6, 12);
             this.btnRemoveGame.Name = "btnRemoveGame";
             this.btnRemoveGame.Size = new System.Drawing.Size(93, 24);
@@ -202,7 +202,7 @@
             this.lbPl2Win.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPl2Win.Font = new System.Drawing.Font("Elephant", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPl2Win.ForeColor = System.Drawing.Color.ForestGreen;
-            this.lbPl2Win.Location = new System.Drawing.Point(748, 43);
+            this.lbPl2Win.Location = new System.Drawing.Point(852, 43);
             this.lbPl2Win.Margin = new System.Windows.Forms.Padding(3);
             this.lbPl2Win.Name = "lbPl2Win";
             this.lbPl2Win.Size = new System.Drawing.Size(79, 42);
@@ -216,7 +216,7 @@
             this.cmbBxPlayer2Race.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBxPlayer2Race.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbBxPlayer2Race.FormattingEnabled = true;
-            this.cmbBxPlayer2Race.Location = new System.Drawing.Point(833, 3);
+            this.cmbBxPlayer2Race.Location = new System.Drawing.Point(937, 3);
             this.cmbBxPlayer2Race.Margin = new System.Windows.Forms.Padding(3, 3, 5, 3);
             this.cmbBxPlayer2Race.Name = "cmbBxPlayer2Race";
             this.cmbBxPlayer2Race.Size = new System.Drawing.Size(97, 23);
@@ -228,10 +228,10 @@
             this.lbEWRPlayer2.AutoSize = true;
             this.lbEWRPlayer2.Dock = System.Windows.Forms.DockStyle.Top;
             this.lbEWRPlayer2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbEWRPlayer2.Location = new System.Drawing.Point(688, 3);
+            this.lbEWRPlayer2.Location = new System.Drawing.Point(787, 3);
             this.lbEWRPlayer2.Margin = new System.Windows.Forms.Padding(3);
             this.lbEWRPlayer2.Name = "lbEWRPlayer2";
-            this.lbEWRPlayer2.Size = new System.Drawing.Size(54, 17);
+            this.lbEWRPlayer2.Size = new System.Drawing.Size(59, 17);
             this.lbEWRPlayer2.TabIndex = 4;
             this.lbEWRPlayer2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -241,10 +241,10 @@
             this.lbMapWRPlayer2Race.AutoSize = true;
             this.lbMapWRPlayer2Race.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbMapWRPlayer2Race.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbMapWRPlayer2Race.Location = new System.Drawing.Point(613, 3);
+            this.lbMapWRPlayer2Race.Location = new System.Drawing.Point(707, 3);
             this.lbMapWRPlayer2Race.Margin = new System.Windows.Forms.Padding(3);
             this.lbMapWRPlayer2Race.Name = "lbMapWRPlayer2Race";
-            this.lbMapWRPlayer2Race.Size = new System.Drawing.Size(69, 34);
+            this.lbMapWRPlayer2Race.Size = new System.Drawing.Size(74, 34);
             this.lbMapWRPlayer2Race.TabIndex = 4;
             this.lbMapWRPlayer2Race.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTipGameReport.SetToolTip(this.lbMapWRPlayer2Race, " Player 2 Race Corrected WR on this map");
@@ -255,7 +255,7 @@
             this.lbPl2RatingVsRace.AutoSize = true;
             this.lbPl2RatingVsRace.Dock = System.Windows.Forms.DockStyle.Top;
             this.lbPl2RatingVsRace.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPl2RatingVsRace.Location = new System.Drawing.Point(748, 3);
+            this.lbPl2RatingVsRace.Location = new System.Drawing.Point(852, 3);
             this.lbPl2RatingVsRace.Margin = new System.Windows.Forms.Padding(3);
             this.lbPl2RatingVsRace.Name = "lbPl2RatingVsRace";
             this.lbPl2RatingVsRace.Size = new System.Drawing.Size(79, 17);
@@ -270,7 +270,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(308, 43);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(434, 42);
+            this.panel1.Size = new System.Drawing.Size(538, 42);
             this.panel1.TabIndex = 6;
             // 
             // rdBtnPl2Win
@@ -279,7 +279,7 @@
             this.rdBtnPl2Win.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.rdBtnPl2Win.Dock = System.Windows.Forms.DockStyle.Right;
             this.rdBtnPl2Win.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdBtnPl2Win.Location = new System.Drawing.Point(385, 0);
+            this.rdBtnPl2Win.Location = new System.Drawing.Point(489, 0);
             this.rdBtnPl2Win.Name = "rdBtnPl2Win";
             this.rdBtnPl2Win.Size = new System.Drawing.Size(49, 42);
             this.rdBtnPl2Win.TabIndex = 0;
@@ -308,7 +308,7 @@
             this.Controls.Add(this.tblLOPnlGameReport);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "GameReport";
-            this.Size = new System.Drawing.Size(935, 84);
+            this.Size = new System.Drawing.Size(1040, 84);
             this.tblLOPnlGameReport.ResumeLayout(false);
             this.tblLOPnlGameReport.PerformLayout();
             this.panel1.ResumeLayout(false);

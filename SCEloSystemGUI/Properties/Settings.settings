@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="NoRecentMatches" Type="System.UInt32" Scope="User">
-      <Value Profile="(Default)">140</Value>
+      <Value Profile="(Default)">170</Value>
     </Setting>
     <Setting Name="PlayerDevelopmentScope" Type="SCEloSystemGUI.PlayerDevScope" Scope="User">
       <Value Profile="(Default)">Months_4</Value>

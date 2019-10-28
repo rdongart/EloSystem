@@ -109,7 +109,7 @@ namespace EloSystem
         /// <returns></returns>
         internal static int RatingChange(WinRateCounter winnersStats, Race winnersRace, WinRateCounter loser, Race losersRace, double ewrWinner)
         {
-            const int RATING_CHANGE_STANDARD_MAX = 30;
+            const int RATING_CHANGE_STANDARD_MAX = 32;
 
             return (RATING_CHANGE_STANDARD_MAX * (EloData.EXP_WIN_RATIO_MAX - ewrWinner) * EloData.RatingBonusFactorTotal(winnersStats, winnersRace, loser, losersRace)).RoundToInt();
         }
@@ -598,33 +598,43 @@ namespace EloSystem
             }
         }
 
-        public void ReplaceMatch(Match matchToReplace, SCPlayer player1, SCPlayer player2, GameEntry[] entries, Season season)
+        public void ReplaceMatch(Match matchToReplace, DateTime newDate, SCPlayer player1, SCPlayer player2, GameEntry[] entries, Season season)
         {
             if (!this.GetMatches().Contains(matchToReplace)) { return; }
 
-            int indexOfMatchToReplace = this.GetMatches().OrderByDescendingEntry().IndexOf(matchToReplace);
+            // locate index of last match to roll back
+            int indexOfMatchesToRollBack;
 
-            var matchesToReenter = this.RollBackLastMatches(indexOfMatchToReplace + 1).DistinctBy(m => m.Match).Select(game => new
+            const int MATCH_INSTANCE_TO_BE_REMOVED = 1;
+
+            if (matchToReplace.Date.Date.CompareTo(newDate.Date) > 0)
+            {
+                indexOfMatchesToRollBack = this.GetMatches().OrderByDescendingEntry().TakeWhile(item => item.Date.CompareTo(newDate.Date) > 0).Count() - MATCH_INSTANCE_TO_BE_REMOVED;
+            }
+            else { indexOfMatchesToRollBack = this.GetMatches().OrderByDescendingEntry().IndexOf(matchToReplace); }
+
+
+            var matchesToReenter = this.RollBackLastMatches(indexOfMatchesToRollBack + MATCH_INSTANCE_TO_BE_REMOVED).DistinctBy(m => m.Match).Select(game => new
             {
                 Match = game.Match,
                 Season = game.Season,
                 Tournament = game.Tournament,
                 Games = game.Match.GetGames().ToList()
-            }).Take(indexOfMatchToReplace).ToList();
+            }).Where(matchItem => !matchItem.Match.Equals(matchToReplace)).ToList();
 
-            this.ReportMatch(new Match(player1, player2, entries, matchToReplace.Date), season);
+            this.ReportMatch(new Match(player1, player2, entries, newDate), season);
 
             this.ReenterMatches(matchesToReenter.Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
         }
 
-        public void ReplaceMatch(Match matchToReplace, SCPlayer player1, SCPlayer player2, GameEntry[] entries, Tournament tournament)
+        public void ReplaceMatch(Match matchToReplace, DateTime date, SCPlayer player1, SCPlayer player2, GameEntry[] entries, Tournament tournament)
         {
-            this.ReplaceMatch(matchToReplace, player1, player2, entries, tournament == null ? this.defaultTournament.DefaultSeason : tournament.DefaultSeason);
+            this.ReplaceMatch(matchToReplace, date, player1, player2, entries, tournament == null ? this.defaultTournament.DefaultSeason : tournament.DefaultSeason);
         }
 
         public void RollBackMatch(Match matchToRemove)
         {
-            if (!this.GetMatches().OrderByDescendingEntry().Contains(matchToRemove)) { return; }
+            if (!this.GetMatches().OrderByDescendingEntry().Contains(matchToRemove)) { throw new ArgumentException("matchToRemove was not found"); }
 
             int index = this.GetMatches().OrderByDescendingEntry().IndexOf(matchToRemove);
 

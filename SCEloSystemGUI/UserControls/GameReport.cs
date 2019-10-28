@@ -210,6 +210,7 @@ namespace SCEloSystemGUI.UserControls
             cmBx.ValueMember = "Item2";
 
             cmBx.Items.Clear();
+            cmBx.Items.Add(Tuple.Create<string, Map>("none", null));
             cmBx.Items.AddRange(mapList.Select(map => Tuple.Create<string, Map>(map.Name, map)).ToArray());
 
             if (selectedItem != null && mapList.Contains(selectedItem)) { cmBx.SelectedIndex = mapList.IndexOf(selectedItem); }
@@ -263,7 +264,7 @@ namespace SCEloSystemGUI.UserControls
 
                     RaceMatchupResults stats;
 
-                    if (selectedMapItem != null && selectedMapItem.Item2.Stats.TryGetMatchup(this.racePlayer1, this.racePlayer2, out stats))
+                    if (selectedMapItem != null && selectedMapItem.Item2 != null && selectedMapItem.Item2.Stats.TryGetMatchup(this.racePlayer1, this.racePlayer2, out stats))
                     {
                         string statsTextA, statsTextB;
 
@@ -293,6 +294,12 @@ namespace SCEloSystemGUI.UserControls
                             this.lbMapWRPlayer2Race.Text = statsTextA;
                         }
 
+                    }
+                    else
+                    {
+                        this.lbMapWRPlayer1Race.Text = string.Empty;
+
+                        this.lbMapWRPlayer2Race.Text = string.Empty;
                     }
                 }
 

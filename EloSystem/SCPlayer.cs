@@ -180,7 +180,9 @@ namespace EloSystem
 
         public Race GetPrimaryRaceVs(Race race)
         {
-            return Enum.GetValues(typeof(Race)).Cast<Race>().ToDictionary(r => r, r => this.Stats.GamesInMathcup(r, race)).OrderByDescending(kvp => kvp.Value).First().Key;
+            IOrderedEnumerable<KeyValuePair<Race, int>> racesPlayed = Enum.GetValues(typeof(Race)).Cast<Race>().ToDictionary(r => r, r => this.Stats.GamesInMathcup(r, race)).OrderByDescending(kvp => kvp.Value);
+
+            return racesPlayed.First().Value > 0 ? racesPlayed.First().Key : this.GetPrimaryRace();
         }
 
         public void AddAlias(string alias)

@@ -62,6 +62,7 @@ namespace SCEloSystemGUI.UserControls
 
         internal void AddTournamentItems(IEnumerable<Tournament> tournaments, ImageGetter<Tournament> resourceGetter)
         {
+            this.imgCmbBxTournaments.ImageGetter = resourceGetter;
             this.imgCmbBxTournaments.AddItems(tournaments.ToArray(), true);
         }
 

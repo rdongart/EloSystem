@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using BrightIdeasSoftware;
 using CustomExtensionMethods;
-using BrightIdeasSoftware;
 using CustomExtensionMethods.Drawing;
 using EloSystem;
 using EloSystem.ResourceManagement;
@@ -9,20 +7,15 @@ using SCEloSystemGUI.Properties;
 using SCEloSystemGUI.UserControls;
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SCEloSystemGUI
 {
     public partial class MapStatsDisplay : Form
     {
-        private enum MapSorting
-        {
-            Name_Asc, Name_Des, Spots_Asc, Spots_Des, TvZ_Asc, TvZ_Des, ZvP_Asc, ZvP_Des, PvT_Asc, PvT_Des, Tot_Asc, Tot_Des
-        }
-
         private const float TEXT_SIZE = 11.5F;
 
-        private MapSorting sorting = MapSorting.Name_Asc;
         private ObjectListView olvMapStats;
         private ResourceGetter eloDataBase;
 
@@ -41,120 +34,8 @@ namespace SCEloSystemGUI
             this.olvMapStats.SetObjects(this.eloDataBase().GetMaps().OrderBy(m => m.Name).ToArray());
         }
 
-        private static IOrderedEnumerable<Map> OrderMaps(IEnumerable<Map> sorce, MapSorting order)
-        {
-            switch (order)
-            {
-                case MapSorting.Name_Asc: return sorce.OrderBy(m => m.Name);
-                case MapSorting.Name_Des: return sorce.OrderByDescending(m => m.Name);
-                case MapSorting.Spots_Asc: return sorce.OrderBy(m => (int)m.MapType);
-                case MapSorting.Spots_Des: return sorce.OrderByDescending(m => (int)m.MapType);
-                case MapSorting.TvZ_Asc: return sorce.OrderBy(m => m.Stats.ZvT.WinRatioRace2CorrectedForExpectedWR());
-                case MapSorting.TvZ_Des: return sorce.OrderByDescending(m => m.Stats.ZvT.WinRatioRace2CorrectedForExpectedWR());
-                case MapSorting.ZvP_Asc: return sorce.OrderBy(m => m.Stats.PvZ.WinRatioRace2CorrectedForExpectedWR());
-                case MapSorting.ZvP_Des: return sorce.OrderByDescending(m => m.Stats.PvZ.WinRatioRace2CorrectedForExpectedWR());
-                case MapSorting.PvT_Asc: return sorce.OrderBy(m => m.Stats.PvT.WinRatioRace1CorrectedForExpectedWR());
-                case MapSorting.PvT_Des: return sorce.OrderByDescending(m => m.Stats.PvT.WinRatioRace1CorrectedForExpectedWR());
-                case MapSorting.Tot_Asc: return sorce.OrderBy(m => m.Stats.TotalGames());
-                case MapSorting.Tot_Des: return sorce.OrderByDescending(m => m.Stats.TotalGames());
-                default: throw new Exception(String.Format("Unknown {0} {1}.", order.ToString(), Enum.GetUnderlyingType(typeof(MapSorting)).ToString()));
-            }
-        }
-
-        private void SortMaps(OLVColumn column, SortOrder order)
-        {
-            const int NAME_COLUMN = 2;
-            const int SPOTS_COLUMN = 3;
-            const int TVZ_COLUMN = 4;
-            const int ZVP_COLUMN = 5;
-            const int PVT_COLUMN = 6;
-            const int TOT_COLUMN = 7;
-
-            this.olvMapStats.Sorting = order;
-            this.olvMapStats.SecondarySortColumn = this.olvMapStats.PrimarySortColumn;
-
-            if (column.Index == NAME_COLUMN || column.Index == SPOTS_COLUMN || column.Index == TOT_COLUMN) { this.olvMapStats.PrimarySortColumn = column; }
-            else if (column.Index == TVZ_COLUMN)
-            {
-                this.olvMapStats.AllColumns[0].AspectGetter = obj =>
-                {
-                    var map = obj as Map;
-
-                    return (map.Stats.ZvT.WinRatioRace1CorrectedForExpectedWR() * 100).RoundToInt();
-                };
-
-                this.olvMapStats.PrimarySortColumn = this.olvMapStats.AllColumns[0];
-            }
-            else if (column.Index == ZVP_COLUMN)
-            {
-                this.olvMapStats.AllColumns[0].AspectGetter = obj =>
-                {
-                    var map = obj as Map;
-
-                    return (map.Stats.PvZ.WinRatioRace2CorrectedForExpectedWR() * 100).RoundToInt();
-                };
-
-                this.olvMapStats.PrimarySortColumn = this.olvMapStats.AllColumns[0];
-            }
-            else if (column.Index == PVT_COLUMN)
-            {
-                this.olvMapStats.AllColumns[0].AspectGetter = obj =>
-                {
-                    var map = obj as Map;
-
-                    return (map.Stats.PvT.WinRatioRace1CorrectedForExpectedWR() * 100).RoundToInt();
-
-                };
-
-                this.olvMapStats.PrimarySortColumn = this.olvMapStats.AllColumns[0];
-            }
-
-            this.olvMapStats.SortGroupItemsByPrimaryColumn = true;
-        }
-
         private void MapStatsLV_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-            //const int NAME_COLUMN = 2;
-            //const int SPOTS_COLUMN = 3;
-            //const int TVZ_COLUMN = 4;
-            //const int ZVP_COLUMN = 5;
-            //const int PVT_COLUMN = 6;
-            //const int TOT_COLUMN = 7;
-
-            //if (e.Column == NAME_COLUMN)
-            //{
-            //    if (this.sorting == MapSorting.Name_Asc) { this.sorting = MapSorting.Name_Des; }
-            //    else { this.sorting = MapSorting.Name_Asc; }
-            //}
-            //else if (e.Column == SPOTS_COLUMN)
-            //{
-            //    if (this.sorting == MapSorting.Spots_Asc) { this.sorting = MapSorting.Spots_Des; }
-            //    else { this.sorting = MapSorting.Spots_Asc; }
-            //}
-            //else if (e.Column == TVZ_COLUMN)
-            //{
-            //    if (this.sorting == MapSorting.TvZ_Des) { this.sorting = MapSorting.TvZ_Asc; }
-            //    else { this.sorting = MapSorting.TvZ_Des; }
-            //}
-            //else if (e.Column == ZVP_COLUMN)
-            //{
-            //    if (this.sorting == MapSorting.ZvP_Des) { this.sorting = MapSorting.ZvP_Asc; }
-            //    else { this.sorting = MapSorting.ZvP_Des; }
-            //}
-            //else if (e.Column == PVT_COLUMN)
-            //{
-            //    if (this.sorting == MapSorting.PvT_Des) { this.sorting = MapSorting.PvT_Asc; }
-            //    else { this.sorting = MapSorting.PvT_Des; }
-            //}
-            //else if (e.Column == TOT_COLUMN)
-            //{
-            //    if (this.sorting == MapSorting.Tot_Des) { this.sorting = MapSorting.Tot_Asc; }
-            //    else { this.sorting = MapSorting.Tot_Des; }
-            //}
-            //else { return; }
-
-            //this.olvMapStats.SetObjects(MapStatsDisplay.OrderMaps(this.eloDataBase().GetMaps(), this.sorting).ToArray());
-
             const int NAME_COLUMN = 2;
             const int SPOTS_COLUMN = 3;
             const int TVZ_COLUMN = 4;
@@ -162,7 +43,6 @@ namespace SCEloSystemGUI
             const int PVT_COLUMN = 6;
             const int TOT_COLUMN = 7;
 
-            //this.olvMapStats.Sorting = this;
             this.olvMapStats.SecondarySortColumn = this.olvMapStats.PrimarySortColumn;
             this.olvMapStats.SortGroupItemsByPrimaryColumn = true;
 
@@ -236,7 +116,6 @@ namespace SCEloSystemGUI
                 UseCellFormatEvents = true,
             };
 
-            //mapStatsLV.CustomSorter = this.SortMaps;
             mapStatsLV.ColumnClick += this.MapStatsLV_ColumnClick;
 
             const int WINRATIOS_WIDTH = 170;
@@ -376,6 +255,11 @@ namespace SCEloSystemGUI
             };
 
             return mapStatsLV;
+        }
+
+        private void MapStatsDisplay_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape) { this.Close(); }
         }
     }
 }

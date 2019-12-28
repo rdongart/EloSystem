@@ -115,7 +115,7 @@ namespace SCEloSystemGUI.UserControls
             this.dtpMatchDate.Value = DateTime.Today;
             this.dtpMatchDate.ValueChanged += this.MatchReportabilitySelector_SelectedIndexChanged;
 
-            this.oLstVRecentMatches = MatchReport.CreateMatchListView();
+            this.oLstVRecentMatches = EloSystemGUIStaticMembers.CreateMatchListView();
             this.oLstVRecentMatches.SelectedIndexChanged += this.OLstVRecentMatches_SelectedIndexChanged;
             this.tblLoPnlRecentMatches.Controls.Add(this.oLstVRecentMatches, 0, 2);
             this.MatchReported += this.OnMatchReported;
@@ -129,124 +129,6 @@ namespace SCEloSystemGUI.UserControls
         private static bool IsDateInTheFuture(DateTime date)
         {
             return date.Date.CompareTo(DateTime.Now.Date) > 0;
-        }
-
-        private static ObjectListView CreateMatchListView()
-        {
-            var matchLV = new ObjectListView()
-            {
-                AlternateRowBackColor = Color.FromArgb(217, 217, 217),
-                Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
-                HeaderStyle = ColumnHeaderStyle.Nonclickable,
-                HasCollapsibleGroups = false,
-                Margin = new Padding(6),
-                MultiSelect = false,
-                RowHeight = 22,
-                Scrollable = true,
-                ShowGroups = false,
-                Size = new Size(784, 850),
-                UseAlternatingBackColors = true,
-                UseCellFormatEvents = true,
-            };
-
-            var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null };
-            var olvClmDate = new OLVColumn() { Width = 90, Text = "Date" };
-            var olvClmPlayer1 = new OLVColumn() { Width = 130, Text = "Player 1" };
-            var olvClmRatingChangePlayer1 = new OLVColumn() { Width = 50, Text = "Rating Change" };
-            var olvClmResult = new OLVColumn() { Width = 70, Text = "Result" };
-            var olvClmRatingChangePlayer2 = new OLVColumn() { Width = 50, Text = "Rating Change" };
-            var olvClmPlayer2 = new OLVColumn() { Width = 130, Text = "Player 2" };
-            var olvClmTournament = new OLVColumn() { Width = 130, Text = "Tournament" };
-            var olvClmSeason = new OLVColumn() { Width = 110, Text = "Season" };
-
-            matchLV.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-            matchLV.Size = new Size(784, 850);
-            matchLV.HasCollapsibleGroups = false;
-            matchLV.ShowGroups = false;
-            matchLV.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            matchLV.RowHeight = 22;
-            matchLV.UseCellFormatEvents = true;
-            matchLV.FormatCell += MatchReport.MatchLV_FormatCell;
-            matchLV.Scrollable = true;
-            matchLV.Margin = new Padding(3);
-            matchLV.AlternateRowBackColor = Color.FromArgb(217, 217, 217);
-            matchLV.UseAlternatingBackColors = true; matchLV.MultiSelect = false;
-
-            matchLV.AllColumns.AddRange(new OLVColumn[] { olvClmEmpty, olvClmDate, olvClmPlayer1, olvClmRatingChangePlayer1, olvClmResult, olvClmRatingChangePlayer2, olvClmPlayer2, olvClmTournament, olvClmSeason });
-
-            matchLV.Columns.AddRange(new ColumnHeader[] { olvClmEmpty, olvClmDate, olvClmPlayer1, olvClmRatingChangePlayer1, olvClmResult, olvClmRatingChangePlayer2, olvClmPlayer2, olvClmTournament, olvClmSeason });
-
-            foreach (OLVColumn clm in new OLVColumn[] { olvClmRatingChangePlayer1, olvClmResult, olvClmRatingChangePlayer2 })
-            {
-                clm.HeaderTextAlign = HorizontalAlignment.Center;
-                clm.TextAlign = HorizontalAlignment.Center;
-            }
-
-            olvClmPlayer1.AspectGetter = obj =>
-            {
-                var match = obj as MatchEditorItem;
-
-                if (match != null) { return match.Player1.Name; }
-                else { return ""; }
-            };
-
-            olvClmDate.AspectGetter = obj =>
-            {
-                var match = obj as MatchEditorItem;
-
-                if (match != null) { return match.DateValue.ToShortDateString(); }
-                else { return string.Empty; }
-            };
-
-            olvClmRatingChangePlayer1.AspectGetter = obj =>
-            {
-                var match = obj as MatchEditorItem;
-
-                if (match != null) { return EloGUIControlsStaticMembers.ConvertRatingChangeString(match.RatingChangeBy(PlayerSlotType.Player1)); }
-                else { return ""; }
-            };
-
-            olvClmResult.AspectGetter = obj =>
-            {
-                var match = obj as MatchEditorItem;
-
-                if (match != null) { return String.Format("{0} - {1}", match.WinsBy(PlayerSlotType.Player1), match.WinsBy(PlayerSlotType.Player2)); }
-                else { return ""; }
-            };
-
-            olvClmRatingChangePlayer2.AspectGetter = obj =>
-            {
-                var match = obj as MatchEditorItem;
-
-                if (match != null) { return EloGUIControlsStaticMembers.ConvertRatingChangeString(match.RatingChangeBy(PlayerSlotType.Player2)); }
-                else { return ""; }
-            };
-
-            olvClmPlayer2.AspectGetter = obj =>
-            {
-                var match = obj as MatchEditorItem;
-
-                if (match != null) { return match.Player2.Name; }
-                else { return ""; }
-            };
-
-            olvClmTournament.AspectGetter = obj =>
-            {
-                var match = obj as MatchEditorItem;
-
-                if (match != null && match.Tournament != null) { return match.Tournament.Name; }
-                else { return ""; }
-            };
-
-            olvClmSeason.AspectGetter = obj =>
-            {
-                var match = obj as MatchEditorItem;
-
-                if (match != null && match.Season != null) { return match.Season.Name; }
-                else { return ""; }
-            };
-
-            return matchLV;
         }
 
         private static GameReport RetrieveGameReportFromChild(Control child)
@@ -302,11 +184,6 @@ namespace SCEloSystemGUI.UserControls
             };
         }
 
-        private static void MatchLV_FormatCell(object sender, FormatCellEventArgs e)
-        {
-            if (e.ColumnIndex == 3 || e.ColumnIndex == 5) { EloSystemGUIStaticMembers.FormatRatingChangeOLVCell(e.SubItem); }
-        }
-
         private double CalculatePlayer1EWR(Race player1Race, Race player2Race)
         {
             if (this.player1Stats == null || this.player2Stats == null) { return 0; }
@@ -351,8 +228,8 @@ namespace SCEloSystemGUI.UserControls
         {
             if (this.EloDataSource != null)
             {
-                this.oLstVRecentMatches.SetObjects(this.EloDataSource().GetAllGames().OrderByDescending(game => game.Match.Date).GroupBy(game => game.Match).Select(grp =>
-                    new MatchEditorItem(grp, grp.Key)).Take((int)Settings.Default.NoRecentMatches));
+                this.oLstVRecentMatches.SetObjects(this.EloDataSource().GetAllGames().OrderByDescending(game => game.Match.DateTime.Date).ThenByDescending(game=>game.Match.DailyIndex).GroupBy(game 
+                        => game.Match).Select(grp =>new MatchEditorItem(grp, grp.Key)).Take((int)Settings.Default.NoRecentMatches));
             }
 
         }
@@ -556,7 +433,7 @@ namespace SCEloSystemGUI.UserControls
 
         private DateTime GetNextMatchDateValue(DateTime dateValue)
         {
-            return dateValue.Date.AddMilliseconds(this.EloDataSource().GetAllGames().Count(game => game.Match.Date.Date == dateValue.Date));
+            return dateValue.Date.AddMilliseconds(this.EloDataSource().GetAllGames().Count(game => game.Match.DateTime.Date == dateValue.Date));
         }
 
         private void EnterMatchReport(SCPlayer player1, SCPlayer player2, IEnumerable<GameEntry> games, Season season, Tournament tournament, DateTime date)
@@ -744,6 +621,7 @@ namespace SCEloSystemGUI.UserControls
 
             this.btnAddGame.Enabled = true;
             this.btnDeleteReport.Visible = false;
+            this.btnEditMatchIndex.Enabled = false;
 
             this.oLstVRecentMatches.FullRowSelect = false;
         }
@@ -822,14 +700,33 @@ namespace SCEloSystemGUI.UserControls
             this.tblLoPnlPlayers.Enabled = enabledStatus;
             this.pnlGameReports.Enabled = enabledStatus;
             this.btnDeleteReport.Enabled = enabledStatus;
+            this.btnEditMatchIndex.Enabled = enabledStatus;
         }
 
         private void btnDeleteReport_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("You are about to delete the match from the database. Are you sure you would like to continue?", "Delete match?", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) 
+            if (MessageBox.Show("You are about to delete the match from the database. Are you sure you would like to continue?", "Delete match?", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning)
                 == DialogResult.OK)
             {
                 this.EloDataSource().RollBackMatch(this.EditorMatch.SourceMatch);
+
+                this.AddRecentMatches();
+
+                this.EditorMatch = null;
+
+                this.oLstVRecentMatches.SelectedItems.Clear();
+            }
+        }
+
+        private void btnEditMatchIndex_Click(object sender, EventArgs e)
+        {
+            MatchEditorItem[] matchesForThisDate = this.EloDataSource().GetAllGames().Where(game => game.Match.DateTime.Date.Equals(this.EditorMatch.SourceMatch.DateTime.Date)).GroupBy(game => game.Match).Select(grp => new MatchEditorItem(grp, grp.Key)).OrderByDescending(match => match.SourceMatch.DailyIndex).ToArray();
+
+            var editorForm = new DailyIndexEditorForm(matchesForThisDate, matchesForThisDate.TakeWhile(match => !match.SourceMatch.Equals(this.EditorMatch.SourceMatch)).Count());
+
+            if (editorForm.ShowDialog() == DialogResult.OK)
+            {
+                this.EloDataSource().ChangeDailyIndex(this.editorMatch.SourceMatch, editorForm.IndexChanges);
 
                 this.AddRecentMatches();
 

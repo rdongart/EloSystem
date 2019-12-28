@@ -16,7 +16,7 @@ namespace SCEloSystemGUI
         {
             get
             {
-                return this.DateValue.CompareTo(this.SourceMatch.Date) != 0;
+                return this.DateValue.CompareTo(this.SourceMatch.DateTime) != 0;
             }
         }
         public DateTime DateValue { get; set; }
@@ -27,7 +27,7 @@ namespace SCEloSystemGUI
         {
             get
             {
-                return this.DateValue.CompareTo(this.SourceMatch.Date) < 0 ? this.DateValue : this.SourceMatch.Date;
+                return this.DateValue.CompareTo(this.SourceMatch.DateTime) < 0 ? this.DateValue : this.SourceMatch.DateTime;
             }
         }
         public int SeasonIndex
@@ -63,7 +63,7 @@ namespace SCEloSystemGUI
 
         private void SetInitialProperties()
         {
-            this.DateValue = this.SourceMatch.Date;
+            this.DateValue = this.SourceMatch.DateTime;
             this.Tournament = this.sourceGames.First().Tournament;
             this.SeasonIndex = this.Tournament == null ? -1 : this.Tournament.GetSeasons().IndexOf(this.sourceGames.First().Season);
             this.Player1 = this.SourceMatch.Player1;
@@ -111,7 +111,7 @@ namespace SCEloSystemGUI
 
         public bool HasBeenEdited()
         {
-            return this.Tournament != this.sourceGames.First().Tournament || this.Season != this.sourceGames.First().Season || this.DateValue.Date.CompareTo(this.SourceMatch.Date.Date) != 0
+            return this.Tournament != this.sourceGames.First().Tournament || this.Season != this.sourceGames.First().Season || this.DateValue.Date.CompareTo(this.SourceMatch.DateTime.Date) != 0
                 || this.Player1 != this.SourceMatch.Player1 || this.Player2 != this.SourceMatch.Player2 || this.sourceGames.Where((game, index) => this.editedGames[index].IsDifferentFrom(game)).Any();
         }
 

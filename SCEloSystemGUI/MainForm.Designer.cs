@@ -193,6 +193,9 @@
             // 
             // tabControlMain
             // 
+            this.tabControlMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControlMain.Controls.Add(this.tabPageReportMatch);
             this.tabControlMain.Controls.Add(this.tabPageAddMap);
             this.tabControlMain.Controls.Add(this.tabPageAddCountry);
@@ -210,7 +213,6 @@
             // 
             this.tabPageReportMatch.AutoScroll = true;
             this.tabPageReportMatch.AutoScrollMargin = new System.Drawing.Size(3, 3);
-            this.tabPageReportMatch.AutoScrollMinSize = new System.Drawing.Size(0, -20);
             this.tabPageReportMatch.Location = new System.Drawing.Point(4, 22);
             this.tabPageReportMatch.Name = "tabPageReportMatch";
             this.tabPageReportMatch.Padding = new System.Windows.Forms.Padding(4);
@@ -225,7 +227,7 @@
             this.tabPageAddMap.Location = new System.Drawing.Point(4, 22);
             this.tabPageAddMap.Name = "tabPageAddMap";
             this.tabPageAddMap.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAddMap.Size = new System.Drawing.Size(1812, 924);
+            this.tabPageAddMap.Size = new System.Drawing.Size(1858, 924);
             this.tabPageAddMap.TabIndex = 1;
             this.tabPageAddMap.Text = "Add Map";
             this.tabPageAddMap.UseVisualStyleBackColor = true;
@@ -244,7 +246,7 @@
             this.tblLOPnlMaps.RowCount = 2;
             this.tblLOPnlMaps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 390F));
             this.tblLOPnlMaps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlMaps.Size = new System.Drawing.Size(1806, 918);
+            this.tblLOPnlMaps.Size = new System.Drawing.Size(1852, 918);
             this.tblLOPnlMaps.TabIndex = 0;
             // 
             // tabPageAddCountry
@@ -253,7 +255,7 @@
             this.tabPageAddCountry.Location = new System.Drawing.Point(4, 22);
             this.tabPageAddCountry.Name = "tabPageAddCountry";
             this.tabPageAddCountry.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAddCountry.Size = new System.Drawing.Size(1812, 924);
+            this.tabPageAddCountry.Size = new System.Drawing.Size(1858, 924);
             this.tabPageAddCountry.TabIndex = 2;
             this.tabPageAddCountry.Text = "Add Country";
             this.tabPageAddCountry.UseVisualStyleBackColor = true;
@@ -271,7 +273,7 @@
             this.tblLOPnlCountries.RowCount = 2;
             this.tblLOPnlCountries.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 198F));
             this.tblLOPnlCountries.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlCountries.Size = new System.Drawing.Size(1806, 918);
+            this.tblLOPnlCountries.Size = new System.Drawing.Size(1852, 918);
             this.tblLOPnlCountries.TabIndex = 1;
             // 
             // tabPageAddTeam
@@ -280,7 +282,7 @@
             this.tabPageAddTeam.Location = new System.Drawing.Point(4, 22);
             this.tabPageAddTeam.Name = "tabPageAddTeam";
             this.tabPageAddTeam.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAddTeam.Size = new System.Drawing.Size(1812, 924);
+            this.tabPageAddTeam.Size = new System.Drawing.Size(1858, 924);
             this.tabPageAddTeam.TabIndex = 3;
             this.tabPageAddTeam.Text = "Add Team";
             this.tabPageAddTeam.UseVisualStyleBackColor = true;
@@ -298,7 +300,7 @@
             this.tblLOPnlTeams.RowCount = 2;
             this.tblLOPnlTeams.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 222F));
             this.tblLOPnlTeams.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlTeams.Size = new System.Drawing.Size(1806, 918);
+            this.tblLOPnlTeams.Size = new System.Drawing.Size(1852, 918);
             this.tblLOPnlTeams.TabIndex = 1;
             // 
             // tabPageAddPlayer
@@ -307,7 +309,7 @@
             this.tabPageAddPlayer.Location = new System.Drawing.Point(4, 22);
             this.tabPageAddPlayer.Name = "tabPageAddPlayer";
             this.tabPageAddPlayer.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAddPlayer.Size = new System.Drawing.Size(1812, 924);
+            this.tabPageAddPlayer.Size = new System.Drawing.Size(1858, 924);
             this.tabPageAddPlayer.TabIndex = 4;
             this.tabPageAddPlayer.Text = "Add Player";
             this.tabPageAddPlayer.UseVisualStyleBackColor = true;
@@ -325,7 +327,7 @@
             this.tblLOPnlPlayers.RowCount = 2;
             this.tblLOPnlPlayers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 510F));
             this.tblLOPnlPlayers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlPlayers.Size = new System.Drawing.Size(1806, 918);
+            this.tblLOPnlPlayers.Size = new System.Drawing.Size(1852, 918);
             this.tblLOPnlPlayers.TabIndex = 1;
             // 
             // tabPageEditTournaments
@@ -334,7 +336,7 @@
             this.tabPageEditTournaments.Location = new System.Drawing.Point(4, 22);
             this.tabPageEditTournaments.Name = "tabPageEditTournaments";
             this.tabPageEditTournaments.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageEditTournaments.Size = new System.Drawing.Size(1812, 924);
+            this.tabPageEditTournaments.Size = new System.Drawing.Size(1858, 924);
             this.tabPageEditTournaments.TabIndex = 5;
             this.tabPageEditTournaments.Text = "Add Tournament & Seasons";
             this.tabPageEditTournaments.UseVisualStyleBackColor = true;
@@ -352,13 +354,14 @@
             this.tblLOPnlTournaments.RowCount = 2;
             this.tblLOPnlTournaments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 222F));
             this.tblLOPnlTournaments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlTournaments.Size = new System.Drawing.Size(1806, 918);
+            this.tblLOPnlTournaments.Size = new System.Drawing.Size(1852, 918);
             this.tblLOPnlTournaments.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoScroll = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1892, 997);
             this.Controls.Add(this.tabControlMain);
             this.Controls.Add(this.menuStripMainForm);

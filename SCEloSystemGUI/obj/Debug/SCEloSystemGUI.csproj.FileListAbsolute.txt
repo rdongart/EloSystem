@@ -38,3 +38,7 @@ C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\ob
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCElo.pdb
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.UserControls.ContentFilter.resources
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.AboutBox.resources
+C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.UserControls.ListItemIndexEditor.resources
+C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.DailyIndexEditorForm.resources
+C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.UserControls.ActivityFilter.resources
+C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.UserControls.PlayerSearch.resources

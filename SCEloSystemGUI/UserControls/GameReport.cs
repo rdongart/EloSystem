@@ -213,7 +213,9 @@ namespace SCEloSystemGUI.UserControls
             cmBx.Items.Add(Tuple.Create<string, Map>("none", null));
             cmBx.Items.AddRange(mapList.Select(map => Tuple.Create<string, Map>(map.Name, map)).ToArray());
 
-            if (selectedItem != null && mapList.Contains(selectedItem)) { cmBx.SelectedIndex = mapList.IndexOf(selectedItem); }
+            const int MAP_ITEM_NONE = 1;
+
+            if (selectedItem != null && mapList.Contains(selectedItem)) { cmBx.SelectedIndex = mapList.IndexOf(selectedItem) + MAP_ITEM_NONE; }
         }
 
         private bool HasSelectedRaces()

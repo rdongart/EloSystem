@@ -94,6 +94,25 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="DailyIndexEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DailyIndexEditorForm.Designer.cs">
+      <DependentUpon>DailyIndexEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RaceIconProvider.cs" />
+    <Compile Include="UserControls\ActivityFilter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\ActivityFilter.Designer.cs">
+      <DependentUpon>ActivityFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\DailyMatchIndexEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\DailyMatchIndexEditor.Designer.cs">
+      <DependentUpon>DailyMatchIndexEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\FilterVisibilityHandler.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -176,6 +195,12 @@
     <Compile Include="UserControls\HasNameContentAdder.Designer.cs">
       <DependentUpon>HasNameContentAdder.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ListItemIndexEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\ListItemIndexEditor.Designer.cs">
+      <DependentUpon>ListItemIndexEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MapAdder.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -205,6 +230,13 @@
     <Compile Include="UserControls\PlayerMatchStatsDisplay.Designer.cs">
       <DependentUpon>PlayerMatchStatsDisplay.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\PlayerSearch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\PlayerSearch.Designer.cs">
+      <DependentUpon>PlayerSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PlayerSearchEventArgs.cs" />
     <Compile Include="UserControls\RaceSelectionEventArgs.cs" />
     <Compile Include="UserControls\SeasonAdder.cs">
       <SubType>UserControl</SubType>
@@ -221,6 +253,9 @@
     <Compile Include="WindowConstants.cs" />
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DailyIndexEditorForm.resx">
+      <DependentUpon>DailyIndexEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -244,6 +279,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UserControls\ActivityFilter.resx">
+      <DependentUpon>ActivityFilter.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ContentAdder.resx">
       <DependentUpon>ContentAdder.cs</DependentUpon>
     </EmbeddedResource>
@@ -259,6 +297,9 @@
     <EmbeddedResource Include="UserControls\HasNameContentAdder.resx">
       <DependentUpon>HasNameContentAdder.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\ListItemIndexEditor.resx">
+      <DependentUpon>ListItemIndexEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\MapAdder.resx">
       <DependentUpon>MapAdder.cs</DependentUpon>
     </EmbeddedResource>
@@ -270,6 +311,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\PlayerMatchStatsDisplay.resx">
       <DependentUpon>PlayerMatchStatsDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\PlayerSearch.resx">
+      <DependentUpon>PlayerSearch.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\SeasonAdder.resx">
       <DependentUpon>SeasonAdder.cs</DependentUpon>
@@ -368,6 +412,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SCEloBanner.png" />
+    <None Include="Resources\ArrowDwn.png" />
+    <None Include="Resources\ArrowUp.png" />
     <Content Include="SCEloIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

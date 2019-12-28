@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="EloDataQueries.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SCPlayerExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EloSystem\EloSystem.csproj">

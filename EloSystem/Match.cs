@@ -11,7 +11,7 @@ namespace EloSystem
         internal const int DAILYINDEX_MOSTRECENT = -1;
 
         private List<GameEntry> games;
-        public DateTime Date { get; private set; }
+        public DateTime DateTime { get; private set; }
         /// <summary>
         /// Zero based index value based on the order of which this match was reported on a particular date.
         /// </summary>
@@ -21,7 +21,7 @@ namespace EloSystem
 
         internal Match(SCPlayer player1, SCPlayer player2, IEnumerable<GameEntry> games, DateTime date)
         {
-            this.Date = date;
+            this.DateTime = date;
 
             this.Player1 = player1;
             this.Player2 = player2;
@@ -48,7 +48,7 @@ namespace EloSystem
         {
             info.AddValue(Field.DailyIndex.ToString(), (int)this.DailyIndex);
             info.AddValue(Field.Games.ToString(), (List<GameEntry>)this.games);
-            info.AddValue(Field.Date.ToString(), (DateTime)this.Date);
+            info.AddValue(Field.Date.ToString(), (DateTime)this.DateTime);
             info.AddValue(Field.Player1.ToString(), (SCPlayer)this.Player1);
             info.AddValue(Field.Player2.ToString(), (SCPlayer)this.Player2);
         }
@@ -63,7 +63,7 @@ namespace EloSystem
                     switch (field)
                     {
                         case Field.DailyIndex: this.DailyIndex = (int)info.GetInt32(field.ToString()); break;
-                        case Field.Date: this.Date = (DateTime)info.GetValue(field.ToString(), typeof(DateTime)); break;
+                        case Field.Date: this.DateTime = (DateTime)info.GetValue(field.ToString(), typeof(DateTime)); break;
                         case Field.Games: this.games = (List<GameEntry>)info.GetValue(field.ToString(), typeof(List<GameEntry>)); break;
                         case Field.Player1: this.Player1 = (SCPlayer)info.GetValue(field.ToString(), typeof(SCPlayer)); break;
                         case Field.Player2: this.Player2 = (SCPlayer)info.GetValue(field.ToString(), typeof(SCPlayer)); break;
@@ -101,8 +101,7 @@ namespace EloSystem
 
         internal bool IsMoreRecentThan(DateTime date, int dailyMatchIndex)
         {
-            return this.Date.CompareTo(date) > 0 || (this.Date.CompareTo(date) == 0 && ((this.DailyIndex <= dailyMatchIndex && dailyMatchIndex != Match.DAILYINDEX_MOSTRECENT)
-                || dailyMatchIndex == Match.DAILYINDEX_MOSTRECENT));
+            return this.DateTime.Date.CompareTo(date.Date) > 0 || (this.DateTime.Date.CompareTo(date.Date) == 0 && (this.DailyIndex > dailyMatchIndex && dailyMatchIndex != Match.DAILYINDEX_MOSTRECENT));
         }
     }
 }

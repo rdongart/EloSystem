@@ -35,9 +35,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1039, 962);
+            this.DoubleBuffered = true;
+            this.KeyPreview = true;
             this.Name = "MapStatsDisplay";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Map Stats";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MapStatsDisplay_KeyDown);
             this.ResumeLayout(false);
 
         }

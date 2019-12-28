@@ -95,7 +95,7 @@ namespace SCEloSystemGUI
             this.teamEditor.EditButtonClicked += this.TeamEdited_OnEditedButtonClick;
             this.tblLOPnlTeams.Controls.Add(this.teamEditor, 0, 1);
 
-            this.matchReport = new MatchReport() { Margin = new Padding(6) };
+            this.matchReport = new MatchReport() { Margin = new Padding(6), Dock = DockStyle.Fill };
             this.tabPageReportMatch.Controls.Add(this.matchReport);
             this.matchReport.EloDataSource = () => { return this.eloSystem; };
 

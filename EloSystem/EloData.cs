@@ -514,11 +514,11 @@ namespace EloSystem
         public void ReportMatch(SCPlayer player1, SCPlayer player2, GameEntry[] entries, Season season, DateTime date)
         {
             // handle case where this match is older than matches already reported
-            if (this.GetMatches().OrderByDescendingEntry().Any(m => m.Date.CompareTo(date) > 0))
+            if (this.GetMatches().OrderByDescendingEntry().Any(m => m.DateTime.CompareTo(date) > 0))
             {
-                int newerMatchesAlreadyInDataBase = this.GetMatches().OrderByDescendingEntry().Count(m => m.Date.CompareTo(date) > 0);
+                int newerMatchesAlreadyInDataBase = this.GetMatches().OrderByDescendingEntry().Count(m => m.DateTime.CompareTo(date) > 0);
 
-                var matchesToReenter = this.RollBackLastMatches(this.GetMatches().OrderByDescendingEntry().Count(m => m.Date.CompareTo(date) > 0)).DistinctBy(m => m.Match).Select(game => new
+                var matchesToReenter = this.RollBackLastMatches(this.GetMatches().OrderByDescendingEntry().Count(m => m.DateTime.CompareTo(date) > 0)).DistinctBy(m => m.Match).Select(game => new
                 {
                     Match = game.Match,
                     Season = game.Season,
@@ -534,68 +534,55 @@ namespace EloSystem
 
         }
 
+        public void ChangeDailyIndex(Match matchToChange, int dailyIndexChange)
+        {
+            const int MATCH_TO_CHANGE = 1;
+
+            int noMatchesToReenter = Math.Max(this.GetMatches().OrderByDescendingEntry().TakeWhile(match => match.DateTime.Date.CompareTo(matchToChange.DateTime.Date) > 0
+                || (match.DateTime.Date.CompareTo(matchToChange.DateTime.Date) == 0 && match.DailyIndex + dailyIndexChange >= matchToChange.DailyIndex)).Count()
+                , this.GetMatches().OrderByDescendingEntry().IndexOf(matchToChange) + MATCH_TO_CHANGE);
+
+            var matchesToReenter = this.RollBackLastMatches(noMatchesToReenter).DistinctBy(m => m.Match).Select(game => new
+            {
+                Match = game.Match,
+                Season = game.Season,
+                Tournament = game.Tournament,
+                Games = game.Match.GetGames().ToList()
+            }).ToList();
+
+            var sameDateMatches = matchesToReenter.Where(m => m.Match.DateTime.Date.Equals(matchToChange.DateTime.Date)).ToList();
+
+            int newDailyIndex = matchToChange.DailyIndex + dailyIndexChange;
+            int currentDailyIndex = matchToChange.DailyIndex;
+
+            if (dailyIndexChange > 0)
+            {
+                foreach (var matchItem in sameDateMatches.Where(m => !m.Match.Equals(matchToChange) && m.Match.DailyIndex > currentDailyIndex && m.Match.DailyIndex <= newDailyIndex))
+                {
+                    matchItem.Match.DailyIndex--;
+                }
+            }
+            else if (dailyIndexChange < 0)
+            {
+                foreach (var matchItem in sameDateMatches.Where(m => !m.Match.Equals(matchToChange) && m.Match.DailyIndex < currentDailyIndex && m.Match.DailyIndex >= newDailyIndex))
+                {
+                    matchItem.Match.DailyIndex++;
+                }
+            }
+
+            matchToChange.DailyIndex += dailyIndexChange;
+
+            this.ReenterMatches(matchesToReenter.Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
+        }
+
         public void DecreaseDailyIndex(Match match)
         {
-            if (!this.GetMatches().Contains(match)) { return; }
-
-            int index = this.GetMatches().OrderByDescendingEntry().IndexOf(match);
-
-            if (index == 0) { return; }
-
-            Match previousMatch = this.GetMatches().OrderByDescendingEntry().ElementAt(index - 1);
-
-            if (previousMatch.Date.Equals(match.Date))
-            {
-                int tempDailyIndex = previousMatch.DailyIndex;
-
-                previousMatch.DailyIndex = match.DailyIndex;
-
-                match.DailyIndex = tempDailyIndex;
-            }
-
-            if (match.HasOverlappingPlayersAny(previousMatch))
-            {
-                this.ReenterMatches(
-                    this.RollBackLastMatches(index).DistinctBy(m => m.Match).Select(game => new
-                    {
-                        Match = game.Match,
-                        Season = game.Season,
-                        Tournament = game.Tournament,
-                        Games = game.Match.GetGames().ToList()
-                    }).Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
-            }
+            this.ChangeDailyIndex(match, -1);
         }
 
         public void IncreaseDailyIndex(Match match)
         {
-            if (!this.GetMatches().Contains(match)) { return; }
-
-            int index = this.GetMatches().OrderByDescendingEntry().IndexOf(match);
-
-            if (index == this.GetMatches().Count() - 1) { return; }
-
-            Match nextMatch = this.GetMatches().OrderByDescendingEntry().ElementAt(index + 1);
-
-            if (nextMatch.Date.Equals(match.Date))
-            {
-                int tempDailyIndex = nextMatch.DailyIndex;
-
-                nextMatch.DailyIndex = match.DailyIndex;
-
-                match.DailyIndex = tempDailyIndex;
-            }
-
-            if (match.HasOverlappingPlayersAny(nextMatch))
-            {
-                this.ReenterMatches(
-                    this.RollBackLastMatches(index + 1).DistinctBy(m => m.Match).Select(game => new
-                    {
-                        Match = game.Match,
-                        Season = game.Season,
-                        Tournament = game.Tournament,
-                        Games = game.Match.GetGames().ToList()
-                    }).Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
-            }
+            this.ChangeDailyIndex(match, 1);
         }
 
         public void ReplaceMatch(Match matchToReplace, DateTime newDate, SCPlayer player1, SCPlayer player2, GameEntry[] entries, Season season)
@@ -607,9 +594,9 @@ namespace EloSystem
 
             const int MATCH_INSTANCE_TO_BE_REMOVED = 1;
 
-            if (matchToReplace.Date.Date.CompareTo(newDate.Date) > 0)
+            if (matchToReplace.DateTime.Date.CompareTo(newDate.Date) > 0)
             {
-                indexOfMatchesToRollBack = this.GetMatches().OrderByDescendingEntry().TakeWhile(item => item.Date.CompareTo(newDate.Date) > 0).Count() - MATCH_INSTANCE_TO_BE_REMOVED;
+                indexOfMatchesToRollBack = this.GetMatches().OrderByDescendingEntry().TakeWhile(item => item.DateTime.CompareTo(newDate.Date) > 0).Count() - MATCH_INSTANCE_TO_BE_REMOVED;
             }
             else { indexOfMatchesToRollBack = this.GetMatches().OrderByDescendingEntry().IndexOf(matchToReplace); }
 
@@ -622,9 +609,22 @@ namespace EloSystem
                 Games = game.Match.GetGames().ToList()
             }).Where(matchItem => !matchItem.Match.Equals(matchToReplace)).ToList();
 
-            this.ReportMatch(new Match(player1, player2, entries, newDate), season);
 
-            this.ReenterMatches(matchesToReenter.Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
+            if (matchToReplace.DateTime.Date.CompareTo(newDate.Date) >= 0)
+            {
+                this.ReportMatch(new Match(player1, player2, entries, newDate), season);
+
+                this.ReenterMatches(matchesToReenter.Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
+            }
+            else
+            {
+                this.ReenterMatches(matchesToReenter.Where(matchItem => matchItem.Match.DateTime.CompareTo(newDate.Date) <= 0).Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
+
+                this.ReportMatch(new Match(player1, player2, entries, newDate), season);
+
+                this.ReenterMatches(matchesToReenter.Where(matchItem => matchItem.Match.DateTime.CompareTo(newDate.Date) > 0).Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
+            }
+
         }
 
         public void ReplaceMatch(Match matchToReplace, DateTime date, SCPlayer player1, SCPlayer player2, GameEntry[] entries, Tournament tournament)
@@ -634,32 +634,32 @@ namespace EloSystem
 
         public void RollBackMatch(Match matchToRemove)
         {
-            if (!this.GetMatches().OrderByDescendingEntry().Contains(matchToRemove)) { throw new ArgumentException("matchToRemove was not found"); }
+            if (!this.GetMatches().Contains(matchToRemove)) { throw new ArgumentException("matchToRemove was not found"); }
 
             int index = this.GetMatches().OrderByDescendingEntry().IndexOf(matchToRemove);
 
-            var matchesToReenter = this.RollBackLastMatches(index + 1).Take(index).DistinctBy(m => m.Match).Select(game => new
+            var matchesToReenter = this.RollBackLastMatches(index + 1).DistinctBy(m => m.Match).Select(game => new
             {
                 Match = game.Match,
                 Season = game.Season,
                 Tournament = game.Tournament,
                 Games = game.Match.GetGames().ToList()
-            }).ToList();
+            }).Take(index).ToList();
 
             this.ReenterMatches(matchesToReenter.Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
         }
 
         private void ReenterMatches(IEnumerable<Tuple<Match, Season>> matchesToReenter)
         {
-            foreach (Tuple<Match, Season> matchData in matchesToReenter.OrderBy(t => t.Item1.Date).ThenBy(t => t.Item1.DailyIndex))
+            foreach (Tuple<Match, Season> matchData in matchesToReenter.OrderBy(t => t.Item1.DateTime.Date).ThenBy(t => t.Item1.DailyIndex))
             {
-                this.ReportMatch(new Match(matchData.Item1.Player1, matchData.Item1.Player2, matchData.Item1.GetEntries(), matchData.Item1.Date), matchData.Item2);
+                this.ReportMatch(new Match(matchData.Item1.Player1, matchData.Item1.Player2, matchData.Item1.GetEntries(), matchData.Item1.DateTime), matchData.Item2);
             }
         }
 
         private void ReportMatch(Match match, Season season)
         {
-            match.DailyIndex = this.GetMatches().Count(m => m.Date.Equals(match));
+            match.DailyIndex = this.GetMatches().Count(m => m.DateTime.Date.Equals(match.DateTime.Date));
 
             EloData.UpdateMapStats(match);
             EloData.UpdatePlayerStats(match);
@@ -805,7 +805,7 @@ namespace EloSystem
                 Season = game.Season,
                 Tournament = game.Tournament,
                 Games = game.Match.GetGames()
-            }).OrderByDescending(m => m.Match.Date).ThenByDescending(m => m.Match.DailyIndex).Take(count).ToList();
+            }).OrderByDescending(m => m.Match.DateTime).ThenByDescending(m => m.Match.DailyIndex).Take(count).ToList();
 
             foreach (var matchObj in matches)
             {
@@ -846,5 +846,23 @@ namespace EloSystem
             }));
         }
 
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext context)
+        {
+            // this code ensures backward compatibility
+            IEnumerable<IGrouping<DateTime, Match>> matchByDates = this.GetMatches().GroupBy(match => match.DateTime.Date);
+                        
+            if (matchByDates.Select(grp => grp.Count(item => item.DailyIndex == 0)).Where(dailyIndexesEqualsZero => dailyIndexesEqualsZero > 0).Any())
+            {
+                IEnumerator<IGrouping<DateTime, Match>> eMatchesByDates = matchByDates.GetEnumerator();
+
+                while (eMatchesByDates.MoveNext())
+                {
+                    int indexCounter = 0;
+
+                    foreach (Match match in eMatchesByDates.Current.OrderBy(m => m.DailyIndex).ThenBy(m => m.DateTime)) { match.DailyIndex = indexCounter++; }
+                }
+            }
+        }
     }
 }

@@ -169,6 +169,8 @@ namespace SCEloSystemGUI
             this.contentWasEdited = true;
 
             this.AddPlayersToImgCmbBox();
+
+            if (this.playerStatsDisplay != null) { this.playerStatsDisplay.SetPlayerList(); }
         }
 
         private void TournamentAdder_OnAddButtonClick(object sender, ContentAddingEventArgs e)

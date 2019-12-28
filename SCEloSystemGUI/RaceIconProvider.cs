@@ -1,0 +1,186 @@
+﻿using CustomExtensionMethods;
+using EloSystem;
+using EloSystemExtensions;
+using SCEloSystemGUI.Properties;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.Linq;
+
+namespace SCEloSystemGUI
+{
+    public static class RaceIconProvider
+    {
+        private static Dictionary<List<Race>, Image> raceListsCreated = new Dictionary<List<Race>, Image>();
+
+        internal static Image GetRaceUsageIcon(SCPlayer player)
+        {
+            if (player.Stats.GamesTotal() == 0) { return null; }
+
+            if (player.PlaysMultipleRaces()) { return RaceIconProvider.GetMultipleRacesUsageIcon(player); }
+            else { return RaceIconProvider.GetRaceBitmap(player.GetPrimaryRace()); }
+
+        }
+
+        private static Image GetMultipleRacesUsageIcon(SCPlayer player)
+        {
+            List<Race> raceUsageList = player.RaceUsageFrequency().Where(kvp => kvp.Value > 0).OrderByDescending(kvp => kvp.Value).ThenBy(kvp => (int)kvp.Key).Select(kvp => kvp.Key).ToList();
+
+            if (!RaceIconProvider.RaceUsageIconExists(raceUsageList)) { RaceIconProvider.CreateMultipleRaceUsageIcon(raceUsageList); }
+
+            return RaceIconProvider.raceListsCreated.First(lst => lst.Key.Count == raceUsageList.Count && lst.Key.SequenceEqual(raceUsageList)).Value;
+        }
+
+        private static void CreateMultipleRaceUsageIcon(List<Race> raceUsageList)
+        {
+            if (raceUsageList.Count == 2) { RaceIconProvider.CreateDoubleRaceUsageIcon(raceUsageList[0], raceUsageList[1]); }
+            else if (raceUsageList.Count == 3) { RaceIconProvider.CreateTripleRaceUsageIcon(raceUsageList[0], raceUsageList[1], raceUsageList[2]); }
+            else if (raceUsageList.Count == 4) { RaceIconProvider.CreateQuadRaceUsageIcon(raceUsageList[0], raceUsageList[1], raceUsageList[2], raceUsageList[3]); }
+
+        }
+
+        private static void CreateDoubleRaceUsageIcon(Race raceFirst, Race raceSecond)
+        {
+            Bitmap raceFirstImg = RaceIconProvider.GetRaceBitmap(raceFirst);
+            Bitmap raceSecondImg = RaceIconProvider.GetRaceBitmap(raceSecond);
+
+            int summedWidth = raceFirstImg.Width + raceSecondImg.Width;
+            int maxHeight = Math.Max(raceFirstImg.Height, raceSecondImg.Height);
+            int extraWidth = (summedWidth * 0.25).RoundToInt();
+
+            var img = new Bitmap(summedWidth + extraWidth, maxHeight, PixelFormat.Format32bppArgb);
+
+            using (Graphics g = Graphics.FromImage(img))
+            {
+                const double SLASH_SLOPE = 0.13;
+
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.CompositingQuality = CompositingQuality.HighQuality;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+
+                int firstImgHeightOffset = ((maxHeight - raceFirstImg.Height) / 2);
+
+                g.DrawImage(raceFirstImg, new Rectangle(0, firstImgHeightOffset, raceFirstImg.Width, raceFirstImg.Height));
+
+                g.DrawLine(new Pen(Brushes.Black, 2), raceFirstImg.Width + (extraWidth * SLASH_SLOPE).RoundToInt(), maxHeight, raceFirstImg.Width + (extraWidth * (1 - SLASH_SLOPE)).RoundToInt(), 0);
+
+                int secondImgHeightOffset = ((maxHeight - raceSecondImg.Height) / 2);
+
+                g.DrawImage(raceSecondImg, new Rectangle(img.Width - raceSecondImg.Width, secondImgHeightOffset, raceSecondImg.Width, raceSecondImg.Height));
+            }
+
+            RaceIconProvider.raceListsCreated.Add(new List<Race>() { raceFirst, raceSecond }, img);
+        }
+
+        private static void CreateTripleRaceUsageIcon(Race raceFirst, Race raceSecond, Race raceThird)
+        {
+            Bitmap raceFirstImg = RaceIconProvider.GetRaceBitmap(raceFirst);
+            Bitmap raceSecondImg = RaceIconProvider.GetRaceBitmap(raceSecond);
+            Bitmap raceThirdImg = RaceIconProvider.GetRaceBitmap(raceThird);
+
+            int summedWidth = raceFirstImg.Width + raceSecondImg.Width + raceThirdImg.Width;
+            int maxHeight = Math.Max(raceFirstImg.Height, Math.Max(raceSecondImg.Height, raceThirdImg.Height));
+            int extraWidth = (summedWidth * 0.20).RoundToInt();
+
+            var img = new Bitmap(summedWidth + extraWidth * 2, maxHeight, PixelFormat.Format32bppArgb);
+
+            using (Graphics g = Graphics.FromImage(img))
+            {
+                const double SLASH_SLOPE = 0.11;
+
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.CompositingQuality = CompositingQuality.HighQuality;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+
+                int firstImgHeightOffset = ((maxHeight - raceFirstImg.Height) / 2);
+
+                g.DrawImage(raceFirstImg, new Rectangle(0, firstImgHeightOffset, raceFirstImg.Width, raceFirstImg.Height));
+
+                var slashPen = new Pen(Brushes.Black, 2);
+
+                g.DrawLine(slashPen, raceFirstImg.Width + (extraWidth * SLASH_SLOPE).RoundToInt(), maxHeight, raceFirstImg.Width + (extraWidth * (1 - SLASH_SLOPE)).RoundToInt(), 0);
+
+                int secondImgHeightOffset = ((maxHeight - raceSecondImg.Height) / 2);
+
+                g.DrawImage(raceSecondImg, new Rectangle(raceFirstImg.Width + extraWidth, secondImgHeightOffset, raceSecondImg.Width, raceSecondImg.Height));
+
+                g.DrawLine(slashPen, raceFirstImg.Width + extraWidth + raceSecondImg.Width + (extraWidth * SLASH_SLOPE).RoundToInt(), maxHeight, raceFirstImg.Width + extraWidth + raceSecondImg.Width
+                    + (extraWidth * (1 - SLASH_SLOPE)).RoundToInt(), 0);
+
+                int thirdImgHeightOffset = ((maxHeight - raceThirdImg.Height) / 2);
+
+                g.DrawImage(raceThirdImg, new Rectangle(summedWidth + extraWidth * 2 - raceThirdImg.Width, thirdImgHeightOffset, raceThirdImg.Width, raceThirdImg.Height));
+            }
+
+            RaceIconProvider.raceListsCreated.Add(new List<Race>() { raceFirst, raceSecond, raceThird }, img);
+        }
+
+        private static void CreateQuadRaceUsageIcon(Race raceFirst, Race raceSecond, Race raceThird, Race raceFourth)
+        {
+            Bitmap raceFirstImg = RaceIconProvider.GetRaceBitmap(raceFirst);
+            Bitmap raceSecondImg = RaceIconProvider.GetRaceBitmap(raceSecond);
+            Bitmap raceThirdImg = RaceIconProvider.GetRaceBitmap(raceThird);
+            Bitmap raceFourthImg = RaceIconProvider.GetRaceBitmap(raceFourth);
+
+            int maxWidth = (new int[4] { raceFirstImg.Width, raceSecondImg.Width, raceThirdImg.Width, raceFourthImg.Width }).Max();
+            int maxHeight = (new int[4] { raceFirstImg.Height, raceSecondImg.Height, raceThirdImg.Height, raceFourthImg.Height }).Max();
+
+            int summedWidth = maxWidth * 2;
+            int summedHeight = maxHeight * 2;
+
+            const double HORIZONTAL_IMAGE_SEPARATION_RATIO = 0.15;
+
+            int extraWidth = (maxWidth * HORIZONTAL_IMAGE_SEPARATION_RATIO).RoundToInt();
+
+            const double VERTICAL_IMAGE_SEPARATION_RATIO = 0.12;
+            int extraHeight = (maxHeight * VERTICAL_IMAGE_SEPARATION_RATIO).RoundToInt();
+
+            var img = new Bitmap(summedWidth + extraWidth, summedHeight + extraHeight, PixelFormat.Format64bppArgb);
+
+            using (Graphics g = Graphics.FromImage(img))
+            {
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.CompositingQuality = CompositingQuality.HighQuality;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+
+                var firstImgOffset = new Point((maxWidth - raceFirstImg.Width) / 2, (maxHeight - raceFirstImg.Height) / 2);
+                g.DrawImage(raceFirstImg, new Rectangle(firstImgOffset.X, firstImgOffset.Y, raceFirstImg.Width, raceFirstImg.Height));
+
+                var secondImgOffset = new Point(maxWidth + extraWidth + (maxWidth - raceSecondImg.Width) / 2, (maxHeight - raceSecondImg.Height) / 2);
+                g.DrawImage(raceSecondImg, new Rectangle(secondImgOffset.X, secondImgOffset.Y, raceSecondImg.Width, raceSecondImg.Height));
+
+                var thirdImgOffset = new Point((maxWidth - raceThirdImg.Width) / 2, maxHeight + extraHeight + (maxHeight - raceThirdImg.Height) / 2);
+                g.DrawImage(raceThirdImg, new Rectangle(thirdImgOffset.X, thirdImgOffset.Y, raceThirdImg.Width, raceThirdImg.Height));
+
+                var fourthImgOffset = new Point(maxWidth + extraWidth + (maxWidth - raceFourthImg.Width) / 2, maxHeight + extraHeight + (maxHeight - raceFourthImg.Height) / 2);
+                g.DrawImage(raceFourthImg, new Rectangle(fourthImgOffset.X, fourthImgOffset.Y, raceFourthImg.Width, raceFourthImg.Height));
+
+
+                var slashPen = new Pen(Brushes.Black, 2);
+                g.DrawLine(slashPen, img.Width / 2, 0, img.Width / 2, img.Height);
+                g.DrawLine(slashPen, 0, img.Height / 2, img.Width, img.Height / 2);
+            }
+
+            RaceIconProvider.raceListsCreated.Add(new List<Race>() { raceFirst, raceSecond, raceThird, raceFourth }, img);
+        }
+
+        private static Bitmap GetRaceBitmap(Race race)
+        {
+            switch (race)
+            {
+                case Race.Zerg: return Resources.Zicon;
+                case Race.Terran: return Resources.Ticon;
+                case Race.Protoss: return Resources.Picon;
+                case Race.Random: return Resources.Ricon;
+                default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Race).Name, race.ToString()));
+            }
+        }
+
+        private static bool RaceUsageIconExists(List<Race> raceUsageList)
+        {
+            return RaceIconProvider.raceListsCreated.Keys.Any(lst => lst.Count == raceUsageList.Count && lst.SequenceEqual(raceUsageList));
+        }
+    }
+}

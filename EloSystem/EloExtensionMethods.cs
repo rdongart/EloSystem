@@ -7,7 +7,7 @@ namespace EloSystem
     {
         public static IEnumerable<Match> OrderByDescendingEntry(this IEnumerable<Match> matches)
         {
-            return matches.OrderByDescending(m => m.Date).ThenByDescending(m => m.DailyIndex);
+            return matches.OrderByDescending(m => m.DateTime).ThenByDescending(m => m.DailyIndex);
         }
 
         public static bool HasOverlappingPlayersAny(this Match match, Match comparison)

@@ -164,9 +164,9 @@ namespace SCEloSystemGUI
             {
                 var map = obj as Map;
 
-                EloImage flag;
+                EloImage mapImage;
 
-                if (this.eloDataBase().TryGetImage(map.ImageID, out flag)) { return new Image[] { flag.Image.ResizeSameAspectRatio(IMAGE_SIZE_MAX) }; }
+                if (this.eloDataBase().TryGetImage(map.ImageID, out mapImage)) { return new Image[] { mapImage.Image.ResizeSameAspectRatio(IMAGE_SIZE_MAX) }; }
                 else { return null; }
 
             };

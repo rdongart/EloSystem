@@ -31,12 +31,13 @@ namespace SCEloSystemGUI.UserControls
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            if (this.txtBxFilter.Text != "") { this.PlayerSearchInitiated(this, new PlayerSearchEventArgs(this.txtBxFilter.Text)); }
+            this.PlayerSearchInitiated(this, new PlayerSearchEventArgs(this.txtBxFilter.Text));
         }
 
         private void txtBxFilter_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return && this.txtBxFilter.Text != "") { this.PlayerSearchInitiated.Invoke(this, new PlayerSearchEventArgs(this.txtBxFilter.Text)); }
         }
+
     }
 }

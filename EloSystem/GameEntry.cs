@@ -27,7 +27,7 @@ namespace EloSystem
         }
         public Race Player1Race { get; private set; }
         public Race Player2Race { get; private set; }
-                public Race WinnersRace
+        public Race WinnersRace
         {
             get
             {

@@ -3,10 +3,10 @@ using System.Windows.Forms;
 
 namespace SCEloSystemGUI
 {
-    public partial class PlayerStats : Form
+    internal partial class PlayerStats : Form
     {
         private const int FILTERROW_INDEX = 0;
-        private const float HEIGHT_CHANGE_SPEED = 55;
+        private const float HEIGHT_CHANGE_SPEED = 70;
         private const float FILTERROW_HEIGHT = 384;
 
         private void ShowFilters()

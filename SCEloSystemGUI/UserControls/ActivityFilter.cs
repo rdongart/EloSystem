@@ -9,10 +9,6 @@ namespace SCEloSystemGUI.UserControls
 {
     public partial class ActivityFilter : UserControl, IPlayerFilter
     {
-        private const int GAMESPLAYED_DEFAULT_THRESHOLD = 8;
-        private const int RECENTACTIVITY_GAMESPLAYED_DEFAULT_THRESHOLD = 2;
-        private const int RECENTACTIVITY_MONTHS_DEFAULT = 12;
-
         private bool recentActivityFilterIsDisabled;
         private int gamesPlayed;
         private int recentActivityGamesPlayed;
@@ -25,9 +21,9 @@ namespace SCEloSystemGUI.UserControls
             InitializeComponent();
 
             this.eloDataBase = databaseGetter;
-            this.gamesPlayed = ActivityFilter.GAMESPLAYED_DEFAULT_THRESHOLD;
-            this.recentActivityGamesPlayed = ActivityFilter.RECENTACTIVITY_GAMESPLAYED_DEFAULT_THRESHOLD;
-            this.recentActivityMonths = ActivityFilter.RECENTACTIVITY_MONTHS_DEFAULT;
+            this.gamesPlayed = EloSystemGUIStaticMembers.GAMESPLAYED_DEFAULT_THRESHOLD;
+            this.recentActivityGamesPlayed = EloSystemGUIStaticMembers.RECENTACTIVITY_GAMESPLAYED_DEFAULT_THRESHOLD;
+            this.recentActivityMonths = EloSystemGUIStaticMembers.RECENTACTIVITY_MONTHS_DEFAULT;
             this.recentActivityFilterIsDisabled = false;
             this.numUDGamesTotal.Value = this.gamesPlayed;
             this.numUDGamesRecent.Value = this.recentActivityGamesPlayed;
@@ -35,7 +31,7 @@ namespace SCEloSystemGUI.UserControls
             this.chkBxDisableRecencyFilter.Checked = this.recentActivityFilterIsDisabled;
             this.chkBxDisableRecencyFilter.CheckedChanged += this.chkBxDisableRecencyFilter_ValueChanged;
         }
-
+                
         public void ApplyChanges()
         {
             this.recentActivityFilterIsDisabled = this.chkBxDisableRecencyFilter.Checked;

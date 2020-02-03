@@ -51,7 +51,7 @@
             this.tblLOPnlPlayerSearch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tblLOPnlPlayerSearch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tblLOPnlPlayerSearch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlPlayerSearch.Size = new System.Drawing.Size(798, 300);
+            this.tblLOPnlPlayerSearch.Size = new System.Drawing.Size(868, 300);
             this.tblLOPnlPlayerSearch.TabIndex = 0;
             // 
             // btnSearch
@@ -60,7 +60,7 @@
             this.btnSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnSearch.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Location = new System.Drawing.Point(765, 35);
+            this.btnSearch.Location = new System.Drawing.Point(835, 35);
             this.btnSearch.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(27, 26);
@@ -75,7 +75,7 @@
             this.txtBxFilter.Location = new System.Drawing.Point(6, 35);
             this.txtBxFilter.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             this.txtBxFilter.Name = "txtBxFilter";
-            this.txtBxFilter.Size = new System.Drawing.Size(750, 25);
+            this.txtBxFilter.Size = new System.Drawing.Size(820, 25);
             this.txtBxFilter.TabIndex = 0;
             this.txtBxFilter.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBxFilter_KeyDown);
             // 
@@ -88,7 +88,7 @@
             this.lbHeader.Location = new System.Drawing.Point(6, 0);
             this.lbHeader.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lbHeader.Name = "lbHeader";
-            this.lbHeader.Size = new System.Drawing.Size(786, 32);
+            this.lbHeader.Size = new System.Drawing.Size(856, 32);
             this.lbHeader.TabIndex = 13;
             this.lbHeader.Text = "Player Search";
             this.lbHeader.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -102,7 +102,7 @@
             this.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "PlayerSearch";
-            this.Size = new System.Drawing.Size(798, 300);
+            this.Size = new System.Drawing.Size(868, 300);
             this.tblLOPnlPlayerSearch.ResumeLayout(false);
             this.tblLOPnlPlayerSearch.PerformLayout();
             this.ResumeLayout(false);

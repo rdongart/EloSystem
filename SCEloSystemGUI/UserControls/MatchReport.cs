@@ -13,7 +13,7 @@ using System.Windows.Forms;
 namespace SCEloSystemGUI.UserControls
 {
     public delegate EloData ResourceGetter();
-
+    
     public delegate double Player1EWRGetter(Race player1Race, Race player2Race);
 
     public delegate int RatingChangeGetter(PlayerSlotType winner, Race player1Race, Race player2Race);
@@ -228,8 +228,8 @@ namespace SCEloSystemGUI.UserControls
         {
             if (this.EloDataSource != null)
             {
-                this.oLstVRecentMatches.SetObjects(this.EloDataSource().GetAllGames().OrderByDescending(game => game.Match.DateTime.Date).ThenByDescending(game=>game.Match.DailyIndex).GroupBy(game 
-                        => game.Match).Select(grp =>new MatchEditorItem(grp, grp.Key)).Take((int)Settings.Default.NoRecentMatches));
+                this.oLstVRecentMatches.SetObjects(this.EloDataSource().GetAllGames().OrderByDescending(game => game.Match.DateTime.Date).ThenByDescending(game =>
+                    game.Match.DailyIndex).ToMatchEditorItems().Take((int)Settings.Default.NoRecentMatches));
             }
 
         }

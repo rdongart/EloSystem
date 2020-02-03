@@ -369,6 +369,35 @@ namespace EloSystem
             return playerStatsClone;
         }
 
+        public IEnumerable<PlayerStatsCloneDev> PlayerStatsDevelopment(SCPlayer player)
+        {
+            IEnumerable<DateTime> playersGameDates = this.GetAllGames().Where(game => game.HasPlayer(player)).Select(game => game.Match.DateTime);
+
+            return playersGameDates.Any() ? this.PlayerStatsDevelopment(player, playersGameDates.Min()) : new PlayerStatsCloneDev[] { };
+        }
+
+        public IEnumerable<PlayerStatsCloneDev> PlayerStatsDevelopment(SCPlayer player, DateTime dateFrom)
+        {
+            var playerStatsClone = new PlayerStatsClone(player);
+
+            int dayCounter = 0;
+
+            DateTime todayDate = DateTime.Today;
+
+            while (dateFrom.CompareTo(todayDate.Subtract(new TimeSpan(dayCounter, 0, 0, 0))) <= 0)
+            {
+                foreach (Game game in this.GetAllGames().Where(game => game.HasPlayer(player) && game.Match.DateTime.Date.Equals(todayDate.Subtract(new TimeSpan(dayCounter, 0, 0, 0)))))
+                {
+                    playerStatsClone.RollBackResult(game);
+                }
+
+                yield return new PlayerStatsCloneDev(playerStatsClone, DateTime.Today.Subtract(new TimeSpan(dayCounter, 0, 0, 0, 0)));
+
+                dayCounter++;
+            }
+
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -851,7 +880,7 @@ namespace EloSystem
         {
             // this code ensures backward compatibility
             IEnumerable<IGrouping<DateTime, Match>> matchByDates = this.GetMatches().GroupBy(match => match.DateTime.Date);
-                        
+
             if (matchByDates.Select(grp => grp.Count(item => item.DailyIndex == 0)).Where(dailyIndexesEqualsZero => dailyIndexesEqualsZero > 0).Any())
             {
                 IEnumerator<IGrouping<DateTime, Match>> eMatchesByDates = matchByDates.GetEnumerator();

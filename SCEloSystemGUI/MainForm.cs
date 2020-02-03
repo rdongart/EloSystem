@@ -24,6 +24,7 @@ namespace SCEloSystemGUI
         private MapAdder mapAdder;
         private MatchReport matchReport;
         private PlayerEditor playerAdder;
+        private RankHandler rankHandler;
         private SeasonAdder seasonAdder;
         private PlayerStats playerStatsDisplay;
 
@@ -38,6 +39,8 @@ namespace SCEloSystemGUI
             this.eloSystem = eloSystem;
 
             this.Text = this.eloSystem.Name;
+
+            this.rankHandler = new RankHandler(() => { return this.eloSystem; });
 
             this.LoadContent();
         }
@@ -133,7 +136,7 @@ namespace SCEloSystemGUI
 
         private void toolStripMenuItemPlayerStats_Click(object sender, EventArgs e)
         {
-            if (this.playerStatsDisplay == null) { this.playerStatsDisplay = new PlayerStats(() => { return this.eloSystem; }); };
+            if (this.playerStatsDisplay == null) { this.playerStatsDisplay = new PlayerStats(() => { return this.eloSystem; }, this.rankHandler); };
 
             this.playerStatsDisplay.ShowDialog();
         }

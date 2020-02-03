@@ -18,6 +18,15 @@ namespace EloSystem
         public int DailyIndex { get; internal set; }
         public SCPlayer Player1 { get; private set; }
         public SCPlayer Player2 { get; private set; }
+        public SCPlayer Winner
+        {
+            get
+            {
+                if (this.WinsBy(PlayerSlotType.Player1) > this.WinsBy(PlayerSlotType.Player2)) { return this.Player1; }
+                else if (this.WinsBy(PlayerSlotType.Player1) < this.WinsBy(PlayerSlotType.Player2)) { return this.Player2; }
+                else { return null; }
+            }
+        }
 
         internal Match(SCPlayer player1, SCPlayer player2, IEnumerable<GameEntry> games, DateTime date)
         {

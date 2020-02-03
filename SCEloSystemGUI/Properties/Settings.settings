@@ -3,10 +3,16 @@
   <Profiles />
   <Settings>
     <Setting Name="NoRecentMatches" Type="System.UInt32" Scope="User">
-      <Value Profile="(Default)">180</Value>
+      <Value Profile="(Default)">200</Value>
     </Setting>
     <Setting Name="PlayerDevelopmentScope" Type="SCEloSystemGUI.PlayerDevScope" Scope="User">
       <Value Profile="(Default)">Months_4</Value>
+    </Setting>
+    <Setting Name="RatingDevInterval" Type="SCEloSystemGUI.DevelopmentInterval" Scope="User">
+      <Value Profile="(Default)">All_Time</Value>
+    </Setting>
+    <Setting Name="PlayerResultDisplayTypes" Type="SCEloSystemGUI.ResultsDisplay" Scope="User">
+      <Value Profile="(Default)">Matches</Value>
     </Setting>
   </Settings>
 </SettingsFile>

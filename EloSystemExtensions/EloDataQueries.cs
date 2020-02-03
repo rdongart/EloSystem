@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Windows.Forms;
+using System;
 using CustomExtensionMethods;
 using EloSystem;
 using System.Collections.Generic;
@@ -21,9 +22,18 @@ namespace EloSystemExtensions
             const string ANYCHAR_PATTERN = @".";
             const int INPUT_LENGTH_FULL_MATCH_THRESHOLD = 2;
 
-            if (searchInput == "") { return ed.GetPlayers(); }
-            else if (searchInput.Length <= INPUT_LENGTH_FULL_MATCH_THRESHOLD) { return ed.SearchPlayers(new Regex(CASEINSENSITIVE_PATTERN + searchInput)); }
-            else { return ed.SearchPlayers(Enumerable.Range(0, searchInput.Length - 1).Select(index => new Regex(CASEINSENSITIVE_PATTERN + searchInput.Replace(index, ANYCHAR_PATTERN)))); }
+            try
+            {
+                if (searchInput == "") { return ed.GetPlayers(); }
+                else if (searchInput.Length <= INPUT_LENGTH_FULL_MATCH_THRESHOLD) { return ed.SearchPlayers(new Regex(CASEINSENSITIVE_PATTERN + searchInput)); }
+                else { return ed.SearchPlayers(Enumerable.Range(0, searchInput.Length - 1).Select(index => new Regex(CASEINSENSITIVE_PATTERN + searchInput.Replace(index, ANYCHAR_PATTERN)))); }
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(String.Format("{0}\n\n{1}\n\n{2}", exc.Message, exc.InnerException.Message, exc.StackTrace), "Unhandled error!");
+
+                return new SCPlayer[] { };
+            }
         }
 
         public static IEnumerable<Game> GamesByPlayer(this EloData ed, SCPlayer player)

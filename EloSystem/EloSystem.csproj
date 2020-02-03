@@ -52,6 +52,7 @@
     <Compile Include="IHasDblName.cs" />
     <Compile Include="MapStats.cs" />
     <Compile Include="PlayerStatsClone.cs" />
+    <Compile Include="PlayerStatsCloneDev.cs" />
     <Compile Include="ResourceManagement\EloImage.cs" />
     <Compile Include="EloSystemContent.cs" />
     <Compile Include="EloData.cs" />

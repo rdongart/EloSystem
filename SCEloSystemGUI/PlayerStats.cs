@@ -20,7 +20,7 @@ namespace SCEloSystemGUI
         Month_1, Months_3, Months_4, Months_6
     }
 
-    public partial class PlayerStats : Form
+    internal partial class PlayerStats : Form
     {
         private const float TEXT_SIZE = 11.5F;
         private const int OLV_PLAYERSTATS_ROW_HEIGHT = 26;
@@ -31,17 +31,20 @@ namespace SCEloSystemGUI
         private ContentFilter<Team> teamFilter;
         private ObjectListView olvPlayerStats;
         private ObjectListView olvPlayerSearch;
+        private RankHandler rankHandler;
         private ResourceGetter eloDataBase;
 
-        public PlayerStats(ResourceGetter databaseGetter)
+        internal PlayerStats(ResourceGetter databaseGetter, RankHandler rankHandler)
         {
             InitializeComponent();
 
             this.Icon = Resources.SCEloIcon;
 
             this.eloDataBase = databaseGetter;
+            this.rankHandler = rankHandler;
 
             this.olvPlayerStats = this.CreatePlayerStatsListView();
+            this.olvPlayerStats.SelectionChanged += this.OlvPlayerStats_SelectionChanged;
 
             this.tblLoPnlPlayerStats.Controls.Add(this.olvPlayerStats, 0, 2);
 
@@ -64,9 +67,9 @@ namespace SCEloSystemGUI
             this.filters.Add(this.activityFilter);
             this.tblLoPnlFilters.Controls.Add(this.activityFilter, 2, 0);
 
-            this.olvPlayerSearch = this.CreatePlayerSearchListView();
+            this.olvPlayerSearch = EloGUIControlsStaticMembers.CreatePlayerSearchListView(databaseGetter, rankHandler);
             this.olvPlayerSearch.SelectionChanged += this.OlvPlayerSearch_SelectionChanged;
-            PlayerSearch playerSearch = new PlayerSearch(this.olvPlayerSearch);
+            var playerSearch = new PlayerSearch(this.olvPlayerSearch);
             playerSearch.PlayerSearchInitiated += this.OnPlayerSearch;
             this.tabPagePlayerSearch.Controls.Add(playerSearch);
 
@@ -92,6 +95,20 @@ namespace SCEloSystemGUI
             {
                 const int ROW_HEIGHT_CORRECTED = PlayerStats.OLV_PLAYERSTATS_ROW_HEIGHT + 1;
                 this.olvPlayerStats.LowLevelScroll(0, (tuple.Item2 - 1) * ROW_HEIGHT_CORRECTED - this.olvPlayerStats.LowLevelScrollPosition.Y * ROW_HEIGHT_CORRECTED);
+            }
+        }
+
+        private void OlvPlayerStats_SelectionChanged(object sender, EventArgs e)
+        {
+            if (this.olvPlayerStats.SelectedItem == null) { return; }
+
+            var tuple = this.olvPlayerStats.SelectedItem.RowObject as Tuple<SCPlayer, int>;
+
+            if (tuple != null && tuple.Item1 != null)
+            {
+                var profileForm = new PlayerProfile(tuple.Item1 as SCPlayer, this.eloDataBase, this.rankHandler);
+                profileForm.ShowDialog();
+                this.olvPlayerStats.SelectedItems.Clear();
             }
         }
 
@@ -136,25 +153,30 @@ namespace SCEloSystemGUI
         {
             var playerStatsLV = new ObjectListView()
             {
-                AlternateRowBackColor = Color.FromArgb(210, 210, 210),
-                BackColor = Color.FromArgb(175, 175, 235),
+                AlternateRowBackColor = EloSystemGUIStaticMembers.OlvRowAlternativeBackColor,
+                BackColor = EloSystemGUIStaticMembers.OlvRowBackColor,
+                Cursor = Cursors.Hand,
                 Dock = DockStyle.Fill,
                 Font = new Font("Calibri", PlayerStats.TEXT_SIZE, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
-                HeaderStyle = ColumnHeaderStyle.Nonclickable,
+                FullRowSelect = true,
                 HasCollapsibleGroups = false,
+                HeaderStyle = ColumnHeaderStyle.Nonclickable,
+                UseHotItem = true,
                 Margin = new Padding(4),
-                Cursor = Cursors.Hand,
                 MultiSelect = false,
                 RowHeight = PlayerStats.OLV_PLAYERSTATS_ROW_HEIGHT,
                 Scrollable = true,
                 ShowGroups = false,
-                Size = new Size(800, 900),
+                Size = new Size(850, 900),
                 UseAlternatingBackColors = true,
-                UseCellFormatEvents = true,
-                FullRowSelect = true
+                UseCellFormatEvents = true
             };
 
             playerStatsLV.FormatCell += PlayerStats.PlayerStats_FormatCell;
+            playerStatsLV.MouseMove += EloGUIControlsStaticMembers.PlayerStatsLV_MouseMove;
+
+            playerStatsLV.HotItemStyle = new HotItemStyle();
+            playerStatsLV.HotItemStyle.Decoration = EloSystemGUIStaticMembers.OlvListViewRowBorderDecoration();
 
             var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null };
             var olvClmRank = new OLVColumn() { Width = 50, Text = "Rank" };
@@ -162,6 +184,7 @@ namespace SCEloSystemGUI
             var olvClmCountry = new OLVColumn() { Width = 65, Text = "Country" };
             var olvClmTeam = new OLVColumn() { Width = 60, Text = "Team" };
             var olvClmMainRace = new OLVColumn() { Width = 60, Text = "Race" };
+            var olvClmRankMain = new OLVColumn() { Width = 50, Text = "Rank" };
             var olvClmRatingMain = new OLVColumn() { Width = 70, Text = "Rating - main" };
             var olvClmRatingDevelopment = new OLVColumn() { Width = 70, Text = "Development" };
             var olvClmRatingVsZerg = new OLVColumn() { Width = 70, Text = "Vs Zerg" };
@@ -169,14 +192,12 @@ namespace SCEloSystemGUI
             var olvClmRatingVsProtoss = new OLVColumn() { Width = 70, Text = "Vs Protoss" };
             var olvClmRatingVsRandom = new OLVColumn() { Width = 70, Text = "Vs Random" };
 
-            playerStatsLV.AllColumns.AddRange(new OLVColumn[] { olvClmEmpty, olvClmRank, olvClmName, olvClmCountry, olvClmTeam, olvClmMainRace, olvClmRatingMain, olvClmRatingDevelopment, olvClmRatingVsZerg
-                , olvClmRatingVsTerran, olvClmRatingVsProtoss, olvClmRatingVsRandom });
+            playerStatsLV.AllColumns.AddRange(new OLVColumn[] { olvClmEmpty, olvClmRank, olvClmName, olvClmCountry, olvClmTeam,olvClmMainRace, olvClmRankMain, olvClmRatingMain, olvClmRatingDevelopment
+                , olvClmRatingVsZerg                , olvClmRatingVsTerran, olvClmRatingVsProtoss, olvClmRatingVsRandom });
 
-            playerStatsLV.Columns.AddRange(new ColumnHeader[] { olvClmEmpty, olvClmRank, olvClmName, olvClmCountry, olvClmTeam, olvClmMainRace, olvClmRatingMain, olvClmRatingDevelopment, olvClmRatingVsZerg
-                , olvClmRatingVsTerran, olvClmRatingVsProtoss, olvClmRatingVsRandom });
+            playerStatsLV.Columns.AddRange(new ColumnHeader[] { olvClmEmpty, olvClmRank, olvClmName, olvClmCountry, olvClmTeam, olvClmMainRace, olvClmRankMain, olvClmRatingMain, olvClmRatingDevelopment, olvClmRatingVsZerg, olvClmRatingVsTerran, olvClmRatingVsProtoss, olvClmRatingVsRandom });
 
-            foreach (OLVColumn clm in new OLVColumn[] { olvClmCountry, olvClmTeam, olvClmMainRace, olvClmRatingMain, olvClmRatingDevelopment, olvClmRatingVsZerg, olvClmRatingVsTerran, olvClmRatingVsProtoss
-                , olvClmRatingVsRandom })
+            foreach (OLVColumn clm in new OLVColumn[] { olvClmCountry, olvClmTeam, olvClmMainRace, olvClmRankMain, olvClmRatingMain, olvClmRatingDevelopment, olvClmRatingVsZerg, olvClmRatingVsTerran, olvClmRatingVsProtoss, olvClmRatingVsRandom })
             {
                 clm.HeaderTextAlign = HorizontalAlignment.Center;
                 clm.TextAlign = HorizontalAlignment.Center;
@@ -234,8 +255,6 @@ namespace SCEloSystemGUI
             {
                 var player = (obj as Tuple<SCPlayer, int>).Item1;
 
-                Image raceImg = RaceIconProvider.GetRaceUsageIcon(player);
-
                 if (player.Stats.GamesTotal() > 0) { return new Image[] { RaceIconProvider.GetRaceUsageIcon(player).ResizeSARWithinBounds(RACE_IMAGE_WIDTH_MAX, RACE_IMAGE_HEIGHT_MAX) }; }
                 else { return null; }
 
@@ -243,6 +262,19 @@ namespace SCEloSystemGUI
 
             var mainRaceRenderer = new ImageRenderer() { Bounds = new Rectangle(6, 2, 6, 6) };
             olvClmMainRace.Renderer = mainRaceRenderer;
+
+            const int RANK_BOUNDS_HEIGHT = 1;
+            const int RANK_BOUNDS_Y = 1;
+
+            var mainRankRenderer = new ImageRenderer() { Bounds = new Rectangle(6, RANK_BOUNDS_Y, 6, RANK_BOUNDS_HEIGHT) };
+            olvClmRankMain.Renderer = mainRankRenderer;
+
+            olvClmRankMain.AspectGetter = obj =>
+            {
+                var player = (obj as Tuple<SCPlayer, int>).Item1;
+
+                return new Image[] { this.rankHandler.GetRankImageMain(player, PlayerStats.OLV_PLAYERSTATS_ROW_HEIGHT - (RANK_BOUNDS_Y + RANK_BOUNDS_HEIGHT), true) };
+            };
 
             olvClmRatingMain.AspectGetter = obj =>
             {
@@ -304,139 +336,11 @@ namespace SCEloSystemGUI
             return playerStatsLV;
         }
 
-        private ObjectListView CreatePlayerSearchListView()
-        {
-            var playerStatsLV = new ObjectListView()
-            {
-                AlternateRowBackColor = Color.FromArgb(210, 210, 210),
-                BackColor = Color.FromArgb(175, 175, 235),
-                Dock = DockStyle.Fill,
-                Font = new Font("Calibri", PlayerStats.TEXT_SIZE, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
-                HeaderStyle = ColumnHeaderStyle.Nonclickable,
-                HasCollapsibleGroups = false,
-                Margin = new Padding(4),
-                Cursor = Cursors.Hand,
-                MultiSelect = false,
-                RowHeight = 26,
-                Scrollable = true,
-                ShowGroups = false,
-                Size = new Size(755, 900),
-                UseAlternatingBackColors = true,
-                UseCellFormatEvents = true,
-                FullRowSelect = true
-            };
-
-            var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null };
-            var olvClmRank = new OLVColumn() { Width = 50, Text = "Rank" };
-            var olvClmName = new OLVColumn() { Width = 130, Text = "Name" };
-            var olvClmCountry = new OLVColumn() { Width = 65, Text = "Country" };
-            var olvClmTeam = new OLVColumn() { Width = 60, Text = "Team" };
-            var olvClmMainRace = new OLVColumn() { Width = 60, Text = "Race" };
-            var olvClmRatingMain = new OLVColumn() { Width = 70, Text = "Rating - main" };
-            var olvClmAliases = new OLVColumn() { Width = 150, Text = "Aliases" };
-            var olvClmIRLName = new OLVColumn() { Width = 155, Text = "IRL name" };
-
-            playerStatsLV.AllColumns.AddRange(new OLVColumn[] { olvClmEmpty, olvClmRank, olvClmName, olvClmCountry, olvClmTeam, olvClmMainRace, olvClmRatingMain, olvClmAliases, olvClmIRLName });
-
-            playerStatsLV.Columns.AddRange(new ColumnHeader[] { olvClmEmpty, olvClmRank, olvClmName, olvClmCountry, olvClmTeam, olvClmMainRace, olvClmRatingMain, olvClmAliases, olvClmIRLName });
-
-            foreach (OLVColumn clm in new OLVColumn[] { olvClmCountry, olvClmTeam, olvClmMainRace, olvClmRatingMain })
-            {
-                clm.HeaderTextAlign = HorizontalAlignment.Center;
-                clm.TextAlign = HorizontalAlignment.Center;
-            }
-
-            olvClmRank.AspectGetter = obj =>
-            {
-                var rank = (obj as Tuple<SCPlayer, int>).Item2;
-
-                return String.Format("{0}.", rank.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT));
-            };
-
-            olvClmName.AspectGetter = obj =>
-            {
-                var player = (obj as Tuple<SCPlayer, int>).Item1;
-
-                return player.Name;
-            };
-
-            const int STANDARD_IMAGE_SIZE_MAX = 28;
-
-            olvClmCountry.AspectGetter = obj =>
-            {
-                var player = (obj as Tuple<SCPlayer, int>).Item1;
-
-                EloImage flag;
-
-                if (player.Country != null && this.eloDataBase().TryGetImage(player.Country.ImageID, out flag)) { return new Image[] { flag.Image.ResizeSameAspectRatio(STANDARD_IMAGE_SIZE_MAX) }; }
-                else if (player.Country != null) { return player.Country.Name; }
-                else { return null; }
-
-            };
-
-            const int TEAM_LOGO_SIZE_MAX = 23;
-
-            olvClmTeam.AspectGetter = obj =>
-            {
-                var player = (obj as Tuple<SCPlayer, int>).Item1;
-
-                EloImage teamLogo;
-
-                if (player.Team != null && this.eloDataBase().TryGetImage(player.Team.ImageID, out teamLogo)) { return new Image[] { teamLogo.Image.ResizeSameAspectRatio(TEAM_LOGO_SIZE_MAX) }; }
-                else { return player.TeamName; }
-
-            };
-
-            var imgRenderer = new ImageRenderer() { Bounds = new Rectangle(4, 2, 4, 4) };
-            olvClmCountry.Renderer = imgRenderer;
-            olvClmTeam.Renderer = imgRenderer;
-
-            const int RACE_IMAGE_HEIGHT_MAX = 26;
-            const int RACE_IMAGE_WIDTH_MAX = 60;
-
-            olvClmMainRace.AspectGetter = obj =>
-            {
-                var player = (obj as Tuple<SCPlayer, int>).Item1;
-
-                Image raceImg = RaceIconProvider.GetRaceUsageIcon(player);
-
-                if (player.Stats.GamesTotal() > 0) { return new Image[] { RaceIconProvider.GetRaceUsageIcon(player).ResizeSARWithinBounds(RACE_IMAGE_WIDTH_MAX, RACE_IMAGE_HEIGHT_MAX) }; }
-                else { return null; }
-
-            };
-
-            var mainRaceRenderer = new ImageRenderer() { Bounds = new Rectangle(6, 2, 6, 6) };
-            olvClmMainRace.Renderer = mainRaceRenderer;
-
-            olvClmRatingMain.AspectGetter = obj =>
-            {
-                var player = (obj as Tuple<SCPlayer, int>).Item1;
-
-                return player.RatingTotal().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
-            };
-
-            olvClmAliases.AspectGetter = obj =>
-            {
-                var player = (obj as Tuple<SCPlayer, int>).Item1;
-
-                return string.Join(", ", player.GetAliases());
-            };
-
-            olvClmIRLName.AspectGetter = obj =>
-            {
-                var player = (obj as Tuple<SCPlayer, int>).Item1;
-
-                return player.IRLName;
-            };
-
-            return playerStatsLV;
-        }
-
         private static void PlayerStats_FormatCell(object sender, FormatCellEventArgs e)
         {
-            if (e.ColumnIndex == 6) { e.SubItem.Font = new Font("Calibri", PlayerStats.TEXT_SIZE, FontStyle.Bold, GraphicsUnit.Point, ((byte)(0))); }
+            if (e.ColumnIndex == 7) { e.SubItem.Font = new Font("Calibri", PlayerStats.TEXT_SIZE, FontStyle.Bold, GraphicsUnit.Point, ((byte)(0))); }
 
-            if (e.ColumnIndex == 7)
+            if (e.ColumnIndex == 8)
             {
                 e.SubItem.Font = new Font("Calibri", PlayerStats.TEXT_SIZE, FontStyle.Bold, GraphicsUnit.Point, ((byte)(0)));
 
@@ -492,8 +396,8 @@ namespace SCEloSystemGUI
         {
             if (e.KeyChar == (char)Keys.Escape)
             {
-                if (this.tabCtrlCustomizations.Visible) { this.ToggleFilterVisibility(); }
-                else { this.Close(); }
+                if (this.tabCtrlCustomizations.Visible && this.StopFilterShowProcces()) { this.ToggleFilterVisibility(); }
+                else if (!this.tabCtrlCustomizations.Visible) { this.Close(); }
 
             }
 

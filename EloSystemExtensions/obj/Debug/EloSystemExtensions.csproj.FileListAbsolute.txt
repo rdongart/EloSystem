@@ -2,8 +2,8 @@ C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystemExtensio
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystemExtensions\bin\Debug\EloSystemExtensions.pdb
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystemExtensions\bin\Debug\CustomExtensionMethods.dll
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystemExtensions\bin\Debug\EloSystem.dll
-C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystemExtensions\bin\Debug\EloSystem.pdb
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystemExtensions\bin\Debug\CustomExtensionMethods.pdb
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystemExtensions\obj\Debug\EloSystemExtensions.csprojResolveAssemblyReference.cache
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystemExtensions\obj\Debug\EloSystemExtensions.dll
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystemExtensions\obj\Debug\EloSystemExtensions.pdb
+C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\EloSystemExtensions\bin\Debug\EloSystem.pdb

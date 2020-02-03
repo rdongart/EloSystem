@@ -25,7 +25,7 @@ namespace SCEloSystemGUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("180")]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
         public uint NoRecentMatches {
             get {
                 return ((uint)(this["NoRecentMatches"]));
@@ -44,6 +44,30 @@ namespace SCEloSystemGUI.Properties {
             }
             set {
                 this["PlayerDevelopmentScope"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("All_Time")]
+        public global::SCEloSystemGUI.DevelopmentInterval RatingDevInterval {
+            get {
+                return ((global::SCEloSystemGUI.DevelopmentInterval)(this["RatingDevInterval"]));
+            }
+            set {
+                this["RatingDevInterval"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Matches")]
+        public global::SCEloSystemGUI.ResultsDisplay PlayerResultDisplayTypes {
+            get {
+                return ((global::SCEloSystemGUI.ResultsDisplay)(this["PlayerResultDisplayTypes"]));
+            }
+            set {
+                this["PlayerResultDisplayTypes"] = value;
             }
         }
     }

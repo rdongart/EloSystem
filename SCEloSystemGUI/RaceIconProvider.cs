@@ -166,7 +166,7 @@ namespace SCEloSystemGUI
             RaceIconProvider.raceListsCreated.Add(new List<Race>() { raceFirst, raceSecond, raceThird, raceFourth }, img);
         }
 
-        private static Bitmap GetRaceBitmap(Race race)
+        internal static Bitmap GetRaceBitmap(Race race)
         {
             switch (race)
             {

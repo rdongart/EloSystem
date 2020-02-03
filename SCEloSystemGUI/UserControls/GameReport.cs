@@ -49,7 +49,7 @@ namespace SCEloSystemGUI.UserControls
 
                 this.eloDataSource().MapPoolChanged += this.OnMapPoolUpdate;
 
-                GameReport.PopulateComboboxWithMaps(this.cmbBxMap, value().GetMaps().OrderBy(map => map.Name));
+                EloGUIControlsStaticMembers.PopulateComboboxWithMaps(this.cmbBxMap, value().GetMaps().OrderBy(map => map.Name));
             }
 
         }
@@ -173,6 +173,15 @@ namespace SCEloSystemGUI.UserControls
             this.SetTextOnWinnerRadioButtons();
         }
 
+        private static void PopulateCombobBoxRace(ComboBox cmBx)
+        {
+            cmBx.DisplayMember = "Item1";
+            cmBx.ValueMember = "Item2";
+
+            cmBx.Items.Clear();
+            cmBx.Items.AddRange(Enum.GetValues(typeof(Race)).Cast<Race>().Select(enm => Tuple.Create<string, Race>(enm.ToString().ToUpper(), enm)).ToArray());
+        }
+
         private void RdBtnPlWin_CheckedChanged(object sender, EventArgs e)
         {
             if (this.rdBtnPl1Win.Checked)
@@ -189,33 +198,6 @@ namespace SCEloSystemGUI.UserControls
             this.UpdateControlValues();
 
             this.GameDataReported.Invoke(this, new EventArgs());
-        }
-
-        private static void PopulateCombobBoxRace(ComboBox cmBx)
-        {
-            cmBx.DisplayMember = "Item1";
-            cmBx.ValueMember = "Item2";
-
-            cmBx.Items.Clear();
-            cmBx.Items.AddRange(Enum.GetValues(typeof(Race)).Cast<Race>().Select(enm => Tuple.Create<string, Race>(enm.ToString().ToUpper(), enm)).ToArray());
-        }
-
-        private static void PopulateComboboxWithMaps(ComboBox cmBx, IEnumerable<Map> maps)
-        {
-            List<Map> mapList = maps.OrderBy(map => map.Name).ToList();
-
-            var selectedItem = cmBx.SelectedItem != null ? (cmBx.SelectedItem as Tuple<string, Map>).Item2 : null;
-
-            cmBx.DisplayMember = "Item1";
-            cmBx.ValueMember = "Item2";
-
-            cmBx.Items.Clear();
-            cmBx.Items.Add(Tuple.Create<string, Map>("none", null));
-            cmBx.Items.AddRange(mapList.Select(map => Tuple.Create<string, Map>(map.Name, map)).ToArray());
-
-            const int MAP_ITEM_NONE = 1;
-
-            if (selectedItem != null && mapList.Contains(selectedItem)) { cmBx.SelectedIndex = mapList.IndexOf(selectedItem) + MAP_ITEM_NONE; }
         }
 
         private bool HasSelectedRaces()
@@ -345,7 +327,7 @@ namespace SCEloSystemGUI.UserControls
 
             if (senderElo == null) { return; }
 
-            GameReport.PopulateComboboxWithMaps(this.cmbBxMap, senderElo.GetMaps().OrderBy(map => map.Name));
+            EloGUIControlsStaticMembers.PopulateComboboxWithMaps(this.cmbBxMap, senderElo.GetMaps().OrderBy(map => map.Name));
         }
 
         public bool RaceIsSelectedFor(PlayerSlotType slot)

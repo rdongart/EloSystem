@@ -14,6 +14,21 @@ namespace SCEloSystemGUI
     {
         internal const string NUMBER_FORMAT = "#,#";
 
+        internal const int GAMESPLAYED_DEFAULT_THRESHOLD = 8;
+        internal const int GAMESPLAYED_DEFAULT_RACE_THRESHOLD = 3;
+        internal const int RECENTACTIVITY_GAMESPLAYED_DEFAULT_THRESHOLD = 2;
+        internal const int RECENTACTIVITY_GAMESPLAYED_DEFAULT_RACE_THRESHOLD = 1;
+        internal const int RECENTACTIVITY_MONTHS_DEFAULT = 12;
+
+        internal static Color OlvRowBackColor = Color.FromArgb(175, 175, 235);
+        internal static Color OlvRowAlternativeBackColor = Color.FromArgb(210, 210, 210);
+        private static Color ColorSchemeFrontColor1 = Color.FromArgb(115, 115, 170);
+        private static Color ColorSchemeFrontColor2 = Color.FromArgb(225, 170, 0);
+        private static Color ColorSchemeBackColor1 = Color.FromArgb(235, 250, 245);
+        private static Color ColorSchemeBackColor2 = Color.FromArgb(149, 179, 215);
+        internal static Color WinColor = Color.ForestGreen;
+        internal static Color LoseColor = Color.FromArgb(217, 0, 0);
+
         internal static DialogResult GetEloSystemName(ref string fileName)
         {
             while (true)
@@ -38,10 +53,10 @@ namespace SCEloSystemGUI
             var matchLV = new ObjectListView()
             {
                 AlternateRowBackColor = Color.FromArgb(217, 217, 217),
-                Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
+                Font = new Font("Calibri", 10F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 HeaderStyle = ColumnHeaderStyle.Nonclickable,
                 HasCollapsibleGroups = false,
-                Margin = new Padding(6),
+                Margin = new Padding(3),
                 MultiSelect = false,
                 RowHeight = 22,
                 Scrollable = true,
@@ -61,18 +76,7 @@ namespace SCEloSystemGUI
             var olvClmTournament = new OLVColumn() { Width = 130, Text = "Tournament" };
             var olvClmSeason = new OLVColumn() { Width = 110, Text = "Season" };
 
-            matchLV.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-            matchLV.Size = new Size(784, 850);
-            matchLV.HasCollapsibleGroups = false;
-            matchLV.ShowGroups = false;
-            matchLV.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            matchLV.RowHeight = 22;
-            matchLV.UseCellFormatEvents = true;
             matchLV.FormatCell += EloSystemGUIStaticMembers.MatchLV_FormatCell;
-            matchLV.Scrollable = true;
-            matchLV.Margin = new Padding(3);
-            matchLV.AlternateRowBackColor = Color.FromArgb(217, 217, 217);
-            matchLV.UseAlternatingBackColors = true; matchLV.MultiSelect = false;
 
             matchLV.AllColumns.AddRange(new OLVColumn[] { olvClmEmpty, olvClmDate, olvClmPlayer1, olvClmRatingChangePlayer1, olvClmResult, olvClmRatingChangePlayer2, olvClmPlayer2, olvClmTournament, olvClmSeason });
 
@@ -164,8 +168,8 @@ namespace SCEloSystemGUI
 
             if (int.TryParse(subItem.Text, out cellValue))
             {
-                if (cellValue < 0) { subItem.ForeColor = Color.Red; }
-                else if (cellValue > 0) { subItem.ForeColor = Color.ForestGreen; }
+                if (cellValue < 0) { subItem.ForeColor = EloSystemGUIStaticMembers.LoseColor; }
+                else if (cellValue > 0) { subItem.ForeColor = EloSystemGUIStaticMembers.WinColor; }
                 else { subItem.ForeColor = SystemColors.ControlText; }
             }
         }
@@ -175,5 +179,17 @@ namespace SCEloSystemGUI
             if (e.ColumnIndex == 3 || e.ColumnIndex == 5) { EloSystemGUIStaticMembers.FormatRatingChangeOLVCell(e.SubItem); }
         }
 
+        internal static RowBorderDecoration OlvListViewRowBorderDecoration()
+        {
+            return new RowBorderDecoration()
+            {
+                BorderPen = new Pen(EloSystemGUIStaticMembers.ColorSchemeFrontColor2, 2F),
+                BoundsPadding = new Size(1, 1),
+                CornerRounding = 5F,
+                FillBrush = new SolidBrush(Color.FromArgb(30, 0, 0, 0))
+            };
+        }
+
     }
 }
+

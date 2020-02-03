@@ -93,33 +93,37 @@ namespace SCEloSystemGUI.UserControls
         {
             const string NO_PERCENTAGE_TEXT = "--";
 
+            Func<double, int, int, string> GetRaceFilteredMapStats = (winRatio, winsForPlayersRace, TotalGames) => String.Format("{0}%  -  {1} / {2}", ((winRatio) * 100).RoundToInt().ToString()
+                , winsForPlayersRace.ToString("#,#"), TotalGames.ToString("#,#"));
+
             switch (vsRace)
             {
                 case Race.Zerg:
                     switch (playersRace)
                     {
                         case Race.Zerg: return NO_PERCENTAGE_TEXT;
-                        case Race.Terran: return (map.Stats.ZvT.WinRatioRace2CorrectedForExpectedWR() * 100).RoundToInt().ToString();
-                        case Race.Protoss: return (map.Stats.PvZ.WinRatioRace1CorrectedForExpectedWR() * 100).RoundToInt().ToString();
-                        case Race.Random: return (map.Stats.ZvR.WinRatioRace2CorrectedForExpectedWR() * 100).RoundToInt().ToString();
+                        case Race.Terran: return GetRaceFilteredMapStats(map.Stats.ZvT.WinRatioRace2CorrectedForExpectedWR(), map.Stats.ZvT.Race2Wins, map.Stats.ZvT.TotalGames);
+                        case Race.Protoss: return GetRaceFilteredMapStats(map.Stats.PvZ.WinRatioRace1CorrectedForExpectedWR(), map.Stats.PvZ.Race1Wins, map.Stats.PvZ.TotalGames);
+                        case Race.Random: return GetRaceFilteredMapStats(map.Stats.ZvR.WinRatioRace2CorrectedForExpectedWR(), map.Stats.ZvR.Race2Wins, map.Stats.ZvR.TotalGames);
                         default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Race).ToString(), playersRace.ToString()));
                     }
                 case Race.Terran:
                     switch (playersRace)
                     {
-                        case Race.Zerg: return (map.Stats.ZvT.WinRatioRace1CorrectedForExpectedWR() * 100).RoundToInt().ToString();
+                        case Race.Zerg: return GetRaceFilteredMapStats(map.Stats.ZvT.WinRatioRace1CorrectedForExpectedWR(), map.Stats.ZvT.Race1Wins, map.Stats.ZvT.TotalGames);
                         case Race.Terran: return NO_PERCENTAGE_TEXT;
-                        case Race.Protoss: return (map.Stats.PvT.WinRatioRace1CorrectedForExpectedWR() * 100).RoundToInt().ToString();
-                        case Race.Random: return (map.Stats.TvR.WinRatioRace2CorrectedForExpectedWR() * 100).RoundToInt().ToString();
+                        case Race.Protoss: return GetRaceFilteredMapStats(map.Stats.PvT.WinRatioRace1CorrectedForExpectedWR(), map.Stats.PvT.Race1Wins, map.Stats.PvT.TotalGames);
+                        case Race.Random: return GetRaceFilteredMapStats(map.Stats.TvR.WinRatioRace2CorrectedForExpectedWR(), map.Stats.TvR.Race2Wins, map.Stats.TvR.TotalGames);
                         default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Race).ToString(), playersRace.ToString()));
                     }
                 case Race.Protoss:
                     switch (playersRace)
                     {
-                        case Race.Zerg: return (map.Stats.PvZ.WinRatioRace2CorrectedForExpectedWR() * 100).RoundToInt().ToString();
-                        case Race.Terran: return (map.Stats.PvT.WinRatioRace2CorrectedForExpectedWR() * 100).RoundToInt().ToString();
+                        case Race.Zerg:
+                            return GetRaceFilteredMapStats(map.Stats.PvZ.WinRatioRace2CorrectedForExpectedWR(), map.Stats.PvZ.Race2Wins, map.Stats.PvZ.TotalGames);
+                        case Race.Terran: return GetRaceFilteredMapStats(map.Stats.PvT.WinRatioRace2CorrectedForExpectedWR(), map.Stats.PvT.Race2Wins, map.Stats.PvT.TotalGames);
                         case Race.Protoss: return NO_PERCENTAGE_TEXT;
-                        case Race.Random: return (map.Stats.PvR.WinRatioRace2CorrectedForExpectedWR() * 100).RoundToInt().ToString();
+                        case Race.Random: return GetRaceFilteredMapStats(map.Stats.PvR.WinRatioRace2CorrectedForExpectedWR(), map.Stats.PvR.Race2Wins, map.Stats.PvR.TotalGames);
                         default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Race).ToString(), playersRace.ToString()));
                     }
                 case Race.Random: return NO_PERCENTAGE_TEXT;
@@ -249,11 +253,11 @@ namespace SCEloSystemGUI.UserControls
             }
             else
             {
-                this.lbRaceVsZerg.Text = String.Format("{0}vZ:  {1}%", this.player.GetPrimaryRaceVs(Race.Zerg).ToString().Substring(0, 1), ResultsFilters.GetMapStatsFor(this.player.GetPrimaryRaceVs(Race.Zerg)
+                this.lbRaceVsZerg.Text = String.Format("{0}vZ:  {1}", this.player.GetPrimaryRaceVs(Race.Zerg).ToString().Substring(0, 1), ResultsFilters.GetMapStatsFor(this.player.GetPrimaryRaceVs(Race.Zerg)
                     , Race.Zerg, this.SelectedMap));
-                this.lbRaceVsTerran.Text = String.Format("{0}vT:  {1}%", this.player.GetPrimaryRaceVs(Race.Terran).ToString().Substring(0, 1)
+                this.lbRaceVsTerran.Text = String.Format("{0}vT:  {1}", this.player.GetPrimaryRaceVs(Race.Terran).ToString().Substring(0, 1)
                     , ResultsFilters.GetMapStatsFor(this.player.GetPrimaryRaceVs(Race.Terran), Race.Terran, this.SelectedMap));
-                this.lbRaceVsProtoss.Text = String.Format("{0}vP:  {1}%", this.player.GetPrimaryRaceVs(Race.Protoss).ToString().Substring(0, 1)
+                this.lbRaceVsProtoss.Text = String.Format("{0}vP:  {1}", this.player.GetPrimaryRaceVs(Race.Protoss).ToString().Substring(0, 1)
                     , ResultsFilters.GetMapStatsFor(this.player.GetPrimaryRaceVs(Race.Protoss), Race.Protoss, this.SelectedMap));
             }
         }

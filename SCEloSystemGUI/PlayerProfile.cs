@@ -87,6 +87,8 @@ namespace SCEloSystemGUI
             this.tabPageSingleGames.Controls.Add(this.gameResultsListView);
 
             this.SetResults();
+
+            
         }
 
         private void OnHeadToHeadOpponentChanged(object sender, EventArgs e)

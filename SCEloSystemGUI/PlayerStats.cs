@@ -31,6 +31,7 @@ namespace SCEloSystemGUI
         private ContentFilter<Team> teamFilter;
         private ObjectListView olvPlayerStats;
         private ObjectListView olvPlayerSearch;
+        private PlayerSearch searcher;
         private RankHandler rankHandler;
         private ResourceGetter eloDataBase;
 
@@ -69,9 +70,9 @@ namespace SCEloSystemGUI
 
             this.olvPlayerSearch = EloGUIControlsStaticMembers.CreatePlayerSearchListView(databaseGetter, rankHandler);
             this.olvPlayerSearch.SelectionChanged += this.OlvPlayerSearch_SelectionChanged;
-            var playerSearch = new PlayerSearch(this.olvPlayerSearch);
-            playerSearch.PlayerSearchInitiated += this.OnPlayerSearch;
-            this.tabPagePlayerSearch.Controls.Add(playerSearch);
+            this.searcher = new PlayerSearch(this.olvPlayerSearch);
+            this.searcher.PlayerSearchInitiated += this.OnPlayerSearch;
+            this.tabPagePlayerSearch.Controls.Add(this.searcher);
 
             this.SetPlayerList();
 
@@ -367,6 +368,9 @@ namespace SCEloSystemGUI
             this.SetPlayerList();
 
             this.SetbtnApllyEnabledStatus();
+
+            if (this.olvPlayerSearch.Items.Count > 0) { this.searcher.UpdateSearch(); }
+
         }
 
         private void btnToggleFilterVisibility_Click(object sender, EventArgs e)
@@ -402,5 +406,6 @@ namespace SCEloSystemGUI
             }
 
         }
+
     }
 }

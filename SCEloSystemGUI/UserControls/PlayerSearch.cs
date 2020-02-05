@@ -28,16 +28,20 @@ namespace SCEloSystemGUI.UserControls
             this.tblLOPnlPlayerSearch.Controls.Add(lstV, 0, 2);
             this.tblLOPnlPlayerSearch.SetColumnSpan(lstV, 2);
         }
-
+        
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            this.PlayerSearchInitiated(this, new PlayerSearchEventArgs(this.txtBxFilter.Text));
+            this.UpdateSearch();
         }
 
         private void txtBxFilter_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Return && this.txtBxFilter.Text != "") { this.PlayerSearchInitiated.Invoke(this, new PlayerSearchEventArgs(this.txtBxFilter.Text)); }
+            if (e.KeyCode == Keys.Return && this.txtBxFilter.Text != "") { this.UpdateSearch(); }
         }
 
+        public void UpdateSearch()
+        {
+            this.PlayerSearchInitiated.Invoke(this, new PlayerSearchEventArgs(this.txtBxFilter.Text));
+        }
     }
 }

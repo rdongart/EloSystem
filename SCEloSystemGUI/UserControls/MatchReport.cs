@@ -13,7 +13,7 @@ using System.Windows.Forms;
 namespace SCEloSystemGUI.UserControls
 {
     public delegate EloData ResourceGetter();
-    
+
     public delegate double Player1EWRGetter(Race player1Race, Race player2Race);
 
     public delegate int RatingChangeGetter(PlayerSlotType winner, Race player1Race, Race player2Race);
@@ -726,6 +726,8 @@ namespace SCEloSystemGUI.UserControls
 
             if (editorForm.ShowDialog() == DialogResult.OK)
             {
+                Application.UseWaitCursor = true;
+
                 this.EloDataSource().ChangeDailyIndex(this.editorMatch.SourceMatch, editorForm.IndexChanges);
 
                 this.AddRecentMatches();
@@ -733,7 +735,11 @@ namespace SCEloSystemGUI.UserControls
                 this.EditorMatch = null;
 
                 this.oLstVRecentMatches.SelectedItems.Clear();
+
+                Application.UseWaitCursor = false;
             }
+
+            
         }
     }
 }

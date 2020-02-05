@@ -555,11 +555,11 @@ namespace EloSystem
                     Games = game.Match.GetGames().ToList()
                 }).ToList();
 
-                this.ReportMatch(new Match(player1, player2, entries, date), season);
+                this.ReportMatch(new Match(player1, player2, entries, date), season, matchesToReenter.IsEmpty());
 
                 this.ReenterMatches(matchesToReenter.Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
             }
-            else { this.ReportMatch(new Match(player1, player2, entries, date), season); }
+            else { this.ReportMatch(new Match(player1, player2, entries, date), season, true); }
 
         }
 
@@ -568,7 +568,7 @@ namespace EloSystem
             const int MATCH_TO_CHANGE = 1;
 
             int noMatchesToReenter = Math.Max(this.GetMatches().OrderByDescendingEntry().TakeWhile(match => match.DateTime.Date.CompareTo(matchToChange.DateTime.Date) > 0
-                || (match.DateTime.Date.CompareTo(matchToChange.DateTime.Date) == 0 && match.DailyIndex + dailyIndexChange >= matchToChange.DailyIndex)).Count()
+                || (match.DateTime.Date.CompareTo(matchToChange.DateTime.Date) == 0 && match.DailyIndex + dailyIndexChange <= matchToChange.DailyIndex)).Count()
                 , this.GetMatches().OrderByDescendingEntry().IndexOf(matchToChange) + MATCH_TO_CHANGE);
 
             var matchesToReenter = this.RollBackLastMatches(noMatchesToReenter).DistinctBy(m => m.Match).Select(game => new
@@ -641,7 +641,7 @@ namespace EloSystem
 
             if (matchToReplace.DateTime.Date.CompareTo(newDate.Date) >= 0)
             {
-                this.ReportMatch(new Match(player1, player2, entries, newDate), season);
+                this.ReportMatch(new Match(player1, player2, entries, newDate), season, matchesToReenter.IsEmpty());
 
                 this.ReenterMatches(matchesToReenter.Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
             }
@@ -649,7 +649,7 @@ namespace EloSystem
             {
                 this.ReenterMatches(matchesToReenter.Where(matchItem => matchItem.Match.DateTime.CompareTo(newDate.Date) <= 0).Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
 
-                this.ReportMatch(new Match(player1, player2, entries, newDate), season);
+                this.ReportMatch(new Match(player1, player2, entries, newDate), season, matchesToReenter.IsEmpty());
 
                 this.ReenterMatches(matchesToReenter.Where(matchItem => matchItem.Match.DateTime.CompareTo(newDate.Date) > 0).Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
             }
@@ -680,13 +680,19 @@ namespace EloSystem
 
         private void ReenterMatches(IEnumerable<Tuple<Match, Season>> matchesToReenter)
         {
+            bool invokeEvent = false;
+
             foreach (Tuple<Match, Season> matchData in matchesToReenter.OrderBy(t => t.Item1.DateTime.Date).ThenBy(t => t.Item1.DailyIndex))
             {
-                this.ReportMatch(new Match(matchData.Item1.Player1, matchData.Item1.Player2, matchData.Item1.GetEntries(), matchData.Item1.DateTime), matchData.Item2);
+                invokeEvent = true;
+
+                this.ReportMatch(new Match(matchData.Item1.Player1, matchData.Item1.Player2, matchData.Item1.GetEntries(), matchData.Item1.DateTime), matchData.Item2, false);
             }
+
+            if (invokeEvent) { this.MatchPoolChanged.Invoke(this, new EventArgs()); }
         }
 
-        private void ReportMatch(Match match, Season season)
+        private void ReportMatch(Match match, Season season, bool evokeMatchPoolChangedHandler)
         {
             match.DailyIndex = this.GetMatches().Count(m => m.DateTime.Date.Equals(match.DateTime.Date));
 
@@ -698,7 +704,8 @@ namespace EloSystem
 
             this.ContentHasBeenChanged = true;
 
-            this.MatchPoolChanged.Invoke(this, new EventArgs());
+            if (evokeMatchPoolChangedHandler) { this.MatchPoolChanged.Invoke(this, new EventArgs()); }
+
         }
 
         /// <summary>

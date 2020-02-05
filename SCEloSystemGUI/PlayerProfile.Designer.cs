@@ -105,6 +105,7 @@
             this.tblLOPnlPlayerProfile.SetColumnSpan(this.lbName, 2);
             this.lbName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbName.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbName.ForeColor = System.Drawing.Color.White;
             this.lbName.Location = new System.Drawing.Point(3, 3);
             this.lbName.Margin = new System.Windows.Forms.Padding(3);
             this.lbName.Name = "lbName";
@@ -116,7 +117,6 @@
             // grpBxPlayerInfo
             // 
             this.grpBxPlayerInfo.BackColor = System.Drawing.Color.Transparent;
-            this.grpBxPlayerInfo.BackgroundImage = global::SCEloSystemGUI.Properties.Resources.SpaceBackground;
             this.grpBxPlayerInfo.Controls.Add(this.tblLOPnlPlayerDetails);
             this.grpBxPlayerInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpBxPlayerInfo.Font = new System.Drawing.Font("Calibri", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -342,12 +342,12 @@
             // 
             // picBxRace
             // 
-            this.picBxRace.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.picBxRace.Location = new System.Drawing.Point(400, 110);
-            this.picBxRace.Margin = new System.Windows.Forms.Padding(40, 6, 6, 48);
+            this.picBxRace.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(89)))), ((int)(((byte)(89)))));
+            this.picBxRace.Location = new System.Drawing.Point(390, 110);
+            this.picBxRace.Margin = new System.Windows.Forms.Padding(30, 6, 6, 36);
             this.picBxRace.Name = "picBxRace";
             this.tblLOPnlPlayerDetails.SetRowSpan(this.picBxRace, 2);
-            this.picBxRace.Size = new System.Drawing.Size(52, 50);
+            this.picBxRace.Size = new System.Drawing.Size(62, 62);
             this.picBxRace.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picBxRace.TabIndex = 17;
             this.picBxRace.TabStop = false;
@@ -482,16 +482,20 @@
             // 
             // PlayerProfile
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoScroll = true;
             this.AutoScrollMinSize = new System.Drawing.Size(1535, 790);
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BackColor = System.Drawing.SystemColors.Control;
+            this.AutoSize = true;
+            this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImage = global::SCEloSystemGUI.Properties.Resources.SpaceBackground;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1554, 792);
             this.Controls.Add(this.tblLOPnlPlayerProfile);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
+            this.MaximumSize = new System.Drawing.Size(1570, 830);
             this.Name = "PlayerProfile";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Player Profile";

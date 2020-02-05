@@ -83,8 +83,9 @@
             this.ClientSize = new System.Drawing.Size(864, 342);
             this.Controls.Add(this.tblLOPnlPlayerSelector);
             this.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "PlayerSelector";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Select Player";
             this.tblLOPnlPlayerSelector.ResumeLayout(false);
             this.ResumeLayout(false);

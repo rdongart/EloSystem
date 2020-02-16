@@ -43,6 +43,13 @@ namespace EloSystemExtensions
             return ed.GetAllGames().Where(game => game.Player1.Equals(player) || game.Player2.Equals(player));
         }
 
+        public static IEnumerable<Game> GamesOnMap(this EloData ed, Map map)
+        {
+            if (map == null) { throw new ArgumentNullException("map"); }
+
+            return ed.GetAllGames().Where(game => game.Map != null && game.Map.Equals(map));
+        }
+
         public static IEnumerable<Game> HeadToHeadGames(this EloData ed, SCPlayer player1, SCPlayer player2)
         {
             if (player1 == null) { throw new ArgumentNullException("player1"); }

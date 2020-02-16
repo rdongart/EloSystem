@@ -10,24 +10,21 @@ using System.Windows.Forms;
 
 namespace SCEloSystemGUI
 {
-    public partial class PlayerSelector : Form
+    public partial class HeadToHeadSelector : Form
     {
         public static SCPlayer SelectedPlayer { get; private set; }
 
         private ObjectListView playerListView;
         private PlayerSearch playerSearcher;
-        private ResourceGetter eloDataBase;
         private PlayerSelectorFilter filter;
 
-        private PlayerSelector(ResourceGetter eloDataBase, RankHandler rankHandler)
+        private HeadToHeadSelector(SCPlayer targetPlayer)
         {
             InitializeComponent();
 
             this.Icon = Resources.SCEloIcon;
 
-            this.eloDataBase = eloDataBase;
-
-            this.playerListView = EloGUIControlsStaticMembers.CreatePlayerSearchListView(eloDataBase, rankHandler);
+            this.playerListView = EloGUIControlsStaticMembers.CreateHeadToHeadSearchListView(targetPlayer);
             this.playerListView.SelectionChanged += this.OlvPlayerListView_SelectionChanged;
             this.playerSearcher = new PlayerSearch(this.playerListView);
             this.playerSearcher.PlayerSearchInitiated += this.OnPlayerSearch;
@@ -36,9 +33,9 @@ namespace SCEloSystemGUI
         }
 
         [STAThread]
-        internal static DialogResult Show(ResourceGetter eloDataBase, RankHandler rankHandler, PlayerSelectorFilter filter = null, string header = "")
+        internal static DialogResult Show(SCPlayer targetPlayer, PlayerSelectorFilter filter = null, string header = "")
         {
-            var selector = new PlayerSelector(eloDataBase, rankHandler) { Text = header };
+            var selector = new HeadToHeadSelector(targetPlayer) { Text = header };
             selector.filter = filter;
 
             return selector.ShowDialog();
@@ -46,7 +43,7 @@ namespace SCEloSystemGUI
 
         private void OlvPlayerListView_SelectionChanged(object sender, EventArgs e)
         {
-            if (this.playerListView.SelectedItem == null) { PlayerSelector.SelectedPlayer = null; }
+            if (this.playerListView.SelectedItem == null) { HeadToHeadSelector.SelectedPlayer = null; }
             else
             {
                 var tuple = this.playerListView.SelectedItem.RowObject as Tuple<SCPlayer, int>;
@@ -56,34 +53,40 @@ namespace SCEloSystemGUI
                     int rowHeightCorrected = this.playerListView.RowHeight + 1;
                     this.playerListView.LowLevelScroll(0, (tuple.Item2 - 1) * rowHeightCorrected - this.playerListView.LowLevelScrollPosition.Y * rowHeightCorrected);
 
-                    PlayerSelector.SelectedPlayer = tuple.Item1;
+                    HeadToHeadSelector.SelectedPlayer = tuple.Item1;
                 }
-                else { PlayerSelector.SelectedPlayer = null; }
+                else { HeadToHeadSelector.SelectedPlayer = null; }
 
             }
 
-            this.btnOK.Enabled = PlayerSelector.SelectedPlayer != null;
+            this.btnOK.Enabled = HeadToHeadSelector.SelectedPlayer != null;
         }
 
         private void OnPlayerSearch(object sender, PlayerSearchEventArgs e)
         {
+            Cursor previousCursor = Cursor.Current;
+
+            Cursor.Current = Cursors.WaitCursor;
+
             if (this.filter != null)
             {
-                this.playerListView.SetObjects(this.eloDataBase().GetPlayers().Where(player => this.filter(player)).OrderByDescending(player => player.RatingTotal()).ThenByDescending(player =>
+                this.playerListView.SetObjects(GlobalState.DataBase.GetPlayers().Where(player => this.filter(player)).OrderByDescending(player => player.RatingTotal()).ThenByDescending(player =>
                       player.Stats.GamesTotal()).ThenByDescending(player => player.Stats.WinRatioTotal()).Select((player, rank) => new Tuple<SCPlayer, int>(player, rank + 1)).Where(tuple =>
-                           this.eloDataBase().PlayerLookup(e.SearchString).Contains(tuple.Item1)).ToArray());
+                           GlobalState.DataBase.PlayerLookup(e.SearchString).Contains(tuple.Item1)).ToArray());
             }
             else
             {
-                this.playerListView.SetObjects(this.eloDataBase().GetPlayers().OrderByDescending(player => player.RatingTotal()).ThenByDescending(player =>
+                this.playerListView.SetObjects(GlobalState.DataBase.GetPlayers().OrderByDescending(player => player.RatingTotal()).ThenByDescending(player =>
                     player.Stats.GamesTotal()).ThenByDescending(player => player.Stats.WinRatioTotal()).Select((player, rank) => new Tuple<SCPlayer, int>(player, rank + 1)).Where(tuple =>
-                         this.eloDataBase().PlayerLookup(e.SearchString).Contains(tuple.Item1)).ToArray());
+                         GlobalState.DataBase.PlayerLookup(e.SearchString).Contains(tuple.Item1)).ToArray());
             }
+
+            Cursor.Current = previousCursor;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            PlayerSelector.SelectedPlayer = null;
+            HeadToHeadSelector.SelectedPlayer = null;
 
             this.DialogResult = DialogResult.Cancel;
 

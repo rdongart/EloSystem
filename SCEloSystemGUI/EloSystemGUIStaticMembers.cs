@@ -1,4 +1,9 @@
-﻿using BrightIdeasSoftware;
+﻿using CustomExtensionMethods;
+using CustomExtensionMethods.Drawing;
+using EloSystemExtensions;
+using System.Linq;
+using System.Collections.Generic;
+using BrightIdeasSoftware;
 using CustomControls;
 using EloSystem;
 using SCEloSystemGUI.UserControls;
@@ -10,6 +15,8 @@ using System.Windows.Forms;
 
 namespace SCEloSystemGUI
 {
+    internal enum PerformanceTypes { Overall = 0, vs_Zerg, vs_Terran, vs_Protoss, vs_Random }
+
     internal static class EloSystemGUIStaticMembers
     {
         internal const string NUMBER_FORMAT = "#,#";
@@ -189,6 +196,242 @@ namespace SCEloSystemGUI
                 FillBrush = new SolidBrush(Color.FromArgb(30, 0, 0, 0))
             };
         }
+
+        internal static ObjectListView CreatePlayerPerformanceListView(SCPlayer player)
+        {
+            const int ROW_HEIGHT = 20;
+            const string INFORMATION_NA = "-";
+
+            List<PlayerStatsCloneDev> ratingDevelopment = GlobalState.DataBase.PlayerStatsDevelopment(player).OrderBy(item => item.Date.Date).ToList();
+
+            var performanceLV = new ObjectListView()
+            {
+                AlternateRowBackColor = EloSystemGUIStaticMembers.OlvRowAlternativeBackColor,
+                BackColor = EloSystemGUIStaticMembers.OlvRowBackColor,
+                Dock = DockStyle.None,
+                Font = new Font("Calibri", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
+                FullRowSelect = false,
+                HeaderStyle = ColumnHeaderStyle.Nonclickable,
+                HasCollapsibleGroups = false,
+                Margin = new Padding(3),
+                MultiSelect = false,
+                RowHeight = ROW_HEIGHT,
+                Scrollable = false,
+                ShowGroups = false,
+                Size = new Size(540, 130),
+                UseAlternatingBackColors = true,
+                UseCellFormatEvents = true
+            };
+
+            var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null };
+            var olvClmPerformanceType = new OLVColumn() { Width = 80, Text = "" };
+            var olvClmOwnRace = new OLVColumn() { HeaderTextAlign = HorizontalAlignment.Center, TextAlign = HorizontalAlignment.Center, Width = 80, Text = "Own Race" };
+            var olvClmRank = new OLVColumn() { Width = 30, Text = "Rank" };
+            var olvClmRatingCurrent = new OLVColumn() { Width = 60, Text = "Current rating" };
+            var olvClmRatingPeak = new OLVColumn() { Width = 110, Text = "Peak rating" };
+            var olvClmWinPercentage = new OLVColumn() { Width = 55, Text = "Win %" };
+            var olvClmWinFrequency = new OLVColumn() { Width = 120, Text = "Win frequency" };
+
+            performanceLV.FormatCell += EloSystemGUIStaticMembers.PlayerPerformanceLV_FormatCell;
+
+            performanceLV.AllColumns.AddRange(new OLVColumn[] { olvClmEmpty, olvClmPerformanceType, olvClmOwnRace, olvClmRank, olvClmRatingCurrent, olvClmRatingPeak, olvClmWinPercentage
+                , olvClmWinFrequency, });
+
+            performanceLV.Columns.AddRange(new ColumnHeader[] { olvClmEmpty, olvClmPerformanceType, olvClmOwnRace, olvClmRank, olvClmRatingCurrent, olvClmRatingPeak, olvClmWinPercentage
+                , olvClmWinFrequency, });
+
+            foreach (OLVColumn clm in new OLVColumn[] { olvClmRatingPeak, olvClmRank, olvClmRatingCurrent, olvClmWinPercentage, olvClmWinFrequency })
+            {
+                clm.HeaderTextAlign = HorizontalAlignment.Right;
+                clm.TextAlign = HorizontalAlignment.Right;
+                clm.CellPadding = new Rectangle(0, 0, 6, 0);
+            }
+
+            olvClmPerformanceType.AspectGetter = obj =>
+            {
+                PerformanceTypes pType = (PerformanceTypes)obj;
+
+                return pType.ToString().Replace("_", ". ");
+            };
+
+            olvClmRatingCurrent.AspectGetter = obj =>
+            {
+                PerformanceTypes pType = (PerformanceTypes)obj;
+
+                if (player.Stats.GamesTotal() > 0)
+                {
+                    switch (pType)
+                    {
+                        case PerformanceTypes.Overall: return player.RatingTotal().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                        case PerformanceTypes.vs_Zerg: return player.RatingVs.Zerg.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                        case PerformanceTypes.vs_Terran: return player.RatingVs.Terran.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                        case PerformanceTypes.vs_Protoss: return player.RatingVs.Protoss.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                        case PerformanceTypes.vs_Random: return player.RatingVs.Random.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                        default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PerformanceTypes).Name, pType.ToString()));
+                    }
+                }
+                else { return INFORMATION_NA; }
+            };
+
+            const int RACE_IMAGE_HEIGHT_MAX = ROW_HEIGHT;
+            const double RACE_USAGE_PROPORTION_THRESHOLD = 0.07;
+
+            olvClmOwnRace.AspectGetter = obj =>
+            {
+                PerformanceTypes pType = (PerformanceTypes)obj;
+
+                Func<Race, Image[]> GetRaceIcon = rc =>
+                {
+                    Dictionary<Race, int> raceUsageFrequencies = player.RaceUsageFrequency(rc).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+                    double summedFrequencies = raceUsageFrequencies.Sum(kvp => kvp.Value);
+
+                    if (summedFrequencies > 0)
+                    {
+                        return new Image[] { RaceIconProvider.GetMultipleRacesUsageIcon(raceUsageFrequencies.Where(kvp => kvp.Value / summedFrequencies
+                                    >= RACE_USAGE_PROPORTION_THRESHOLD).OrderByDescending(kvp=>kvp.Value).Select(kvp => kvp.Key)).ResizeSARWithinBounds(olvClmOwnRace.Width, RACE_IMAGE_HEIGHT_MAX) };
+                    }
+                    else { return null; }
+                };
+
+                if (player.Stats.GamesTotal() > 0)
+                {
+                    switch (pType)
+                    {
+                        case PerformanceTypes.Overall: return new Image[] { RaceIconProvider.GetRaceBitmap(player.GetPrimaryRace()).ResizeSARWithinBounds(olvClmOwnRace.Width, RACE_IMAGE_HEIGHT_MAX) };
+                        case PerformanceTypes.vs_Zerg: return GetRaceIcon(Race.Zerg);
+                        case PerformanceTypes.vs_Terran: return GetRaceIcon(Race.Terran);
+                        case PerformanceTypes.vs_Protoss: return GetRaceIcon(Race.Protoss);
+                        case PerformanceTypes.vs_Random: return GetRaceIcon(Race.Random);
+                        default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PerformanceTypes).Name, pType.ToString()));
+                    }
+                }
+                else { return null; }
+
+            };
+
+            var imgRenderer = new ImageRenderer() { Bounds = new Rectangle(4, 2, 4, 4) };
+            olvClmOwnRace.Renderer = imgRenderer;
+
+            var rankImgRenderer = new ImageRenderer() { Bounds = new Rectangle(5, 1, 5, 1) };
+            olvClmRank.Renderer = rankImgRenderer;
+
+            int imageHeight = ROW_HEIGHT - rankImgRenderer.Bounds.Y - rankImgRenderer.Bounds.Height;
+
+            olvClmRank.AspectGetter = obj =>
+            {
+                PerformanceTypes pType = (PerformanceTypes)obj;
+
+                switch (pType)
+                {
+                    case PerformanceTypes.Overall: return new Image[] { GlobalState.RankSystem.GetRankImageMain(player, imageHeight, true) };
+                    case PerformanceTypes.vs_Zerg: return new Image[] { GlobalState.RankSystem.GetRankImageVsRace(player, imageHeight, true, Race.Zerg) };
+                    case PerformanceTypes.vs_Terran: return new Image[] { GlobalState.RankSystem.GetRankImageVsRace(player, imageHeight, true, Race.Terran) };
+                    case PerformanceTypes.vs_Protoss: return new Image[] { GlobalState.RankSystem.GetRankImageVsRace(player, imageHeight, true, Race.Protoss) };
+                    case PerformanceTypes.vs_Random: return null;
+                    default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PerformanceTypes).Name, pType.ToString()));
+                }
+            };
+
+
+            olvClmRatingPeak.AspectGetter = obj =>
+            {
+                PerformanceTypes pType = (PerformanceTypes)obj;
+
+                PlayerStatsCloneDev max;
+
+                if (ratingDevelopment.Any())
+                {
+                    switch (pType)
+                    {
+                        case PerformanceTypes.Overall:
+                            max = ratingDevelopment.GetMaxRangeBy(item => item.RatingTotal()).Last();
+
+                            return String.Format("{0}   {1}. {2}", max.RatingTotal().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
+                                , max.Date.ToString("y").Substring(max.Date.ToString("y").Length - 4, 4));
+
+                        case PerformanceTypes.vs_Zerg:
+                            max = ratingDevelopment.GetMaxRangeBy(item => item.RatingVs.Zerg).Last();
+
+                            return String.Format("{0}   {1}. {2}", max.RatingVs.Zerg.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
+                                , max.Date.ToString("y").Substring(max.Date.ToString("y").Length - 4, 4));
+
+                        case PerformanceTypes.vs_Terran:
+                            max = ratingDevelopment.GetMaxRangeBy(item => item.RatingVs.Terran).Last();
+
+                            return String.Format("{0}   {1}. {2}", max.RatingVs.Terran.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
+                                , max.Date.ToString("y").Substring(max.Date.ToString("y").Length - 4, 4));
+
+                        case PerformanceTypes.vs_Protoss:
+                            max = ratingDevelopment.GetMaxRangeBy(item => item.RatingVs.Protoss).Last();
+
+                            return String.Format("{0}   {1}. {2}", max.RatingVs.Protoss.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
+                                , max.Date.ToString("y").Substring(max.Date.ToString("y").Length - 4, 4));
+
+                        case PerformanceTypes.vs_Random:
+                            max = ratingDevelopment.GetMaxRangeBy(item => item.RatingVs.Random).Last();
+
+                            return String.Format("{0}   {1}. {2}", max.RatingVs.Random.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
+                                , max.Date.ToString("y").Substring(max.Date.ToString("y").Length - 4, 4));
+                        default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PerformanceTypes).Name, pType.ToString()));
+                    }
+                }
+                else { return "-"; }
+            };
+
+            olvClmWinPercentage.AspectGetter = obj =>
+            {
+                PerformanceTypes pType = (PerformanceTypes)obj;
+
+                if (player.Stats.GamesTotal() > 0)
+                {
+                    switch (pType)
+                    {
+                        case PerformanceTypes.Overall: return String.Format("{0}%", (100 * player.Stats.WinRatioTotal()).RoundToInt());
+                        case PerformanceTypes.vs_Zerg: return player.Stats.GamesVs(Race.Zerg) > 0 ? String.Format("{0}%", (100 * player.Stats.WinRatioVs(Race.Zerg)).RoundToInt()) : INFORMATION_NA;
+                        case PerformanceTypes.vs_Terran: return player.Stats.GamesVs(Race.Terran) > 0 ? String.Format("{0}%", (100 * player.Stats.WinRatioVs(Race.Terran)).RoundToInt()) : INFORMATION_NA;
+                        case PerformanceTypes.vs_Protoss: return player.Stats.GamesVs(Race.Protoss) > 0 ? String.Format("{0}%", (100 * player.Stats.WinRatioVs(Race.Protoss)).RoundToInt()) : INFORMATION_NA;
+                        case PerformanceTypes.vs_Random: return player.Stats.GamesVs(Race.Random) > 0 ? String.Format("{0}%", (100 * player.Stats.WinRatioVs(Race.Random)).RoundToInt()) : INFORMATION_NA;
+                        default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PerformanceTypes).Name, pType.ToString()));
+                    }
+                }
+                else { return INFORMATION_NA; }
+
+            };
+
+            olvClmWinFrequency.AspectGetter = obj =>
+            {
+                PerformanceTypes pType = (PerformanceTypes)obj;
+
+                if (player.Stats.GamesTotal() > 0)
+                {
+                    switch (pType)
+                    {
+                        case PerformanceTypes.Overall: return String.Format("{0}/{1}", player.Stats.WinsTotal(), player.Stats.GamesTotal());
+                        case PerformanceTypes.vs_Zerg: return player.Stats.GamesVs(Race.Zerg) > 0 ? String.Format("{0}/{1}", player.Stats.WinsVs(Race.Zerg), player.Stats.GamesVs(Race.Zerg)) : INFORMATION_NA;
+                        case PerformanceTypes.vs_Terran:
+                            return player.Stats.GamesVs(Race.Terran) > 0 ? String.Format("{0}/{1}", player.Stats.WinsVs(Race.Terran), player.Stats.GamesVs(Race.Terran)) : INFORMATION_NA;
+                        case PerformanceTypes.vs_Protoss:
+                            return player.Stats.GamesVs(Race.Protoss) > 0 ? String.Format("{0}/{1}", player.Stats.WinsVs(Race.Protoss), player.Stats.GamesVs(Race.Protoss)) : INFORMATION_NA;
+                        case PerformanceTypes.vs_Random:
+                            return player.Stats.GamesVs(Race.Random) > 0 ? String.Format("{0}/{1}", player.Stats.WinsVs(Race.Random), player.Stats.GamesVs(Race.Random)) : INFORMATION_NA;
+                        default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PerformanceTypes).Name, pType.ToString()));
+                    }
+                }
+                else { return INFORMATION_NA; }
+
+            };
+
+            performanceLV.SetObjects(Enum.GetValues(typeof(PerformanceTypes)));
+            
+            return performanceLV;
+        }
+
+        private static void PlayerPerformanceLV_FormatCell(object sender, FormatCellEventArgs e)
+        {
+            if (e.RowIndex == 0 && e.ColumnIndex >= 2) { e.SubItem.Font = new Font(e.SubItem.Font.FontFamily, e.SubItem.Font.Size, FontStyle.Bold, e.SubItem.Font.Unit, e.SubItem.Font.GdiCharSet); }
+        }
+
 
     }
 }

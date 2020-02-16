@@ -2,7 +2,7 @@
 {
     public class PlayerStatsClone
     {
-        internal SCPlayer Player { get; private set; }
+        public SCPlayer Player { get; private set; }
         public ResultVariables RatingVs { get; set; }
         public WinRateCounter Stats { get; set; }
 

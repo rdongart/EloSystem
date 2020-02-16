@@ -31,35 +31,28 @@ namespace SCEloSystemGUI
         private const string WIN_TEXT = "WIN";
         private const string LOSS_TEXT = "LOSS";
 
-        private enum PerformanceTypes { Main = 0, vs_Zerg, vs_Terran, vs_Protoss, vs_Random }
-
         private List<PlayerStatsCloneDev> ratingDevelopment;
         private ObjectListView gameResultsListView;
         private ObjectListView matchResultsListView;
-        private RankHandler rankHandler;
-        private ResourceGetter eloDataSource;
         private ResultsFilters resultsFilter;
         private SCPlayer player;
 
-        internal PlayerProfile(SCPlayer player, ResourceGetter eloSystem, RankHandler rankHandler)
+        private PlayerProfile(SCPlayer player)
         {
             InitializeComponent();
 
             this.Icon = Resources.SCEloIcon;
 
             this.player = player;
-            this.eloDataSource = eloSystem;
-            this.rankHandler = rankHandler;
 
             this.lbName.Text = player.Name;
 
             this.SetPlayerDetails();
 
-            this.ratingDevelopment = this.eloDataSource().PlayerStatsDevelopment(player).OrderBy(item => item.Date.Date).ToList();
+            this.ratingDevelopment = GlobalState.DataBase.PlayerStatsDevelopment(player).OrderBy(item => item.Date.Date).ToList();
 
-            ObjectListView performanceLstV = this.CreatePlayerPerformanceListView();
+            ObjectListView performanceLstV = EloSystemGUIStaticMembers.CreatePlayerPerformanceListView(this.player);
             performanceLstV.Margin = new Padding(3, 3, 3, 6);
-            performanceLstV.SetObjects(Enum.GetValues(typeof(PerformanceTypes)));
             this.tblLOPnlPerformance.Controls.Add(performanceLstV, 0, 0);
             this.tblLOPnlPerformance.BackColor = Color.Transparent;
 
@@ -76,7 +69,7 @@ namespace SCEloSystemGUI
                 default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(ResultsDisplay).Name, Settings.Default.PlayerResultDisplayTypes));
             }
 
-            this.resultsFilter = new ResultsFilters(this.eloDataSource, this.rankHandler, this.player);
+            this.resultsFilter = new ResultsFilters(this.player);
             this.tblLOPnlResults.Controls.Add(this.resultsFilter, 0, 0);
             this.resultsFilter.ResultFilterChanged += this.OnHeadToHeadOpponentChanged;
 
@@ -87,8 +80,33 @@ namespace SCEloSystemGUI
             this.tabPageSingleGames.Controls.Add(this.gameResultsListView);
 
             this.SetResults();
+        }
 
-            
+        public static void ShowProfile(SCPlayer player)
+        {
+            PlayerProfile.ShowProfile(player, null);
+        }
+
+        public static void ShowProfile(SCPlayer player, SCPlayer headToHeadOpponent)
+        {
+            PlayerProfile.ShowProfile(player, headToHeadOpponent, null);
+        }
+
+        public static void ShowProfile(SCPlayer player, SCPlayer headToHeadOpponent, Map headToHeadMap)
+        {
+            System.Windows.Forms.Cursor previousCursor = System.Windows.Forms.Cursor.Current;
+
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
+
+            var profileForm = new PlayerProfile(player);
+
+            if (headToHeadOpponent != null && !player.Equals(headToHeadOpponent)) { profileForm.resultsFilter.SetHeadToHeadOpponent(headToHeadOpponent); }
+
+            if (headToHeadMap != null) { profileForm.resultsFilter.SetMapFilter(headToHeadMap); }
+
+            System.Windows.Forms.Cursor.Current = previousCursor;
+
+            profileForm.ShowDialog();
         }
 
         private void OnHeadToHeadOpponentChanged(object sender, EventArgs e)
@@ -107,11 +125,11 @@ namespace SCEloSystemGUI
             if (this.resultsFilter.SelectedMap != null) { MapFilter = game => { return game.Map == this.resultsFilter.SelectedMap; }; }
             else { MapFilter = game => { return true; }; }
 
-            this.matchResultsListView.SetObjects(this.eloDataSource().GetAllGames().Where(game => game.HasPlayer(this.player) && OpponentFilter(game) && MapFilter(game)).OrderByDescending(game =>
-                 game.Match.DateTime.Date).ThenByDescending(game => game.Match.DailyIndex).ToMatchEditorItems());
+            this.matchResultsListView.SetObjects(GlobalState.DataBase.GetAllGames().Where(game => game.HasPlayer(this.player) && OpponentFilter(game) && MapFilter(game)).OrderByDescending(game =>
+                game.Match.DateTime.Date).ThenByDescending(game => game.Match.DailyIndex).ToMatchEditorItems());
 
-            this.gameResultsListView.SetObjects(this.eloDataSource().GetAllGames().Where(game => game.HasPlayer(this.player) && OpponentFilter(game) && MapFilter(game)).OrderByDescending(game =>
-                game.Match.DateTime.Date).ThenByDescending(game => game.Match.DailyIndex));
+            this.gameResultsListView.SetObjects(GlobalState.DataBase.GetAllGames().Where(game => game.HasPlayer(this.player) && OpponentFilter(game) && MapFilter(game)).OrderByDescending(game =>
+                game.Match.DateTime.Date).ThenByDescending(game => game.Match.DailyIndex).ThenByDescending(game => game.GameIndex));
         }
 
         private static double AxisXDynamicDateTimeInterval(DateTime oldestDate, DateTime newestDate)
@@ -141,10 +159,9 @@ namespace SCEloSystemGUI
             var ratingChart = new Chart();
 
             ratingChart.Titles.Add("Rating development");
-            foreach (var title in ratingChart.Titles) { title.Font = new Font("Calibri", 12F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(0))); }
+            foreach (var title in ratingChart.Titles) { title.Font = new Font("Calibri", 12, FontStyle.Bold, GraphicsUnit.Point, ((byte)(0))); }
             ratingChart.AntiAliasing = AntiAliasingStyles.All;
             ratingChart.Dock = DockStyle.Fill;
-            ratingChart.Location = new Point(0, 0);
             ratingChart.BackColor = EloSystemGUIStaticMembers.OlvRowAlternativeBackColor;
             ratingChart.Margin = new Padding(3, 6, 3, 3);
 
@@ -165,10 +182,10 @@ namespace SCEloSystemGUI
             chartArea.AxisY.Maximum = ((ratingMax + yAxisRange * BUFFER) / ROUND_VALUE).RoundUp() * ROUND_VALUE;
             chartArea.AxisY.Interval = Math.Max(INTERVAL_MIN, ((yAxisRange / INTERVAL_GOAL) / ROUND_VALUE).RoundToInt() * ROUND_VALUE);
             chartArea.AxisX.Interval = PlayerProfile.AxisXDynamicDateTimeInterval(data.GetMinBy(item => item.Date).Date, data.GetMaxBy(item => item.Date).Date);
-            chartArea.Position.Auto = true;
-            chartArea.Position.X = 2F;
-            chartArea.Position.Y = 10F;
-            chartArea.Position.Width = 98F;
+            chartArea.Position.Auto = false;
+            chartArea.Position.X = 0F;
+            chartArea.Position.Y = 9F;
+            chartArea.Position.Width = 99F;
             chartArea.Position.Height = 82F;
             chartArea.AxisX.IsMarginVisible = true;
             chartArea.AxisX.LabelStyle.IsEndLabelVisible = true;
@@ -202,7 +219,7 @@ namespace SCEloSystemGUI
 
             const int MARKER_SIZE = 2;
 
-            var totalRatingSerie = new Series("Main") { ChartType = SeriesChartType.Area, Color = Color.FromArgb(140, 0, 0, 0), MarkerSize = MARKER_SIZE, BorderWidth = MARKER_SIZE };
+            var totalRatingSerie = new Series("Overall") { ChartType = SeriesChartType.Area, Color = Color.FromArgb(140, 0, 0, 0), MarkerSize = MARKER_SIZE, BorderWidth = MARKER_SIZE };
             var vsZergRatingSerie = new Series("vs Zerg") { ChartType = SeriesChartType.Line, Color = Color.FromArgb(235, 0, 0), MarkerSize = MARKER_SIZE, BorderWidth = MARKER_SIZE };
             var vsTerranRatingSerie = new Series("vs Terran") { ChartType = SeriesChartType.Line, Color = Color.FromArgb(0, 0, 235), MarkerSize = MARKER_SIZE, BorderWidth = MARKER_SIZE };
             var vsProtossRatingSerie = new Series("vs Protoss") { ChartType = SeriesChartType.Line, Color = Color.FromArgb(0, 185, 0), MarkerSize = MARKER_SIZE, BorderWidth = MARKER_SIZE };
@@ -242,226 +259,6 @@ namespace SCEloSystemGUI
             }
         }
 
-        private static void PlayerPerformanceLV_FormatCell(object sender, FormatCellEventArgs e)
-        {
-            if (e.RowIndex == 0 && e.ColumnIndex >= 2) { e.SubItem.Font = new Font(e.SubItem.Font.FontFamily, e.SubItem.Font.Size, FontStyle.Bold, e.SubItem.Font.Unit, e.SubItem.Font.GdiCharSet); }
-        }
-
-        private ObjectListView CreatePlayerPerformanceListView()
-        {
-            const int ROW_HEIGHT = 20;
-            const string INFORMATION_NA = "-";
-
-            var performanceLV = new ObjectListView()
-            {
-                AlternateRowBackColor = EloSystemGUIStaticMembers.OlvRowAlternativeBackColor,
-                BackColor = EloSystemGUIStaticMembers.OlvRowBackColor,
-                Dock = DockStyle.None,
-                Font = new Font("Calibri", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
-                FullRowSelect = false,
-                HeaderStyle = ColumnHeaderStyle.Nonclickable,
-                HasCollapsibleGroups = false,
-                Margin = new Padding(3),
-                MultiSelect = false,
-                RowHeight = ROW_HEIGHT,
-                Scrollable = false,
-                ShowGroups = false,
-                Size = new Size(550, 130),
-                UseAlternatingBackColors = true,
-                UseCellFormatEvents = true
-            };
-
-            var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null };
-            var olvClmPerformanceType = new OLVColumn() { Width = 85, Text = "" };
-            var olvClmOwnRace = new OLVColumn() { HeaderTextAlign = HorizontalAlignment.Center, TextAlign = HorizontalAlignment.Center, Width = 80, Text = "Own Race" };
-            var olvClmRank = new OLVColumn() { Width = 30, Text = "Rank" };
-            var olvClmRatingCurrent = new OLVColumn() { Width = 60, Text = "Current rating" };
-            var olvClmRatingPeak = new OLVColumn() { Width = 110, Text = "Peak rating" };
-            var olvClmWinPercentage = new OLVColumn() { Width = 60, Text = "Win %" };
-            var olvClmWinFrequency = new OLVColumn() { Width = 120, Text = "Win frequency" };
-
-            performanceLV.FormatCell += PlayerProfile.PlayerPerformanceLV_FormatCell;
-
-            performanceLV.AllColumns.AddRange(new OLVColumn[] { olvClmEmpty, olvClmPerformanceType, olvClmOwnRace, olvClmRank, olvClmRatingCurrent, olvClmRatingPeak, olvClmWinPercentage
-                , olvClmWinFrequency, });
-
-            performanceLV.Columns.AddRange(new ColumnHeader[] { olvClmEmpty, olvClmPerformanceType, olvClmOwnRace, olvClmRank, olvClmRatingCurrent, olvClmRatingPeak, olvClmWinPercentage
-                , olvClmWinFrequency, });
-
-            foreach (OLVColumn clm in new OLVColumn[] { olvClmRatingPeak, olvClmRank, olvClmRatingCurrent, olvClmWinPercentage, olvClmWinFrequency })
-            {
-                clm.HeaderTextAlign = HorizontalAlignment.Right;
-                clm.TextAlign = HorizontalAlignment.Right;
-                clm.CellPadding = new Rectangle(0, 0, 6, 0);
-            }
-
-            olvClmPerformanceType.AspectGetter = obj =>
-            {
-                PerformanceTypes pType = (PerformanceTypes)obj;
-
-                return pType.ToString().Replace("_", ". ");
-            };
-
-            olvClmRatingCurrent.AspectGetter = obj =>
-            {
-                PerformanceTypes pType = (PerformanceTypes)obj;
-
-                if (this.player.Stats.GamesTotal() > 0)
-                {
-                    switch (pType)
-                    {
-                        case PerformanceTypes.Main: return this.player.RatingTotal().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
-                        case PerformanceTypes.vs_Zerg: return this.player.RatingVs.Zerg.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
-                        case PerformanceTypes.vs_Terran: return this.player.RatingVs.Terran.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
-                        case PerformanceTypes.vs_Protoss: return this.player.RatingVs.Protoss.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
-                        case PerformanceTypes.vs_Random: return this.player.RatingVs.Random.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
-                        default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PerformanceTypes).Name, pType.ToString()));
-                    }
-                }
-                else { return INFORMATION_NA; }
-            };
-
-            const int RACE_IMAGE_HEIGHT_MAX = ROW_HEIGHT;
-
-            olvClmOwnRace.AspectGetter = obj =>
-            {
-                PerformanceTypes pType = (PerformanceTypes)obj;
-
-                if (this.player.Stats.GamesTotal() > 0)
-                {
-                    switch (pType)
-                    {
-                        case PerformanceTypes.Main: return new Image[] { RaceIconProvider.GetRaceBitmap(this.player.GetPrimaryRace()).ResizeSARWithinBounds(olvClmOwnRace.Width, RACE_IMAGE_HEIGHT_MAX) };
-                        case PerformanceTypes.vs_Zerg:
-                            return new Image[] { RaceIconProvider.GetRaceBitmap(this.player.GetPrimaryRaceVs(Race.Zerg)).ResizeSARWithinBounds(olvClmOwnRace.Width, RACE_IMAGE_HEIGHT_MAX) };
-                        case PerformanceTypes.vs_Terran:
-                            return new Image[] { RaceIconProvider.GetRaceBitmap(this.player.GetPrimaryRaceVs(Race.Terran)).ResizeSARWithinBounds(olvClmOwnRace.Width, RACE_IMAGE_HEIGHT_MAX) };
-                        case PerformanceTypes.vs_Protoss:
-                            return new Image[] { RaceIconProvider.GetRaceBitmap(this.player.GetPrimaryRaceVs(Race.Protoss)).ResizeSARWithinBounds(olvClmOwnRace.Width, RACE_IMAGE_HEIGHT_MAX) };
-                        case PerformanceTypes.vs_Random:
-                            return new Image[] { RaceIconProvider.GetRaceBitmap(this.player.GetPrimaryRaceVs(Race.Random)).ResizeSARWithinBounds(olvClmOwnRace.Width, RACE_IMAGE_HEIGHT_MAX) };
-                        default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PerformanceTypes).Name, pType.ToString()));
-                    }
-                }
-                else { return null; }
-
-            };
-
-            var imgRenderer = new ImageRenderer() { Bounds = new Rectangle(4, 2, 4, 4) };
-            olvClmOwnRace.Renderer = imgRenderer;
-
-            var rankImgRenderer = new ImageRenderer() { Bounds = new Rectangle(5, 1, 5, 1) };
-            olvClmRank.Renderer = rankImgRenderer;
-
-            int imageHeight = ROW_HEIGHT - rankImgRenderer.Bounds.Y - rankImgRenderer.Bounds.Height;
-
-            olvClmRank.AspectGetter = obj =>
-            {
-                PerformanceTypes pType = (PerformanceTypes)obj;
-
-                switch (pType)
-                {
-                    case PerformanceTypes.Main: return new Image[] { this.rankHandler.GetRankImageMain(this.player, imageHeight, true) };
-                    case PerformanceTypes.vs_Zerg: return new Image[] { this.rankHandler.GetRankImageVsRace(this.player, imageHeight, true, Race.Zerg) };
-                    case PerformanceTypes.vs_Terran: return new Image[] { this.rankHandler.GetRankImageVsRace(this.player, imageHeight, true, Race.Terran) };
-                    case PerformanceTypes.vs_Protoss: return new Image[] { this.rankHandler.GetRankImageVsRace(this.player, imageHeight, true, Race.Protoss) };
-                    case PerformanceTypes.vs_Random: return null;
-                    default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PerformanceTypes).Name, pType.ToString()));
-                }
-            };
-
-
-            olvClmRatingPeak.AspectGetter = obj =>
-            {
-                PerformanceTypes pType = (PerformanceTypes)obj;
-
-                PlayerStatsCloneDev max;
-
-                if (this.ratingDevelopment.Any())
-                {
-                    switch (pType)
-                    {
-                        case PerformanceTypes.Main:
-                            max = this.ratingDevelopment.GetMaxRangeBy(item => item.RatingTotal()).Last();
-
-                            return String.Format("{0}   {1}. {2}", max.RatingTotal().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
-                                , max.Date.ToString("y").Substring(max.Date.ToString("y").Length - 4, 4));
-
-                        case PerformanceTypes.vs_Zerg:
-                            max = this.ratingDevelopment.GetMaxRangeBy(item => item.RatingVs.Zerg).Last();
-
-                            return String.Format("{0}   {1}. {2}", max.RatingVs.Zerg.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
-                                , max.Date.ToString("y").Substring(max.Date.ToString("y").Length - 4, 4));
-
-                        case PerformanceTypes.vs_Terran:
-                            max = this.ratingDevelopment.GetMaxRangeBy(item => item.RatingVs.Terran).Last();
-
-                            return String.Format("{0}   {1}. {2}", max.RatingVs.Terran.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
-                                , max.Date.ToString("y").Substring(max.Date.ToString("y").Length - 4, 4));
-
-                        case PerformanceTypes.vs_Protoss:
-                            max = this.ratingDevelopment.GetMaxRangeBy(item => item.RatingVs.Protoss).Last();
-
-                            return String.Format("{0}   {1}. {2}", max.RatingVs.Protoss.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
-                                , max.Date.ToString("y").Substring(max.Date.ToString("y").Length - 4, 4));
-
-                        case PerformanceTypes.vs_Random:
-                            max = this.ratingDevelopment.GetMaxRangeBy(item => item.RatingVs.Random).Last();
-
-                            return String.Format("{0}   {1}. {2}", max.RatingVs.Random.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
-                                , max.Date.ToString("y").Substring(max.Date.ToString("y").Length - 4, 4));
-                        default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PerformanceTypes).Name, pType.ToString()));
-                    }
-                }
-                else { return "-"; }
-            };
-
-            olvClmWinPercentage.AspectGetter = obj =>
-            {
-                PerformanceTypes pType = (PerformanceTypes)obj;
-
-                if (this.player.Stats.GamesTotal() > 0)
-                {
-                    switch (pType)
-                    {
-                        case PerformanceTypes.Main: return String.Format("{0}%", (100 * player.Stats.WinRatioTotal()).RoundToInt());
-                        case PerformanceTypes.vs_Zerg: return player.Stats.GamesVs(Race.Zerg) > 0 ? String.Format("{0}%", (100 * player.Stats.WinRatioVs(Race.Zerg)).RoundToInt()) : INFORMATION_NA;
-                        case PerformanceTypes.vs_Terran: return player.Stats.GamesVs(Race.Terran) > 0 ? String.Format("{0}%", (100 * player.Stats.WinRatioVs(Race.Terran)).RoundToInt()) : INFORMATION_NA;
-                        case PerformanceTypes.vs_Protoss: return player.Stats.GamesVs(Race.Protoss) > 0 ? String.Format("{0}%", (100 * player.Stats.WinRatioVs(Race.Protoss)).RoundToInt()) : INFORMATION_NA;
-                        case PerformanceTypes.vs_Random: return player.Stats.GamesVs(Race.Random) > 0 ? String.Format("{0}%", (100 * player.Stats.WinRatioVs(Race.Random)).RoundToInt()) : INFORMATION_NA;
-                        default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PerformanceTypes).Name, pType.ToString()));
-                    }
-                }
-                else { return INFORMATION_NA; }
-
-            };
-
-            olvClmWinFrequency.AspectGetter = obj =>
-            {
-                PerformanceTypes pType = (PerformanceTypes)obj;
-
-                if (this.player.Stats.GamesTotal() > 0)
-                {
-                    switch (pType)
-                    {
-                        case PerformanceTypes.Main: return String.Format("{0}/{1}", player.Stats.WinsTotal(), player.Stats.GamesTotal());
-                        case PerformanceTypes.vs_Zerg: return player.Stats.GamesVs(Race.Zerg) > 0 ? String.Format("{0}/{1}", player.Stats.WinsVs(Race.Zerg), player.Stats.GamesVs(Race.Zerg)) : INFORMATION_NA;
-                        case PerformanceTypes.vs_Terran:
-                            return player.Stats.GamesVs(Race.Terran) > 0 ? String.Format("{0}/{1}", player.Stats.WinsVs(Race.Terran), player.Stats.GamesVs(Race.Terran)) : INFORMATION_NA;
-                        case PerformanceTypes.vs_Protoss:
-                            return player.Stats.GamesVs(Race.Protoss) > 0 ? String.Format("{0}/{1}", player.Stats.WinsVs(Race.Protoss), player.Stats.GamesVs(Race.Protoss)) : INFORMATION_NA;
-                        case PerformanceTypes.vs_Random:
-                            return player.Stats.GamesVs(Race.Random) > 0 ? String.Format("{0}/{1}", player.Stats.WinsVs(Race.Random), player.Stats.GamesVs(Race.Random)) : INFORMATION_NA;
-                        default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PerformanceTypes).Name, pType.ToString()));
-                    }
-                }
-                else { return INFORMATION_NA; }
-
-            };
-
-            return performanceLV;
-        }
-
         private void PlayerProfile_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Escape) { this.Close(); }
@@ -469,6 +266,8 @@ namespace SCEloSystemGUI
 
         private void SetPlayerDetails()
         {
+            this.lbPlayerInfoName.Text = this.player.Name;
+
             EloImage countryRes;
 
             this.tblLOPnlPlayerDetails.Controls.Remove(this.picBxCountry);
@@ -476,18 +275,19 @@ namespace SCEloSystemGUI
 
             if (this.player.Country != null)
             {
-                if (this.eloDataSource().TryGetImage(this.player.Country.ImageID, out countryRes))
+                if (GlobalState.DataBase.TryGetImage(this.player.Country.ImageID, out countryRes))
                 {
-                    this.picBxCountry.Image = countryRes.Image;
+                    EloGUIControlsStaticMembers.SetPictureBoxStyleAndImage(this.picBxCountry, countryRes.Image);
 
-                    this.tblLOPnlPlayerDetails.Controls.Add(this.picBxCountry, 1, 0);
+                    this.tblLOPnlPlayerDetails.Controls.Add(this.picBxCountry, 3, 0);
 
                     this.toolTipPlayerProfile.SetToolTip(this.picBxCountry, this.player.Country.Name);
                 }
                 else
                 {
                     this.lbCountryName.Text = player.Country.Name;
-                    this.tblLOPnlPlayerDetails.Controls.Add(this.lbCountryName, 1, 0);
+                    this.tblLOPnlPlayerDetails.Controls.Add(this.lbCountryName, 3, 0);
+                    this.lbCountryName.Dock = DockStyle.Fill;
                 }
             }
 
@@ -499,18 +299,19 @@ namespace SCEloSystemGUI
 
             if (this.player.Team != null)
             {
-                if (this.eloDataSource().TryGetImage(this.player.Team.ImageID, out teamRes))
+                if (GlobalState.DataBase.TryGetImage(this.player.Team.ImageID, out teamRes))
                 {
-                    this.picBxTeam.Image = teamRes.Image;
+                    EloGUIControlsStaticMembers.SetPictureBoxStyleAndImage(this.picBxTeam, teamRes.Image);
 
-                    this.tblLOPnlPlayerDetails.Controls.Add(this.picBxTeam, 1, 1);
+                    this.tblLOPnlPlayerDetails.Controls.Add(this.picBxTeam, 4, 0);
 
-                    this.toolTipPlayerProfile.SetToolTip(this.picBxTeam, this.player.Team.Name);
+                    this.toolTipPlayerProfile.SetToolTip(this.picBxTeam, String.Format("Team: {0}", this.player.Team.Name));
                 }
                 else
                 {
                     this.lbTeamName.Text = this.player.Team.Name;
-                    this.tblLOPnlPlayerDetails.Controls.Add(this.lbTeamName, 1, 1);
+                    this.tblLOPnlPlayerDetails.Controls.Add(this.lbTeamName, 4, 0);
+                    this.lbTeamName.Dock = DockStyle.Fill;
                 }
             }
 
@@ -526,7 +327,7 @@ namespace SCEloSystemGUI
 
             EloImage playerRes;
 
-            if (this.eloDataSource().TryGetImage(this.player.ImageID, out playerRes))
+            if (GlobalState.DataBase.TryGetImage(this.player.ImageID, out playerRes))
             {
                 this.picBxPlayerPhoto.Image = playerRes.Image;
 
@@ -534,10 +335,10 @@ namespace SCEloSystemGUI
             }
 
 
-            if (this.player.Stats.GamesTotal() > 0) { this.picBxRace.Image = RaceIconProvider.GetRaceUsageIcon(this.player); }
+            if (this.player.Stats.GamesTotal() > 0) { EloGUIControlsStaticMembers.SetPictureBoxStyleAndImage(this.picBxRace, RaceIconProvider.GetRaceUsageIcon(this.player)); }
+            else { EloGUIControlsStaticMembers.SetPictureBoxStyleAndImage(this.picBxRace, null); }
 
-
-            this.picBxRank.Image = rankHandler.GetRankImageMain(this.player, this.picBxRank.Height, true);
+            this.picBxRank.Image = GlobalState.RankSystem.GetRankImageMain(this.player, this.picBxRank.Height, true);
         }
 
         private void cmbBxSetDevInterval_SelectedIndexChanged(object sender, EventArgs e)
@@ -814,6 +615,5 @@ namespace SCEloSystemGUI
 
             return matchLV;
         }
-
     }
 }

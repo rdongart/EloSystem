@@ -70,7 +70,8 @@ namespace EloSystem
 
         public IEnumerable<Game> GetGames()
         {
-            foreach (Game game in this.seasons.SelectMany(season => season.GetMatches().SelectMany(match => match.GetEntries().Select(entry => new Game(match.Player1, match.Player2, entry, match, this, season.Equals(this.DefaultSeason) ? null : season)))))
+            foreach (Game game in this.seasons.SelectMany(season => season.GetMatches().SelectMany(match => match.GetEntries().Select(entry => new Game(match.Player1, match.Player2, entry, match, this
+                , season.Equals(this.DefaultSeason) ? null : season)))))
             {
                 yield return game;
             }

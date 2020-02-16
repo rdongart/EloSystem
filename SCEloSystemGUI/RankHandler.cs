@@ -1,7 +1,6 @@
 ﻿using CustomExtensionMethods;
 using EloSystem;
 using EloSystemExtensions;
-using SCEloSystemGUI.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,12 +9,13 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
 
+
 namespace SCEloSystemGUI
 {
     internal enum Rank { U, F, E, D, C, B, A, APlus }
 
 
-    internal class RankHandler
+    public class RankHandler
     {
         private const double APLUS_RANKS_PERCENTAGE = 0.01;
         private const double A_RANKS_PERCENTAGE = 0.05;
@@ -26,15 +26,15 @@ namespace SCEloSystemGUI
 
         private static Dictionary<int, Dictionary<Rank, Image>> rankImages = new Dictionary<int, Dictionary<Rank, Image>>();
 
-        private ResourceGetter eloDataBase;
+        private EloData eloDataBase;
         private Dictionary<SCPlayer, RankHolder> ranksByPlayer;
 
-        internal RankHandler(ResourceGetter resource)
+        internal RankHandler(EloData resource)
         {
             this.eloDataBase = resource;
 
-            this.eloDataBase().MatchPoolChanged += this.OnResourcesChanged;
-            this.eloDataBase().PlayerPoolChanged += this.OnResourcesChanged;
+            this.eloDataBase.MatchPoolChanged += this.OnResourcesChanged;
+            this.eloDataBase.PlayerPoolChanged += this.OnResourcesChanged;
 
             this.UpdateRanks();
         }
@@ -60,7 +60,7 @@ namespace SCEloSystemGUI
             int frameWidth = (pixelSize * 0.12).RoundToInt();
             float textSize = pixelSize * 0.36F;
 
-            var img = new Bitmap(pixelSize, pixelSize, PixelFormat.Format32bppArgb);
+            var img = new Bitmap(pixelSize, pixelSize, PixelFormat.Format64bppPArgb);
 
             using (Graphics g = Graphics.FromImage(img))
             {
@@ -75,7 +75,7 @@ namespace SCEloSystemGUI
                 switch (rank)
                 {
                     case Rank.U:
-                        backColor = new SolidBrush(Color.FromArgb(120, 120, 120));
+                        backColor = new SolidBrush(Color.FromArgb(127, 127, 127));
                         txtColor = Brushes.Black;
                         rankTxt = "U";
                         break;
@@ -90,7 +90,7 @@ namespace SCEloSystemGUI
                         rankTxt = "E";
                         break;
                     case Rank.D:
-                        backColor = Brushes.DarkRed;
+                        backColor = new SolidBrush(Color.FromArgb(160, 0, 0));
                         txtColor = Brushes.White;
                         rankTxt = "D";
                         break;
@@ -111,7 +111,7 @@ namespace SCEloSystemGUI
                         break;
                     case Rank.APlus:
                         backColor = Brushes.Black;
-                        txtColor = Brushes.DarkGoldenrod;
+                        txtColor = new SolidBrush(Color.FromArgb(232, 170, 14));
                         rankTxt = "A+";
                         break;
                     default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Rank).Name, rank.ToString()));
@@ -132,7 +132,6 @@ namespace SCEloSystemGUI
 
         }
 
-
         private static Dictionary<Rank, Image> CreateRankImages(int pixelSize)
         {
             var imagesByRank = new Dictionary<Rank, Image>();
@@ -148,7 +147,7 @@ namespace SCEloSystemGUI
         /// <param name="player"></param>
         /// <param name="bufferImages">Set to true to buffer images in memory. This takes up more memory, but decreases processing load.</param>
         /// <returns></returns>
-        internal Image GetRankImageMain(SCPlayer player, int pixelSize, bool bufferImages)
+        public Image GetRankImageMain(SCPlayer player, int pixelSize, bool bufferImages)
         {
             if (RankHandler.rankImages.ContainsKey(pixelSize)) { return RankHandler.rankImages[pixelSize][this.ranksByPlayer[player].Main]; }
             else if (bufferImages)
@@ -160,7 +159,7 @@ namespace SCEloSystemGUI
             else { return RankHandler.CreateRankImage(this.ranksByPlayer[player].Main, pixelSize); }
         }
 
-        internal Image GetRankImageVsRace(SCPlayer player, int pixelSize, bool bufferImages, Race race)
+        public Image GetRankImageVsRace(SCPlayer player, int pixelSize, bool bufferImages, Race race)
         {
             Func<SCPlayer, int, Race, Image> GetImage = (ply, pxlSz, rc) =>
             {
@@ -203,21 +202,21 @@ namespace SCEloSystemGUI
         {
             var now = DateTime.Now;
 
-            Func<SCPlayer, bool> hasRankMain = player => player.Stats.GamesTotal() >= EloSystemGUIStaticMembers.GAMESPLAYED_DEFAULT_THRESHOLD && this.eloDataBase().GamesByPlayer(player).Where(game =>
+            Func<SCPlayer, bool> hasRankMain = player => player.Stats.GamesTotal() >= EloSystemGUIStaticMembers.GAMESPLAYED_DEFAULT_THRESHOLD && this.eloDataBase.GamesByPlayer(player).Where(game =>
                 now.CompareTo(game.Match.DateTime.AddMonths(EloSystemGUIStaticMembers.RECENTACTIVITY_MONTHS_DEFAULT)) <= 0).Count() >= EloSystemGUIStaticMembers.RECENTACTIVITY_GAMESPLAYED_DEFAULT_THRESHOLD;
 
             Func<SCPlayer, Race, bool> hasRankForRace = (player, race) =>
             {
                 return player.Stats.GamesVs(race) >= EloSystemGUIStaticMembers.GAMESPLAYED_DEFAULT_RACE_THRESHOLD
-                    && this.eloDataBase().GamesByPlayer(player).Where(game => ((game.Player1.Equals(player) && game.Player2Race == race) || (game.Player2.Equals(player) && game.Player1Race == race))
+                    && this.eloDataBase.GamesByPlayer(player).Where(game => ((game.Player1.Equals(player) && game.Player2Race == race) || (game.Player2.Equals(player) && game.Player1Race == race))
                     && now.CompareTo(game.Match.DateTime.AddMonths(EloSystemGUIStaticMembers.RECENTACTIVITY_MONTHS_DEFAULT)) <= 0).Count()
                     >= EloSystemGUIStaticMembers.RECENTACTIVITY_GAMESPLAYED_DEFAULT_RACE_THRESHOLD;
             };
 
-            List<SCPlayer> playersWithMainRank = this.eloDataBase().GetPlayers().Where(p => hasRankMain(p)).OrderByDescending(p => p.RatingTotal()).ToList();
-            List<SCPlayer> playersWithProtossRank = this.eloDataBase().GetPlayers().Where(p => hasRankForRace(p, Race.Protoss)).OrderByDescending(p => p.RatingVs.Protoss).ToList();
-            List<SCPlayer> playersWithTerranRank = this.eloDataBase().GetPlayers().Where(p => hasRankForRace(p, Race.Terran)).OrderByDescending(p => p.RatingVs.Terran).ToList();
-            List<SCPlayer> playersWithZergRank = this.eloDataBase().GetPlayers().Where(p => hasRankForRace(p, Race.Zerg)).OrderByDescending(p => p.RatingVs.Zerg).ToList();
+            List<SCPlayer> playersWithMainRank = this.eloDataBase.GetPlayers().Where(p => hasRankMain(p)).OrderByDescending(p => p.RatingTotal()).ToList();
+            List<SCPlayer> playersWithProtossRank = this.eloDataBase.GetPlayers().Where(p => hasRankForRace(p, Race.Protoss)).OrderByDescending(p => p.RatingVs.Protoss).ToList();
+            List<SCPlayer> playersWithTerranRank = this.eloDataBase.GetPlayers().Where(p => hasRankForRace(p, Race.Terran)).OrderByDescending(p => p.RatingVs.Terran).ToList();
+            List<SCPlayer> playersWithZergRank = this.eloDataBase.GetPlayers().Where(p => hasRankForRace(p, Race.Zerg)).OrderByDescending(p => p.RatingVs.Zerg).ToList();
 
             Dictionary<Rank, int> rankThresholdsMain = RankHandler.CreateRankingCountThresholds(playersWithMainRank.Count);
             Dictionary<Rank, int> rankThresholdsProtoss = RankHandler.CreateRankingCountThresholds(playersWithProtossRank.Count);
@@ -237,7 +236,7 @@ namespace SCEloSystemGUI
 
             this.ranksByPlayer = new Dictionary<SCPlayer, RankHolder>();
 
-            foreach (SCPlayer thisPlayer in this.eloDataBase().GetPlayers())
+            foreach (SCPlayer thisPlayer in this.eloDataBase.GetPlayers())
             {
                 var playersRank = new RankHolder();
 

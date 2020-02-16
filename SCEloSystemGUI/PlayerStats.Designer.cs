@@ -45,7 +45,8 @@
             // 
             // tblLoPnlPlayerStats
             // 
-            this.tblLoPnlPlayerStats.ColumnCount = 1;
+            this.tblLoPnlPlayerStats.ColumnCount = 2;
+            this.tblLoPnlPlayerStats.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1002F));
             this.tblLoPnlPlayerStats.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLoPnlPlayerStats.Controls.Add(this.btnToggleCustomizationVisibility, 0, 1);
             this.tblLoPnlPlayerStats.Controls.Add(this.tabCtrlCustomizations, 0, 0);
@@ -115,11 +116,12 @@
             // tblLoPnlFilters
             // 
             this.tblLoPnlFilters.AutoSize = true;
-            this.tblLoPnlFilters.ColumnCount = 4;
+            this.tblLoPnlFilters.ColumnCount = 5;
             this.tblLoPnlFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 307F));
             this.tblLoPnlFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 307F));
             this.tblLoPnlFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 247F));
             this.tblLoPnlFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 118F));
+            this.tblLoPnlFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLoPnlFilters.Controls.Add(this.btnApply, 3, 0);
             this.tblLoPnlFilters.Dock = System.Windows.Forms.DockStyle.Top;
             this.tblLoPnlFilters.Location = new System.Drawing.Point(0, 0);

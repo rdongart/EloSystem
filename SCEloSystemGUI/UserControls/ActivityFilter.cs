@@ -13,14 +13,12 @@ namespace SCEloSystemGUI.UserControls
         private int gamesPlayed;
         private int recentActivityGamesPlayed;
         private int recentActivityMonths;
-        private ResourceGetter eloDataBase;
         public event EventHandler FilterChanged = delegate { };
 
-        public ActivityFilter(ResourceGetter databaseGetter)
+        public ActivityFilter()
         {
             InitializeComponent();
 
-            this.eloDataBase = databaseGetter;
             this.gamesPlayed = EloSystemGUIStaticMembers.GAMESPLAYED_DEFAULT_THRESHOLD;
             this.recentActivityGamesPlayed = EloSystemGUIStaticMembers.RECENTACTIVITY_GAMESPLAYED_DEFAULT_THRESHOLD;
             this.recentActivityMonths = EloSystemGUIStaticMembers.RECENTACTIVITY_MONTHS_DEFAULT;
@@ -31,7 +29,7 @@ namespace SCEloSystemGUI.UserControls
             this.chkBxDisableRecencyFilter.Checked = this.recentActivityFilterIsDisabled;
             this.chkBxDisableRecencyFilter.CheckedChanged += this.chkBxDisableRecencyFilter_ValueChanged;
         }
-                
+
         public void ApplyChanges()
         {
             this.recentActivityFilterIsDisabled = this.chkBxDisableRecencyFilter.Checked;
@@ -48,7 +46,7 @@ namespace SCEloSystemGUI.UserControls
 
         public bool PlayerFilter(SCPlayer player)
         {
-            return player.Stats.GamesTotal() >= this.gamesPlayed && (this.recentActivityFilterIsDisabled || this.eloDataBase().GetAllGames().Where(game => game.HasPlayer(player) && DateTime.Today.CompareTo(game.Match.DateTime.AddMonths(this.recentActivityMonths)) <= 0).Count() >= this.recentActivityGamesPlayed);
+            return player.Stats.GamesTotal() >= this.gamesPlayed && (this.recentActivityFilterIsDisabled || GlobalState.DataBase.GetAllGames().Where(game => game.HasPlayer(player) && DateTime.Today.CompareTo(game.Match.DateTime.AddMonths(this.recentActivityMonths)) <= 0).Count() >= this.recentActivityGamesPlayed);
         }
 
         private void activityFilter_ValueChanged(object sender, EventArgs e)

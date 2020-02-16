@@ -32,11 +32,6 @@ namespace SCEloSystemGUI.UserControls
                 return this.numUDStartRating.Value.RoundToInt();
             }
         }
-        internal ResourceGetter EloDataSource
-        {
-            private get { return this.eloDataSource; }
-            set { this.eloDataSource = value; }
-        }
         internal Team SelectedTeam
         {
             get
@@ -46,7 +41,6 @@ namespace SCEloSystemGUI.UserControls
         }
         private ContentTypes contentType;
         private ObjectListView lstVSearchResults;
-        private ResourceGetter eloDataSource;
         public bool BirthDateWasSet
         {
             get
@@ -74,7 +68,7 @@ namespace SCEloSystemGUI.UserControls
                 return this.dateTimePickerBirthDate.Value;
             }
         }
-        public event EventHandler<ContentAddingEventArgs> OnAddPlayer = delegate { };
+        public event EventHandler<ContentAddingEventArgs> OnAddMap = delegate { };
         public event EventHandler OnRemoveButtonClick = delegate { };
         public event EventHandler OnEditButtonClick = delegate { };
         public Image NewImage { get; private set; }
@@ -276,7 +270,7 @@ namespace SCEloSystemGUI.UserControls
                         || (this.ImgCmbBxCountries.SelectedValue as Country) != playerToEdit.Country
                         || (this.ImgCmbBxTeams.SelectedValue as Team) != playerToEdit.Team;
 
-                    this.btnRemovePlayer.Enabled = this.EloDataSource().GamesByPlayer(playerToEdit).IsEmpty();
+                    this.btnRemovePlayer.Enabled = GlobalState.DataBase.GamesByPlayer(playerToEdit).IsEmpty();
                 }
             }
             else
@@ -302,7 +296,7 @@ namespace SCEloSystemGUI.UserControls
         {
             if (this.rdBtnAddNew.Checked)
             {
-                this.OnAddPlayer.Invoke(sender, new ContentAddingEventArgs(this));
+                this.OnAddMap.Invoke(sender, new ContentAddingEventArgs(this));
 
                 this.ClearFields();
             }
@@ -319,8 +313,8 @@ namespace SCEloSystemGUI.UserControls
 
                     playerToEdit.SetAliases(this.lstViewAliases.Items.Cast<ListViewItem>().Select(item => item.Text));
 
-                    if (this.NewImage != null) { this.EloDataSource().EidtImage(playerToEdit, this.NewImage); }
-                    else if (this.chckBxRemoveCurrentImage.Checked) { this.EloDataSource().EidtImage(playerToEdit, null); }
+                    if (this.NewImage != null) {GlobalState.DataBase.EidtImage(playerToEdit, this.NewImage); }
+                    else if (this.chckBxRemoveCurrentImage.Checked) { GlobalState.DataBase.EidtImage(playerToEdit, null); }
 
                     playerToEdit.Country = this.ImgCmbBxCountries.SelectedValue as Country;
 
@@ -408,7 +402,7 @@ namespace SCEloSystemGUI.UserControls
             if (this.picBxCurrentImage.Image != null) { this.SetCurrentImageToNull(); }
 
 
-            if (this.EloDataSource().TryGetImage(player.ImageID, out portrait))
+            if (GlobalState.DataBase.TryGetImage(player.ImageID, out portrait))
             {
                 this.tblLoPnlCurrentImage.Enabled = true;
                 this.picBxCurrentImage.Image = portrait.Image;
@@ -563,7 +557,13 @@ namespace SCEloSystemGUI.UserControls
 
         private void SearchPlayersWithPattern()
         {
-            this.AddPlayersToListView(this.EloDataSource().PlayerLookup(this.txtBxFilter.Text).OrderBy(player => player.Name));
+            Cursor previousCursor = Cursor.Current;
+
+            Cursor.Current = Cursors.WaitCursor;
+
+            this.AddPlayersToListView(GlobalState.DataBase.PlayerLookup(this.txtBxFilter.Text).OrderBy(player => player.Name));
+
+            Cursor.Current = previousCursor;
         }
 
         private void AddPlayersToListView(IEnumerable<SCPlayer> players)
@@ -611,7 +611,7 @@ namespace SCEloSystemGUI.UserControls
             if (playerToEdit != null && MessageBox.Show(String.Format("Are you sure you would like to irrevokably remove the player {0} from the data base?", playerToEdit.Name), "Remove player?"
                 , MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                this.EloDataSource().RemovePlayer(playerToEdit);
+                GlobalState.DataBase.RemovePlayer(playerToEdit);
 
                 this.OnRemoveButtonClick.Invoke(sender, new ContentAddingEventArgs(this));
 

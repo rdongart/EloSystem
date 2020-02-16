@@ -41,7 +41,9 @@ namespace SCEloSystemGUI
 
                         while (menu.ShowDialog() == DialogResult.OK)
                         {
-                            var mainEloSystemForm = new MainForm(menu.EloSystem);
+                            GlobalState.Initialize(menu.EloSystem);
+
+                            var mainEloSystemForm = new MainForm();
 
                             Application.Run(mainEloSystemForm);
                         }

@@ -33,33 +33,33 @@ namespace SCEloSystemGUI
 
         private void Save()
         {
-            this.Cursor = Cursors.WaitCursor;
+            Cursor.Current = Cursors.WaitCursor;
 
-            this.eloSystem.SaveData(this.eloSystem.Name);
+            GlobalState.DataBase.SaveData(GlobalState.DataBase.Name);
 
             this.PostSaveProcedure();
         }
 
         private void SaveAs()
         {
-            string newFileName = this.eloSystem.Name;
+            string newFileName = GlobalState.DataBase.Name;
 
             if (EloSystemGUIStaticMembers.GetEloSystemName(ref newFileName) != DialogResult.OK) { return; }
 
-            this.Cursor = Cursors.WaitCursor;
+            Cursor.Current = Cursors.WaitCursor;
 
-            this.eloSystem.SaveData(newFileName, MainForm.ShouldExistingFileBeReplaced);
+            GlobalState.DataBase.SaveData(newFileName, MainForm.ShouldExistingFileBeReplaced);
 
             this.PostSaveProcedure();
         }
 
         private void PostSaveProcedure()
         {
-            this.Text = this.eloSystem.Name;
+            this.Text = GlobalState.DataBase.Name;
+
+            Cursor.Current = Cursors.Default;
 
             MessageBox.Show("Elo System saved!", "", MessageBoxButtons.OK);
-
-            this.Cursor = Cursors.Default;
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)

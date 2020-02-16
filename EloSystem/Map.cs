@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using System;
 using System.Runtime.Serialization;
 using System.Drawing;
@@ -20,7 +21,7 @@ namespace EloSystem
         public Size Size { get; set; }
         public Tileset Tileset { get; set; }
 
-        internal Map(string name, int imageID, MapPlayerType mapType,int id) : base(name, imageID,id)
+        internal Map(string name, int imageID, MapPlayerType mapType, Tileset tiles, int id) : base(name, imageID, id)
         {
             this.descriptions = new List<string>();
             this.Stats = new MapStats();
@@ -91,6 +92,16 @@ namespace EloSystem
         public void AddDescription(string description)
         {
             this.descriptions.Add(description);
+        }
+
+        /// <summary>
+        /// Set the descriptions of the map.
+        /// </summary>
+        /// <param name="descriptions"></param>
+        /// <remarks>This will overwrite all existing descritpions.</remarks>
+        public void SetDescriptions(IEnumerable<string> descriptions)
+        {
+            this.descriptions = descriptions.ToList();
         }
     }
 }

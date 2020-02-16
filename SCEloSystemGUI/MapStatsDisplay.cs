@@ -17,21 +17,18 @@ namespace SCEloSystemGUI
         private const float TEXT_SIZE = 11.5F;
 
         private ObjectListView olvMapStats;
-        private ResourceGetter eloDataBase;
 
-        public MapStatsDisplay(ResourceGetter dataGetter)
+        public MapStatsDisplay()
         {
             InitializeComponent();
 
             this.Icon = Resources.SCEloIcon;
-
-            this.eloDataBase = dataGetter;
-
+            
             this.olvMapStats = this.CreateMapStatsListView();
 
             this.Controls.Add(this.olvMapStats);
 
-            this.olvMapStats.SetObjects(this.eloDataBase().GetMaps().OrderBy(m => m.Name).ToArray());
+            this.olvMapStats.SetObjects(GlobalState.DataBase.GetMaps().OrderBy(m => m.Name).ToArray());
         }
 
         private void MapStatsLV_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -166,7 +163,7 @@ namespace SCEloSystemGUI
 
                 EloImage mapImage;
 
-                if (this.eloDataBase().TryGetImage(map.ImageID, out mapImage)) { return new Image[] { mapImage.Image.ResizeSameAspectRatio(IMAGE_SIZE_MAX) }; }
+                if (GlobalState.DataBase.TryGetImage(map.ImageID, out mapImage)) { return new Image[] { mapImage.Image.ResizeSameAspectRatio(IMAGE_SIZE_MAX) }; }
                 else { return null; }
 
             };

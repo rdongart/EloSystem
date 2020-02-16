@@ -1,6 +1,6 @@
 ﻿namespace SCEloSystemGUI
 {
-    partial class PlayerSelector
+    partial class HeadToHeadSelector
     {
         /// <summary>
         /// Required designer variable.
@@ -48,14 +48,14 @@
             this.tblLOPnlPlayerSelector.RowCount = 2;
             this.tblLOPnlPlayerSelector.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLOPnlPlayerSelector.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tblLOPnlPlayerSelector.Size = new System.Drawing.Size(864, 342);
+            this.tblLOPnlPlayerSelector.Size = new System.Drawing.Size(874, 342);
             this.tblLOPnlPlayerSelector.TabIndex = 0;
             // 
             // btnOK
             // 
             this.btnOK.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnOK.Enabled = false;
-            this.btnOK.Location = new System.Drawing.Point(316, 300);
+            this.btnOK.Location = new System.Drawing.Point(321, 300);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4, 8, 16, 6);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(100, 36);
@@ -67,7 +67,7 @@
             // btnCancel
             // 
             this.btnCancel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnCancel.Location = new System.Drawing.Point(448, 300);
+            this.btnCancel.Location = new System.Drawing.Point(453, 300);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(16, 8, 4, 6);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 36);
@@ -76,15 +76,15 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // PlayerSelector
+            // HeadToHeadSelector
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(864, 342);
+            this.ClientSize = new System.Drawing.Size(874, 342);
             this.Controls.Add(this.tblLOPnlPlayerSelector);
             this.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "PlayerSelector";
+            this.Name = "HeadToHeadSelector";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Select Player";
             this.tblLOPnlPlayerSelector.ResumeLayout(false);

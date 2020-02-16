@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace SCEloSystemGUI.UserControls
 {
-    public partial class PlayerSearch : UserControl
+    internal partial class PlayerSearch : UserControl
     {
         public string Header
         {
@@ -19,7 +19,7 @@ namespace SCEloSystemGUI.UserControls
         }
         public EventHandler<PlayerSearchEventArgs> PlayerSearchInitiated = delegate { };
 
-        public PlayerSearch(ObjectListView lstV)
+        internal PlayerSearch(ObjectListView lstV)
         {
             InitializeComponent();
 

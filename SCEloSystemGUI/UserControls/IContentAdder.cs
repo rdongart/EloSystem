@@ -6,7 +6,7 @@ namespace SCEloSystemGUI.UserControls
     interface IContentAdder
     {
         ContentTypes ContentType { get; }
-        event EventHandler<ContentAddingEventArgs> OnAddPlayer;
+        event EventHandler<ContentAddingEventArgs> OnAddMap;
         Image NewImage { get; }
         string ContentName { get; }
     }

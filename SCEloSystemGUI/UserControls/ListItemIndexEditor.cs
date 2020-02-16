@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BrightIdeasSoftware;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -9,12 +10,10 @@ namespace SCEloSystemGUI.UserControls
 {
     public partial class ListItemIndexEditor : UserControl
     {
-        private static Color selectedItemColor = Color.LightBlue;
-
         private bool isClearingSelections = false;
         private int startIndex = -1;
         private int acceptedIndexChange = 0;
-        private ListView lstView;
+        private ObjectListView lstView;
         private ListViewItem activeItem;
         private Dictionary<ListViewItem, int> ItemsWithIndexValues;
         public event EventHandler IndexChangesAccepted = delegate { };
@@ -46,12 +45,11 @@ namespace SCEloSystemGUI.UserControls
             InitializeComponent();
         }
 
-        protected void SetListView(ListView lstV, int activeItemIndex)
+        protected void SetListView(ObjectListView lstV, int activeItemIndex)
         {
             this.lstView = lstV;
             this.lstView.Dock = DockStyle.Fill;
             this.lstView.FullRowSelect = true;
-            this.lstView.MouseLeave += LstView_MouseLeave;
             this.lstView.ItemSelectionChanged += LstView_ItemSelectionChanged;
             this.lstView.Margin = new Padding(0, 6, 6, 10);
             this.tLPMain.SetRowSpan(this.lstView, 2);
@@ -66,16 +64,15 @@ namespace SCEloSystemGUI.UserControls
                 this.activeItem = this.lstView.Items[activeItemIndex];
                 this.activeItem.Selected = true;
                 this.startIndex = activeItemIndex;
+
+                if (this.lstView.Scrollable)
+                {
+                    int rowHeightCorrected = this.lstView.RowHeight + 1;
+                    this.lstView.LowLevelScroll(0, activeItemIndex * rowHeightCorrected);
+                }
             }
 
-            this.activeItem.BackColor = ListItemIndexEditor.selectedItemColor;
-
             this.UpdateControlsEnabledStatus();
-        }
-
-        private void LstView_MouseLeave(object sender, EventArgs e)
-        {
-            this.AddListViewItems();
         }
 
         private void LstView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
@@ -85,8 +82,6 @@ namespace SCEloSystemGUI.UserControls
                 this.isClearingSelections = true;
                 this.lstView.SelectedItems.Clear();
                 this.activeItem.Selected = true;
-                this.activeItem.BackColor = ListItemIndexEditor.selectedItemColor;
-                this.lstView.Refresh();
                 this.isClearingSelections = false;
             }
         }
@@ -108,36 +103,41 @@ namespace SCEloSystemGUI.UserControls
 
         private void btnDecreaseIndex_Click(object sender, EventArgs e)
         {
+            const int INDEX_DECREMENT = -1;
+
+            this.indexChanger(INDEX_DECREMENT);
+        }
+
+        private void indexChanger(int change)
+        {
             int currentActiveIndex = this.ItemsWithIndexValues[this.activeItem];
 
-            var itemExchangedWithActiveItem = this.ItemsWithIndexValues.First(lstViewItem => lstViewItem.Value == currentActiveIndex - 1).Key;
+            var itemExchangedWithActiveItem = this.ItemsWithIndexValues.First(lstViewItem => lstViewItem.Value == currentActiveIndex + change).Key;
 
             this.ItemsWithIndexValues.Remove(itemExchangedWithActiveItem);
             this.ItemsWithIndexValues.Remove(this.activeItem);
 
-            this.ItemsWithIndexValues.Add(this.activeItem, currentActiveIndex - 1);
+            this.ItemsWithIndexValues.Add(this.activeItem, currentActiveIndex + change);
             this.ItemsWithIndexValues.Add(itemExchangedWithActiveItem, currentActiveIndex);
+
+            Point currentScroll = this.lstView.LowLevelScrollPosition;
 
             this.AddListViewItems();
 
             this.UpdateControlsEnabledStatus();
+
+            if (this.lstView.Scrollable)
+            {
+                int rowHeightCorrected = this.lstView.RowHeight + 1;
+                this.lstView.LowLevelScroll(currentScroll.X, currentScroll.Y * rowHeightCorrected);
+            }
         }
 
         private void btnIncreaseIndex_Click(object sender, EventArgs e)
         {
-            int currentActiveIndex = this.ItemsWithIndexValues[this.activeItem];
+            const int INDEX_INCREMENT = 1;
 
-            var itemExchangedWithActiveItem = this.ItemsWithIndexValues.First(lstViewItem => lstViewItem.Value == currentActiveIndex + 1).Key;
-
-            this.ItemsWithIndexValues.Remove(itemExchangedWithActiveItem);
-            this.ItemsWithIndexValues.Remove(this.activeItem);
-
-            this.ItemsWithIndexValues.Add(this.activeItem, currentActiveIndex + 1);
-            this.ItemsWithIndexValues.Add(itemExchangedWithActiveItem, currentActiveIndex);
-
-            this.AddListViewItems();
-
-            this.UpdateControlsEnabledStatus();
+            this.indexChanger(INDEX_INCREMENT);
         }
 
         private void AddListViewItems()
@@ -147,8 +147,6 @@ namespace SCEloSystemGUI.UserControls
             this.lstView.Items.AddRange(this.ItemsWithIndexValues.OrderBy(kvp => kvp.Value).Select(kvp => kvp.Key).ToArray());
 
             this.activeItem.Selected = true;
-
-            this.activeItem.BackColor = ListItemIndexEditor.selectedItemColor;
         }
     }
 }

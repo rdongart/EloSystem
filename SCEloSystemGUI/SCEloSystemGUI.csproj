@@ -101,17 +101,18 @@
     <Compile Include="DailyIndexEditorForm.Designer.cs">
       <DependentUpon>DailyIndexEditorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalState.cs" />
     <Compile Include="PlayerProfile.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PlayerProfile.Designer.cs">
       <DependentUpon>PlayerProfile.cs</DependentUpon>
     </Compile>
-    <Compile Include="PlayerSelector.cs">
+    <Compile Include="HeadToHeadSelector.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PlayerSelector.Designer.cs">
-      <DependentUpon>PlayerSelector.cs</DependentUpon>
+    <Compile Include="HeadToHeadSelector.Designer.cs">
+      <DependentUpon>HeadToHeadSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="RaceIconProvider.cs" />
     <Compile Include="RankHandler.cs" />
@@ -288,8 +289,8 @@
     <EmbeddedResource Include="PlayerProfile.resx">
       <DependentUpon>PlayerProfile.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PlayerSelector.resx">
-      <DependentUpon>PlayerSelector.cs</DependentUpon>
+    <EmbeddedResource Include="HeadToHeadSelector.resx">
+      <DependentUpon>HeadToHeadSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PlayerStats.resx">
       <DependentUpon>PlayerStats.cs</DependentUpon>
@@ -446,6 +447,7 @@
     <None Include="Resources\ArrowDwn.png" />
     <None Include="Resources\ArrowUp.png" />
     <None Include="Resources\SpaceBackground.png" />
+    <None Include="Resources\HeadToHead.png" />
     <Content Include="SCEloIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

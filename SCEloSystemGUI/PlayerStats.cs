@@ -32,43 +32,38 @@ namespace SCEloSystemGUI
         private ObjectListView olvPlayerStats;
         private ObjectListView olvPlayerSearch;
         private PlayerSearch searcher;
-        private RankHandler rankHandler;
-        private ResourceGetter eloDataBase;
 
-        internal PlayerStats(ResourceGetter databaseGetter, RankHandler rankHandler)
+        internal PlayerStats()
         {
             InitializeComponent();
 
             this.Icon = Resources.SCEloIcon;
-
-            this.eloDataBase = databaseGetter;
-            this.rankHandler = rankHandler;
 
             this.olvPlayerStats = this.CreatePlayerStatsListView();
             this.olvPlayerStats.SelectionChanged += this.OlvPlayerStats_SelectionChanged;
 
             this.tblLoPnlPlayerStats.Controls.Add(this.olvPlayerStats, 0, 2);
 
-            this.countryFilter = new ContentFilter<Country>(this.eloDataBase) { Header = "Country filter", ColumnHeader = "Country", Margin = new Padding(6) };
+            this.countryFilter = new ContentFilter<Country>() { Header = "Country filter", ColumnHeader = "Country", Margin = new Padding(6) };
             this.countryFilter.ContentGetter = PlayerStats.GetCountry;
-            this.countryFilter.SetItems(this.eloDataBase().GetCountries().OrderBy(country => country.Name));
+            this.countryFilter.SetItems(GlobalState.DataBase.GetCountries().OrderBy(country => country.Name));
             this.countryFilter.FilterChanged += this.OnFilterChanged;
             this.filters.Add(this.countryFilter);
             this.tblLoPnlFilters.Controls.Add(this.countryFilter, 0, 0);
 
-            this.teamFilter = new ContentFilter<Team>(this.eloDataBase) { Header = "Team filter", ColumnHeader = "Team", ImageDimensionMax = 21, Margin = new Padding(6) };
+            this.teamFilter = new ContentFilter<Team>() { Header = "Team filter", ColumnHeader = "Team", ImageDimensionMax = 21, Margin = new Padding(6) };
             this.teamFilter.ContentGetter = PlayerStats.GetTeam;
-            this.teamFilter.SetItems(this.eloDataBase().GetTeams().OrderBy(team => team.Name));
+            this.teamFilter.SetItems(GlobalState.DataBase.GetTeams().OrderBy(team => team.Name));
             this.teamFilter.FilterChanged += this.OnFilterChanged;
             this.filters.Add(this.teamFilter);
             this.tblLoPnlFilters.Controls.Add(this.teamFilter, 1, 0);
 
-            this.activityFilter = new ActivityFilter(this.eloDataBase) { Margin = new Padding(6) };
+            this.activityFilter = new ActivityFilter() { Margin = new Padding(6) };
             this.activityFilter.FilterChanged += this.OnFilterChanged;
             this.filters.Add(this.activityFilter);
             this.tblLoPnlFilters.Controls.Add(this.activityFilter, 2, 0);
 
-            this.olvPlayerSearch = EloGUIControlsStaticMembers.CreatePlayerSearchListView(databaseGetter, rankHandler);
+            this.olvPlayerSearch = EloGUIControlsStaticMembers.CreatePlayerSearchListView();
             this.olvPlayerSearch.SelectionChanged += this.OlvPlayerSearch_SelectionChanged;
             this.searcher = new PlayerSearch(this.olvPlayerSearch);
             this.searcher.PlayerSearchInitiated += this.OnPlayerSearch;
@@ -78,12 +73,12 @@ namespace SCEloSystemGUI
 
             this.SetbtnApllyEnabledStatus();
 
-            this.eloDataBase().CountryPoolChanged += this.OnCountryPoolChanged;
-            this.eloDataBase().PlayerPoolChanged += this.OnPlayerPoolChanged;
-            this.eloDataBase().MatchPoolChanged += this.OnMatchPoolChanged;
+            GlobalState.DataBase.CountryPoolChanged += this.OnCountryPoolChanged;
+            GlobalState.DataBase.PlayerPoolChanged += this.OnPlayerPoolChanged;
+            GlobalState.DataBase.MatchPoolChanged += this.OnMatchPoolChanged;
 
             this.tabCtrlCustomizations.Visible = false;
-            this.tblLoPnlPlayerStats.RowStyles[PlayerStats.FILTERROW_INDEX].Height = 0;
+            this.tblLoPnlPlayerStats.RowStyles[PlayerStats.FILTERROW_INDEX].Height = 0;            
         }
 
         private void OlvPlayerSearch_SelectionChanged(object sender, EventArgs e)
@@ -107,17 +102,24 @@ namespace SCEloSystemGUI
 
             if (tuple != null && tuple.Item1 != null)
             {
-                var profileForm = new PlayerProfile(tuple.Item1 as SCPlayer, this.eloDataBase, this.rankHandler);
-                profileForm.ShowDialog();
+                PlayerProfile.ShowProfile(tuple.Item1 as SCPlayer);
+
                 this.olvPlayerStats.SelectedItems.Clear();
             }
+
         }
 
         private void OnPlayerSearch(object sender, PlayerSearchEventArgs e)
         {
-            this.olvPlayerSearch.SetObjects(this.eloDataBase().GetPlayers().Where(player => this.filters.All(filter => filter.PlayerFilter(player))).OrderByDescending(player =>
+            Cursor previousCursor = Cursor.Current;
+
+            Cursor.Current = Cursors.WaitCursor;
+
+            this.olvPlayerSearch.SetObjects(GlobalState.DataBase.GetPlayers().Where(player => this.filters.All(filter => filter.PlayerFilter(player))).OrderByDescending(player =>
                 player.RatingTotal()).ThenByDescending(player => player.Stats.GamesTotal()).ThenByDescending(player => player.Stats.WinRatioTotal()).Select((player, rank) =>
-                    new Tuple<SCPlayer, int>(player, rank + 1)).Where(tuple => this.eloDataBase().PlayerLookup(e.SearchString).Contains(tuple.Item1)).ToArray());
+                    new Tuple<SCPlayer, int>(player, rank + 1)).Where(tuple => GlobalState.DataBase.PlayerLookup(e.SearchString).Contains(tuple.Item1)).ToArray());
+
+            Cursor.Current = previousCursor;
         }
 
         private static Country GetCountry(SCPlayer player)
@@ -132,7 +134,7 @@ namespace SCEloSystemGUI
 
         private void OnCountryPoolChanged(object sender, EventArgs e)
         {
-            this.countryFilter.SetItems(this.eloDataBase().GetCountries().OrderBy(country => country.Name));
+            this.countryFilter.SetItems(GlobalState.DataBase.GetCountries().OrderBy(country => country.Name));
         }
 
         private void OnPlayerPoolChanged(object sender, EventArgs e)
@@ -186,7 +188,7 @@ namespace SCEloSystemGUI
             var olvClmTeam = new OLVColumn() { Width = 60, Text = "Team" };
             var olvClmMainRace = new OLVColumn() { Width = 60, Text = "Race" };
             var olvClmRankMain = new OLVColumn() { Width = 50, Text = "Rank" };
-            var olvClmRatingMain = new OLVColumn() { Width = 70, Text = "Rating - main" };
+            var olvClmRatingMain = new OLVColumn() { Width = 70, Text = "Rating - overall" };
             var olvClmRatingDevelopment = new OLVColumn() { Width = 70, Text = "Development" };
             var olvClmRatingVsZerg = new OLVColumn() { Width = 70, Text = "Vs Zerg" };
             var olvClmRatingVsTerran = new OLVColumn() { Width = 70, Text = "Vs Terran" };
@@ -226,7 +228,7 @@ namespace SCEloSystemGUI
 
                 EloImage flag;
 
-                if (player.Country != null && this.eloDataBase().TryGetImage(player.Country.ImageID, out flag)) { return new Image[] { flag.Image.ResizeSameAspectRatio(STANDARD_IMAGE_SIZE_MAX) }; }
+                if (player.Country != null && GlobalState.DataBase.TryGetImage(player.Country.ImageID, out flag)) { return new Image[] { flag.Image.ResizeSameAspectRatio(STANDARD_IMAGE_SIZE_MAX) }; }
                 else if (player.Country != null) { return player.Country.Name; }
                 else { return null; }
 
@@ -240,7 +242,7 @@ namespace SCEloSystemGUI
 
                 EloImage teamLogo;
 
-                if (player.Team != null && this.eloDataBase().TryGetImage(player.Team.ImageID, out teamLogo)) { return new Image[] { teamLogo.Image.ResizeSameAspectRatio(TEAM_LOGO_SIZE_MAX) }; }
+                if (player.Team != null && GlobalState.DataBase.TryGetImage(player.Team.ImageID, out teamLogo)) { return new Image[] { teamLogo.Image.ResizeSameAspectRatio(TEAM_LOGO_SIZE_MAX) }; }
                 else { return player.TeamName; }
 
             };
@@ -274,7 +276,7 @@ namespace SCEloSystemGUI
             {
                 var player = (obj as Tuple<SCPlayer, int>).Item1;
 
-                return new Image[] { this.rankHandler.GetRankImageMain(player, PlayerStats.OLV_PLAYERSTATS_ROW_HEIGHT - (RANK_BOUNDS_Y + RANK_BOUNDS_HEIGHT), true) };
+                return new Image[] { GlobalState.RankSystem.GetRankImageMain(player, PlayerStats.OLV_PLAYERSTATS_ROW_HEIGHT - (RANK_BOUNDS_Y + RANK_BOUNDS_HEIGHT), true) };
             };
 
             olvClmRatingMain.AspectGetter = obj =>
@@ -292,16 +294,16 @@ namespace SCEloSystemGUI
                   {
                       case PlayerDevScope.Month_1:
                           return EloGUIControlsStaticMembers.ConvertRatingChangeString((player.RatingTotal()
-                              - this.eloDataBase().PlayerStatsAtPointInTime(player, DateTime.Today.AddMonths(-1)).RatingTotal()).ToString());
+                              - GlobalState.DataBase.PlayerStatsAtPointInTime(player, DateTime.Today.AddMonths(-1)).RatingTotal()).ToString());
                       case PlayerDevScope.Months_3:
                           return EloGUIControlsStaticMembers.ConvertRatingChangeString((player.RatingTotal()
-                              - this.eloDataBase().PlayerStatsAtPointInTime(player, DateTime.Today.AddMonths(-3)).RatingTotal()).ToString());
+                              - GlobalState.DataBase.PlayerStatsAtPointInTime(player, DateTime.Today.AddMonths(-3)).RatingTotal()).ToString());
                       case PlayerDevScope.Months_4:
                           return EloGUIControlsStaticMembers.ConvertRatingChangeString((player.RatingTotal()
-                              - this.eloDataBase().PlayerStatsAtPointInTime(player, DateTime.Today.AddMonths(-4)).RatingTotal()).ToString());
+                              - GlobalState.DataBase.PlayerStatsAtPointInTime(player, DateTime.Today.AddMonths(-4)).RatingTotal()).ToString());
                       case PlayerDevScope.Months_6:
                           return EloGUIControlsStaticMembers.ConvertRatingChangeString((player.RatingTotal()
-                              - this.eloDataBase().PlayerStatsAtPointInTime(player, DateTime.Today.AddMonths(-6)).RatingTotal()).ToString());
+                              - GlobalState.DataBase.PlayerStatsAtPointInTime(player, DateTime.Today.AddMonths(-6)).RatingTotal()).ToString());
                       default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PlayerDevScope).Name, Settings.Default.PlayerDevelopmentScope));
                   }
               };
@@ -351,7 +353,7 @@ namespace SCEloSystemGUI
 
         internal void SetPlayerList()
         {
-            this.olvPlayerStats.SetObjects(this.eloDataBase().GetPlayers().Where(player => this.filters.All(filter => filter.PlayerFilter(player))).OrderByDescending(player =>
+            this.olvPlayerStats.SetObjects(GlobalState.DataBase.GetPlayers().Where(player => this.filters.All(filter => filter.PlayerFilter(player))).OrderByDescending(player =>
                 player.RatingTotal()).ThenByDescending(player => player.Stats.GamesTotal()).ThenByDescending(player => player.Stats.WinRatioTotal()).Select((player, rank) =>
                     new Tuple<SCPlayer, int>(player, rank + 1)).ToArray());
         }

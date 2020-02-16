@@ -270,11 +270,11 @@ namespace EloSystem
             else { return false; }
         }
 
-        public bool AddMap(string name, MapPlayerType maptype, Size size, Image image = null)
+        public bool AddMap(string name, MapPlayerType maptype, Size size, Tileset tiles, Image image = null)
         {
             if (name != string.Empty && !this.maps.Any(map => map.Name == name))
             {
-                this.maps.Add(new Map(name, this.AddNewImage(image), maptype, this.idHandler.GetMapIDNext()) { Size = size });
+                this.maps.Add(new Map(name, this.AddNewImage(image), maptype, tiles, this.idHandler.GetMapIDNext()) { Size = size });
 
                 this.ContentHasBeenChanged = true;
 
@@ -550,9 +550,7 @@ namespace EloSystem
                 var matchesToReenter = this.RollBackLastMatches(this.GetMatches().OrderByDescendingEntry().Count(m => m.DateTime.CompareTo(date) > 0)).DistinctBy(m => m.Match).Select(game => new
                 {
                     Match = game.Match,
-                    Season = game.Season,
-                    Tournament = game.Tournament,
-                    Games = game.Match.GetGames().ToList()
+                    Season = game.Season
                 }).ToList();
 
                 this.ReportMatch(new Match(player1, player2, entries, date), season, matchesToReenter.IsEmpty());
@@ -574,12 +572,10 @@ namespace EloSystem
             var matchesToReenter = this.RollBackLastMatches(noMatchesToReenter).DistinctBy(m => m.Match).Select(game => new
             {
                 Match = game.Match,
-                Season = game.Season,
-                Tournament = game.Tournament,
-                Games = game.Match.GetGames().ToList()
-            }).ToList();
+                Season = game.Season
+            }).ToList();// we need to call ToList() here becauase we have been modifying the data base by remove the returned values
 
-            var sameDateMatches = matchesToReenter.Where(m => m.Match.DateTime.Date.Equals(matchToChange.DateTime.Date)).ToList();
+            var sameDateMatches = matchesToReenter.Where(m => m.Match.DateTime.Date.Equals(matchToChange.DateTime.Date));
 
             int newDailyIndex = matchToChange.DailyIndex + dailyIndexChange;
             int currentDailyIndex = matchToChange.DailyIndex;
@@ -633,10 +629,8 @@ namespace EloSystem
             var matchesToReenter = this.RollBackLastMatches(indexOfMatchesToRollBack + MATCH_INSTANCE_TO_BE_REMOVED).DistinctBy(m => m.Match).Select(game => new
             {
                 Match = game.Match,
-                Season = game.Season,
-                Tournament = game.Tournament,
-                Games = game.Match.GetGames().ToList()
-            }).Where(matchItem => !matchItem.Match.Equals(matchToReplace)).ToList();
+                Season = game.Season
+            }).Where(matchItem => !matchItem.Match.Equals(matchToReplace)).ToList(); // we need to call ToList() here becauase we have been modifying the data base by remove the returned values
 
 
             if (matchToReplace.DateTime.Date.CompareTo(newDate.Date) >= 0)
@@ -670,9 +664,7 @@ namespace EloSystem
             var matchesToReenter = this.RollBackLastMatches(index + 1).DistinctBy(m => m.Match).Select(game => new
             {
                 Match = game.Match,
-                Season = game.Season,
-                Tournament = game.Tournament,
-                Games = game.Match.GetGames().ToList()
+                Season = game.Season
             }).Take(index).ToList();
 
             this.ReenterMatches(matchesToReenter.Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
@@ -748,6 +740,8 @@ namespace EloSystem
 
         public IEnumerable<Game> GetAllGames()
         {
+            const int DEFAULT_TOURNAMENT = 1;
+
             foreach (Game game in this.defaultTournament.GetGames().ToList())
             {
                 game.Tournament = null;
@@ -755,7 +749,7 @@ namespace EloSystem
                 yield return game;
             }
 
-            foreach (Game game in this.tournaments.Skip(1).SelectMany(tournament => tournament.GetGames()).ToList()) { yield return game; }
+            foreach (Game game in this.tournaments.Skip(DEFAULT_TOURNAMENT).SelectMany(tournament => tournament.GetGames()).ToList()) { yield return game; }
         }
 
         public IEnumerable<Map> GetMaps()
@@ -866,7 +860,8 @@ namespace EloSystem
                 // roll back map stats
                 foreach (Game game in matchObj.Match.GetGames().Where(gm => gm.Map != null))
                 {
-                    game.Map.Stats.RollBackGameResult(game.Player1Race, game.Player2Race, game.WinnersRace, game.Player1.RatingVs.GetValueFor(game.Player2Race), game.Player2.RatingVs.GetValueFor(game.Player1Race));
+                    game.Map.Stats.RollBackGameResult(game.Player1Race, game.Player2Race, game.WinnersRace, game.Player1.RatingVs.GetValueFor(game.Player2Race)
+                        , game.Player2.RatingVs.GetValueFor(game.Player1Race));
                 }
             }
 

@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using EloSystemExtensions;
+using CustomExtensionMethods;
+using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
+using System.Collections.Generic;
 using CustomExtensionMethods.Drawing;
 using BrightIdeasSoftware;
 using CustomControls;
@@ -15,6 +19,8 @@ namespace SCEloSystemGUI.UserControls
     internal static class EloGUIControlsStaticMembers
     {
         internal const string DEFAULT_TXTBX_TEXT = "Type the name here...";
+
+        internal static Color RaceImageBackgroundColor { get { return Color.FromArgb(115, 115, 115); } }
 
         private static string initialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonPictures);
 
@@ -38,13 +44,53 @@ namespace SCEloSystemGUI.UserControls
             };
         }
 
-        internal static ObjectListView CreatePlayerSearchListView(ResourceGetter eloDataBase, RankHandler rankHandler)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="targetPlayer">The player that the item players should show head-to-head data against.</param>
+        /// <returns></returns>
+        internal static ObjectListView CreateHeadToHeadSearchListView(SCPlayer targetPlayer)
+        {
+            var h2hLstV = EloGUIControlsStaticMembers.CreatePlayerSearchListView();
+
+            var olvClmH2HGames = new OLVColumn() { Width = 60, Text = "Head-to-Head games", ToolTipText = "Head-to-Head games" };
+
+            // the old rank column will be removed
+            var newColumnOrder = h2hLstV.AllColumns.Take(1).Concat(new OLVColumn[] { olvClmH2HGames }).Concat(h2hLstV.AllColumns.Skip(2)).ToArray();
+
+            h2hLstV.AllColumns.Clear();
+            h2hLstV.Columns.Clear();
+
+            h2hLstV.AllColumns.AddRange(newColumnOrder);
+            h2hLstV.Columns.AddRange(newColumnOrder);
+
+            olvClmH2HGames.AspectGetter = obj =>
+            {
+                var opponent = (obj as Tuple<SCPlayer, int>).Item1;
+
+                return GlobalState.DataBase.HeadToHeadGames(targetPlayer, opponent).Count();
+            };
+
+            olvClmH2HGames.AspectToStringConverter = obj => { return ((int)obj).ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT); };
+
+            h2hLstV.Size = new Size(h2hLstV.Width + olvClmH2HGames.Width, h2hLstV.Height);
+
+            h2hLstV.PrimarySortColumn = olvClmH2HGames;
+            h2hLstV.PrimarySortOrder = SortOrder.Descending;
+            h2hLstV.SecondarySortColumn = newColumnOrder[2];
+            h2hLstV.SecondarySortOrder = SortOrder.Ascending;
+
+            return h2hLstV;
+        }
+
+        internal static ObjectListView CreatePlayerSearchListView()
         {
             const int ROW_HEIGHT = 26;
             const float TEXT_SIZE = 11.5F;
 
             var playerStatsLV = new ObjectListView()
             {
+                AllowColumnReorder = false,
                 AlternateRowBackColor = EloSystemGUIStaticMembers.OlvRowAlternativeBackColor,
                 BackColor = EloSystemGUIStaticMembers.OlvRowBackColor,
                 Dock = DockStyle.Fill,
@@ -76,7 +122,7 @@ namespace SCEloSystemGUI.UserControls
             var olvClmTeam = new OLVColumn() { Width = 60, Text = "Team" };
             var olvClmMainRace = new OLVColumn() { Width = 60, Text = "Race" };
             var olvClmRankMain = new OLVColumn() { Width = 50, Text = "Rank" };
-            var olvClmRatingMain = new OLVColumn() { Width = 70, Text = "Rating - main" };
+            var olvClmRatingMain = new OLVColumn() { Width = 70, Text = "Rating - overall" };
             var olvClmAliases = new OLVColumn() { Width = 170, Text = "Aliases" };
             var olvClmIRLName = new OLVColumn() { Width = 155, Text = "IRL name" };
 
@@ -114,7 +160,7 @@ namespace SCEloSystemGUI.UserControls
 
                 EloImage flag;
 
-                if (player.Country != null && eloDataBase().TryGetImage(player.Country.ImageID, out flag)) { return new Image[] { flag.Image.ResizeSameAspectRatio(STANDARD_IMAGE_SIZE_MAX) }; }
+                if (player.Country != null && GlobalState.DataBase.TryGetImage(player.Country.ImageID, out flag)) { return new Image[] { flag.Image.ResizeSameAspectRatio(STANDARD_IMAGE_SIZE_MAX) }; }
                 else if (player.Country != null) { return player.Country.Name; }
                 else { return null; }
 
@@ -128,7 +174,7 @@ namespace SCEloSystemGUI.UserControls
 
                 EloImage teamLogo;
 
-                if (player.Team != null && eloDataBase().TryGetImage(player.Team.ImageID, out teamLogo)) { return new Image[] { teamLogo.Image.ResizeSameAspectRatio(TEAM_LOGO_SIZE_MAX) }; }
+                if (player.Team != null && GlobalState.DataBase.TryGetImage(player.Team.ImageID, out teamLogo)) { return new Image[] { teamLogo.Image.ResizeSameAspectRatio(TEAM_LOGO_SIZE_MAX) }; }
                 else { return player.TeamName; }
 
             };
@@ -163,7 +209,7 @@ namespace SCEloSystemGUI.UserControls
             {
                 var player = (obj as Tuple<SCPlayer, int>).Item1;
 
-                return new Image[] { rankHandler.GetRankImageMain(player, ROW_HEIGHT - TOP_BOTTOM_MARGIN * 2, true) };
+                return new Image[] { GlobalState.RankSystem.GetRankImageMain(player, ROW_HEIGHT - TOP_BOTTOM_MARGIN * 2, true) };
             };
 
             olvClmRatingMain.AspectGetter = obj =>
@@ -206,7 +252,14 @@ namespace SCEloSystemGUI.UserControls
             if (senderLstv != null) { senderLstv.Cursor = Cursors.Hand; }
         }
 
-        internal static void PopulateComboboxWithMaps(ComboBox cmBx, IEnumerable<Map> maps)
+        /// <summary>
+        /// Adds a sequence of Tuple'string, Map' items to a ComboBox.
+        /// </summary>
+        /// <param name="cmBx"></param>
+        /// <param name="maps"></param>
+        /// <param name="matchCountPlayer">Enter a player to add a count of games played on the map to the map name.</param>
+        /// <param name="matchCountOpponent">Enter a player to add a count of games played on the map to the map name.</param>
+        internal static void PopulateComboboxWithMaps(ComboBox cmBx, IEnumerable<Map> maps, bool includeEmptyItem, SCPlayer matchCountPlayer = null, SCPlayer matchCountOpponent = null)
         {
             List<Map> mapList = maps.OrderBy(map => map.Name).ToList();
 
@@ -215,13 +268,66 @@ namespace SCEloSystemGUI.UserControls
             cmBx.DisplayMember = "Item1";
             cmBx.ValueMember = "Item2";
 
+            bool includeMatchCount = matchCountPlayer != null || matchCountOpponent != null;
+
+            Func<IEnumerable<Game>> GetGames = () =>
+            {
+                if (matchCountPlayer != null && matchCountOpponent != null) { return GlobalState.DataBase.HeadToHeadGames(matchCountPlayer, matchCountOpponent); }
+                else if (matchCountPlayer != null) { return GlobalState.DataBase.GamesByPlayer(matchCountPlayer); }
+                else if (matchCountOpponent != null) { return GlobalState.DataBase.GamesByPlayer(matchCountOpponent); }
+                else { return new Game[] { }; }
+            };
+
+            Func<Map, string> GetGameCountString = mp =>
+              {
+                  int gameCount = GetGames().Where(game => game.Map == mp).Count();
+
+                  return gameCount > 0 ? String.Format("    ({0})", gameCount.ToString("#,#")) : "";
+              };
+
             cmBx.Items.Clear();
-            cmBx.Items.Add(Tuple.Create<string, Map>("<any>", null));
-            cmBx.Items.AddRange(mapList.Select(map => Tuple.Create<string, Map>(map.Name, map)).ToArray());
 
-            const int MAP_ITEM_NONE = 1;
+            if (includeEmptyItem) { cmBx.Items.Add(Tuple.Create<string, Map>("<any>", null)); }
 
-            if (selectedItem != null && mapList.Contains(selectedItem)) { cmBx.SelectedIndex = mapList.IndexOf(selectedItem) + MAP_ITEM_NONE; }
+            cmBx.Items.AddRange(mapList.Select(map => Tuple.Create<string, Map>(String.Format("{0}{1}", map.Name, includeMatchCount ? GetGameCountString(map) : ""), map)).ToArray());
+
+            int mapItemNone = includeEmptyItem ? 1 : 0;
+
+            if (selectedItem != null && mapList.Contains(selectedItem)) { cmBx.SelectedIndex = mapList.IndexOf(selectedItem) + mapItemNone; }
+        }
+
+        internal static Image BackGroundFrame(Size size, Color frameColor, int frameWidth)
+        {
+            var img = new Bitmap(size.Width, size.Height, PixelFormat.Format64bppPArgb);
+
+            using (Graphics g = Graphics.FromImage(img))
+            {
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.CompositingQuality = CompositingQuality.HighQuality;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+
+                int fameHalfSize = (frameWidth / 2.0).RoundDown();
+
+                g.DrawRectangle(new Pen(new SolidBrush(frameColor), frameWidth), 0, 0, size.Width - fameHalfSize, size.Height - fameHalfSize);
+            }
+
+            return img;
+        }
+
+        internal static void SetPictureBoxStyleAndImage(PictureBox picBx, Image img)
+        {
+            const double IMAGE_BOUNDS_PROPORTION = 0.22;
+
+            int imageBoundsX = (picBx.Width * IMAGE_BOUNDS_PROPORTION).RoundToInt();
+            int imageBoundsY = (picBx.Height * IMAGE_BOUNDS_PROPORTION).RoundToInt();
+
+            picBx.BackColor = EloGUIControlsStaticMembers.RaceImageBackgroundColor;
+            picBx.BorderStyle = BorderStyle.FixedSingle;
+            picBx.SizeMode = PictureBoxSizeMode.CenterImage;
+            picBx.BackgroundImage = EloGUIControlsStaticMembers.BackGroundFrame(picBx.Size, Color.Black, (Math.Min(picBx.Size.Width, picBx.Size.Height) * 0.12).RoundToInt());
+
+            if (img != null) { picBx.Image = img.ResizeSARWithinBounds(picBx.Width - imageBoundsX, picBx.Height - imageBoundsY); }
+            else { picBx.Image = null; }
         }
 
         [STAThread]

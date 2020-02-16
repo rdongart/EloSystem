@@ -20,7 +20,7 @@ namespace SCEloSystemGUI
                 resItem.UsageCounter++;
                 return resItem.EI.Image;
             }
-            else if (this.eloSystem.TryGetImage(imageID, out eloImg))
+            else if (GlobalState.DataBase.TryGetImage(imageID, out eloImg))
             {
                 if (this.ActiveResLimitHasBeenReached()) { this.RemoveLeastUsedResource(); }
 

@@ -244,7 +244,7 @@
             this.tblLOPnlMaps.Name = "tblLOPnlMaps";
             this.tblLOPnlMaps.Padding = new System.Windows.Forms.Padding(16);
             this.tblLOPnlMaps.RowCount = 2;
-            this.tblLOPnlMaps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 390F));
+            this.tblLOPnlMaps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 506F));
             this.tblLOPnlMaps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLOPnlMaps.Size = new System.Drawing.Size(1852, 918);
             this.tblLOPnlMaps.TabIndex = 0;

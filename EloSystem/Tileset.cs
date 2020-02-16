@@ -20,6 +20,28 @@ namespace EloSystem
         internal Tileset(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
-        #endregion               
+        #endregion
+
+        public bool Equals(Tileset obj)
+        {
+            return this.Equals(obj);
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj == null) { return false; }
+            else if (this.GetType() != obj.GetType()) { return false; }
+            else
+            {
+                var tileObj = obj as Tileset;
+
+                return this.Name.Equals(tileObj.Name) && this.ID.Equals(tileObj.ID);
+            }
+        }
+        public override int GetHashCode()
+        {
+            const int HASH_SEED = 53;
+
+            unchecked { return this.ID.GetHashCode() * this.Name.GetHashCode() * HASH_SEED; }
+        }
     }
 }

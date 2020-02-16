@@ -1,4 +1,6 @@
-﻿namespace EloSystem
+﻿using CustomExtensionMethods;
+
+namespace EloSystem
 {
     public enum Race
     {
@@ -7,6 +9,17 @@
 
     public class Game
     {
+        private GameEntry entryInMatch;
+        /// <summary>
+        /// The game's index in the list of games within a match.
+        /// </summary>
+        public int GameIndex
+        {
+            get
+            {
+                return this.Match.GetEntries().IndexOf(this.entryInMatch);
+            }
+        }
         public int RatingChange { get; private set; }
         public Map Map { get; set; }
         public Match Match { get; private set; }
@@ -59,10 +72,10 @@
         internal Game(SCPlayer player1, SCPlayer player2, GameEntry gameData, Match match, Tournament tournament = null, Season season = null)
             : this(tournament, season, gameData.Map, match, player1, gameData.Player1Race, player2, gameData.Player2Race, gameData.WinnerWas == PlayerSlotType.Player1 ? player1 : player2, gameData.RatingChange)
         {
-
+            this.entryInMatch = gameData;
         }
 
-        internal Game(Tournament tournament, Season season, Map map, Match match, SCPlayer player1, Race player1Race, SCPlayer player2, Race player2Race, SCPlayer winner, int ratingChange)
+        private Game(Tournament tournament, Season season, Map map, Match match, SCPlayer player1, Race player1Race, SCPlayer player2, Race player2Race, SCPlayer winner, int ratingChange)
         {
             this.Tournament = tournament;
             this.Season = season;

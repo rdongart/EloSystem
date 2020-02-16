@@ -1,11 +1,10 @@
-﻿using SCEloSystemGUI.Properties;
-using BrightIdeasSoftware;
+﻿using EloSystem;
 using EloSystem.ResourceManagement;
-using System.Drawing;
-using EloSystem;
+using SCEloSystemGUI.Properties;
 using SCEloSystemGUI.UserControls;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SCEloSystemGUI
@@ -19,16 +18,14 @@ namespace SCEloSystemGUI
         private DblNameContentEditor<Team> teamEditor;
         private DblNameContentEditor<Tournament> tournamentEditor;
         private Dictionary<int, ResourceItem> resMemory = new Dictionary<int, ResourceItem>();
-        private EloData eloSystem;
         private HasNameContentAdder<Tileset> tileSetAdder;
         private MapAdder mapAdder;
         private MatchReport matchReport;
         private PlayerEditor playerAdder;
-        private RankHandler rankHandler;
         private SeasonAdder seasonAdder;
         private PlayerStats playerStatsDisplay;
 
-        internal MainForm(EloData eloSystem)
+        internal MainForm()
         {
             InitializeComponent();
 
@@ -36,13 +33,16 @@ namespace SCEloSystemGUI
 
             this.contentWasEdited = false;
 
-            this.eloSystem = eloSystem;
-
-            this.Text = this.eloSystem.Name;
-
-            this.rankHandler = new RankHandler(() => { return this.eloSystem; });
+            this.Text = GlobalState.DataBase.Name;
 
             this.LoadContent();
+
+            this.matchReport.MatchChangedReported += this.OnMatchChanged;     
+        }
+
+        private void OnMatchChanged(object sender, EventArgs e)
+        {
+            this.mapAdder.Update();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -62,30 +62,29 @@ namespace SCEloSystemGUI
             this.tblLOPnlTournaments.Controls.Add(this.seasonAdder, 1, 0);
 
             this.mapAdder = new MapAdder() { ContentType = ContentTypes.Map };
-            this.mapAdder.OnAddPlayer += this.AddContent;
+            this.mapAdder.OnAddMap += this.AddContent;
             this.tblLOPnlMaps.Controls.Add(this.mapAdder, 0, 0);
 
             this.countryAdder = new ContentAdder() { ContentType = ContentTypes.Country };
-            this.countryAdder.OnAddPlayer += this.AddContent;
-            this.countryAdder.OnAddPlayer += this.CountryAdder_OnAddButtonClick;
+            this.countryAdder.OnAddMap += this.AddContent;
+            this.countryAdder.OnAddMap += this.CountryAdder_OnAddButtonClick;
             this.tblLOPnlCountries.Controls.Add(this.countryAdder, 0, 0);
 
             this.teamAdder = new DblNameContentAdder() { ContentType = ContentTypes.Team };
-            this.teamAdder.OnAddPlayer += this.AddContent;
-            this.teamAdder.OnAddPlayer += this.TeamAdder_OnAddButtonClick;
+            this.teamAdder.OnAddMap += this.AddContent;
+            this.teamAdder.OnAddMap += this.TeamAdder_OnAddButtonClick;
             this.tblLOPnlTeams.Controls.Add(this.teamAdder, 0, 0);
 
             this.playerAdder = new PlayerEditor() { ContentType = ContentTypes.Player };
-            this.playerAdder.EloDataSource = () => { return this.eloSystem; };
-            this.playerAdder.OnAddPlayer += this.AddContent;
-            this.playerAdder.OnAddPlayer += this.PlayerAdder_OnAddButtonClick;
+            this.playerAdder.OnAddMap += this.AddContent;
+            this.playerAdder.OnAddMap += this.PlayerAdder_OnAddButtonClick;
             this.playerAdder.OnEditButtonClick += this.PlayerAdder_OnPlayerDatabaseEdited;
             this.playerAdder.OnRemoveButtonClick += this.PlayerAdder_OnPlayerDatabaseEdited;
             this.tblLOPnlPlayers.Controls.Add(this.playerAdder, 0, 0);
 
             this.tournamentAdder = new DblNameContentAdder() { ContentType = ContentTypes.Tournament };
-            this.tournamentAdder.OnAddPlayer += this.AddContent;
-            this.tournamentAdder.OnAddPlayer += this.TournamentAdder_OnAddButtonClick;
+            this.tournamentAdder.OnAddMap += this.AddContent;
+            this.tournamentAdder.OnAddMap += this.TournamentAdder_OnAddButtonClick;
             this.tblLOPnlTournaments.Controls.Add(this.tournamentAdder, 0, 0);
 
             this.tournamentEditor = new DblNameContentEditor<Tournament>() { ContentName = "Tornament", ResourceGetter = this.ImageGetterMethod };
@@ -100,7 +99,6 @@ namespace SCEloSystemGUI
 
             this.matchReport = new MatchReport() { Margin = new Padding(6), Dock = DockStyle.Fill };
             this.tabPageReportMatch.Controls.Add(this.matchReport);
-            this.matchReport.EloDataSource = () => { return this.eloSystem; };
 
             this.AddTileSetsToCmbBox();
             this.AddCountriesToImgCmbBox();
@@ -115,7 +113,7 @@ namespace SCEloSystemGUI
 
             if (e.CloseReason == CloseReason.WindowsShutDown) { return; }
 
-            if (this.eloSystem.ContentHasBeenChanged || this.contentWasEdited)
+            if (GlobalState.DataBase.ContentHasBeenChanged || this.contentWasEdited)
             {
                 switch (MessageBox.Show("If you close this Elo System, all changes not saved will be lost. Are you sure you would like to close?", "Close?", MessageBoxButtons.OKCancel))
                 {
@@ -130,20 +128,32 @@ namespace SCEloSystemGUI
         {
             EloImage eloImg;
 
-            if (this.eloSystem.TryGetImage(item.ImageID, out eloImg)) { return eloImg.Image; }
+            if (GlobalState.DataBase.TryGetImage(item.ImageID, out eloImg)) { return eloImg.Image; }
             else { return null; }
         }
 
         private void toolStripMenuItemPlayerStats_Click(object sender, EventArgs e)
         {
-            if (this.playerStatsDisplay == null) { this.playerStatsDisplay = new PlayerStats(() => { return this.eloSystem; }, this.rankHandler); };
+            Cursor previousCursor = Cursor.Current;
+
+            Cursor.Current = Cursors.WaitCursor;
+
+            if (this.playerStatsDisplay == null) { this.playerStatsDisplay = new PlayerStats(); };
+
+            Cursor.Current = previousCursor;
 
             this.playerStatsDisplay.ShowDialog();
         }
 
         private void mapStatsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var mapStatsForm = new MapStatsDisplay(() => { return this.eloSystem; });
+            Cursor previousCursor = Cursor.Current;
+
+            Cursor.Current = Cursors.WaitCursor;
+
+            var mapStatsForm = new MapStatsDisplay();
+
+            Cursor.Current = previousCursor;
 
             mapStatsForm.ShowDialog();
         }

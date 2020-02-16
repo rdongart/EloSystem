@@ -1,4 +1,5 @@
-﻿using CustomExtensionMethods.Drawing;
+﻿using EloSystemExtensions;
+using CustomExtensionMethods.Drawing;
 using System.Drawing;
 using CustomExtensionMethods;
 using EloSystem;
@@ -18,6 +19,7 @@ namespace SCEloSystemGUI.UserControls
         private const string NO_SELECTION_TEXT = "<no player selected>";
         private const string NO_RESULTS_TEXT = "-";
 
+        private bool haltPublishingMapFilterChange;
         internal EventHandler ResultFilterChanged = delegate { };
         internal Map SelectedMap
         {
@@ -57,26 +59,23 @@ namespace SCEloSystemGUI.UserControls
                 if (handlerShouldBeInvoked)
                 {
                     this.SetResults();
+                    this.UpdateMapSelector();
                     this.btnRemovePlayer.Enabled = this.opponentPlayer != null;
                     this.ResultFilterChanged.Invoke(this, new EventArgs());
                 }
             }
         }
         private Map selectedMap;
-        private ResourceGetter dataBase;
-        private RankHandler rankHandler;
         private SCPlayer opponentPlayer;
         private SCPlayer player;
 
-        internal ResultsFilters(ResourceGetter databaseGetter, RankHandler rankHandler, SCPlayer player)
+        internal ResultsFilters(SCPlayer player)
         {
             InitializeComponent();
 
-            this.dataBase = databaseGetter;
-            this.rankHandler = rankHandler;
             this.player = player;
 
-            EloGUIControlsStaticMembers.PopulateComboboxWithMaps(this.cmbBxMapSelection, this.dataBase().GetMaps());
+            EloGUIControlsStaticMembers.PopulateComboboxWithMaps(this.cmbBxMapSelection, GlobalState.DataBase.GetMaps(), true, this.player, this.OpponentPlayer);
 
             this.cmbBxMapSelection.SelectedIndex = 0;
 
@@ -87,6 +86,20 @@ namespace SCEloSystemGUI.UserControls
 
             this.toolTipMatchListFilter.SetToolTip(this.lbMapStatsHeader, String.Format("Displays the matchup stats from the whole database on this map. Only {0}'s preferred matchups are shown."
                 , this.player.Name));
+        }
+
+        private void UpdateMapSelector()
+        {
+            Map selectedMap = this.SelectedMap;
+
+            EloGUIControlsStaticMembers.PopulateComboboxWithMaps(this.cmbBxMapSelection, GlobalState.DataBase.GetMaps(), true, this.player, this.OpponentPlayer);
+
+            if (selectedMap != null && this.cmbBxMapSelection.Items.OfType<Tuple<string, Map>>().Any(item => item.Item2 == selectedMap))
+            {
+                this.cmbBxMapSelection.SelectedIndex = this.cmbBxMapSelection.Items.IndexOf(this.cmbBxMapSelection.Items.OfType<Tuple<string, Map>>().First(item => item.Item2 == selectedMap));
+            }
+            else { this.cmbBxMapSelection.SelectedIndex = -1; }
+
         }
 
         private static string GetMapStatsFor(Race playersRace, Race vsRace, Map map)
@@ -134,25 +147,30 @@ namespace SCEloSystemGUI.UserControls
 
         private void btnSelectPlayer_Click(object sender, EventArgs e)
         {
-            if (PlayerSelector.Show(this.dataBase, this.rankHandler, (p) => p != this.player, "Select player for head-to-head analysis") == DialogResult.OK)
+            if (HeadToHeadSelector.Show(this.player, (p) => p != this.player && GlobalState.DataBase.HeadToHeadGames(this.player, p).Any(), "Select player for head-to-head analysis") == DialogResult.OK)
             {
-                this.OpponentPlayer = PlayerSelector.SelectedPlayer;
+                this.SetHeadToHeadOpponent(HeadToHeadSelector.SelectedPlayer);
+            }
+        }
 
-                this.lbOpponent.Text = this.OpponentPlayer.Name;
+        public void SetHeadToHeadOpponent(SCPlayer player)
+        {
+            this.OpponentPlayer = player;
 
-                EloImage playerRes;
+            this.lbOpponent.Text = this.OpponentPlayer.Name;
 
-                if (this.dataBase().TryGetImage(this.OpponentPlayer.ImageID, out playerRes))
-                {
-                    this.picBxPlayer.Image = playerRes.Image;
+            EloImage playerRes;
 
-                    this.toolTipMatchListFilter.SetToolTip(this.picBxPlayer, this.OpponentPlayer.Name);
-                }
-                else
-                {
-                    this.picBxPlayer.Image = null;
-                    this.toolTipMatchListFilter.SetToolTip(this.picBxPlayer, string.Empty);
-                }
+            if (GlobalState.DataBase.TryGetImage(this.OpponentPlayer.ImageID, out playerRes))
+            {
+                this.picBxPlayer.Image = playerRes.Image;
+
+                this.toolTipMatchListFilter.SetToolTip(this.picBxPlayer, this.OpponentPlayer.Name);
+            }
+            else
+            {
+                this.picBxPlayer.Image = null;
+                this.toolTipMatchListFilter.SetToolTip(this.picBxPlayer, string.Empty);
             }
 
         }
@@ -182,7 +200,7 @@ namespace SCEloSystemGUI.UserControls
                 else { return gms; }
             };
 
-            IEnumerable<Game> games = this.dataBase().GetAllGames().Where(game => game.HasPlayer(this.player));
+            IEnumerable<Game> games = GlobalState.DataBase.GetAllGames().Where(game => game.HasPlayer(this.player));
 
             IEnumerable<Game> filteredGames = OpponentFilter(MapFilter(games));
 
@@ -231,16 +249,35 @@ namespace SCEloSystemGUI.UserControls
 
         private void cmbBxMapSelection_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (this.haltPublishingMapFilterChange) { return; }
+
             var selMap = this.cmbBxMapSelection.SelectedItem as Tuple<string, Map>;
 
-            this.SelectedMap = selMap.Item2;
+            this.SetMapFilter(selMap.Item2);
+        }
+
+        public void SetMapFilter(Map map)
+        {
+            this.SelectedMap = map;
 
             EloImage mapImage;
 
-            if (this.SelectedMap != null && this.dataBase().TryGetImage(this.SelectedMap.ImageID, out mapImage)) { this.picBxMap.Image = mapImage.Image; }
+            if (this.SelectedMap != null && GlobalState.DataBase.TryGetImage(this.SelectedMap.ImageID, out mapImage)) { this.picBxMap.Image = mapImage.Image; }
             else { this.picBxMap.Image = null; }
 
             this.SetResults();
+
+            // here we set the combo box with maps to the correct index
+            this.haltPublishingMapFilterChange = true;
+
+            if (this.cmbBxMapSelection.Items.Cast<Tuple<string, Map>>().Any(item => item.Item2 == map))
+            {
+                this.cmbBxMapSelection.SelectedIndex
+                    = this.cmbBxMapSelection.Items.Cast<Tuple<string, Map>>().IndexOf(this.cmbBxMapSelection.Items.Cast<Tuple<string, Map>>().First(item => item.Item2 == map));
+            }
+            else { this.cmbBxMapSelection.SelectedIndex = -1; }
+
+            this.haltPublishingMapFilterChange = false;
         }
 
         private void SetMapStats()
@@ -253,8 +290,8 @@ namespace SCEloSystemGUI.UserControls
             }
             else
             {
-                this.lbRaceVsZerg.Text = String.Format("{0}vZ:  {1}", this.player.GetPrimaryRaceVs(Race.Zerg).ToString().Substring(0, 1), ResultsFilters.GetMapStatsFor(this.player.GetPrimaryRaceVs(Race.Zerg)
-                    , Race.Zerg, this.SelectedMap));
+                this.lbRaceVsZerg.Text = String.Format("{0}vZ:  {1}", this.player.GetPrimaryRaceVs(Race.Zerg).ToString().Substring(0, 1)
+                    , ResultsFilters.GetMapStatsFor(this.player.GetPrimaryRaceVs(Race.Zerg), Race.Zerg, this.SelectedMap));
                 this.lbRaceVsTerran.Text = String.Format("{0}vT:  {1}", this.player.GetPrimaryRaceVs(Race.Terran).ToString().Substring(0, 1)
                     , ResultsFilters.GetMapStatsFor(this.player.GetPrimaryRaceVs(Race.Terran), Race.Terran, this.SelectedMap));
                 this.lbRaceVsProtoss.Text = String.Format("{0}vP:  {1}", this.player.GetPrimaryRaceVs(Race.Protoss).ToString().Substring(0, 1)

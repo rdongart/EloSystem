@@ -24,22 +24,34 @@ namespace SCEloSystemGUI
 
         }
 
+        internal static Image GetMultipleRacesUsageIcon(IEnumerable<Race> racesUsage)
+        {
+            if (racesUsage.IsEmpty()) { return null; }
+            else if (racesUsage.Count() == 1) { return RaceIconProvider.GetRaceBitmap(racesUsage.ElementAt(0)); }
+            else
+            {
+                if (!RaceIconProvider.RaceUsageIconExists(racesUsage)) { RaceIconProvider.CreateMultipleRaceUsageIcon(racesUsage); }
+
+                return RaceIconProvider.raceListsCreated.First(lst => lst.Key.Count == racesUsage.Count() && lst.Key.SequenceEqual(racesUsage)).Value;
+            }
+
+        }
+
+        private static void CreateMultipleRaceUsageIcon(IEnumerable<Race> raceUsageList)
+        {
+            if (raceUsageList.Count() == 1) { RaceIconProvider.GetRaceBitmap(raceUsageList.ElementAt(0)); }
+            else if (raceUsageList.Count() == 2) { RaceIconProvider.CreateDoubleRaceUsageIcon(raceUsageList.ElementAt(0), raceUsageList.ElementAt(1)); }
+            else if (raceUsageList.Count() == 3) { RaceIconProvider.CreateTripleRaceUsageIcon(raceUsageList.ElementAt(0), raceUsageList.ElementAt(1), raceUsageList.ElementAt(2)); }
+            else if (raceUsageList.Count() > 3) { RaceIconProvider.CreateQuadRaceUsageIcon(raceUsageList.ElementAt(0), raceUsageList.ElementAt(1), raceUsageList.ElementAt(2), raceUsageList.ElementAt(3)); }
+
+        }
+
         private static Image GetMultipleRacesUsageIcon(SCPlayer player)
         {
-            List<Race> raceUsageList = player.RaceUsageFrequency().Where(kvp => kvp.Value > 0).OrderByDescending(kvp => kvp.Value).ThenBy(kvp => (int)kvp.Key).Select(kvp => kvp.Key).ToList();
-
-            if (!RaceIconProvider.RaceUsageIconExists(raceUsageList)) { RaceIconProvider.CreateMultipleRaceUsageIcon(raceUsageList); }
-
-            return RaceIconProvider.raceListsCreated.First(lst => lst.Key.Count == raceUsageList.Count && lst.Key.SequenceEqual(raceUsageList)).Value;
+            return RaceIconProvider.GetMultipleRacesUsageIcon(player.RaceUsageFrequency().Where(kvp => kvp.Value > 0).OrderByDescending(kvp => kvp.Value).ThenBy(kvp => (int)kvp.Key).Select(kvp =>
+                kvp.Key).ToList());
         }
 
-        private static void CreateMultipleRaceUsageIcon(List<Race> raceUsageList)
-        {
-            if (raceUsageList.Count == 2) { RaceIconProvider.CreateDoubleRaceUsageIcon(raceUsageList[0], raceUsageList[1]); }
-            else if (raceUsageList.Count == 3) { RaceIconProvider.CreateTripleRaceUsageIcon(raceUsageList[0], raceUsageList[1], raceUsageList[2]); }
-            else if (raceUsageList.Count == 4) { RaceIconProvider.CreateQuadRaceUsageIcon(raceUsageList[0], raceUsageList[1], raceUsageList[2], raceUsageList[3]); }
-
-        }
 
         private static void CreateDoubleRaceUsageIcon(Race raceFirst, Race raceSecond)
         {
@@ -178,9 +190,9 @@ namespace SCEloSystemGUI
             }
         }
 
-        private static bool RaceUsageIconExists(List<Race> raceUsageList)
+        private static bool RaceUsageIconExists(IEnumerable<Race> raceUsageList)
         {
-            return RaceIconProvider.raceListsCreated.Keys.Any(lst => lst.Count == raceUsageList.Count && lst.SequenceEqual(raceUsageList));
+            return RaceIconProvider.raceListsCreated.Keys.Any(lst => lst.Count() == raceUsageList.Count() && lst.SequenceEqual(raceUsageList));
         }
     }
 }

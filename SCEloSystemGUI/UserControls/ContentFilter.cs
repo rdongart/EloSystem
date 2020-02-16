@@ -22,7 +22,6 @@ namespace SCEloSystemGUI.UserControls
         private bool acceptNullApplied;
         private List<T> selectedContentApplied;
         private ObjectListView contentOLV;
-        private ResourceGetter eloDataBase;
         private string columnHeader;
         private string header;
         public ContentGetter<T> ContentGetter { get; set; }
@@ -56,7 +55,7 @@ namespace SCEloSystemGUI.UserControls
         }
         public event EventHandler FilterChanged = delegate { };
 
-        public ContentFilter(ResourceGetter databaseGetter)
+        public ContentFilter()
         {
             InitializeComponent();
 
@@ -64,8 +63,6 @@ namespace SCEloSystemGUI.UserControls
             this.RowHeight = ContentFilter<T>.ROW_HEIGHT_DEFAULT;
 
             this.selectedContentApplied = new List<T>();
-
-            this.eloDataBase = databaseGetter;
 
             this.contentOLV = this.CreateContentFilterListView();
             this.contentOLV.ItemChecked += this.ContentOLV_ItemChecked;
@@ -151,7 +148,7 @@ namespace SCEloSystemGUI.UserControls
 
                 EloImage image;
 
-                if (this.eloDataBase().TryGetImage(content.ImageID, out image)) { return new Image[] { image.Image.ResizeSameAspectRatio(this.ImageDimensionMax) }; }
+                if (GlobalState.DataBase.TryGetImage(content.ImageID, out image)) { return new Image[] { image.Image.ResizeSameAspectRatio(this.ImageDimensionMax) }; }
                 else { return null; }
 
             };

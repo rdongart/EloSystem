@@ -61,8 +61,8 @@ namespace SCEloSystemGUI
             editor.SelectedItem.Name = editor.NameShort;
             editor.SelectedItem.NameLong = editor.NameLong;
 
-            if (editor.NewImage != null) { this.eloSystem.EidtImage(editor.SelectedItem, editor.NewImage); }
-            else if (editor.RemoveCurrentImage) { this.eloSystem.EidtImage(editor.SelectedItem, null); }
+            if (editor.NewImage != null) { GlobalState.DataBase.EidtImage(editor.SelectedItem, editor.NewImage); }
+            else if (editor.RemoveCurrentImage) { GlobalState.DataBase.EidtImage(editor.SelectedItem, null); }
         }
 
         private void AddContent(object sender, ContentAddingEventArgs e)
@@ -75,11 +75,11 @@ namespace SCEloSystemGUI
 
             switch (adder.ContentType)
             {
-                case ContentTypes.Country: currentContent = this.eloSystem.GetCountry(adder.ContentName); break;
-                case ContentTypes.Map: currentContent = this.eloSystem.GetMap(adder.ContentName); break;
-                case ContentTypes.Player: currentContent = this.eloSystem.GetPlayers(adder.ContentName).FirstOrDefault(); break;
-                case ContentTypes.Team: currentContent = this.eloSystem.GetTeam(adder.ContentName); break;
-                case ContentTypes.Tournament: currentContent = this.eloSystem.GetTournament(adder.ContentName); break;
+                case ContentTypes.Country: currentContent = GlobalState.DataBase.GetCountry(adder.ContentName); break;
+                case ContentTypes.Map: currentContent = GlobalState.DataBase.GetMap(adder.ContentName); break;
+                case ContentTypes.Player: currentContent = GlobalState.DataBase.GetPlayers(adder.ContentName).FirstOrDefault(); break;
+                case ContentTypes.Team: currentContent = GlobalState.DataBase.GetTeam(adder.ContentName); break;
+                case ContentTypes.Tournament: currentContent = GlobalState.DataBase.GetTournament(adder.ContentName); break;
                 default: throw new Exception(String.Format("{0} is an unkonwn {1} in the current context.", adder.ContentType.ToString(), typeof(ContentTypes).Name));
             }
 
@@ -87,28 +87,28 @@ namespace SCEloSystemGUI
 
             switch (adder.ContentType)
             {
-                case ContentTypes.Country: this.eloSystem.AddCountry(adder.ContentName, adder.NewImage); break;
+                case ContentTypes.Country: GlobalState.DataBase.AddCountry(adder.ContentName, adder.NewImage); break;
                 case ContentTypes.Map:
                     var mapAdder = e.ContentAdder as MapAdder;
 
-                    this.eloSystem.AddMap(mapAdder.ContentName, mapAdder.MapType, mapAdder.MapSize, mapAdder.NewImage);
+                    GlobalState.DataBase.AddMap(mapAdder.ContentName, mapAdder.MapType, mapAdder.MapSize, mapAdder.SelectedTileset, mapAdder.NewImage);
 
                     break;
                 case ContentTypes.Player:
                     var playerAdder = e.ContentAdder as PlayerEditor;
 
-                    this.eloSystem.AddPlayer(playerAdder.ContentName, playerAdder.GetAliases(), playerAdder.IRLName, playerAdder.StartRating, playerAdder.SelectedTeam, playerAdder.SelectedCountry
+                    GlobalState.DataBase.AddPlayer(playerAdder.ContentName, playerAdder.GetAliases(), playerAdder.IRLName, playerAdder.StartRating, playerAdder.SelectedTeam, playerAdder.SelectedCountry
                         , playerAdder.NewImage, playerAdder.BirthDateWasSet ? playerAdder.BirthDate : new DateTime());
 
                     break;
                 case ContentTypes.Team:
                     var teamAdder = e.ContentAdder as DblNameContentAdder;
 
-                    this.eloSystem.AddTeam(teamAdder.NameShort, teamAdder.NameLong, teamAdder.NewImage); break;
+                    GlobalState.DataBase.AddTeam(teamAdder.NameShort, teamAdder.NameLong, teamAdder.NewImage); break;
                 case ContentTypes.Tournament:
                     var tournamentAdder = e.ContentAdder as DblNameContentAdder;
 
-                    this.eloSystem.AddTournament(tournamentAdder.NameShort, tournamentAdder.NameLong, adder.NewImage); break;
+                    GlobalState.DataBase.AddTournament(tournamentAdder.NameShort, tournamentAdder.NameLong, adder.NewImage); break;
                 default: throw new Exception(String.Format("{0} is an unkonwn {1} in the current context.", adder.ContentType.ToString(), typeof(ContentTypes).Name));
             }
 
@@ -121,7 +121,7 @@ namespace SCEloSystemGUI
 
             if (seasonAdder == null || adderSender.SelectedTournament == null) { return; }
 
-            this.eloSystem.AddSeason(adderSender.ContentName, adderSender.SelectedTournament);
+            GlobalState.DataBase.AddSeason(adderSender.ContentName, adderSender.SelectedTournament);
         }
 
         private void AddTilSet(object sender, EventArgs e)
@@ -134,12 +134,12 @@ namespace SCEloSystemGUI
                 return;
             }
 
-            Tileset currentContent = this.eloSystem.GetTileSet(hasNameSender.Name);
+            Tileset currentContent = GlobalState.DataBase.GetTileSet(hasNameSender.Name);
 
             if (currentContent != null) { MessageBox.Show(String.Format("A {0} named {1} already exists.", currentContent.GetType().Name, currentContent.Name)); }
             else
             {
-                this.eloSystem.AddTileSet(hasNameSender.ContentName);
+                GlobalState.DataBase.AddTileSet(hasNameSender.ContentName);
                 MainForm.DisplayContentEditSuccesMessage();
             }
         }
@@ -196,7 +196,7 @@ namespace SCEloSystemGUI
         {
             var selectedItem = this.mapAdder.cmbBxTileset.SelectedItem != null ? (this.mapAdder.cmbBxTileset.SelectedItem as Tuple<string, Tileset>).Item2 : null;
 
-            List<Tileset> tileSetList = this.eloSystem.GetTileSets().OrderBy(tileSet => tileSet.Name).ToList();
+            List<Tileset> tileSetList = GlobalState.DataBase.GetTileSets().OrderBy(tileSet => tileSet.Name).ToList();
 
             this.mapAdder.cmbBxTileset.DisplayMember = "Item1";
             this.mapAdder.cmbBxTileset.ValueMember = "Item2";
@@ -211,12 +211,12 @@ namespace SCEloSystemGUI
         {
             ImageGetter<Country> getter = this.ImageGetterMethod;
 
-            this.playerAdder.ImgCmbBxCountries.AddItems(this.eloSystem.GetCountries().ToArray(), getter, true);
+            this.playerAdder.ImgCmbBxCountries.AddItems(GlobalState.DataBase.GetCountries().ToArray(), getter, true);
         }
 
         private void AddPlayersToImgCmbBox()
         {
-            SCPlayer[] players = this.eloSystem.GetPlayers().ToArray();
+            SCPlayer[] players = GlobalState.DataBase.GetPlayers().ToArray();
 
             this.matchReport.ImgCmbBxPlayer1.AddItems(players, false);
             this.matchReport.ImgCmbBxPlayer2.AddItems(players, false);
@@ -224,18 +224,18 @@ namespace SCEloSystemGUI
 
         private void AddTeamsToImgCmbBox()
         {
-            this.teamEditor.AddContentItems(this.eloSystem.GetTeams(), this.ImageGetterMethod);
+            this.teamEditor.AddContentItems(GlobalState.DataBase.GetTeams(), this.ImageGetterMethod);
 
             ImageGetter<Team> getter = this.ImageGetterMethod;
 
-            this.playerAdder.ImgCmbBxTeams.AddItems(this.eloSystem.GetTeams().ToArray(), getter, true);
+            this.playerAdder.ImgCmbBxTeams.AddItems(GlobalState.DataBase.GetTeams().ToArray(), getter, true);
         }
 
         private void AddTournamentsToImgCmbBox()
         {
-            this.seasonAdder.AddTournamentItems(this.eloSystem.GetTournaments(), this.ImageGetterMethod);
+            this.seasonAdder.AddTournamentItems(GlobalState.DataBase.GetTournaments(), this.ImageGetterMethod);
 
-            this.tournamentEditor.AddContentItems(this.eloSystem.GetTournaments(), this.ImageGetterMethod);
+            this.tournamentEditor.AddContentItems(GlobalState.DataBase.GetTournaments(), this.ImageGetterMethod);
         }
     }
 

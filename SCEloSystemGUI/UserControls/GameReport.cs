@@ -1,4 +1,5 @@
-﻿using CustomExtensionMethods;
+﻿using EloSystemExtensions;
+using CustomExtensionMethods;
 using System.Collections;
 using System.Collections.Generic;
 using CustomControls;
@@ -17,7 +18,7 @@ namespace SCEloSystemGUI.UserControls
         Ready, MapIsMissing, Failure
     }
 
-    public partial class GameReport : UserControl
+    public partial class GameReport : UserControl, IDisposable
     {
         internal int RaceIndexPlayer1
         {
@@ -35,24 +36,6 @@ namespace SCEloSystemGUI.UserControls
         }
         internal Player1EWRGetter Pl1EWRGetter { get; set; }
         internal RatingChangeGetter RatingCalculator { get; private set; }
-        internal ResourceGetter EloDataSource
-        {
-            private get
-            {
-                return this.eloDataSource;
-            }
-            set
-            {
-                if (this.eloDataSource != null) { this.eloDataSource().MapPoolChanged -= this.OnMapPoolUpdate; }
-
-                this.eloDataSource = value;
-
-                this.eloDataSource().MapPoolChanged += this.OnMapPoolUpdate;
-
-                EloGUIControlsStaticMembers.PopulateComboboxWithMaps(this.cmbBxMap, value().GetMaps().OrderBy(map => map.Name));
-            }
-
-        }
         internal SCPlayer Player1
         {
             get
@@ -115,7 +98,6 @@ namespace SCEloSystemGUI.UserControls
                 return (this.cmbBxPlayer2Race.SelectedItem as Tuple<string, Race>).Item2;
             }
         }
-        private ResourceGetter eloDataSource;
         private SCPlayer player1;
         private SCPlayer player2;
         public PlayerSlotType WinnerSlot
@@ -147,13 +129,15 @@ namespace SCEloSystemGUI.UserControls
 
             this.rdBtnPl1Win.CheckedChanged += this.RdBtnPlWin_CheckedChanged;
             this.rdBtnPl2Win.CheckedChanged += this.RdBtnPlWin_CheckedChanged;
+
+            EloGUIControlsStaticMembers.PopulateComboboxWithMaps(this.cmbBxMap, GlobalState.DataBase.GetMaps().OrderBy(map => map.Name), true);
+
+            GlobalState.DataBase.MapPoolChanged += this.OnMapPoolUpdate;
         }
 
-        public GameReport(GameEntryEditorItem editorItem, SCPlayer player1, SCPlayer player2, ResourceGetter resourceGetter, Player1EWRGetter ewrGetter, RatingChangeGetter ratingCalculator)
+        public GameReport(GameEntryEditorItem editorItem, SCPlayer player1, SCPlayer player2, Player1EWRGetter ewrGetter, RatingChangeGetter ratingCalculator)
             : this(ewrGetter, ratingCalculator)
         {
-            this.EloDataSource = resourceGetter;
-
             this.cmbBxPlayer1Race.SelectedIndex = (int)editorItem.Player1Race;
             this.cmbBxPlayer2Race.SelectedIndex = (int)editorItem.Player2Race;
 
@@ -181,6 +165,15 @@ namespace SCEloSystemGUI.UserControls
             cmBx.Items.Clear();
             cmBx.Items.AddRange(Enum.GetValues(typeof(Race)).Cast<Race>().Select(enm => Tuple.Create<string, Race>(enm.ToString().ToUpper(), enm)).ToArray());
         }
+
+        #region Implementing IDisposable
+        public new void Dispose()
+        {
+            GlobalState.DataBase.MapPoolChanged -= this.OnMapPoolUpdate;
+
+            base.Dispose();
+        }
+        #endregion
 
         private void RdBtnPlWin_CheckedChanged(object sender, EventArgs e)
         {
@@ -319,6 +312,8 @@ namespace SCEloSystemGUI.UserControls
                     }
                 }
             }
+
+            this.SetHeadToHeadbtnVisibility();
         }
 
         private void OnMapPoolUpdate(object sender, EventArgs e)
@@ -327,7 +322,7 @@ namespace SCEloSystemGUI.UserControls
 
             if (senderElo == null) { return; }
 
-            EloGUIControlsStaticMembers.PopulateComboboxWithMaps(this.cmbBxMap, senderElo.GetMaps().OrderBy(map => map.Name));
+            EloGUIControlsStaticMembers.PopulateComboboxWithMaps(this.cmbBxMap, senderElo.GetMaps().OrderBy(map => map.Name), true);
         }
 
         public bool RaceIsSelectedFor(PlayerSlotType slot)
@@ -376,6 +371,17 @@ namespace SCEloSystemGUI.UserControls
             this.UpdateControlValues();
 
             this.GameDataReported.Invoke(this, new EventArgs());
+        }
+
+        private void SetHeadToHeadbtnVisibility()
+        {
+            this.btnHeadToHead.Visible = this.GetMapOrDefault() != null && this.Player1 != null && this.Player2 != null && GlobalState.DataBase.HeadToHeadGames(this.Player1, this.Player2).Where(game =>
+                game.Map == this.GetMapOrDefault()).Any();
+        }
+
+        private void btnHeadToHead_Click(object sender, EventArgs e)
+        {
+            PlayerProfile.ShowProfile(this.Player1, this.Player2, this.GetMapOrDefault());
         }
     }
 }

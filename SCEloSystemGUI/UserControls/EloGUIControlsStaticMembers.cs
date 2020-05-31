@@ -110,7 +110,7 @@ namespace SCEloSystemGUI.UserControls
                 FullRowSelect = true
             };
 
-            playerStatsLV.MouseMove += EloGUIControlsStaticMembers.PlayerStatsLV_MouseMove;
+            playerStatsLV.MouseMove += EloGUIControlsStaticMembers.ShowCurserHandOnMouseMove;
 
             playerStatsLV.HotItemStyle = new HotItemStyle();
             playerStatsLV.HotItemStyle.Decoration = EloSystemGUIStaticMembers.OlvListViewRowBorderDecoration();
@@ -235,17 +235,8 @@ namespace SCEloSystemGUI.UserControls
 
             return playerStatsLV;
         }
-
-        internal static string ConvertRatingChangeString(string ratingChangeTxt)
-        {
-            int ratingChangeValue = 0;
-
-            bool hasRatingValue = int.TryParse(ratingChangeTxt, out ratingChangeValue);
-
-            return String.Format("{0}{1}", ratingChangeValue > 0 ? "+" : "", hasRatingValue ? ratingChangeValue.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT) : ratingChangeTxt);
-        }
-
-        internal static void PlayerStatsLV_MouseMove(object sender, MouseEventArgs e)
+        
+        internal static void ShowCurserHandOnMouseMove(object sender, MouseEventArgs e)
         {
             var senderLstv = sender as ListView;
 
@@ -306,28 +297,12 @@ namespace SCEloSystemGUI.UserControls
                 g.CompositingQuality = CompositingQuality.HighQuality;
                 g.SmoothingMode = SmoothingMode.AntiAlias;
 
-                int fameHalfSize = (frameWidth / 2.0).RoundDown();
+                int frameHalfSize = (frameWidth / 2.0).RoundDown();
 
-                g.DrawRectangle(new Pen(new SolidBrush(frameColor), frameWidth), 0, 0, size.Width - fameHalfSize, size.Height - fameHalfSize);
+                g.DrawRectangle(new Pen(new SolidBrush(frameColor), frameWidth), 0, 0, size.Width - frameHalfSize, size.Height - frameHalfSize);
             }
 
             return img;
-        }
-
-        internal static void SetPictureBoxStyleAndImage(PictureBox picBx, Image img)
-        {
-            const double IMAGE_BOUNDS_PROPORTION = 0.22;
-
-            int imageBoundsX = (picBx.Width * IMAGE_BOUNDS_PROPORTION).RoundToInt();
-            int imageBoundsY = (picBx.Height * IMAGE_BOUNDS_PROPORTION).RoundToInt();
-
-            picBx.BackColor = EloGUIControlsStaticMembers.RaceImageBackgroundColor;
-            picBx.BorderStyle = BorderStyle.FixedSingle;
-            picBx.SizeMode = PictureBoxSizeMode.CenterImage;
-            picBx.BackgroundImage = EloGUIControlsStaticMembers.BackGroundFrame(picBx.Size, Color.Black, (Math.Min(picBx.Size.Width, picBx.Size.Height) * 0.12).RoundToInt());
-
-            if (img != null) { picBx.Image = img.ResizeSARWithinBounds(picBx.Width - imageBoundsX, picBx.Height - imageBoundsY); }
-            else { picBx.Image = null; }
         }
 
         [STAThread]
@@ -358,5 +333,33 @@ namespace SCEloSystemGUI.UserControls
 
             }
         }
+
+        internal static Image ImageGetterMethod(IHasImageID item)
+        {
+            EloImage eloImg;
+
+            if (GlobalState.DataBase.TryGetImage(item.ImageID, out eloImg)) { return eloImg.Image; }
+            else { return null; }
+        }
+
+        internal static GameFilter<Matchup> CreateMatchupDrivenGameFilter()
+        {
+            var gameFilter = new GameFilter<Matchup>();
+
+            gameFilter.Dock = DockStyle.Fill;
+            gameFilter.BorderStyle = BorderStyle.FixedSingle;
+            gameFilter.Margin = new Padding(4);
+            gameFilter.ColumnHeader = "Matchup";
+            gameFilter.Header = "Matchup Filter";
+            gameFilter.ImageColumnnWidth = 100;
+
+            gameFilter.ItemImageGetter = (m) => RaceIconProvider.GetMatchupImage(m);
+            gameFilter.FilterAspectGetter = (g) => g.MatchType;
+            gameFilter.SetItems(new Matchup[] { Matchup.ZvP, Matchup.PvT, Matchup.TvZ, Matchup.ZvZ, Matchup.TvT, Matchup.PvP, Matchup.RvZ, Matchup.RvT, Matchup.RvP, Matchup.RvR });
+            gameFilter.ColumnHeader = "Matchup";
+
+            return gameFilter;
+        }
+                
     }
 }

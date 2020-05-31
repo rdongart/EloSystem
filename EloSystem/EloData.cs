@@ -87,7 +87,7 @@ namespace EloSystem
             this.resHandler = new ResourceHandler(StaticMembers.SaveDirectory + name);
         }
 
-        internal static double ExpectedWinRatio(int ownRating, int opponentRating)
+        public static double ExpectedWinRatio(int ownRating, int opponentRating)
         {
             const int RATING_POINTS_PER_EXPECTED_WINRATIO_PERCENTAGE = 15;
             const double MAX_RATING_DISTANCE_DETERMINER = 0.01 / RATING_POINTS_PER_EXPECTED_WINRATIO_PERCENTAGE;
@@ -97,27 +97,37 @@ namespace EloSystem
         }
 
         /// <summary>
-        /// 
+        /// Calculates the rating change for a game.
         /// </summary>
         /// <param name="winnersStats"></param>
         /// <param name="winnersRace"></param>
-        /// <param name="loser"></param>
+        /// <param name="losersStats"></param>
         /// <param name="losersRace"></param>
         /// <param name="ewrWinner">Expected win rate of the winner. Should be a value between 0 and 1.</param>
-        /// <param name="date"></param>
-        /// <param name="dailyMatchIndex"></param>
         /// <returns></returns>
-        internal static int RatingChange(WinRateCounter winnersStats, Race winnersRace, WinRateCounter loser, Race losersRace, double ewrWinner)
+        internal static int RatingChange(WinRateCounter winnersStats, Race winnersRace, WinRateCounter losersStats, Race losersRace, double ewrWinner)
         {
-            const int RATING_CHANGE_STANDARD_MAX = 32;
-
-            return (RATING_CHANGE_STANDARD_MAX * (EloData.EXP_WIN_RATIO_MAX - ewrWinner) * EloData.RatingBonusFactorTotal(winnersStats, winnersRace, loser, losersRace)).RoundToInt();
+            return EloData.RatingChange(winnersStats.GamesVs(losersRace), losersStats.GamesVs(winnersRace), ewrWinner);
         }
 
         public static int RatingChange(PlayerStatsClone winnersStats, Race winnersRace, PlayerStatsClone losersStats, Race losersRace)
         {
             return EloData.RatingChange(winnersStats.Stats, winnersRace, losersStats.Stats, losersRace, EloData.ExpectedWinRatio(winnersStats.RatingVs.GetValueFor(losersRace)
                 , losersStats.RatingVs.GetValueFor(winnersRace)));
+        }
+
+        /// <summary>
+        /// Calculates the rating change for a game.
+        /// </summary>
+        /// <param name="winnersGamesPlayedVsRace">The number of games played by the winner against losers race.</param>
+        /// <param name="losersGamesPlayedVsRace">The number of games played by the loser against winners race.</param>
+        /// <param name="ewrWinner">Expected win rate of the winner. Should be a value between 0 and 1.</param>
+        /// <returns></returns>
+        public static int RatingChange(int winnersGamesPlayedVsRace, int losersGamesPlayedVsRace, double ewrWinner)
+        {
+            const int K_FACTOR = 36;
+
+            return (K_FACTOR * (EloData.EXP_WIN_RATIO_MAX - ewrWinner.TruncateToRange(0, 1)) * EloData.RatingBonusFactorTotal(winnersGamesPlayedVsRace, losersGamesPlayedVsRace)).RoundToInt();
         }
 
         /// <summary>
@@ -128,12 +138,22 @@ namespace EloSystem
         /// <returns></returns>
         private static double RatingBonusFactorTotal(WinRateCounter player1Stats, Race player1Race, WinRateCounter player2Stats, Race player2Race)
         {
+            return EloData.RatingBonusFactorByPlayer(player1Stats.GamesVs(player2Race)) + EloData.RatingBonusFactorByPlayer(player2Stats.GamesVs(player1Race));
+        }
+
+        private static double RatingBonusFactorTotal(int winnersGamesPlayedVsRace, int losersGamesPlayedVsRace)
+        {
             const int BONUSFACTOR_STANDARD = 1;
 
-            return BONUSFACTOR_STANDARD + EloData.RatingBonusFactorByPlayer(player1Stats, player2Race) + EloData.RatingBonusFactorByPlayer(player2Stats, player1Race);
+            return BONUSFACTOR_STANDARD + EloData.RatingBonusFactorByPlayer(winnersGamesPlayedVsRace) + EloData.RatingBonusFactorByPlayer(losersGamesPlayedVsRace);
         }
 
         private static double RatingBonusFactorByPlayer(WinRateCounter playerStats, Race opponentRace)
+        {
+            return EloData.RatingBonusFactorByPlayer(playerStats.GamesVs(opponentRace));
+        }
+
+        private static double RatingBonusFactorByPlayer(int gamesPlayedVsRace)
         {
             const int BONUSFACTOR_STANDARD = 0;
             const double CALIBRATION_PHASE1_BONUSFACTOR = 1.5;
@@ -143,9 +163,9 @@ namespace EloSystem
             const double CALIBRATION_PHASE3_BONUSFACTOR = 0.5;
             const int CALIBRATION_PHASE3_NO_MATCHES = 30 + CALIBRATION_PHASE2_NO_MATCHES;
 
-            if (playerStats.GamesVs(opponentRace) < CALIBRATION_PHASE1_NO_MATCHES) { return CALIBRATION_PHASE1_BONUSFACTOR; }
-            else if (playerStats.GamesVs(opponentRace) < CALIBRATION_PHASE2_NO_MATCHES) { return CALIBRATION_PHASE2_BONUSFACTOR; }
-            else if (playerStats.GamesVs(opponentRace) < CALIBRATION_PHASE3_NO_MATCHES) { return CALIBRATION_PHASE3_BONUSFACTOR; }
+            if (gamesPlayedVsRace < CALIBRATION_PHASE1_NO_MATCHES) { return CALIBRATION_PHASE1_BONUSFACTOR; }
+            else if (gamesPlayedVsRace < CALIBRATION_PHASE2_NO_MATCHES) { return CALIBRATION_PHASE2_BONUSFACTOR; }
+            else if (gamesPlayedVsRace < CALIBRATION_PHASE3_NO_MATCHES) { return CALIBRATION_PHASE3_BONUSFACTOR; }
             else { return BONUSFACTOR_STANDARD; }
         }
 
@@ -360,18 +380,25 @@ namespace EloSystem
             return true;
         }
 
+        /// <summary>
+        /// Returns a clone of a player's stats just prior to the date and or daily index provided.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="date">A given date in time.</param>
+        /// <param name="dailyMatchIndex">The match index of the selected date.</param>
+        /// <returns></returns>
         public PlayerStatsClone PlayerStatsAtPointInTime(SCPlayer player, DateTime date, int dailyMatchIndex = Match.DAILYINDEX_MOSTRECENT)
         {
             var playerStatsClone = new PlayerStatsClone(player);
 
-            foreach (Game game in this.GetAllGames().Where(game => game.HasPlayer(player) && game.Match.IsMoreRecentThan(date, dailyMatchIndex))) { playerStatsClone.RollBackResult(game); }
+            foreach (Match match in this.GetMatches().Where(match => match.HasPlayer(player) && match.IsMoreRecentOrSameAs(date, dailyMatchIndex))) { playerStatsClone.RollBackResult(match); }
 
             return playerStatsClone;
         }
 
         public IEnumerable<PlayerStatsCloneDev> PlayerStatsDevelopment(SCPlayer player)
         {
-            IEnumerable<DateTime> playersGameDates = this.GetAllGames().Where(game => game.HasPlayer(player)).Select(game => game.Match.DateTime);
+            IEnumerable<DateTime> playersGameDates = this.GetMatches().Where(match => match.HasPlayer(player)).Select(match => match.DateTime);
 
             return playersGameDates.Any() ? this.PlayerStatsDevelopment(player, playersGameDates.Min()) : new PlayerStatsCloneDev[] { };
         }
@@ -386,9 +413,9 @@ namespace EloSystem
 
             while (dateFrom.CompareTo(todayDate.Subtract(new TimeSpan(dayCounter, 0, 0, 0))) <= 0)
             {
-                foreach (Game game in this.GetAllGames().Where(game => game.HasPlayer(player) && game.Match.DateTime.Date.Equals(todayDate.Subtract(new TimeSpan(dayCounter, 0, 0, 0)))))
+                foreach (Match match in this.GetMatches().Where(m => m.HasPlayer(player) && m.DateTime.Date.Equals(todayDate.Subtract(new TimeSpan(dayCounter, 0, 0, 0)))))
                 {
-                    playerStatsClone.RollBackResult(game);
+                    playerStatsClone.RollBackResult(match);
                 }
 
                 yield return new PlayerStatsCloneDev(playerStatsClone, DateTime.Today.Subtract(new TimeSpan(dayCounter, 0, 0, 0, 0)));
@@ -398,12 +425,21 @@ namespace EloSystem
 
         }
 
+        public int BacktraceInitialRating(SCPlayer player)
+        {
+            var playerStatsClone = new PlayerStatsClone(player);
+
+            foreach (Match match in this.GetMatches().Where(m => m.HasPlayer(player))) { playerStatsClone.RollBackResult(match); }
+
+            return playerStatsClone.RatingTotal();
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="content"></param>
         /// <param name="image">Set value to null in order to remove current image from the item.</param>
-        public void EidtImage(EloSystemContent content, Image image)
+        public void EditImage(EloSystemContent content, Image image)
         {
             int oldImageID = content.ImageID;
 
@@ -425,72 +461,123 @@ namespace EloSystem
 
         public void RemoveCountry(Country country)
         {
-            if (country == null) { return; }
-
-            if (country.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(country.ImageID); }
-
             if (this.countries.Remove(country))
             {
+                if (country.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(country.ImageID); }
+
                 this.ContentHasBeenChanged = true;
+
+                foreach (SCPlayer player in this.players.Where(p => p.Country == country)) { player.Country = null; }
 
                 this.CountryPoolChanged.Invoke(this, new EventArgs());
             }
         }
 
-        public void RemoveMap(Map map)
+        /// <summary>
+        /// Attempts to remove a map from the database. Only maps with no game entries can be removed.
+        /// </summary>
+        /// <param name="map"></param>
+        public bool RemoveMap(Map map)
         {
-            if (map == null) { return; }
-
-            if (map.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(map.ImageID); }
-
-            if (this.maps.Remove(map))
+            if (!this.GetAllGameEntries().Any(entry => entry.Map == map) && this.maps.Remove(map))
             {
+                // check if the content had an image id we also need to remove and make sure that no other contents are using an identical imageID
+                if (map.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(map.ImageID); }
+
                 this.ContentHasBeenChanged = true;
 
                 this.MapPoolChanged.Invoke(this, new EventArgs());
+
+                return true;
             }
+            else { return false; }
+
         }
 
-        public void RemovePlayer(SCPlayer player)
+        /// <summary>
+        /// Attempts to remove a player from the database. Only players with no game entries can be removed.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public bool RemovePlayer(SCPlayer player)
         {
-            if (player == null || this.GetAllGames().Any(game => game.Player1.Equals(player) || game.Player2.Equals(player))) { return; }
-
-            if (player.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(player.ImageID); }
-
-            if (this.players.Remove(player))
+            if (!this.GetMatches().Any(match => match.HasPlayer(player)) && this.players.Remove(player))
             {
+                if (player.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(player.ImageID); }
+
                 this.ContentHasBeenChanged = true;
 
                 this.PlayerPoolChanged.Invoke(this, new EventArgs());
+
+                return true;
             }
+            else { return false; }
+
         }
 
-        public void RemoveSeason(Season season, Tournament tournament)
+        /// <summary>
+        /// Attempts to remove a season from the database. Only seasons with no game entries can be removed.
+        /// </summary>
+        /// <param name="season"></param>
+        /// <returns></returns>
+        public bool RemoveSeason(Season season)
         {
-            if (season == null || tournament == this.defaultTournament) { return; }
+            Tournament tournamentWithSeason = this.tournaments.FirstOrDefault(t => t.GetSeasons().Contains(season));
 
-            if (tournament.RemoveSeason(season))
+            if (season.GetMatches().IsEmpty() && tournamentWithSeason != null && tournamentWithSeason != this.defaultTournament && tournamentWithSeason.RemoveSeason(season))
             {
                 this.ContentHasBeenChanged = true;
 
                 this.SeasonPoolChanged.Invoke(this, new EventArgs());
+
+                return true;
             }
+            else { return false; }
+
         }
 
+        /// <summary>
+        /// The number of games in the database.
+        /// </summary>
+        /// <returns></returns>
+        public int GameCount()
+        {
+            return this.GetMatches().SelectMany(match => match.GetEntries()).Count();
+        }
+
+        /// <summary>
+        /// The number of matches in the database.
+        /// </summary>
+        /// <returns></returns>
+        public int MatchCount()
+        {
+            return this.GetMatches().Count();
+        }
+
+        /// <summary>
+        /// Removes a team from the database.
+        /// </summary>
+        /// <param name="team"></param>
         public void RemoveTeam(Team team)
         {
             if (team == null) { return; }
 
-            if (team.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(team.ImageID); }
-
             if (this.teams.Remove(team))
             {
+                if (team.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(team.ImageID); }
+
                 this.ContentHasBeenChanged = true;
+
+                foreach (SCPlayer player in this.players.Where(p => p.Team == team)) { player.Team = null; }
 
                 this.TeamPoolChanged.Invoke(this, new EventArgs());
             }
         }
 
+        /// <summary>
+        /// Removes a tileset from the database.
+        /// </summary>
+        /// <param name="tileSet"></param>
         public void RemoveTileSet(Tileset tileSet)
         {
             if (tileSet == null) { return; }
@@ -499,20 +586,30 @@ namespace EloSystem
             {
                 this.ContentHasBeenChanged = true;
 
+                foreach (Map map in this.maps.Where(m => m.Tileset == tileSet)) { map.Tileset = null; }
+
                 this.TilesetPoolChanged.Invoke(this, new EventArgs());
             }
         }
 
-        public void RemoveTournament(Tournament tournament)
+        /// <summary>
+        /// Attempts to remove a tournament from the database. Only tournaments with no game entries can be removed.
+        /// </summary>
+        /// <param name="tournament"></param>
+        /// <returns></returns>
+        public bool RemoveTournament(Tournament tournament)
         {
-            if (tournament == null || tournament == this.defaultTournament) { return; }
-
-            if (this.tournaments.Remove(tournament))
+            if (tournament != this.defaultTournament && tournament.GetGames().IsEmpty() && this.tournaments.Remove(tournament))
             {
+                if (tournament.ImageID != EloData.IMAGEID_NO_IMAGE) { this.resHandler.RemoveImage(tournament.ImageID); }
+
                 this.ContentHasBeenChanged = true;
 
                 this.TournamentPoolChanged.Invoke(this, new EventArgs());
+
+                return true;
             }
+            else { return false; }
         }
 
         public void ReportMatch(SCPlayer player1, SCPlayer player2, GameEntry[] entries)
@@ -543,19 +640,20 @@ namespace EloSystem
         public void ReportMatch(SCPlayer player1, SCPlayer player2, GameEntry[] entries, Season season, DateTime date)
         {
             // handle case where this match is older than matches already reported
-            if (this.GetMatches().OrderByDescendingEntry().Any(m => m.DateTime.CompareTo(date) > 0))
+            if (this.GetMatches().OrderByNewestFirst().Any(m => m.DateTime.CompareTo(date) > 0))
             {
-                int newerMatchesAlreadyInDataBase = this.GetMatches().OrderByDescendingEntry().Count(m => m.DateTime.CompareTo(date) > 0);
+                int newerMatchesAlreadyInDataBase = this.GetMatches().OrderByNewestFirst().Count(m => m.DateTime.CompareTo(date) > 0);
 
-                var matchesToReenter = this.RollBackLastMatches(this.GetMatches().OrderByDescendingEntry().Count(m => m.DateTime.CompareTo(date) > 0)).DistinctBy(m => m.Match).Select(game => new
+                var matchesToReenter = this.RollBackLastMatches(this.GetMatches().OrderByNewestFirst().Count(m => m.DateTime.CompareTo(date) > 0)).DistinctBy(m => m.Match).Select(game => new
                 {
                     Match = game.Match,
-                    Season = game.Season
+                    Season = game.Season,
+                    Tournament = game.Tournament
                 }).ToList();
 
                 this.ReportMatch(new Match(player1, player2, entries, date), season, matchesToReenter.IsEmpty());
 
-                this.ReenterMatches(matchesToReenter.Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
+                this.ReenterMatches(matchesToReenter.Select(matchItem => new Tuple<Match, Season, Tournament>(matchItem.Match, matchItem.Season, matchItem.Tournament)));
             }
             else { this.ReportMatch(new Match(player1, player2, entries, date), season, true); }
 
@@ -565,14 +663,15 @@ namespace EloSystem
         {
             const int MATCH_TO_CHANGE = 1;
 
-            int noMatchesToReenter = Math.Max(this.GetMatches().OrderByDescendingEntry().TakeWhile(match => match.DateTime.Date.CompareTo(matchToChange.DateTime.Date) > 0
+            int noMatchesToReenter = Math.Max(this.GetMatches().OrderByNewestFirst().TakeWhile(match => match.DateTime.Date.CompareTo(matchToChange.DateTime.Date) > 0
                 || (match.DateTime.Date.CompareTo(matchToChange.DateTime.Date) == 0 && match.DailyIndex + dailyIndexChange <= matchToChange.DailyIndex)).Count()
-                , this.GetMatches().OrderByDescendingEntry().IndexOf(matchToChange) + MATCH_TO_CHANGE);
+                , this.GetMatches().OrderByNewestFirst().IndexOf(matchToChange) + MATCH_TO_CHANGE);
 
             var matchesToReenter = this.RollBackLastMatches(noMatchesToReenter).DistinctBy(m => m.Match).Select(game => new
             {
                 Match = game.Match,
-                Season = game.Season
+                Season = game.Season,
+                Tournament = game.Tournament
             }).ToList();// we need to call ToList() here becauase we have been modifying the data base by remove the returned values
 
             var sameDateMatches = matchesToReenter.Where(m => m.Match.DateTime.Date.Equals(matchToChange.DateTime.Date));
@@ -597,7 +696,7 @@ namespace EloSystem
 
             matchToChange.DailyIndex += dailyIndexChange;
 
-            this.ReenterMatches(matchesToReenter.Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
+            this.ReenterMatches(matchesToReenter.Select(matchItem => new Tuple<Match, Season, Tournament>(matchItem.Match, matchItem.Season, matchItem.Tournament)));
         }
 
         public void DecreaseDailyIndex(Match match)
@@ -621,15 +720,16 @@ namespace EloSystem
 
             if (matchToReplace.DateTime.Date.CompareTo(newDate.Date) > 0)
             {
-                indexOfMatchesToRollBack = this.GetMatches().OrderByDescendingEntry().TakeWhile(item => item.DateTime.CompareTo(newDate.Date) > 0).Count() - MATCH_INSTANCE_TO_BE_REMOVED;
+                indexOfMatchesToRollBack = this.GetMatches().OrderByNewestFirst().TakeWhile(item => item.DateTime.CompareTo(newDate.Date) > 0).Count() - MATCH_INSTANCE_TO_BE_REMOVED;
             }
-            else { indexOfMatchesToRollBack = this.GetMatches().OrderByDescendingEntry().IndexOf(matchToReplace); }
+            else { indexOfMatchesToRollBack = this.GetMatches().OrderByNewestFirst().IndexOf(matchToReplace); }
 
 
             var matchesToReenter = this.RollBackLastMatches(indexOfMatchesToRollBack + MATCH_INSTANCE_TO_BE_REMOVED).DistinctBy(m => m.Match).Select(game => new
             {
                 Match = game.Match,
-                Season = game.Season
+                Season = game.Season,
+                Tournament = game.Tournament
             }).Where(matchItem => !matchItem.Match.Equals(matchToReplace)).ToList(); // we need to call ToList() here becauase we have been modifying the data base by remove the returned values
 
 
@@ -637,15 +737,17 @@ namespace EloSystem
             {
                 this.ReportMatch(new Match(player1, player2, entries, newDate), season, matchesToReenter.IsEmpty());
 
-                this.ReenterMatches(matchesToReenter.Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
+                this.ReenterMatches(matchesToReenter.Select(matchItem => new Tuple<Match, Season, Tournament>(matchItem.Match, matchItem.Season, matchItem.Tournament)));
             }
             else
             {
-                this.ReenterMatches(matchesToReenter.Where(matchItem => matchItem.Match.DateTime.CompareTo(newDate.Date) <= 0).Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
+                this.ReenterMatches(matchesToReenter.Where(matchItem => matchItem.Match.DateTime.CompareTo(newDate.Date) <= 0).Select(matchItem =>
+                    new Tuple<Match, Season, Tournament>(matchItem.Match, matchItem.Season, matchItem.Tournament)));
 
                 this.ReportMatch(new Match(player1, player2, entries, newDate), season, matchesToReenter.IsEmpty());
 
-                this.ReenterMatches(matchesToReenter.Where(matchItem => matchItem.Match.DateTime.CompareTo(newDate.Date) > 0).Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
+                this.ReenterMatches(matchesToReenter.Where(matchItem => matchItem.Match.DateTime.CompareTo(newDate.Date) > 0).Select(matchItem =>
+                    new Tuple<Match, Season, Tournament>(matchItem.Match, matchItem.Season, matchItem.Tournament)));
             }
 
         }
@@ -659,26 +761,28 @@ namespace EloSystem
         {
             if (!this.GetMatches().Contains(matchToRemove)) { throw new ArgumentException("matchToRemove was not found"); }
 
-            int index = this.GetMatches().OrderByDescendingEntry().IndexOf(matchToRemove);
+            int index = this.GetMatches().OrderByNewestFirst().IndexOf(matchToRemove);
 
             var matchesToReenter = this.RollBackLastMatches(index + 1).DistinctBy(m => m.Match).Select(game => new
             {
                 Match = game.Match,
-                Season = game.Season
+                Season = game.Season,
+                Tournament = game.Tournament
             }).Take(index).ToList();
 
-            this.ReenterMatches(matchesToReenter.Select(matchItem => new Tuple<Match, Season>(matchItem.Match, matchItem.Season)));
+            this.ReenterMatches(matchesToReenter.Select(matchItem => new Tuple<Match, Season, Tournament>(matchItem.Match, matchItem.Season, matchItem.Tournament)));
         }
 
-        private void ReenterMatches(IEnumerable<Tuple<Match, Season>> matchesToReenter)
+        private void ReenterMatches(IEnumerable<Tuple<Match, Season, Tournament>> matchesToReenter)
         {
             bool invokeEvent = false;
 
-            foreach (Tuple<Match, Season> matchData in matchesToReenter.OrderBy(t => t.Item1.DateTime.Date).ThenBy(t => t.Item1.DailyIndex))
+            foreach (Tuple<Match, Season, Tournament> matchData in matchesToReenter.OrderBy(t => t.Item1.DateTime.Date).ThenBy(t => t.Item1.DailyIndex))
             {
                 invokeEvent = true;
 
-                this.ReportMatch(new Match(matchData.Item1.Player1, matchData.Item1.Player2, matchData.Item1.GetEntries(), matchData.Item1.DateTime), matchData.Item2, false);
+                if (matchData.Item2 != null) { this.ReportMatch(new Match(matchData.Item1.Player1, matchData.Item1.Player2, matchData.Item1.GetEntries(), matchData.Item1.DateTime), matchData.Item2, false); }
+                else { this.ReportMatch(new Match(matchData.Item1.Player1, matchData.Item1.Player2, matchData.Item1.GetEntries(), matchData.Item1.DateTime), matchData.Item3, false); }
             }
 
             if (invokeEvent) { this.MatchPoolChanged.Invoke(this, new EventArgs()); }
@@ -698,6 +802,11 @@ namespace EloSystem
 
             if (evokeMatchPoolChangedHandler) { this.MatchPoolChanged.Invoke(this, new EventArgs()); }
 
+        }
+
+        private void ReportMatch(Match match, Tournament tournament, bool evokeMatchPoolChangedHandler)
+        {
+            this.ReportMatch(match, tournament.DefaultSeason, evokeMatchPoolChangedHandler);
         }
 
         /// <summary>
@@ -738,18 +847,23 @@ namespace EloSystem
             foreach (Country country in this.countries.ToList()) { yield return country; }
         }
 
+        internal IEnumerable<GameEntry> GetAllGameEntries()
+        {
+            foreach (GameEntry entry in this.tournaments.SelectMany(tournament => tournament.GetGameEntries().ToList())) { yield return entry; }
+        }
+
         public IEnumerable<Game> GetAllGames()
         {
             const int DEFAULT_TOURNAMENT = 1;
 
-            foreach (Game game in this.defaultTournament.GetGames().ToList())
+            foreach (Game game in this.defaultTournament.GetGames())
             {
                 game.Tournament = null;
 
                 yield return game;
             }
 
-            foreach (Game game in this.tournaments.Skip(DEFAULT_TOURNAMENT).SelectMany(tournament => tournament.GetGames()).ToList()) { yield return game; }
+            foreach (Game game in this.tournaments.Skip(DEFAULT_TOURNAMENT).SelectMany(tournament => tournament.GetGames())) { yield return game; }
         }
 
         public IEnumerable<Map> GetMaps()
@@ -829,13 +943,13 @@ namespace EloSystem
         /// <returns>A sequence containing the games of the removed matches.</returns>
         public IEnumerable<Game> RollBackLastMatches(int count)
         {
-            var matches = this.GetAllGames().DistinctBy(m => m.Match).Select(game => new
+            var matches = this.GetAllGames().DistinctBy(m => m.Match).OrderNewestFirst().Select(game => new
             {
                 Match = game.Match,
                 Season = game.Season,
                 Tournament = game.Tournament,
                 Games = game.Match.GetGames()
-            }).OrderByDescending(m => m.Match.DateTime).ThenByDescending(m => m.Match.DailyIndex).Take(count).ToList();
+            }).Take(count).ToList();
 
             foreach (var matchObj in matches)
             {
@@ -894,6 +1008,41 @@ namespace EloSystem
                     foreach (Match match in eMatchesByDates.Current.OrderBy(m => m.DailyIndex).ThenBy(m => m.DateTime)) { match.DailyIndex = indexCounter++; }
                 }
             }
+        }
+
+        public WinRateCounter MapStatsForPlayer(SCPlayer player, Map map, SCPlayer opponent = null)
+        {
+            var playersMapStats = new WinRateCounter();
+
+            IEnumerable<Match> matchesPassingOpponentFilter = opponent == null ? this.GetMatches() : this.GetMatches().Where(m => m.HasPlayer(opponent));
+
+            foreach (Match match in matchesPassingOpponentFilter.Where(m => m.HasPlayer(player)))
+            {
+                foreach (GameEntry entry in match.GetEntries().Where(e => e.Map == map))
+                {
+                    if (match.Player1.Equals(player))
+                    {
+                        switch (entry.WinnerWas)
+                        {
+                            case PlayerSlotType.Player1: playersMapStats.ReportWin(entry.WinnersRace, entry.LosersRace); break;
+                            case PlayerSlotType.Player2: playersMapStats.ReportLoss(entry.LosersRace, entry.WinnersRace); break;
+                            default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PlayerSlotType).Name, entry.WinnerWas.ToString()));
+                        }
+                    }
+                    else
+                    {
+                        switch (entry.WinnerWas)
+                        {
+                            case PlayerSlotType.Player1: playersMapStats.ReportLoss(entry.LosersRace, entry.WinnersRace); break;
+                            case PlayerSlotType.Player2: playersMapStats.ReportWin(entry.WinnersRace, entry.LosersRace); break;
+                            default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PlayerSlotType).Name, entry.WinnerWas.ToString()));
+                        }
+                    }
+
+                }
+            }
+
+            return playersMapStats;
         }
     }
 }

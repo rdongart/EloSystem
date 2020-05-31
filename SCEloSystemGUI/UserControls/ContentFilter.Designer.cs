@@ -62,6 +62,7 @@ namespace SCEloSystemGUI.UserControls
             // btnDeselectAll
             // 
             this.btnDeselectAll.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnDeselectAll.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeselectAll.Location = new System.Drawing.Point(208, 262);
             this.btnDeselectAll.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.btnDeselectAll.Name = "btnDeselectAll";
@@ -74,6 +75,7 @@ namespace SCEloSystemGUI.UserControls
             // btnSelectAll
             // 
             this.btnSelectAll.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnSelectAll.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSelectAll.Location = new System.Drawing.Point(208, 218);
             this.btnSelectAll.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.btnSelectAll.Name = "btnSelectAll";
@@ -101,6 +103,7 @@ namespace SCEloSystemGUI.UserControls
             this.cbAllowEmpty.Checked = true;
             this.cbAllowEmpty.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbAllowEmpty.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbAllowEmpty.Font = new System.Drawing.Font("Calibri", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbAllowEmpty.Location = new System.Drawing.Point(208, 31);
             this.cbAllowEmpty.Name = "cbAllowEmpty";
             this.cbAllowEmpty.Size = new System.Drawing.Size(84, 20);
@@ -111,10 +114,10 @@ namespace SCEloSystemGUI.UserControls
             // 
             // ContentFilter
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.tblLoPnlMain);
+            this.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "ContentFilter";
             this.Size = new System.Drawing.Size(295, 300);
             this.tblLoPnlMain.ResumeLayout(false);

@@ -13,6 +13,52 @@ namespace EloSystem
     {
         internal Map Map { get; private set; }
         public int RatingChange { get; internal set; }
+        public Matchup MatchType
+        {
+            get
+            {
+                switch (this.Player1Race)
+                {
+                    case Race.Zerg:
+                        switch (this.Player2Race)
+                        {
+                            case Race.Zerg: return Matchup.ZvZ;
+                            case Race.Terran: return Matchup.TvZ;
+                            case Race.Protoss: return Matchup.ZvP;
+                            case Race.Random: return Matchup.RvZ;
+                            default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Matchup).Name, this.Player2Race.ToString()));
+                        }
+                    case Race.Terran:
+                        switch (this.Player2Race)
+                        {
+                            case Race.Zerg: return Matchup.TvZ;
+                            case Race.Terran: return Matchup.TvT;
+                            case Race.Protoss: return Matchup.PvT;
+                            case Race.Random: return Matchup.RvT;
+                            default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Matchup).Name, this.Player2Race.ToString()));
+                        }
+                    case Race.Protoss:
+                        switch (this.Player2Race)
+                        {
+                            case Race.Zerg: return Matchup.ZvP;
+                            case Race.Terran: return Matchup.PvT;
+                            case Race.Protoss: return Matchup.PvP;
+                            case Race.Random: return Matchup.RvP;
+                            default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Matchup).Name, this.Player2Race.ToString()));
+                        }
+                    case Race.Random:
+                        switch (this.Player2Race)
+                        {
+                            case Race.Zerg: return Matchup.RvZ;
+                            case Race.Terran: return Matchup.RvT;
+                            case Race.Protoss: return Matchup.RvP;
+                            case Race.Random: return Matchup.RvR;
+                            default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Matchup).Name, this.Player2Race.ToString()));
+                        }
+                    default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Matchup).Name, this.Player1Race.ToString()));
+                }
+            }
+        }
         public Race LosersRace
         {
             get

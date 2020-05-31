@@ -15,15 +15,29 @@
 
         internal void RollBackResult(Game game)
         {
-            if (game.Winner.Equals(this.Player)) { this.RatingVs.AddValueTo(game.LosersRace, -game.RatingChange); }
-            else { this.RatingVs.AddValueTo(game.WinnersRace, game.RatingChange); }
+            this.RollBackResult(game.Winner, game.Player1.Equals(this.Player) ? game.Player1Race : game.Player2Race, game.Player1.Equals(this.Player) ? game.Player2Race : game.Player1Race, game.RatingChange);
+        }
 
-            Race ownRace = game.Player1.Equals(this.Player) ? game.Player1Race : game.Player2Race;
-            Race opponentRace = game.Player1.Equals(this.Player) ? game.Player2Race : game.Player1Race;
+        internal void RollBackResult(Match match)
+        {
+            foreach (GameEntry entry in match.GetEntries())
+            {
+                this.RollBackResult(
+                    entry.WinnerWas == PlayerSlotType.Player1 ? match.Player1 : match.Player2
+                    , match.Player1.Equals(this.Player) ? entry.Player1Race : entry.Player2Race
+                    , match.Player1.Equals(this.Player) ? entry.Player2Race : entry.Player1Race
+                    , entry.RatingChange);
+            }
+        }
 
-            if (game.Winner.Equals(this.Player)) { this.Stats.RollBackWin(ownRace, opponentRace); }
-            else if (game.Loser.Equals(this.Player)) { this.Stats.RollBackLoss(ownRace, opponentRace); }
+        private void RollBackResult(SCPlayer winner, Race ownRace, Race opponentRace, int ratingChange)
+        {
+            bool thisPlayerWasWinner = winner.Equals(this.Player);
 
+            this.RatingVs.AddValueTo(opponentRace, (thisPlayerWasWinner ? -ratingChange : ratingChange));
+
+            if (thisPlayerWasWinner) { this.Stats.RollBackWin(ownRace, opponentRace); }
+            else { this.Stats.RollBackLoss(ownRace, opponentRace); }
         }
 
         public int RatingTotal()

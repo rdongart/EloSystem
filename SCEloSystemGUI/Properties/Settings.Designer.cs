@@ -25,13 +25,13 @@ namespace SCEloSystemGUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("230")]
-        public uint NoRecentMatches {
+        [global::System.Configuration.DefaultSettingValueAttribute("400")]
+        public uint MatchesPerPage {
             get {
-                return ((uint)(this["NoRecentMatches"]));
+                return ((uint)(this["MatchesPerPage"]));
             }
             set {
-                this["NoRecentMatches"] = value;
+                this["MatchesPerPage"] = value;
             }
         }
         

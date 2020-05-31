@@ -1,8 +1,10 @@
-﻿using System;
+﻿using CustomControls.Styles;
+using System;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
+using SCEloSystemGUI.UserControls;
 
 namespace SCEloSystemGUI
 {
@@ -44,6 +46,8 @@ namespace SCEloSystemGUI
                             GlobalState.Initialize(menu.EloSystem);
 
                             var mainEloSystemForm = new MainForm();
+
+                            FormStyles.CorrectSizeToScreenSize(mainEloSystemForm, Screen.FromControl(menu));
 
                             Application.Run(mainEloSystemForm);
                         }

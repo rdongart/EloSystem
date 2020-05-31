@@ -40,7 +40,7 @@ namespace EloSystemExtensions
         {
             if (player == null) { throw new ArgumentNullException("player"); }
 
-            return ed.GetAllGames().Where(game => game.Player1.Equals(player) || game.Player2.Equals(player));
+            return ed.GetAllGames().Where(game => game.HasPlayer(player));
         }
 
         public static IEnumerable<Game> GamesOnMap(this EloData ed, Map map)

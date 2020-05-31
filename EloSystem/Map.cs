@@ -23,6 +23,7 @@ namespace EloSystem
 
         internal Map(string name, int imageID, MapPlayerType mapType, Tileset tiles, int id) : base(name, imageID, id)
         {
+            this.Tileset = tiles;
             this.descriptions = new List<string>();
             this.Stats = new MapStats();
             this.MapType = mapType;

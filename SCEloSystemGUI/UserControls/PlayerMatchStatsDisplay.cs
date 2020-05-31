@@ -36,10 +36,13 @@ namespace SCEloSystemGUI.UserControls
                 this.picBxTeam.Image = null;
                 this.picBxCountry.Image = null;
                 this.picBxMainRace.Image = null;
+                this.tblLoPnlPlayerAffiliations.Visible = false;
                 return;
             }
 
             this.player = player;
+
+            this.tblLoPnlPlayerAffiliations.Visible = true;
 
             this.lbName.Text = player.Name;
 
@@ -57,10 +60,10 @@ namespace SCEloSystemGUI.UserControls
             {
                 if (GlobalState.DataBase.TryGetImage(player.Country.ImageID, out countryRes))
                 {
-                    EloGUIControlsStaticMembers.SetPictureBoxStyleAndImage(this.picBxCountry, countryRes.Image);
+                    Styles.PictureBoxStyles.SetPictureBoxStyleAndImage(this.picBxCountry, countryRes.Image);
 
                     this.tblLoPnlPlayerAffiliations.Controls.Add(this.picBxCountry, 3, 0);
-                    
+
                     this.toolTipStatsDisplay.SetToolTip(this.picBxCountry, player.Country.Name);
                 }
                 else
@@ -85,10 +88,10 @@ namespace SCEloSystemGUI.UserControls
             {
                 if (GlobalState.DataBase.TryGetImage(player.Team.ImageID, out teamRes))
                 {
-                    EloGUIControlsStaticMembers.SetPictureBoxStyleAndImage(this.picBxTeam, teamRes.Image);
+                    Styles.PictureBoxStyles.SetPictureBoxStyleAndImage(this.picBxTeam, teamRes.Image);
 
                     this.tblLoPnlPlayerAffiliations.Controls.Add(this.picBxTeam, 4, 0);
-                    
+
                     this.toolTipStatsDisplay.SetToolTip(this.picBxTeam, String.Format("Team: {0}", player.Team.Name));
                 }
                 else
@@ -120,8 +123,8 @@ namespace SCEloSystemGUI.UserControls
             ObjectListView performanceData = EloSystemGUIStaticMembers.CreatePlayerPerformanceListView(player);
             performanceData.Dock = DockStyle.Fill;
 
-            if (player.Stats.GamesTotal() > 0) { EloGUIControlsStaticMembers.SetPictureBoxStyleAndImage(this.picBxMainRace, RaceIconProvider.GetRaceUsageIcon(player)); }
-            else { EloGUIControlsStaticMembers.SetPictureBoxStyleAndImage(this.picBxMainRace, null); }
+            if (player.Stats.GamesTotal() > 0) { Styles.PictureBoxStyles.SetPictureBoxStyleAndImage(this.picBxMainRace, RaceIconProvider.GetRaceUsageIcon(player)); }
+            else { Styles.PictureBoxStyles.SetPictureBoxStyleAndImage(this.picBxMainRace, null); }
             this.toolTipStatsDisplay.SetToolTip(this.picBxMainRace, "Main race");
 
             this.picBxRank.Image = GlobalState.RankSystem.GetRankImageMain(player, this.picBxRank.Height, true);
@@ -147,7 +150,7 @@ namespace SCEloSystemGUI.UserControls
 
         private void lbName_Click(object sender, EventArgs e)
         {
-            PlayerProfile.ShowProfile(this.player);
+            PlayerProfile.ShowProfile(this.player, this.FindForm());
         }
     }
 }

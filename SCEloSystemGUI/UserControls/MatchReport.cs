@@ -21,10 +21,10 @@ namespace SCEloSystemGUI.UserControls
     {
         internal ImprovedImageComboBox<SCPlayer> ImgCmbBxPlayer1 { get; private set; }
         internal ImprovedImageComboBox<SCPlayer> ImgCmbBxPlayer2 { get; private set; }
+        internal MatchContextSelector ContextSelector { get; private set; }
         private bool racesAreBeingAutoSet;
         private bool suspendMatchReportabilityCheck;
         private List<GameReport> gameReports;
-        private MatchContextSelector contextSelector;
         private MatchReportScaffold unfinishedReport;
         private PlayerMatchStatsDisplay player1StatsDisplay;
         private PlayerMatchStatsDisplay player2StatsDisplay;
@@ -50,6 +50,7 @@ namespace SCEloSystemGUI.UserControls
         /// Event invoked when a match is entered, edited or deleted in the elo system.
         /// </summary>
         public EventHandler MatchChangedReported = delegate { };
+        private PageSelecterLinker selecterListViewLink;
 
         public MatchReport()
         {
@@ -58,12 +59,12 @@ namespace SCEloSystemGUI.UserControls
             this.player1StatsDisplay = new PlayerMatchStatsDisplay() { Dock = DockStyle.Fill };
             this.player2StatsDisplay = new PlayerMatchStatsDisplay() { Dock = DockStyle.Fill };
 
-            this.contextSelector = new MatchContextSelector(MatchReport.GetTournamentPickerComboBox(t => this.ImageGetter(t.ImageID)), this.cmbBxSeasonPicker);
-            this.contextSelector.TournamentSelector.SelectedIndexChanged += this.MatchReportabilitySelector_SelectedIndexChanged;
-            this.contextSelector.SeasonSelector.SelectedIndexChanged += this.MatchReportabilitySelector_SelectedIndexChanged;
+            this.ContextSelector = new MatchContextSelector(MatchReport.GetTournamentPickerComboBox(t => this.ImageGetter(t.ImageID)), this.cmbBxSeasonPicker);
+            this.ContextSelector.TournamentSelector.SelectedIndexChanged += this.MatchReportabilitySelector_SelectedIndexChanged;
+            this.ContextSelector.SeasonSelector.SelectedIndexChanged += this.MatchReportabilitySelector_SelectedIndexChanged;
             this.AddTournaments();
 
-            this.tblLOPnlMatchContext.Controls.Add(this.contextSelector.TournamentSelector, 1, 0);
+            this.tblLOPnlMatchContext.Controls.Add(this.ContextSelector.TournamentSelector, 1, 0);
 
             this.tblLoPnlPlayers.Controls.Add(this.player1StatsDisplay, 0, 3);
             this.tblLoPnlPlayers.SetColumnSpan(this.player1StatsDisplay, 2);
@@ -89,11 +90,52 @@ namespace SCEloSystemGUI.UserControls
             this.dtpMatchDate.ValueChanged += this.MatchReportabilitySelector_SelectedIndexChanged;
 
             this.oLstVRecentMatches = EloSystemGUIStaticMembers.CreateMatchListView();
+            this.oLstVRecentMatches.EmptyListMsg = "No matches have been entered yet.";
+            Styles.ObjectListViewStyles.SetHotItemStyle(this.oLstVRecentMatches);
+            this.oLstVRecentMatches.Margin = new Padding(6, 3, 6, 3);
+            this.oLstVRecentMatches.Dock = DockStyle.Fill;
+            this.oLstVRecentMatches.FullRowSelect = true;
             this.oLstVRecentMatches.SelectedIndexChanged += this.OLstVRecentMatches_SelectedIndexChanged;
+            this.oLstVRecentMatches.MouseClick += this.OLstVRecentMatches_MouseClick;
             this.tblLoPnlRecentMatches.Controls.Add(this.oLstVRecentMatches, 0, 2);
             this.MatchChangedReported += this.OnMatchReported;
 
+            this.selecterListViewLink = new PageSelecterLinker(this.oLstVRecentMatches) { ItemsPerPage = (int)Settings.Default.MatchesPerPage };
+            this.selecterListViewLink.ItemGetter = () => GlobalState.DataBase.GetAllGames().OrderNewestFirst().ToMatchEditorItems();
+            this.selecterListViewLink.Selecter.Font = new Font("Calibri", 10F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(0)));
+            this.selecterListViewLink.Selecter.Margin = new Padding(0);
+            this.selecterListViewLink.Selecter.BorderStyle = BorderStyle.FixedSingle;
+
+            this.pnlPageSelector.Controls.Add(this.selecterListViewLink.Selecter);
+
             this.AddRecentMatches();
+        }
+
+        private void OLstVRecentMatches_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (!this.rdBtnAddNewMatchReport.Checked) { return; }
+
+            var olv = sender as ObjectListView;
+
+            if (olv == null || olv.SelectedItem == null) { return; }
+
+            var selectedMatchItem = olv.SelectedItem.RowObject as MatchEditorItem;
+
+            if (selectedMatchItem != null)
+            {
+                switch (e.Button)
+                {
+                    case MouseButtons.Left: PlayerProfile.ShowProfile(selectedMatchItem.Player1, olv.FindForm()); break;
+                    case MouseButtons.Right: PlayerProfile.ShowProfile(selectedMatchItem.Player2, olv.FindForm()); break;
+                    case MouseButtons.Middle: PlayerProfile.ShowProfile(selectedMatchItem.Player1, selectedMatchItem.Player2, olv.FindForm()); break;
+                    case MouseButtons.None:
+                    case MouseButtons.XButton1:
+                    case MouseButtons.XButton2: break;
+                    default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(MouseButtons).Name, e.Button.ToString()));
+                }
+            }
+
+            olv.SelectedItems.Clear();
         }
 
         private static bool ConfirmUsingFutureDate()
@@ -187,8 +229,7 @@ namespace SCEloSystemGUI.UserControls
         private void OLstVRecentMatches_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!this.rdBtnEditNewMatchReport.Checked) { return; }
-
-            if (this.oLstVRecentMatches.SelectedItem != null && this.oLstVRecentMatches.SelectedItem.RowObject != null)
+            else if (this.rdBtnEditNewMatchReport.Checked && this.oLstVRecentMatches.SelectedItem != null && this.oLstVRecentMatches.SelectedItem.RowObject != null)
             {
                 this.LoadMatchIntoEditor(this.oLstVRecentMatches.SelectedItem.RowObject as MatchEditorItem);
             }
@@ -201,8 +242,7 @@ namespace SCEloSystemGUI.UserControls
 
         private void AddRecentMatches()
         {
-            this.oLstVRecentMatches.SetObjects(GlobalState.DataBase.GetAllGames().OrderByDescending(game => game.Match.DateTime.Date).ThenByDescending(game =>
-                game.Match.DailyIndex).ToMatchEditorItems().Take((int)Settings.Default.NoRecentMatches));
+            this.selecterListViewLink.UpdateListItems();
         }
 
         private void ImgCmbBxPlayer2_SelectedIndexChanged(object sender, EventArgs e)
@@ -213,7 +253,7 @@ namespace SCEloSystemGUI.UserControls
 
             var selectedPlayer = this.ImgCmbBxPlayer2.SelectedValue as SCPlayer;
 
-            this.SetPlayer2Stats(selectedPlayer);
+            this.player2Stats = this.GetPlayerStats(selectedPlayer);
             this.player2StatsDisplay.AddPlayerStats(selectedPlayer);
 
             if (selectedPlayer != null) { this.gameReports.ForEach(gr => gr.Player2 = selectedPlayer); }
@@ -223,25 +263,16 @@ namespace SCEloSystemGUI.UserControls
             Cursor.Current = previousCursor;
         }
 
-        private void SetPlayer1Stats(SCPlayer player1)
+        private PlayerStatsClone GetPlayerStats(SCPlayer player)
         {
-            if (player1 == null) { this.player1Stats = null; }
-            else if (this.rdBtnAddNewMatchReport.Checked) { this.player1Stats = GlobalState.DataBase.PlayerStatsAtPointInTime(player1, this.dtpMatchDate.Value); }
+            if (player == null) { return null; }
+            else if (this.rdBtnAddNewMatchReport.Checked) { return GlobalState.DataBase.PlayerStatsAtPointInTime(player, this.dtpMatchDate.Value); }
             else if (this.rdBtnEditNewMatchReport.Checked && !this.EditorMatch.DateWasEdited)
             {
-                this.player1Stats = GlobalState.DataBase.PlayerStatsAtPointInTime(player1, this.dtpMatchDate.Value, this.EditorMatch.SourceMatch.DailyIndex);
+                return GlobalState.DataBase.PlayerStatsAtPointInTime(player, this.dtpMatchDate.Value, this.EditorMatch.SourceMatch.DailyIndex);
             }
-
-        }
-
-        private void SetPlayer2Stats(SCPlayer player2)
-        {
-            if (player2 == null) { this.player2Stats = null; }
-            else if (this.rdBtnAddNewMatchReport.Checked) { this.player2Stats = GlobalState.DataBase.PlayerStatsAtPointInTime(player2, this.dtpMatchDate.Value); }
-            else if (this.rdBtnEditNewMatchReport.Checked && !this.EditorMatch.DateWasEdited)
-            {
-                this.player2Stats = GlobalState.DataBase.PlayerStatsAtPointInTime(player2, this.dtpMatchDate.Value, this.EditorMatch.SourceMatch.DailyIndex);
-            }
+            else if (this.rdBtnEditNewMatchReport.Checked) { return GlobalState.DataBase.PlayerStatsAtPointInTime(player, this.dtpMatchDate.Value); }
+            else { return null; }
 
         }
 
@@ -253,7 +284,7 @@ namespace SCEloSystemGUI.UserControls
 
             var selectedPlayer = this.ImgCmbBxPlayer1.SelectedValue as SCPlayer;
 
-            this.SetPlayer1Stats(selectedPlayer);
+            this.player1Stats = this.GetPlayerStats(selectedPlayer);
             this.player1StatsDisplay.AddPlayerStats(selectedPlayer);
 
             if (selectedPlayer != null) { this.gameReports.ForEach(gr => gr.Player1 = selectedPlayer); }
@@ -359,11 +390,11 @@ namespace SCEloSystemGUI.UserControls
         {
             GameReport senderGameReport = MatchReport.RetrieveGameReportFromChild(sender as Control);
 
-            if (senderGameReport == null) { return; }
-
-            if (MessageBox.Show("Would you like to delete this game report?", "Delete game report?", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) != DialogResult.OK) { return; }
-
-            this.RemoveGameReports(new GameReport[] { senderGameReport });
+            if (senderGameReport != null && ((senderGameReport.GetMapOrDefault() == null && senderGameReport.WinnerPlayer == null)
+                || MessageBox.Show("Would you like to remove this game report?", "Remove game report?", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK))
+            {
+                this.RemoveGameReports(new GameReport[] { senderGameReport });
+            }
         }
 
         private void RemoveGameReports(GameReport[] reportsToRemove)
@@ -396,8 +427,8 @@ namespace SCEloSystemGUI.UserControls
             {
                 this.btnEnterMatchReport.Enabled = this.EditorMatch != null
                     && (this.dtpMatchDate.Value.Date.CompareTo(this.EditorMatch.DateValue.Date) != 0
-                    || this.contextSelector.SelectedTournament != this.EditorMatch.Tournament
-                    || this.contextSelector.SelectedSeason != this.EditorMatch.Season
+                    || this.ContextSelector.SelectedTournament != this.EditorMatch.Tournament
+                    || this.ContextSelector.SelectedSeason != this.EditorMatch.Season
                     || this.ImgCmbBxPlayer1.SelectedValue != this.EditorMatch.Player1
                     || this.ImgCmbBxPlayer2.SelectedValue != this.EditorMatch.Player2
                     || this.gameReports.Count != this.EditorMatch.GetGames().Count()
@@ -447,7 +478,7 @@ namespace SCEloSystemGUI.UserControls
 
                 if (!reports.Any(rep => rep.Status == GameReportStatus.Failure))
                 {
-                    this.EnterMatchReport(ply1, ply2, reports.Select(item => item.GameReport).ToArray(), this.contextSelector.SelectedSeason, this.contextSelector.SelectedTournament
+                    this.EnterMatchReport(ply1, ply2, reports.Select(item => item.GameReport).ToArray(), this.ContextSelector.SelectedSeason, this.ContextSelector.SelectedTournament
                         , this.GetNextMatchDateValue(this.dtpMatchDate.Value));
 
                     this.MatchChangedReported.Invoke(this, new EventArgs());
@@ -458,11 +489,11 @@ namespace SCEloSystemGUI.UserControls
             }
             else if (this.rdBtnEditNewMatchReport.Checked)
             {
-                this.EditorMatch.Tournament = this.contextSelector.SelectedTournament;
+                this.EditorMatch.Tournament = this.ContextSelector.SelectedTournament;
 
-                if (this.EditorMatch.Tournament != null && this.contextSelector.SelectedSeason != null)
+                if (this.EditorMatch.Tournament != null && this.ContextSelector.SelectedSeason != null)
                 {
-                    this.EditorMatch.SeasonIndex = this.EditorMatch.Tournament.GetSeasons().IndexOf(this.contextSelector.SelectedSeason);
+                    this.EditorMatch.SeasonIndex = this.EditorMatch.Tournament.GetSeasons().IndexOf(this.ContextSelector.SelectedSeason);
                 }
                 else { this.EditorMatch.SeasonIndex = -1; }
 
@@ -524,7 +555,7 @@ namespace SCEloSystemGUI.UserControls
 
             this.dtpMatchDate.Value = DateTime.Today;
 
-            this.contextSelector.TrySetSelections(null, null);
+            this.ContextSelector.TrySetSelections(null, null);
         }
 
         private void OnSeasonPoolChanged(object sender, EventArgs e)
@@ -545,12 +576,12 @@ namespace SCEloSystemGUI.UserControls
 
             if (source == null) { return; }
 
-            this.contextSelector.UpdateSeason();
+            this.ContextSelector.UpdateSeason();
         }
 
         private void AddTournaments()
         {
-            this.contextSelector.AddItems(GlobalState.DataBase.GetTournaments());
+            this.ContextSelector.AddItems(GlobalState.DataBase.GetTournaments());
         }
 
         private Image ImageGetter(int imageID)
@@ -614,8 +645,8 @@ namespace SCEloSystemGUI.UserControls
             this.gameReports.Clear();
             this.pnlGameReports.Controls.Clear();
 
-            this.unfinishedReport.Tournament = this.contextSelector.SelectedTournament;
-            this.unfinishedReport.Season = this.contextSelector.SelectedSeason;
+            this.unfinishedReport.Tournament = this.ContextSelector.SelectedTournament;
+            this.unfinishedReport.Season = this.ContextSelector.SelectedSeason;
             this.unfinishedReport.Date = this.dtpMatchDate.Value;
             this.unfinishedReport.Player1 = this.ImgCmbBxPlayer1.SelectedValue as SCPlayer;
             this.unfinishedReport.Player2 = this.ImgCmbBxPlayer2.SelectedValue as SCPlayer;
@@ -627,7 +658,7 @@ namespace SCEloSystemGUI.UserControls
 
             if (this.unfinishedReport == null) { return; }
 
-            this.contextSelector.TrySetSelections(this.unfinishedReport.Tournament, this.unfinishedReport.Season);
+            this.ContextSelector.TrySetSelections(this.unfinishedReport.Tournament, this.unfinishedReport.Season);
 
             this.dtpMatchDate.Value = this.unfinishedReport.Date;
 
@@ -649,7 +680,7 @@ namespace SCEloSystemGUI.UserControls
 
             this.ResetControls();
 
-            this.contextSelector.TrySetSelections(item.Tournament, item.Season);
+            this.ContextSelector.TrySetSelections(item.Tournament, item.Season);
 
             this.dtpMatchDate.Value = item.DateValue;
 
@@ -665,9 +696,9 @@ namespace SCEloSystemGUI.UserControls
 
         private void dtpMatchDate_ValueChanged(object sender, EventArgs e)
         {
-            this.SetPlayer1Stats(this.ImgCmbBxPlayer1.SelectedValue as SCPlayer);
+            this.player1Stats = this.GetPlayerStats(this.ImgCmbBxPlayer1.SelectedValue as SCPlayer);
 
-            this.SetPlayer2Stats(this.ImgCmbBxPlayer2.SelectedValue as SCPlayer);
+            this.player2Stats = this.GetPlayerStats(this.ImgCmbBxPlayer2.SelectedValue as SCPlayer);
 
             this.gameReports.ForEach(gameRep => gameRep.UpdateControlValues());
         }
@@ -732,7 +763,7 @@ namespace SCEloSystemGUI.UserControls
 
         private void btnHeadToHead_Click(object sender, EventArgs e)
         {
-            PlayerProfile.ShowProfile(this.player1Stats.Player, this.player2Stats.Player);
+            PlayerProfile.ShowProfile(this.player1Stats.Player, this.player2Stats.Player, this.FindForm());
         }
     }
 }

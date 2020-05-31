@@ -1,4 +1,5 @@
-﻿using CustomExtensionMethods;
+﻿using CustomControls;
+using CustomExtensionMethods;
 using EloSystem;
 using EloSystemExtensions;
 using SCEloSystemGUI.Properties;
@@ -14,6 +15,7 @@ namespace SCEloSystemGUI
     public static class RaceIconProvider
     {
         private static Dictionary<List<Race>, Image> raceListsCreated = new Dictionary<List<Race>, Image>();
+        private static Dictionary<Matchup, Image> matchupListsCreated = new Dictionary<Matchup, Image>();
 
         internal static Image GetRaceUsageIcon(SCPlayer player)
         {
@@ -37,6 +39,75 @@ namespace SCEloSystemGUI
 
         }
 
+        internal static Image GetMatchupImage(Matchup matchup)
+        {
+            Image img;
+
+            if (!RaceIconProvider.matchupListsCreated.TryGetValue(matchup, out img))
+            {
+                img = RaceIconProvider.CreateMatchupImage(matchup);
+
+                RaceIconProvider.matchupListsCreated.Add(matchup, img);
+            }
+
+            return img;
+        }
+
+        private static Image CreateMatchupImage(Matchup matchup)
+        {
+            switch (matchup)
+            {
+                case Matchup.ZvP: return RaceIconProvider.CreateMatchupImage(Race.Zerg, Race.Protoss);
+                case Matchup.PvT: return RaceIconProvider.CreateMatchupImage(Race.Protoss, Race.Terran);
+                case Matchup.TvZ: return RaceIconProvider.CreateMatchupImage(Race.Terran, Race.Zerg);
+                case Matchup.RvZ: return RaceIconProvider.CreateMatchupImage(Race.Random, Race.Zerg);
+                case Matchup.RvP: return RaceIconProvider.CreateMatchupImage(Race.Random, Race.Protoss);
+                case Matchup.RvT: return RaceIconProvider.CreateMatchupImage(Race.Random, Race.Terran);
+                case Matchup.ZvZ: return RaceIconProvider.CreateMatchupImage(Race.Zerg, Race.Zerg);
+                case Matchup.PvP: return RaceIconProvider.CreateMatchupImage(Race.Protoss, Race.Protoss);
+                case Matchup.TvT: return RaceIconProvider.CreateMatchupImage(Race.Terran, Race.Terran);
+                case Matchup.RvR: return RaceIconProvider.CreateMatchupImage(Race.Random, Race.Random);
+                default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Matchup).Name, matchup.ToString()));
+            }
+        }
+
+        private static Image CreateMatchupImage(Race race1, Race race2)
+        {
+            Bitmap raceFirstImg = RaceIconProvider.GetRaceBitmap(race1);
+            Bitmap raceSecondImg = RaceIconProvider.GetRaceBitmap(race2);
+
+            int summedWidth = raceFirstImg.Width + raceSecondImg.Width;
+            int maxHeight = Math.Max(raceFirstImg.Height, raceSecondImg.Height);
+            int extraWidth = (summedWidth * 0.5).RoundToInt();
+
+            var img = new Bitmap(summedWidth + extraWidth, maxHeight, PixelFormat.Format64bppArgb);
+
+            using (Graphics g = Graphics.FromImage(img))
+            {
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.CompositingQuality = CompositingQuality.HighQuality;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+
+                int firstImgHeightOffset = ((maxHeight - raceFirstImg.Height) / 2);
+
+                g.DrawImage(raceFirstImg, new Rectangle(0, firstImgHeightOffset, raceFirstImg.Width, raceFirstImg.Height));
+
+                int secondImgHeightOffset = ((maxHeight - raceSecondImg.Height) / 2);
+
+                g.DrawImage(raceSecondImg, new Rectangle(img.Width - raceSecondImg.Width, secondImgHeightOffset, raceSecondImg.Width, raceSecondImg.Height));
+
+                const string MATCHUP_TEXT = "vs";
+
+                var font = new Font("Lucida Calligraphy", 9F, FontStyle.Bold & FontStyle.Italic);
+
+                SizeF txtsize = g.MeasureString(MATCHUP_TEXT, font);
+                
+                g.DrawString(MATCHUP_TEXT, font, Brushes.Black, new PointF((img.Width / 2F) - (txtsize.Width / 2), (img.Height / 2F) - (txtsize.Height / 2)));
+            }
+
+            return img;
+        }
+
         private static void CreateMultipleRaceUsageIcon(IEnumerable<Race> raceUsageList)
         {
             if (raceUsageList.Count() == 1) { RaceIconProvider.GetRaceBitmap(raceUsageList.ElementAt(0)); }
@@ -51,7 +122,6 @@ namespace SCEloSystemGUI
             return RaceIconProvider.GetMultipleRacesUsageIcon(player.RaceUsageFrequency().Where(kvp => kvp.Value > 0).OrderByDescending(kvp => kvp.Value).ThenBy(kvp => (int)kvp.Key).Select(kvp =>
                 kvp.Key).ToList());
         }
-
 
         private static void CreateDoubleRaceUsageIcon(Race raceFirst, Race raceSecond)
         {

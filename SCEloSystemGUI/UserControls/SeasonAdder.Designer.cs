@@ -41,7 +41,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(3, 30);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(134, 30);
@@ -54,7 +54,7 @@
             this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAdd.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnAdd.Enabled = false;
-            this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAdd.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAdd.Location = new System.Drawing.Point(189, 104);
             this.btnAdd.Margin = new System.Windows.Forms.Padding(6, 14, 6, 4);
             this.btnAdd.Name = "btnAdd";
@@ -68,7 +68,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(3, 60);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(134, 30);
@@ -81,7 +81,7 @@
             this.lbHeading.AutoSize = true;
             this.tblLOPnlSeasonAdder.SetColumnSpan(this.lbHeading, 2);
             this.lbHeading.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbHeading.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbHeading.Font = new System.Drawing.Font("Calibri", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbHeading.Location = new System.Drawing.Point(3, 0);
             this.lbHeading.Name = "lbHeading";
             this.lbHeading.Size = new System.Drawing.Size(334, 30);
@@ -93,11 +93,11 @@
             // 
             this.txtBxName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBxName.Enabled = false;
-            this.txtBxName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBxName.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBxName.Location = new System.Drawing.Point(146, 63);
             this.txtBxName.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             this.txtBxName.Name = "txtBxName";
-            this.txtBxName.Size = new System.Drawing.Size(188, 23);
+            this.txtBxName.Size = new System.Drawing.Size(188, 25);
             this.txtBxName.TabIndex = 1;
             this.txtBxName.TextChanged += new System.EventHandler(this.txtBxName_TextChanged);
             // 
@@ -114,6 +114,7 @@
             this.tblLOPnlSeasonAdder.Controls.Add(this.label1, 0, 2);
             this.tblLOPnlSeasonAdder.Controls.Add(this.btnAdd, 1, 3);
             this.tblLOPnlSeasonAdder.Controls.Add(this.label2, 0, 1);
+            this.tblLOPnlSeasonAdder.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tblLOPnlSeasonAdder.Location = new System.Drawing.Point(0, 0);
             this.tblLOPnlSeasonAdder.Name = "tblLOPnlSeasonAdder";
             this.tblLOPnlSeasonAdder.RowCount = 6;

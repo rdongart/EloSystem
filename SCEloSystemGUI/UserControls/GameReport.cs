@@ -166,7 +166,7 @@ namespace SCEloSystemGUI.UserControls
             cmBx.Items.AddRange(Enum.GetValues(typeof(Race)).Cast<Race>().Select(enm => Tuple.Create<string, Race>(enm.ToString().ToUpper(), enm)).ToArray());
         }
 
-        #region Implementing IDisposable
+        #region IDisposable implementation
         public new void Dispose()
         {
             GlobalState.DataBase.MapPoolChanged -= this.OnMapPoolUpdate;
@@ -381,7 +381,7 @@ namespace SCEloSystemGUI.UserControls
 
         private void btnHeadToHead_Click(object sender, EventArgs e)
         {
-            PlayerProfile.ShowProfile(this.Player1, this.Player2, this.GetMapOrDefault());
+            PlayerProfile.ShowProfile(this.Player1, this.Player2, this.GetMapOrDefault(), this.FindForm());
         }
     }
 }

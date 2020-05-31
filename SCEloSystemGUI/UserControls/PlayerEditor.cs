@@ -313,8 +313,8 @@ namespace SCEloSystemGUI.UserControls
 
                     playerToEdit.SetAliases(this.lstViewAliases.Items.Cast<ListViewItem>().Select(item => item.Text));
 
-                    if (this.NewImage != null) {GlobalState.DataBase.EidtImage(playerToEdit, this.NewImage); }
-                    else if (this.chckBxRemoveCurrentImage.Checked) { GlobalState.DataBase.EidtImage(playerToEdit, null); }
+                    if (this.NewImage != null) {GlobalState.DataBase.EditImage(playerToEdit, this.NewImage); }
+                    else if (this.chckBxRemoveCurrentImage.Checked) { GlobalState.DataBase.EditImage(playerToEdit, null); }
 
                     playerToEdit.Country = this.ImgCmbBxCountries.SelectedValue as Country;
 

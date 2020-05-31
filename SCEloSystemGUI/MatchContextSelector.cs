@@ -29,7 +29,7 @@ namespace SCEloSystemGUI
         }
         public ImprovedImageComboBox<Tournament> TournamentSelector { get; private set; }
         public ComboBox SeasonSelector { get; private set; }
-        
+
         public MatchContextSelector(ImprovedImageComboBox<Tournament> tournamentSelector) : this(tournamentSelector, new ComboBox()) { }
 
         public MatchContextSelector(ComboBox seasonSelector) : this(new ImprovedImageComboBox<Tournament>(), seasonSelector) { }
@@ -46,12 +46,12 @@ namespace SCEloSystemGUI
 
         private void TournamentSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.AddSeasonItems();
+            this.UpdateSeasonItems();
 
             this.SeasonSelector.Enabled = this.SelectedTournament != null;
         }
 
-        private void AddSeasonItems()
+        public void UpdateSeasonItems()
         {
             if (this.SelectedTournament == null)
             {
@@ -83,7 +83,7 @@ namespace SCEloSystemGUI
 
         public void UpdateSeason()
         {
-            this.AddSeasonItems();
+            this.UpdateSeasonItems();
         }
 
         public void TrySetSelections(Tournament tournament, Season season)

@@ -87,7 +87,7 @@
             this.tblLOPnlMapAdder.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tblLOPnlMapAdder.ColumnCount = 4;
             this.tblLOPnlMapAdder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 140F));
-            this.tblLOPnlMapAdder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 241F));
+            this.tblLOPnlMapAdder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
             this.tblLOPnlMapAdder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 19F));
             this.tblLOPnlMapAdder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLOPnlMapAdder.Controls.Add(this.cmbBxMapsToEdit, 1, 2);
@@ -127,7 +127,7 @@
             this.tblLOPnlMapAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tblLOPnlMapAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tblLOPnlMapAdder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlMapAdder.Size = new System.Drawing.Size(400, 500);
+            this.tblLOPnlMapAdder.Size = new System.Drawing.Size(409, 500);
             this.tblLOPnlMapAdder.TabIndex = 23;
             // 
             // cmbBxMapsToEdit
@@ -139,8 +139,8 @@
             this.cmbBxMapsToEdit.FormattingEnabled = true;
             this.cmbBxMapsToEdit.Location = new System.Drawing.Point(143, 63);
             this.cmbBxMapsToEdit.Name = "cmbBxMapsToEdit";
-            this.cmbBxMapsToEdit.Size = new System.Drawing.Size(235, 23);
-            this.cmbBxMapsToEdit.TabIndex = 31;
+            this.cmbBxMapsToEdit.Size = new System.Drawing.Size(244, 23);
+            this.cmbBxMapsToEdit.TabIndex = 2;
             this.cmbBxMapsToEdit.SelectedIndexChanged += new System.EventHandler(this.cmbBxMaps_SelectedIndexChanged);
             // 
             // tblLoPnlCurrentImage
@@ -155,7 +155,7 @@
             this.tblLoPnlCurrentImage.Name = "tblLoPnlCurrentImage";
             this.tblLoPnlCurrentImage.RowCount = 1;
             this.tblLoPnlCurrentImage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLoPnlCurrentImage.Size = new System.Drawing.Size(235, 64);
+            this.tblLoPnlCurrentImage.Size = new System.Drawing.Size(244, 64);
             this.tblLoPnlCurrentImage.TabIndex = 30;
             // 
             // picBxCurrentImage
@@ -164,7 +164,7 @@
             this.picBxCurrentImage.Location = new System.Drawing.Point(0, 0);
             this.picBxCurrentImage.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.picBxCurrentImage.Name = "picBxCurrentImage";
-            this.picBxCurrentImage.Size = new System.Drawing.Size(204, 64);
+            this.picBxCurrentImage.Size = new System.Drawing.Size(213, 64);
             this.picBxCurrentImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picBxCurrentImage.TabIndex = 10;
             this.picBxCurrentImage.TabStop = false;
@@ -176,10 +176,10 @@
             this.chckBxRemoveCurrentImage.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.chckBxRemoveCurrentImage.Enabled = false;
             this.chckBxRemoveCurrentImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chckBxRemoveCurrentImage.Location = new System.Drawing.Point(210, 28);
+            this.chckBxRemoveCurrentImage.Location = new System.Drawing.Point(219, 28);
             this.chckBxRemoveCurrentImage.Name = "chckBxRemoveCurrentImage";
             this.chckBxRemoveCurrentImage.Size = new System.Drawing.Size(22, 33);
-            this.chckBxRemoveCurrentImage.TabIndex = 11;
+            this.chckBxRemoveCurrentImage.TabIndex = 7;
             this.chckBxRemoveCurrentImage.Text = " X";
             this.chckBxRemoveCurrentImage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chckBxRemoveCurrentImage.UseVisualStyleBackColor = true;
@@ -191,8 +191,8 @@
             this.txtBxName.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBxName.Location = new System.Drawing.Point(143, 93);
             this.txtBxName.Name = "txtBxName";
-            this.txtBxName.Size = new System.Drawing.Size(235, 26);
-            this.txtBxName.TabIndex = 0;
+            this.txtBxName.Size = new System.Drawing.Size(244, 26);
+            this.txtBxName.TabIndex = 3;
             this.txtBxName.TextChanged += new System.EventHandler(this.txtBxName_TextChanged);
             // 
             // lbHeading
@@ -203,7 +203,7 @@
             this.lbHeading.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbHeading.Location = new System.Drawing.Point(3, 0);
             this.lbHeading.Name = "lbHeading";
-            this.lbHeading.Size = new System.Drawing.Size(375, 30);
+            this.lbHeading.Size = new System.Drawing.Size(384, 30);
             this.lbHeading.TabIndex = 15;
             this.lbHeading.Text = "[missing]";
             this.lbHeading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -257,7 +257,7 @@
             this.btnBrowse.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(72, 24);
-            this.btnBrowse.TabIndex = 5;
+            this.btnBrowse.TabIndex = 8;
             this.btnBrowse.Text = "&Browse...";
             this.btnBrowse.UseVisualStyleBackColor = true;
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
@@ -301,7 +301,7 @@
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(235, 114);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(244, 114);
             this.tableLayoutPanel3.TabIndex = 1;
             // 
             // txtBxDescription
@@ -311,8 +311,8 @@
             this.txtBxDescription.Location = new System.Drawing.Point(3, 87);
             this.txtBxDescription.Margin = new System.Windows.Forms.Padding(3, 3, 3, 1);
             this.txtBxDescription.Name = "txtBxDescription";
-            this.txtBxDescription.Size = new System.Drawing.Size(201, 26);
-            this.txtBxDescription.TabIndex = 2;
+            this.txtBxDescription.Size = new System.Drawing.Size(210, 26);
+            this.txtBxDescription.TabIndex = 6;
             this.txtBxDescription.TextChanged += new System.EventHandler(this.txtBxDescription_TextChanged);
             // 
             // btnAddDescription
@@ -320,11 +320,11 @@
             this.btnAddDescription.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnAddDescription.Enabled = false;
             this.btnAddDescription.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddDescription.Location = new System.Drawing.Point(211, 91);
+            this.btnAddDescription.Location = new System.Drawing.Point(220, 91);
             this.btnAddDescription.Margin = new System.Windows.Forms.Padding(4, 4, 3, 1);
             this.btnAddDescription.Name = "btnAddDescription";
             this.btnAddDescription.Size = new System.Drawing.Size(21, 22);
-            this.btnAddDescription.TabIndex = 3;
+            this.btnAddDescription.TabIndex = 7;
             this.btnAddDescription.Text = "+";
             this.btnAddDescription.UseVisualStyleBackColor = true;
             this.btnAddDescription.Click += new System.EventHandler(this.btnAddDescription_Click);
@@ -334,11 +334,11 @@
             this.btnRemoveDescription.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnRemoveDescription.Enabled = false;
             this.btnRemoveDescription.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveDescription.Location = new System.Drawing.Point(211, 58);
+            this.btnRemoveDescription.Location = new System.Drawing.Point(220, 58);
             this.btnRemoveDescription.Margin = new System.Windows.Forms.Padding(4, 4, 3, 4);
             this.btnRemoveDescription.Name = "btnRemoveDescription";
             this.btnRemoveDescription.Size = new System.Drawing.Size(21, 22);
-            this.btnRemoveDescription.TabIndex = 13;
+            this.btnRemoveDescription.TabIndex = 5;
             this.btnRemoveDescription.Text = "-";
             this.btnRemoveDescription.UseVisualStyleBackColor = true;
             this.btnRemoveDescription.Click += new System.EventHandler(this.btnRemoveDescription_Click);
@@ -350,8 +350,8 @@
             this.lstViewDescriptions.Location = new System.Drawing.Point(0, 0);
             this.lstViewDescriptions.Margin = new System.Windows.Forms.Padding(0);
             this.lstViewDescriptions.Name = "lstViewDescriptions";
-            this.lstViewDescriptions.Size = new System.Drawing.Size(207, 84);
-            this.lstViewDescriptions.TabIndex = 12;
+            this.lstViewDescriptions.Size = new System.Drawing.Size(216, 84);
+            this.lstViewDescriptions.TabIndex = 4;
             this.lstViewDescriptions.UseCompatibleStateImageBehavior = false;
             this.lstViewDescriptions.View = System.Windows.Forms.View.List;
             this.lstViewDescriptions.SelectedIndexChanged += new System.EventHandler(this.lstViewDescriptions_SelectedIndexChanged);
@@ -368,7 +368,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(235, 24);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(244, 24);
             this.tableLayoutPanel1.TabIndex = 8;
             // 
             // lbFileName
@@ -379,7 +379,7 @@
             this.lbFileName.Location = new System.Drawing.Point(0, 3);
             this.lbFileName.Margin = new System.Windows.Forms.Padding(0, 3, 6, 3);
             this.lbFileName.Name = "lbFileName";
-            this.lbFileName.Size = new System.Drawing.Size(201, 18);
+            this.lbFileName.Size = new System.Drawing.Size(210, 18);
             this.lbFileName.TabIndex = 2;
             this.lbFileName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lbFileName.TextChanged += new System.EventHandler(this.lbFileName_TextChanged);
@@ -390,11 +390,11 @@
             this.btnRemoveImage.Enabled = false;
             this.btnRemoveImage.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRemoveImage.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnRemoveImage.Location = new System.Drawing.Point(211, 1);
+            this.btnRemoveImage.Location = new System.Drawing.Point(220, 1);
             this.btnRemoveImage.Margin = new System.Windows.Forms.Padding(4, 1, 3, 1);
             this.btnRemoveImage.Name = "btnRemoveImage";
             this.btnRemoveImage.Size = new System.Drawing.Size(21, 22);
-            this.btnRemoveImage.TabIndex = 14;
+            this.btnRemoveImage.TabIndex = 9;
             this.btnRemoveImage.Text = "x";
             this.btnRemoveImage.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnRemoveImage.UseVisualStyleBackColor = true;
@@ -408,8 +408,8 @@
             this.cmbBxTileset.FormattingEnabled = true;
             this.cmbBxTileset.Location = new System.Drawing.Point(143, 373);
             this.cmbBxTileset.Name = "cmbBxTileset";
-            this.cmbBxTileset.Size = new System.Drawing.Size(235, 22);
-            this.cmbBxTileset.TabIndex = 7;
+            this.cmbBxTileset.Size = new System.Drawing.Size(244, 22);
+            this.cmbBxTileset.TabIndex = 11;
             this.cmbBxTileset.SelectedIndexChanged += new System.EventHandler(this.cmbBxTileset_SelectedIndexChanged);
             // 
             // label5
@@ -432,8 +432,8 @@
             this.cmbBxMapType.FormattingEnabled = true;
             this.cmbBxMapType.Location = new System.Drawing.Point(143, 343);
             this.cmbBxMapType.Name = "cmbBxMapType";
-            this.cmbBxMapType.Size = new System.Drawing.Size(235, 22);
-            this.cmbBxMapType.TabIndex = 6;
+            this.cmbBxMapType.Size = new System.Drawing.Size(244, 22);
+            this.cmbBxMapType.TabIndex = 10;
             this.cmbBxMapType.SelectedIndexChanged += new System.EventHandler(this.cmbBxMapType_SelectedIndexChanged);
             // 
             // label6
@@ -465,7 +465,7 @@
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(235, 26);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(244, 26);
             this.tableLayoutPanel4.TabIndex = 8;
             // 
             // label7
@@ -487,7 +487,7 @@
             this.label8.AutoSize = true;
             this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label8.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(117, 0);
+            this.label8.Location = new System.Drawing.Point(122, 0);
             this.label8.Margin = new System.Windows.Forms.Padding(0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(25, 26);
@@ -508,8 +508,8 @@
             0,
             0});
             this.numUDWidth.Name = "numUDWidth";
-            this.numUDWidth.Size = new System.Drawing.Size(83, 26);
-            this.numUDWidth.TabIndex = 9;
+            this.numUDWidth.Size = new System.Drawing.Size(88, 26);
+            this.numUDWidth.TabIndex = 13;
             this.toolTipMapAdder.SetToolTip(this.numUDWidth, "Width");
             this.numUDWidth.Value = new decimal(new int[] {
             128,
@@ -522,7 +522,7 @@
             // 
             this.numUDHeight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.numUDHeight.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numUDHeight.Location = new System.Drawing.Point(142, 0);
+            this.numUDHeight.Location = new System.Drawing.Point(147, 0);
             this.numUDHeight.Margin = new System.Windows.Forms.Padding(0, 0, 9, 0);
             this.numUDHeight.Maximum = new decimal(new int[] {
             300,
@@ -530,8 +530,8 @@
             0,
             0});
             this.numUDHeight.Name = "numUDHeight";
-            this.numUDHeight.Size = new System.Drawing.Size(84, 26);
-            this.numUDHeight.TabIndex = 10;
+            this.numUDHeight.Size = new System.Drawing.Size(88, 26);
+            this.numUDHeight.TabIndex = 14;
             this.toolTipMapAdder.SetToolTip(this.numUDHeight, "Height");
             this.numUDHeight.Value = new decimal(new int[] {
             128,
@@ -573,8 +573,8 @@
             this.panel1.Location = new System.Drawing.Point(143, 32);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(235, 25);
-            this.panel1.TabIndex = 22;
+            this.panel1.Size = new System.Drawing.Size(244, 25);
+            this.panel1.TabIndex = 0;
             // 
             // rdBtnEdit
             // 
@@ -583,7 +583,7 @@
             this.rdBtnEdit.Margin = new System.Windows.Forms.Padding(0);
             this.rdBtnEdit.Name = "rdBtnEdit";
             this.rdBtnEdit.Size = new System.Drawing.Size(81, 19);
-            this.rdBtnEdit.TabIndex = 0;
+            this.rdBtnEdit.TabIndex = 1;
             this.rdBtnEdit.TabStop = true;
             this.rdBtnEdit.Text = "Edit";
             this.rdBtnEdit.UseVisualStyleBackColor = true;
@@ -628,7 +628,7 @@
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(241, 50);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(250, 50);
             this.tableLayoutPanel5.TabIndex = 32;
             // 
             // btnAddEditMap
@@ -637,11 +637,11 @@
             this.btnAddEditMap.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnAddEditMap.Enabled = false;
             this.btnAddEditMap.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddEditMap.Location = new System.Drawing.Point(128, 14);
+            this.btnAddEditMap.Location = new System.Drawing.Point(133, 14);
             this.btnAddEditMap.Margin = new System.Windows.Forms.Padding(8, 14, 6, 4);
             this.btnAddEditMap.Name = "btnAddEditMap";
-            this.btnAddEditMap.Size = new System.Drawing.Size(107, 32);
-            this.btnAddEditMap.TabIndex = 11;
+            this.btnAddEditMap.Size = new System.Drawing.Size(111, 32);
+            this.btnAddEditMap.TabIndex = 16;
             this.btnAddEditMap.Text = "A&dd to system";
             this.btnAddEditMap.UseVisualStyleBackColor = true;
             this.btnAddEditMap.Click += new System.EventHandler(this.btnAddEdit_Click);
@@ -655,8 +655,8 @@
             this.btnRemoveMap.Location = new System.Drawing.Point(6, 14);
             this.btnRemoveMap.Margin = new System.Windows.Forms.Padding(6, 14, 8, 4);
             this.btnRemoveMap.Name = "btnRemoveMap";
-            this.btnRemoveMap.Size = new System.Drawing.Size(106, 32);
-            this.btnRemoveMap.TabIndex = 11;
+            this.btnRemoveMap.Size = new System.Drawing.Size(111, 32);
+            this.btnRemoveMap.TabIndex = 15;
             this.btnRemoveMap.Text = "Remove";
             this.btnRemoveMap.UseVisualStyleBackColor = true;
             // 
@@ -668,7 +668,7 @@
             this.Controls.Add(this.tblLOPnlMapAdder);
             this.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "MapAdder";
-            this.Size = new System.Drawing.Size(398, 500);
+            this.Size = new System.Drawing.Size(409, 500);
             this.tblLOPnlMapAdder.ResumeLayout(false);
             this.tblLOPnlMapAdder.PerformLayout();
             this.tblLoPnlCurrentImage.ResumeLayout(false);

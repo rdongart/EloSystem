@@ -31,7 +31,6 @@ namespace EloSystem
                 teamSetIDNext,
                 tileSetIDNext,
                 tournamentIDNext
-
             }
             public void GetObjectData(SerializationInfo info, StreamingContext context)
             {

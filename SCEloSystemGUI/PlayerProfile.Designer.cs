@@ -57,7 +57,16 @@
             this.tblLOPnlResults = new System.Windows.Forms.TableLayoutPanel();
             this.tabCtrlResults = new System.Windows.Forms.TabControl();
             this.tabPageMatchResults = new System.Windows.Forms.TabPage();
+            this.tblLOPnlMatches = new System.Windows.Forms.TableLayoutPanel();
             this.tabPageSingleGames = new System.Windows.Forms.TabPage();
+            this.tblLOPnlGames = new System.Windows.Forms.TableLayoutPanel();
+            this.tblLOPnlOpponentSelection = new System.Windows.Forms.TableLayoutPanel();
+            this.rdBtnAny = new System.Windows.Forms.RadioButton();
+            this.rdBtnZerg = new System.Windows.Forms.RadioButton();
+            this.rdBtnTerran = new System.Windows.Forms.RadioButton();
+            this.rdBtnProtoss = new System.Windows.Forms.RadioButton();
+            this.rdBtnRandom = new System.Windows.Forms.RadioButton();
+            this.tabPageMaps = new System.Windows.Forms.TabPage();
             this.lbTeamName = new System.Windows.Forms.Label();
             this.lbCountryName = new System.Windows.Forms.Label();
             this.toolTipPlayerProfile = new System.Windows.Forms.ToolTip(this.components);
@@ -74,6 +83,10 @@
             this.grpBxResults.SuspendLayout();
             this.tblLOPnlResults.SuspendLayout();
             this.tabCtrlResults.SuspendLayout();
+            this.tabPageMatchResults.SuspendLayout();
+            this.tabPageSingleGames.SuspendLayout();
+            this.tblLOPnlGames.SuspendLayout();
+            this.tblLOPnlOpponentSelection.SuspendLayout();
             this.SuspendLayout();
             // 
             // tblLOPnlPlayerProfile
@@ -95,9 +108,9 @@
             this.tblLOPnlPlayerProfile.RowCount = 4;
             this.tblLOPnlPlayerProfile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.tblLOPnlPlayerProfile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 240F));
-            this.tblLOPnlPlayerProfile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 488F));
+            this.tblLOPnlPlayerProfile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 524F));
             this.tblLOPnlPlayerProfile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlPlayerProfile.Size = new System.Drawing.Size(1554, 792);
+            this.tblLOPnlPlayerProfile.Size = new System.Drawing.Size(1554, 828);
             this.tblLOPnlPlayerProfile.TabIndex = 0;
             // 
             // lbName
@@ -284,7 +297,7 @@
             this.picBxRank.Margin = new System.Windows.Forms.Padding(6, 4, 6, 6);
             this.picBxRank.Name = "picBxRank";
             this.picBxRank.Size = new System.Drawing.Size(62, 62);
-            this.picBxRank.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picBxRank.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.picBxRank.TabIndex = 18;
             this.picBxRank.TabStop = false;
             this.toolTipPlayerProfile.SetToolTip(this.picBxRank, "Overall rank");
@@ -384,7 +397,7 @@
             this.grpBxPerformance.ForeColor = System.Drawing.Color.White;
             this.grpBxPerformance.Location = new System.Drawing.Point(3, 281);
             this.grpBxPerformance.Name = "grpBxPerformance";
-            this.grpBxPerformance.Size = new System.Drawing.Size(594, 482);
+            this.grpBxPerformance.Size = new System.Drawing.Size(594, 518);
             this.grpBxPerformance.TabIndex = 3;
             this.grpBxPerformance.TabStop = false;
             this.grpBxPerformance.Text = "Performance";
@@ -405,7 +418,7 @@
             this.tblLOPnlPerformance.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 142F));
             this.tblLOPnlPerformance.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLOPnlPerformance.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tblLOPnlPerformance.Size = new System.Drawing.Size(588, 456);
+            this.tblLOPnlPerformance.Size = new System.Drawing.Size(588, 492);
             this.tblLOPnlPerformance.TabIndex = 0;
             // 
             // cmbBxSetDevInterval
@@ -414,7 +427,7 @@
             this.cmbBxSetDevInterval.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBxSetDevInterval.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbBxSetDevInterval.FormattingEnabled = true;
-            this.cmbBxSetDevInterval.Location = new System.Drawing.Point(6, 422);
+            this.cmbBxSetDevInterval.Location = new System.Drawing.Point(6, 458);
             this.cmbBxSetDevInterval.Margin = new System.Windows.Forms.Padding(6);
             this.cmbBxSetDevInterval.Name = "cmbBxSetDevInterval";
             this.cmbBxSetDevInterval.Size = new System.Drawing.Size(150, 26);
@@ -427,7 +440,7 @@
             this.pnlRatingDev.Location = new System.Drawing.Point(0, 142);
             this.pnlRatingDev.Margin = new System.Windows.Forms.Padding(0);
             this.pnlRatingDev.Name = "pnlRatingDev";
-            this.pnlRatingDev.Size = new System.Drawing.Size(580, 274);
+            this.pnlRatingDev.Size = new System.Drawing.Size(580, 310);
             this.pnlRatingDev.TabIndex = 1;
             // 
             // grpBxResults
@@ -439,7 +452,7 @@
             this.grpBxResults.Location = new System.Drawing.Point(603, 41);
             this.grpBxResults.Name = "grpBxResults";
             this.tblLOPnlPlayerProfile.SetRowSpan(this.grpBxResults, 2);
-            this.grpBxResults.Size = new System.Drawing.Size(939, 722);
+            this.grpBxResults.Size = new System.Drawing.Size(939, 758);
             this.grpBxResults.TabIndex = 4;
             this.grpBxResults.TabStop = false;
             this.grpBxResults.Text = "Results";
@@ -456,41 +469,201 @@
             this.tblLOPnlResults.RowCount = 2;
             this.tblLOPnlResults.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 220F));
             this.tblLOPnlResults.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlResults.Size = new System.Drawing.Size(933, 696);
+            this.tblLOPnlResults.Size = new System.Drawing.Size(933, 732);
             this.tblLOPnlResults.TabIndex = 0;
             // 
             // tabCtrlResults
             // 
             this.tabCtrlResults.Controls.Add(this.tabPageMatchResults);
             this.tabCtrlResults.Controls.Add(this.tabPageSingleGames);
+            this.tabCtrlResults.Controls.Add(this.tabPageMaps);
             this.tabCtrlResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabCtrlResults.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabCtrlResults.Location = new System.Drawing.Point(3, 223);
             this.tabCtrlResults.Name = "tabCtrlResults";
             this.tabCtrlResults.SelectedIndex = 0;
-            this.tabCtrlResults.Size = new System.Drawing.Size(924, 470);
+            this.tabCtrlResults.Size = new System.Drawing.Size(924, 506);
             this.tabCtrlResults.TabIndex = 0;
             this.tabCtrlResults.SelectedIndexChanged += new System.EventHandler(this.tabCtrlResults_SelectedIndexChanged);
             // 
             // tabPageMatchResults
             // 
+            this.tabPageMatchResults.Controls.Add(this.tblLOPnlMatches);
             this.tabPageMatchResults.Location = new System.Drawing.Point(4, 24);
             this.tabPageMatchResults.Name = "tabPageMatchResults";
             this.tabPageMatchResults.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMatchResults.Size = new System.Drawing.Size(916, 442);
+            this.tabPageMatchResults.Size = new System.Drawing.Size(916, 478);
             this.tabPageMatchResults.TabIndex = 0;
             this.tabPageMatchResults.Text = "Match Results";
             this.tabPageMatchResults.UseVisualStyleBackColor = true;
             // 
+            // tblLOPnlMatches
+            // 
+            this.tblLOPnlMatches.BackgroundImage = global::SCEloSystemGUI.Properties.Resources.SpaceBackground;
+            this.tblLOPnlMatches.ColumnCount = 1;
+            this.tblLOPnlMatches.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblLOPnlMatches.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tblLOPnlMatches.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tblLOPnlMatches.Location = new System.Drawing.Point(3, 3);
+            this.tblLOPnlMatches.Margin = new System.Windows.Forms.Padding(0);
+            this.tblLOPnlMatches.Name = "tblLOPnlMatches";
+            this.tblLOPnlMatches.RowCount = 2;
+            this.tblLOPnlMatches.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tblLOPnlMatches.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblLOPnlMatches.Size = new System.Drawing.Size(910, 472);
+            this.tblLOPnlMatches.TabIndex = 0;
+            // 
             // tabPageSingleGames
             // 
+            this.tabPageSingleGames.Controls.Add(this.tblLOPnlGames);
             this.tabPageSingleGames.Location = new System.Drawing.Point(4, 24);
             this.tabPageSingleGames.Name = "tabPageSingleGames";
             this.tabPageSingleGames.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSingleGames.Size = new System.Drawing.Size(916, 442);
+            this.tabPageSingleGames.Size = new System.Drawing.Size(916, 478);
             this.tabPageSingleGames.TabIndex = 1;
             this.tabPageSingleGames.Text = "Single Games";
             this.tabPageSingleGames.UseVisualStyleBackColor = true;
+            // 
+            // tblLOPnlGames
+            // 
+            this.tblLOPnlGames.BackgroundImage = global::SCEloSystemGUI.Properties.Resources.SpaceBackground;
+            this.tblLOPnlGames.ColumnCount = 2;
+            this.tblLOPnlGames.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblLOPnlGames.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 400F));
+            this.tblLOPnlGames.Controls.Add(this.tblLOPnlOpponentSelection, 0, 0);
+            this.tblLOPnlGames.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tblLOPnlGames.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+            this.tblLOPnlGames.Location = new System.Drawing.Point(3, 3);
+            this.tblLOPnlGames.Margin = new System.Windows.Forms.Padding(0);
+            this.tblLOPnlGames.Name = "tblLOPnlGames";
+            this.tblLOPnlGames.RowCount = 2;
+            this.tblLOPnlGames.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tblLOPnlGames.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblLOPnlGames.Size = new System.Drawing.Size(910, 472);
+            this.tblLOPnlGames.TabIndex = 0;
+            // 
+            // tblLOPnlOpponentSelection
+            // 
+            this.tblLOPnlOpponentSelection.ColumnCount = 5;
+            this.tblLOPnlOpponentSelection.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tblLOPnlOpponentSelection.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tblLOPnlOpponentSelection.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tblLOPnlOpponentSelection.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tblLOPnlOpponentSelection.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tblLOPnlOpponentSelection.Controls.Add(this.rdBtnAny, 0, 0);
+            this.tblLOPnlOpponentSelection.Controls.Add(this.rdBtnZerg, 1, 0);
+            this.tblLOPnlOpponentSelection.Controls.Add(this.rdBtnTerran, 2, 0);
+            this.tblLOPnlOpponentSelection.Controls.Add(this.rdBtnProtoss, 3, 0);
+            this.tblLOPnlOpponentSelection.Controls.Add(this.rdBtnRandom, 4, 0);
+            this.tblLOPnlOpponentSelection.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tblLOPnlOpponentSelection.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+            this.tblLOPnlOpponentSelection.Location = new System.Drawing.Point(4, 3);
+            this.tblLOPnlOpponentSelection.Margin = new System.Windows.Forms.Padding(4, 3, 100, 3);
+            this.tblLOPnlOpponentSelection.Name = "tblLOPnlOpponentSelection";
+            this.tblLOPnlOpponentSelection.RowCount = 1;
+            this.tblLOPnlOpponentSelection.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblLOPnlOpponentSelection.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tblLOPnlOpponentSelection.Size = new System.Drawing.Size(406, 30);
+            this.tblLOPnlOpponentSelection.TabIndex = 0;
+            // 
+            // rdBtnAny
+            // 
+            this.rdBtnAny.AutoSize = true;
+            this.rdBtnAny.Checked = true;
+            this.rdBtnAny.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rdBtnAny.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.rdBtnAny.Location = new System.Drawing.Point(3, 3);
+            this.rdBtnAny.Name = "rdBtnAny";
+            this.rdBtnAny.Size = new System.Drawing.Size(75, 24);
+            this.rdBtnAny.TabIndex = 0;
+            this.rdBtnAny.TabStop = true;
+            this.rdBtnAny.Text = "Any";
+            this.rdBtnAny.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.rdBtnAny.UseMnemonic = false;
+            this.rdBtnAny.UseVisualStyleBackColor = true;
+            this.rdBtnAny.CheckedChanged += new System.EventHandler(this.OnOpponentRaceChanged);
+            // 
+            // rdBtnZerg
+            // 
+            this.rdBtnZerg.AutoSize = true;
+            this.rdBtnZerg.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.rdBtnZerg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rdBtnZerg.Image = global::SCEloSystemGUI.Properties.Resources.Zicon;
+            this.rdBtnZerg.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.rdBtnZerg.Location = new System.Drawing.Point(84, 3);
+            this.rdBtnZerg.Name = "rdBtnZerg";
+            this.rdBtnZerg.Size = new System.Drawing.Size(75, 24);
+            this.rdBtnZerg.TabIndex = 0;
+            this.rdBtnZerg.TabStop = true;
+            this.rdBtnZerg.Text = "vs";
+            this.rdBtnZerg.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.rdBtnZerg.UseMnemonic = false;
+            this.rdBtnZerg.UseVisualStyleBackColor = true;
+            this.rdBtnZerg.CheckedChanged += new System.EventHandler(this.OnOpponentRaceChanged);
+            // 
+            // rdBtnTerran
+            // 
+            this.rdBtnTerran.AutoSize = true;
+            this.rdBtnTerran.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.rdBtnTerran.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rdBtnTerran.Image = global::SCEloSystemGUI.Properties.Resources.Ticon;
+            this.rdBtnTerran.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.rdBtnTerran.Location = new System.Drawing.Point(165, 3);
+            this.rdBtnTerran.Name = "rdBtnTerran";
+            this.rdBtnTerran.Size = new System.Drawing.Size(75, 24);
+            this.rdBtnTerran.TabIndex = 0;
+            this.rdBtnTerran.TabStop = true;
+            this.rdBtnTerran.Text = "vs";
+            this.rdBtnTerran.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.rdBtnTerran.UseMnemonic = false;
+            this.rdBtnTerran.UseVisualStyleBackColor = true;
+            this.rdBtnTerran.CheckedChanged += new System.EventHandler(this.OnOpponentRaceChanged);
+            // 
+            // rdBtnProtoss
+            // 
+            this.rdBtnProtoss.AutoSize = true;
+            this.rdBtnProtoss.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.rdBtnProtoss.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rdBtnProtoss.Image = global::SCEloSystemGUI.Properties.Resources.Picon;
+            this.rdBtnProtoss.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.rdBtnProtoss.Location = new System.Drawing.Point(246, 3);
+            this.rdBtnProtoss.Name = "rdBtnProtoss";
+            this.rdBtnProtoss.Size = new System.Drawing.Size(75, 24);
+            this.rdBtnProtoss.TabIndex = 0;
+            this.rdBtnProtoss.TabStop = true;
+            this.rdBtnProtoss.Text = "vs";
+            this.rdBtnProtoss.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.rdBtnProtoss.UseMnemonic = false;
+            this.rdBtnProtoss.UseVisualStyleBackColor = true;
+            this.rdBtnProtoss.CheckedChanged += new System.EventHandler(this.OnOpponentRaceChanged);
+            // 
+            // rdBtnRandom
+            // 
+            this.rdBtnRandom.AutoSize = true;
+            this.rdBtnRandom.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.rdBtnRandom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rdBtnRandom.Image = global::SCEloSystemGUI.Properties.Resources.Ricon;
+            this.rdBtnRandom.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.rdBtnRandom.Location = new System.Drawing.Point(327, 3);
+            this.rdBtnRandom.Name = "rdBtnRandom";
+            this.rdBtnRandom.Size = new System.Drawing.Size(76, 24);
+            this.rdBtnRandom.TabIndex = 0;
+            this.rdBtnRandom.TabStop = true;
+            this.rdBtnRandom.Text = "vs";
+            this.rdBtnRandom.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.rdBtnRandom.UseMnemonic = false;
+            this.rdBtnRandom.UseVisualStyleBackColor = true;
+            this.rdBtnRandom.CheckedChanged += new System.EventHandler(this.OnOpponentRaceChanged);
+            // 
+            // tabPageMaps
+            // 
+            this.tabPageMaps.Location = new System.Drawing.Point(4, 24);
+            this.tabPageMaps.Name = "tabPageMaps";
+            this.tabPageMaps.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageMaps.Size = new System.Drawing.Size(916, 478);
+            this.tabPageMaps.TabIndex = 2;
+            this.tabPageMaps.Text = "Maps";
+            this.tabPageMaps.UseVisualStyleBackColor = true;
             // 
             // lbTeamName
             // 
@@ -518,22 +691,23 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoScroll = true;
-            this.AutoScrollMinSize = new System.Drawing.Size(1535, 790);
+            this.AutoScrollMinSize = new System.Drawing.Size(1545, 775);
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImage = global::SCEloSystemGUI.Properties.Resources.SpaceBackground;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1554, 792);
+            this.ClientSize = new System.Drawing.Size(1554, 828);
             this.Controls.Add(this.tblLOPnlPlayerProfile);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
-            this.MaximumSize = new System.Drawing.Size(1570, 830);
+            this.MaximumSize = new System.Drawing.Size(1570, 866);
             this.Name = "PlayerProfile";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Player Profile";
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PlayerProfile_KeyPress);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.PlayerProfile_KeyUp);
             this.tblLOPnlPlayerProfile.ResumeLayout(false);
             this.tblLOPnlPlayerProfile.PerformLayout();
             this.grpBxPlayerInfo.ResumeLayout(false);
@@ -550,6 +724,11 @@
             this.grpBxResults.ResumeLayout(false);
             this.tblLOPnlResults.ResumeLayout(false);
             this.tabCtrlResults.ResumeLayout(false);
+            this.tabPageMatchResults.ResumeLayout(false);
+            this.tabPageSingleGames.ResumeLayout(false);
+            this.tblLOPnlGames.ResumeLayout(false);
+            this.tblLOPnlOpponentSelection.ResumeLayout(false);
+            this.tblLOPnlOpponentSelection.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -588,5 +767,14 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lbPlayerInfoName;
+        private System.Windows.Forms.TabPage tabPageMaps;
+        private System.Windows.Forms.TableLayoutPanel tblLOPnlMatches;
+        private System.Windows.Forms.TableLayoutPanel tblLOPnlGames;
+        private System.Windows.Forms.TableLayoutPanel tblLOPnlOpponentSelection;
+        private System.Windows.Forms.RadioButton rdBtnAny;
+        private System.Windows.Forms.RadioButton rdBtnZerg;
+        private System.Windows.Forms.RadioButton rdBtnTerran;
+        private System.Windows.Forms.RadioButton rdBtnProtoss;
+        private System.Windows.Forms.RadioButton rdBtnRandom;
     }
 }

@@ -1,14 +1,17 @@
-﻿using BrightIdeasSoftware;
+﻿using CustomControls.Styles;
+using System.Collections.Generic;
+using BrightIdeasSoftware;
 using CustomExtensionMethods;
 using CustomExtensionMethods.Drawing;
 using EloSystem;
 using EloSystem.ResourceManagement;
+using EloSystemExtensions;
 using SCEloSystemGUI.Properties;
-using SCEloSystemGUI.UserControls;
 using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using SCEloSystemGUI.UserControls;
 
 namespace SCEloSystemGUI
 {
@@ -17,18 +20,48 @@ namespace SCEloSystemGUI
         private const float TEXT_SIZE = 11.5F;
 
         private ObjectListView olvMapStats;
+        private Dictionary<Map, Bitmap> imagesByMaps = new Dictionary<Map, Bitmap>();
 
-        public MapStatsDisplay()
+        private MapStatsDisplay()
         {
             InitializeComponent();
 
             this.Icon = Resources.SCEloIcon;
-            
+
             this.olvMapStats = this.CreateMapStatsListView();
+            this.olvMapStats.SelectionChanged += this.OlvMapStats_SelectionChanged;
 
             this.Controls.Add(this.olvMapStats);
 
             this.olvMapStats.SetObjects(GlobalState.DataBase.GetMaps().OrderBy(m => m.Name).ToArray());
+
+        }
+
+        private void OlvMapStats_SelectionChanged(object sender, EventArgs e)
+        {
+            if (this.olvMapStats.SelectedItem == null) { return; }
+
+            var selectedMap = this.olvMapStats.SelectedItem.RowObject as Map;
+
+            if (selectedMap != null)
+            {
+                MapProfile.ShowProfile(selectedMap, this);
+
+                this.olvMapStats.SelectedItems.Clear();
+            }
+        }
+
+        public static void ShowMapList(Form anchorForm = null)
+        {
+            var mapListForm = new MapStatsDisplay();
+
+            if (anchorForm != null) { FormStyles.ShowFullFormRelativeToAnchor(mapListForm, anchorForm); }
+
+            mapListForm.ShowDialog();
+
+            foreach (KeyValuePair<Map, Bitmap> kvPair in mapListForm.imagesByMaps.ToList()) { kvPair.Value.Dispose(); }
+
+            mapListForm.Dispose();
         }
 
         private void MapStatsLV_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -100,6 +133,7 @@ namespace SCEloSystemGUI
                 BackColor = Color.FromArgb(175, 175, 235),
                 Dock = DockStyle.Fill,
                 Font = new Font("Calibri", MapStatsDisplay.TEXT_SIZE, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
+                FullRowSelect = true,
                 HeaderStyle = ColumnHeaderStyle.Clickable,
                 HasCollapsibleGroups = false,
                 Margin = new Padding(12, 16, 12, 12),
@@ -107,16 +141,20 @@ namespace SCEloSystemGUI
                 RowHeight = 42,
                 Scrollable = true,
                 ShowGroups = false,
-                Size = new Size(1029, 700),
+                Size = new Size(1200, 700),
                 SortGroupItemsByPrimaryColumn = true,
                 UseAlternatingBackColors = true,
                 UseCellFormatEvents = true,
+                UseHotItem = true,
             };
 
             mapStatsLV.ColumnClick += this.MapStatsLV_ColumnClick;
 
+            Styles.ObjectListViewStyles.SetHotItemStyle(mapStatsLV);
+
             const int WINRATIOS_WIDTH = 170;
             const int GAMES_WIDTH = 55;
+            const int COINTOSS_FACTOR_WIDTH = 55;
 
             var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null, Sortable = true };
             var olvClmImage = new OLVColumn() { Width = 54, Text = "Map", Sortable = false };
@@ -126,17 +164,20 @@ namespace SCEloSystemGUI
             var olvClmZvP = new OLVColumn() { Width = WINRATIOS_WIDTH, Text = "ZvP", Sortable = true };
             var olvClmPvT = new OLVColumn() { Width = WINRATIOS_WIDTH, Text = "PvT", Sortable = true };
             var olvClmTotGames = new OLVColumn() { Width = 75, Text = "Total games", Sortable = true };
-            var olvClmTvTGames = new OLVColumn() { Width = GAMES_WIDTH, Text = "TvT", Sortable = false };
             var olvClmZvZGames = new OLVColumn() { Width = GAMES_WIDTH, Text = "ZvZ", Sortable = false };
+            var olvClmTvTGames = new OLVColumn() { Width = GAMES_WIDTH, Text = "TvT", Sortable = false };
             var olvClmPvPGames = new OLVColumn() { Width = GAMES_WIDTH, Text = "PvP", Sortable = false };
+            var olvClmZvZCointossFactor = new OLVColumn() { Width = COINTOSS_FACTOR_WIDTH, Text = "ZvZ CTF", Sortable = true, ToolTipText = "ZvZ Cointoss Factor" };
+            var olvClmTvTCointossFactor = new OLVColumn() { Width = COINTOSS_FACTOR_WIDTH, Text = "TvT CTF", Sortable = true, ToolTipText = "TvT Cointoss Factor" };
+            var olvClmPvPCointossFactor = new OLVColumn() { Width = COINTOSS_FACTOR_WIDTH, Text = "PvP CTF", Sortable = true, ToolTipText = "PvP Cointoss Factor" };
 
             mapStatsLV.PrimarySortColumn = olvClmName;
 
-            mapStatsLV.AllColumns.AddRange(new OLVColumn[] { olvClmEmpty,olvClmImage,  olvClmName, olvClmSpots, olvClmTvZ, olvClmZvP, olvClmPvT, olvClmTotGames
-                , olvClmTvTGames, olvClmZvZGames, olvClmPvPGames });
+            mapStatsLV.AllColumns.AddRange(new OLVColumn[] { olvClmEmpty, olvClmImage, olvClmName, olvClmSpots, olvClmTvZ, olvClmZvP, olvClmPvT, olvClmTotGames, olvClmZvZGames, olvClmTvTGames, olvClmPvPGames
+                , olvClmZvZCointossFactor, olvClmTvTCointossFactor, olvClmPvPCointossFactor });
 
-            mapStatsLV.Columns.AddRange(new ColumnHeader[] { olvClmEmpty, olvClmImage, olvClmName, olvClmSpots, olvClmTvZ, olvClmZvP, olvClmPvT, olvClmTotGames
-                , olvClmTvTGames, olvClmZvZGames, olvClmPvPGames });
+            mapStatsLV.Columns.AddRange(new ColumnHeader[] { olvClmEmpty, olvClmImage, olvClmName, olvClmSpots, olvClmTvZ, olvClmZvP, olvClmPvT, olvClmTotGames, olvClmZvZGames, olvClmTvTGames, olvClmPvPGames
+                , olvClmZvZCointossFactor, olvClmTvTCointossFactor, olvClmPvPCointossFactor });
 
             foreach (OLVColumn clm in new OLVColumn[] { olvClmImage, olvClmSpots })
             {
@@ -144,12 +185,9 @@ namespace SCEloSystemGUI
                 clm.TextAlign = HorizontalAlignment.Center;
             }
 
-            foreach (OLVColumn clm in new OLVColumn[] { olvClmTvZ, olvClmZvP, olvClmPvT })
-            {
-                clm.HeaderTextAlign = HorizontalAlignment.Center;
-            }
+            foreach (OLVColumn clm in new OLVColumn[] { olvClmTvZ, olvClmZvP, olvClmPvT }) { clm.HeaderTextAlign = HorizontalAlignment.Center; }
 
-            foreach (OLVColumn clm in new OLVColumn[] { olvClmTotGames, olvClmTvTGames, olvClmZvZGames, olvClmPvPGames })
+            foreach (OLVColumn clm in new OLVColumn[] { olvClmTotGames, olvClmTvTGames, olvClmZvZGames, olvClmPvPGames, olvClmZvZCointossFactor, olvClmTvTCointossFactor, olvClmPvPCointossFactor })
             {
                 clm.HeaderTextAlign = HorizontalAlignment.Center;
                 clm.TextAlign = HorizontalAlignment.Right;
@@ -157,13 +195,22 @@ namespace SCEloSystemGUI
 
             const int IMAGE_SIZE_MAX = 42;
 
+
+
             olvClmImage.AspectGetter = obj =>
             {
                 var map = obj as Map;
 
-                EloImage mapImage;
+                Bitmap mapImage;
+                EloImage eloMapImage;
 
-                if (GlobalState.DataBase.TryGetImage(map.ImageID, out mapImage)) { return new Image[] { mapImage.Image.ResizeSameAspectRatio(IMAGE_SIZE_MAX) }; }
+                if (this.imagesByMaps.TryGetValue(map, out mapImage)) { return new Image[] { mapImage }; }
+                else if (GlobalState.DataBase.TryGetImage(map.ImageID, out eloMapImage))
+                {
+                    this.imagesByMaps.Add(map, eloMapImage.Image.ResizeSameAspectRatio(IMAGE_SIZE_MAX));
+
+                    return new Image[] { this.imagesByMaps[map] };
+                }
                 else { return null; }
 
             };
@@ -251,10 +298,42 @@ namespace SCEloSystemGUI
                 return map.Stats.PvP.TotalGames.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
             };
 
+            const int COINTOSS_FACTOR_DECIMALS = 2;
+
+            olvClmZvZCointossFactor.AspectGetter = obj =>
+            {
+                var map = obj as Map;
+
+                double coinTossFactor = 0;
+
+                return GlobalState.MirrorMatchupEvaluation.TryGetCointossFactor(map, MirrorMatchup.ZvZ, out coinTossFactor) ? coinTossFactor.Round(COINTOSS_FACTOR_DECIMALS).ToString() : "";
+
+            };
+
+            olvClmTvTCointossFactor.AspectGetter = obj =>
+            {
+                var map = obj as Map;
+
+                double coinTossFactor = 0;
+
+                return GlobalState.MirrorMatchupEvaluation.TryGetCointossFactor(map, MirrorMatchup.TvT, out coinTossFactor) ? coinTossFactor.Round(COINTOSS_FACTOR_DECIMALS).ToString() : "";
+
+            };
+
+            olvClmPvPCointossFactor.AspectGetter = obj =>
+            {
+                var map = obj as Map;
+
+                double coinTossFactor = 0;
+
+                return GlobalState.MirrorMatchupEvaluation.TryGetCointossFactor(map, MirrorMatchup.PvP, out coinTossFactor) ? coinTossFactor.Round(COINTOSS_FACTOR_DECIMALS).ToString() : "";
+
+            };
+
             return mapStatsLV;
         }
 
-        private void MapStatsDisplay_KeyDown(object sender, KeyEventArgs e)
+        private void MapStatsDisplay_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape) { this.Close(); }
         }

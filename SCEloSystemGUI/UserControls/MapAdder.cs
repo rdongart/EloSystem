@@ -1,8 +1,7 @@
-﻿using EloSystemExtensions;
-using EloSystem.IO;
-using EloSystem.ResourceManagement;
-using CustomExtensionMethods;
+﻿using CustomExtensionMethods;
 using EloSystem;
+using EloSystem.ResourceManagement;
+using EloSystemExtensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -22,7 +21,7 @@ namespace SCEloSystemGUI.UserControls
         {
             get
             {
-                return this.cmbBxTileset.SelectedItem as Tileset;
+                return this.cmbBxTileset.SelectedItem != null ? (this.cmbBxTileset.SelectedItem as Tuple<string, Tileset>).Item2 : null;
             }
         }
         private ContentTypes contentType;
@@ -150,8 +149,8 @@ namespace SCEloSystemGUI.UserControls
                 mapToEdit.Name = this.txtBxName.Text;
                 mapToEdit.SetDescriptions(this.lstViewDescriptions.Items.Cast<ListViewItem>().Select(item => item.Text));
 
-                if (this.NewImage != null) { GlobalState.DataBase.EidtImage(mapToEdit, this.NewImage); }
-                else if (this.chckBxRemoveCurrentImage.Checked) { GlobalState.DataBase.EidtImage(mapToEdit, null); }
+                if (this.NewImage != null) { GlobalState.DataBase.EditImage(mapToEdit, this.NewImage); }
+                else if (this.chckBxRemoveCurrentImage.Checked) { GlobalState.DataBase.EditImage(mapToEdit, null); }
 
                 mapToEdit.MapType = this.MapType;
                 mapToEdit.Tileset = this.SelectedTileset;

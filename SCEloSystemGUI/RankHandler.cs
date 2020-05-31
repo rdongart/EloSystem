@@ -57,8 +57,12 @@ namespace SCEloSystemGUI
 
         internal static Image CreateRankImage(Rank rank, int pixelSize)
         {
-            int frameWidth = (pixelSize * 0.12).RoundToInt();
-            float textSize = pixelSize * 0.36F;
+            const double FRAME_PROPORTION = 0.13;
+            const float TEXT_PROPORTION = 0.36F;
+
+            int frameWidth = (pixelSize * FRAME_PROPORTION).RoundToInt();
+
+            float textSize = pixelSize * TEXT_PROPORTION;
 
             var img = new Bitmap(pixelSize, pixelSize, PixelFormat.Format64bppPArgb);
 
@@ -117,7 +121,7 @@ namespace SCEloSystemGUI
                     default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Rank).Name, rank.ToString()));
                 }
 
-                g.FillRegion(backColor, new Region(new RectangleF(0, 0, pixelSize, pixelSize)));
+                g.FillRegion(backColor, new Region(new Rectangle(0, 0, pixelSize, pixelSize)));
 
                 var txtFont = new Font("Algerian", textSize, FontStyle.Regular, GraphicsUnit.Point, 0, false);
 
@@ -125,11 +129,10 @@ namespace SCEloSystemGUI
 
                 g.DrawString(rankTxt, txtFont, txtColor, new PointF((pixelSize - txtSize.Width) / 2, (pixelSize - txtSize.Height) / 2));
 
-                g.DrawRectangle(new Pen(txtColor, frameWidth), 0, 0, pixelSize - 1, pixelSize - 1);
+                g.DrawRectangle(new Pen(txtColor, frameWidth), 0, 0, pixelSize -1, pixelSize -1);
             }
 
             return img;
-
         }
 
         private static Dictionary<Rank, Image> CreateRankImages(int pixelSize)
@@ -213,10 +216,21 @@ namespace SCEloSystemGUI
                     >= EloSystemGUIStaticMembers.RECENTACTIVITY_GAMESPLAYED_DEFAULT_RACE_THRESHOLD;
             };
 
-            List<SCPlayer> playersWithMainRank = this.eloDataBase.GetPlayers().Where(p => hasRankMain(p)).OrderByDescending(p => p.RatingTotal()).ToList();
-            List<SCPlayer> playersWithProtossRank = this.eloDataBase.GetPlayers().Where(p => hasRankForRace(p, Race.Protoss)).OrderByDescending(p => p.RatingVs.Protoss).ToList();
-            List<SCPlayer> playersWithTerranRank = this.eloDataBase.GetPlayers().Where(p => hasRankForRace(p, Race.Terran)).OrderByDescending(p => p.RatingVs.Terran).ToList();
-            List<SCPlayer> playersWithZergRank = this.eloDataBase.GetPlayers().Where(p => hasRankForRace(p, Race.Zerg)).OrderByDescending(p => p.RatingVs.Zerg).ToList();
+
+
+            List<SCPlayer> playersWithMainRank = this.eloDataBase.GetPlayers().Where(p => hasRankMain(p)).OrderByDescending(p => p.RatingTotal()).ThenByDescending(p =>
+                this.eloDataBase.GamesByPlayer(p).OrderByDescending(game => game.Match.DateTime.Date).First().Match.DateTime.Date).ThenByDescending(p => p.Stats.GamesTotal()).ToList();
+
+            Func<Race, IOrderedEnumerable<SCPlayer>> GetPlayersWithRankVsRace = rc =>
+            {
+                return this.eloDataBase.GetPlayers().Where(p => hasRankForRace(p, rc)).OrderByDescending(p => p.RatingVs.GetValueFor(rc)).ThenByDescending(p =>
+                    this.eloDataBase.GamesByPlayer(p).Where(g => (g.Player1.Equals(p) && g.Player2Race == rc) || (g.Player2.Equals(p) && g.Player1Race == rc)).OrderByDescending(game =>
+                         game.Match.DateTime.Date).First().Match.DateTime.Date).ThenByDescending(p => p.Stats.GamesVs(rc));
+            };
+
+            List<SCPlayer> playersWithProtossRank = GetPlayersWithRankVsRace(Race.Protoss).ToList();
+            List<SCPlayer> playersWithTerranRank = GetPlayersWithRankVsRace(Race.Terran).ToList();
+            List<SCPlayer> playersWithZergRank = GetPlayersWithRankVsRace(Race.Zerg).ToList();
 
             Dictionary<Rank, int> rankThresholdsMain = RankHandler.CreateRankingCountThresholds(playersWithMainRank.Count);
             Dictionary<Rank, int> rankThresholdsProtoss = RankHandler.CreateRankingCountThresholds(playersWithProtossRank.Count);

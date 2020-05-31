@@ -1,4 +1,5 @@
-﻿using CustomExtensionMethods;
+﻿using System;
+using CustomExtensionMethods;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -83,7 +84,7 @@ namespace EloSystem.ResourceManagement
             {
                 tempFilePath = string.Format("{0}\\temp{1}", Path.GetDirectoryName(this.resourcePath), Path.GetFileName(this.resourcePath));
 
-                File.Move(this.resourcePath, tempFilePath);
+                File.Copy(this.resourcePath, tempFilePath);
 
                 reader = new ResourceReader(tempFilePath);
             }
@@ -97,9 +98,16 @@ namespace EloSystem.ResourceManagement
                 {
                     var eResReader = reader.GetEnumerator();
 
-                    while (eResReader.MoveNext()) { if (!this.resourcesRemoved.Contains(eResReader.Key as string)) { writer.AddResource(eResReader.Key as string, eResReader.Value); } }
+                    while (eResReader.MoveNext())
+                    {
+                        if (!this.resourcesRemoved.Contains(eResReader.Key as string))
+                        {
+                            writer.AddResource(eResReader.Key as string, eResReader.Value);
 
-                    reader.Close();
+                            if (eResReader.Value is IDisposable) { (eResReader.Value as IDisposable).Dispose(); }
+                        }
+                    }
+
                     reader.Dispose();
                 }
 
@@ -116,6 +124,7 @@ namespace EloSystem.ResourceManagement
                         writer.AddResource(eNewResources.Current.Key.ToString(), eNewResources.Current.Value.Image);
                     }
                 }
+
             }
 
 

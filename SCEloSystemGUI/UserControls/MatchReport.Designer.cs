@@ -65,9 +65,10 @@
             this.tblLoPnlMatchReportMain = new System.Windows.Forms.TableLayoutPanel();
             this.pnlMatchReport = new System.Windows.Forms.Panel();
             this.tblLoPnlRecentMatches = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tblLOPnlMatchListTools = new System.Windows.Forms.TableLayoutPanel();
             this.label18 = new System.Windows.Forms.Label();
             this.btnEditMatchIndex = new System.Windows.Forms.Button();
+            this.pnlPageSelector = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.tblLOPnlMatchReport.SuspendLayout();
             this.tblLOPnlMatchContext.SuspendLayout();
@@ -77,7 +78,7 @@
             this.tblLoPnlMatchReportMain.SuspendLayout();
             this.pnlMatchReport.SuspendLayout();
             this.tblLoPnlRecentMatches.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.tblLOPnlMatchListTools.SuspendLayout();
             this.SuspendLayout();
             // 
             // tblLOPnlMatchReport
@@ -630,7 +631,7 @@
             this.tblLoPnlRecentMatches.ColumnCount = 2;
             this.tblLoPnlRecentMatches.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 794F));
             this.tblLoPnlRecentMatches.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLoPnlRecentMatches.Controls.Add(this.tableLayoutPanel1, 0, 1);
+            this.tblLoPnlRecentMatches.Controls.Add(this.tblLOPnlMatchListTools, 0, 1);
             this.tblLoPnlRecentMatches.Controls.Add(this.label10, 0, 0);
             this.tblLoPnlRecentMatches.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tblLoPnlRecentMatches.Location = new System.Drawing.Point(1106, 0);
@@ -638,29 +639,32 @@
             this.tblLoPnlRecentMatches.Name = "tblLoPnlRecentMatches";
             this.tblLoPnlRecentMatches.RowCount = 3;
             this.tblLoPnlRecentMatches.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
-            this.tblLoPnlRecentMatches.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 72F));
+            this.tblLoPnlRecentMatches.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tblLoPnlRecentMatches.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLoPnlRecentMatches.Size = new System.Drawing.Size(794, 916);
             this.tblLoPnlRecentMatches.TabIndex = 1;
             // 
-            // tableLayoutPanel1
+            // tblLOPnlMatchListTools
             // 
-            this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.label18, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnEditMatchIndex, 0, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 51);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(788, 66);
-            this.tableLayoutPanel1.TabIndex = 1;
+            this.tblLOPnlMatchListTools.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tblLOPnlMatchListTools.ColumnCount = 2;
+            this.tblLOPnlMatchListTools.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tblLOPnlMatchListTools.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tblLOPnlMatchListTools.Controls.Add(this.label18, 0, 0);
+            this.tblLOPnlMatchListTools.Controls.Add(this.btnEditMatchIndex, 0, 1);
+            this.tblLOPnlMatchListTools.Controls.Add(this.pnlPageSelector, 1, 2);
+            this.tblLOPnlMatchListTools.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tblLOPnlMatchListTools.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tblLOPnlMatchListTools.Location = new System.Drawing.Point(3, 51);
+            this.tblLOPnlMatchListTools.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.tblLOPnlMatchListTools.Name = "tblLOPnlMatchListTools";
+            this.tblLOPnlMatchListTools.RowCount = 4;
+            this.tblLOPnlMatchListTools.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tblLOPnlMatchListTools.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tblLOPnlMatchListTools.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tblLOPnlMatchListTools.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblLOPnlMatchListTools.Size = new System.Drawing.Size(791, 94);
+            this.tblLOPnlMatchListTools.TabIndex = 1;
             // 
             // label18
             // 
@@ -679,7 +683,7 @@
             this.btnEditMatchIndex.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnEditMatchIndex.Enabled = false;
             this.btnEditMatchIndex.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEditMatchIndex.Location = new System.Drawing.Point(3, 29);
+            this.btnEditMatchIndex.Location = new System.Drawing.Point(3, 27);
             this.btnEditMatchIndex.Name = "btnEditMatchIndex";
             this.btnEditMatchIndex.Size = new System.Drawing.Size(107, 26);
             this.btnEditMatchIndex.TabIndex = 20;
@@ -687,6 +691,16 @@
             this.btnEditMatchIndex.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEditMatchIndex.UseVisualStyleBackColor = true;
             this.btnEditMatchIndex.Click += new System.EventHandler(this.btnEditMatchIndex_Click);
+            // 
+            // pnlPageSelector
+            // 
+            this.pnlPageSelector.AutoSize = true;
+            this.pnlPageSelector.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pnlPageSelector.Location = new System.Drawing.Point(785, 56);
+            this.pnlPageSelector.Margin = new System.Windows.Forms.Padding(0, 0, 6, 0);
+            this.pnlPageSelector.Name = "pnlPageSelector";
+            this.pnlPageSelector.Size = new System.Drawing.Size(0, 36);
+            this.pnlPageSelector.TabIndex = 21;
             // 
             // label10
             // 
@@ -723,8 +737,8 @@
             this.tblLoPnlMatchReportMain.PerformLayout();
             this.pnlMatchReport.ResumeLayout(false);
             this.tblLoPnlRecentMatches.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.tblLOPnlMatchListTools.ResumeLayout(false);
+            this.tblLOPnlMatchListTools.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -766,10 +780,11 @@
         private System.Windows.Forms.Panel pnlMatchReport;
         private System.Windows.Forms.TableLayoutPanel tblLoPnlRecentMatches;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tblLOPnlMatchListTools;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button btnDeleteReport;
         private System.Windows.Forms.Button btnEditMatchIndex;
         private System.Windows.Forms.Button btnHeadToHead;
+        private System.Windows.Forms.Panel pnlPageSelector;
     }
 }

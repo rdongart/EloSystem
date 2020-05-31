@@ -34,7 +34,6 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.btnBrowse = new System.Windows.Forms.Button();
-            this.btnEdit = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.btnRemoveImage = new System.Windows.Forms.Button();
             this.lbFileName = new System.Windows.Forms.Label();
@@ -47,12 +46,16 @@
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.picBxCurrentImage = new System.Windows.Forms.PictureBox();
             this.chckBxRemoveCurrentImage = new System.Windows.Forms.CheckBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.btnRemove = new System.Windows.Forms.Button();
             this.toolTipEditor = new System.Windows.Forms.ToolTip(this.components);
             this.tblLoPnlMain.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBxCurrentImage)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tblLoPnlMain
@@ -65,7 +68,6 @@
             this.tblLoPnlMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLoPnlMain.Controls.Add(this.lbHeading, 0, 0);
             this.tblLoPnlMain.Controls.Add(this.tableLayoutPanel2, 0, 5);
-            this.tblLoPnlMain.Controls.Add(this.btnEdit, 1, 6);
             this.tblLoPnlMain.Controls.Add(this.tableLayoutPanel3, 1, 5);
             this.tblLoPnlMain.Controls.Add(this.txtBxNameShort, 1, 2);
             this.tblLoPnlMain.Controls.Add(this.label1, 0, 2);
@@ -74,6 +76,7 @@
             this.tblLoPnlMain.Controls.Add(this.label4, 0, 4);
             this.tblLoPnlMain.Controls.Add(this.lbSelectHeading, 0, 1);
             this.tblLoPnlMain.Controls.Add(this.tableLayoutPanel4, 1, 4);
+            this.tblLoPnlMain.Controls.Add(this.tableLayoutPanel1, 1, 6);
             this.tblLoPnlMain.Location = new System.Drawing.Point(0, 0);
             this.tblLoPnlMain.Margin = new System.Windows.Forms.Padding(0);
             this.tblLoPnlMain.Name = "tblLoPnlMain";
@@ -95,7 +98,7 @@
             this.lbHeading.AutoSize = true;
             this.tblLoPnlMain.SetColumnSpan(this.lbHeading, 2);
             this.lbHeading.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbHeading.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbHeading.Font = new System.Drawing.Font("Calibri", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbHeading.Location = new System.Drawing.Point(3, 0);
             this.lbHeading.Name = "lbHeading";
             this.lbHeading.Size = new System.Drawing.Size(354, 30);
@@ -123,7 +126,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(84, 30);
@@ -134,7 +137,8 @@
             // btnBrowse
             // 
             this.btnBrowse.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnBrowse.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBrowse.Enabled = false;
+            this.btnBrowse.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBrowse.Location = new System.Drawing.Point(94, 4);
             this.btnBrowse.Margin = new System.Windows.Forms.Padding(4);
             this.btnBrowse.Name = "btnBrowse";
@@ -144,21 +148,6 @@
             this.toolTipEditor.SetToolTip(this.btnBrowse, "Browse to select a new image to replace the current image");
             this.btnBrowse.UseVisualStyleBackColor = true;
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
-            // 
-            // btnEdit
-            // 
-            this.btnEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEdit.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnEdit.Enabled = false;
-            this.btnEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEdit.Location = new System.Drawing.Point(234, 224);
-            this.btnEdit.Margin = new System.Windows.Forms.Padding(6, 14, 6, 4);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(120, 32);
-            this.btnEdit.TabIndex = 4;
-            this.btnEdit.Text = "&Save changes";
-            this.btnEdit.UseVisualStyleBackColor = true;
-            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // tableLayoutPanel3
             // 
@@ -180,7 +169,7 @@
             // 
             this.btnRemoveImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnRemoveImage.Enabled = false;
-            this.btnRemoveImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemoveImage.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRemoveImage.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnRemoveImage.Location = new System.Drawing.Point(164, 1);
             this.btnRemoveImage.Margin = new System.Windows.Forms.Padding(4, 1, 3, 1);
@@ -191,11 +180,12 @@
             this.btnRemoveImage.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.toolTipEditor.SetToolTip(this.btnRemoveImage, "Remove selected image");
             this.btnRemoveImage.UseVisualStyleBackColor = true;
+            this.btnRemoveImage.Click += new System.EventHandler(this.btnRemoveImage_Click);
             // 
             // lbFileName
             // 
             this.lbFileName.AutoEllipsis = true;
-            this.lbFileName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbFileName.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbFileName.Location = new System.Drawing.Point(0, 3);
             this.lbFileName.Margin = new System.Windows.Forms.Padding(0, 3, 6, 3);
             this.lbFileName.Name = "lbFileName";
@@ -207,11 +197,12 @@
             // txtBxNameShort
             // 
             this.txtBxNameShort.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtBxNameShort.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBxNameShort.Enabled = false;
+            this.txtBxNameShort.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBxNameShort.Location = new System.Drawing.Point(166, 63);
             this.txtBxNameShort.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             this.txtBxNameShort.Name = "txtBxNameShort";
-            this.txtBxNameShort.Size = new System.Drawing.Size(188, 23);
+            this.txtBxNameShort.Size = new System.Drawing.Size(188, 26);
             this.txtBxNameShort.TabIndex = 0;
             this.txtBxNameShort.TextChanged += new System.EventHandler(this.txtItem_TextChanged);
             // 
@@ -219,7 +210,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(3, 60);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(154, 30);
@@ -231,7 +222,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(3, 90);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(154, 30);
@@ -242,11 +233,12 @@
             // txtBxNameLong
             // 
             this.txtBxNameLong.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtBxNameLong.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBxNameLong.Enabled = false;
+            this.txtBxNameLong.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBxNameLong.Location = new System.Drawing.Point(166, 93);
             this.txtBxNameLong.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             this.txtBxNameLong.Name = "txtBxNameLong";
-            this.txtBxNameLong.Size = new System.Drawing.Size(188, 23);
+            this.txtBxNameLong.Size = new System.Drawing.Size(188, 26);
             this.txtBxNameLong.TabIndex = 1;
             this.txtBxNameLong.TextChanged += new System.EventHandler(this.txtItem_TextChanged);
             // 
@@ -254,7 +246,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(3, 120);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(154, 60);
@@ -266,7 +258,7 @@
             // 
             this.lbSelectHeading.AutoSize = true;
             this.lbSelectHeading.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbSelectHeading.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSelectHeading.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbSelectHeading.Location = new System.Drawing.Point(3, 30);
             this.lbSelectHeading.Name = "lbSelectHeading";
             this.lbSelectHeading.Size = new System.Drawing.Size(154, 30);
@@ -306,16 +298,61 @@
             this.chckBxRemoveCurrentImage.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.chckBxRemoveCurrentImage.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.chckBxRemoveCurrentImage.Enabled = false;
-            this.chckBxRemoveCurrentImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chckBxRemoveCurrentImage.Location = new System.Drawing.Point(169, 18);
+            this.chckBxRemoveCurrentImage.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chckBxRemoveCurrentImage.Location = new System.Drawing.Point(169, 16);
             this.chckBxRemoveCurrentImage.Name = "chckBxRemoveCurrentImage";
-            this.chckBxRemoveCurrentImage.Size = new System.Drawing.Size(22, 33);
+            this.chckBxRemoveCurrentImage.Size = new System.Drawing.Size(22, 35);
             this.chckBxRemoveCurrentImage.TabIndex = 11;
             this.chckBxRemoveCurrentImage.Text = " X";
             this.chckBxRemoveCurrentImage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTipEditor.SetToolTip(this.chckBxRemoveCurrentImage, "Remove current image");
             this.chckBxRemoveCurrentImage.UseVisualStyleBackColor = true;
             this.chckBxRemoveCurrentImage.CheckedChanged += new System.EventHandler(this.chckBxRemoveCurrentImage_CheckedChanged);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.btnEdit, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnRemove, 0, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(160, 210);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(200, 50);
+            this.tableLayoutPanel1.TabIndex = 12;
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnEdit.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnEdit.Enabled = false;
+            this.btnEdit.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEdit.Location = new System.Drawing.Point(106, 14);
+            this.btnEdit.Margin = new System.Windows.Forms.Padding(6, 14, 6, 4);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(88, 32);
+            this.btnEdit.TabIndex = 4;
+            this.btnEdit.Text = "&Keep edit";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            // 
+            // btnRemove
+            // 
+            this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRemove.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnRemove.Enabled = false;
+            this.btnRemove.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemove.Location = new System.Drawing.Point(6, 14);
+            this.btnRemove.Margin = new System.Windows.Forms.Padding(6, 14, 6, 4);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(88, 32);
+            this.btnRemove.TabIndex = 4;
+            this.btnRemove.Text = "Remove";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
             // DblNameContentEditor
             // 
@@ -333,6 +370,7 @@
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBxCurrentImage)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -358,5 +396,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.CheckBox chckBxRemoveCurrentImage;
         private System.Windows.Forms.ToolTip toolTipEditor;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button btnRemove;
     }
 }

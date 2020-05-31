@@ -32,6 +32,10 @@ namespace SCEloSystemGUI
         private ObjectListView olvPlayerStats;
         private ObjectListView olvPlayerSearch;
         private PlayerSearch searcher;
+        private Dictionary<Team, Bitmap> teamBanners = new Dictionary<Team, Bitmap>();
+        private Dictionary<string, Bitmap> raceIcons = new Dictionary<string, Bitmap>();
+        private Dictionary<Country, Bitmap> flags = new Dictionary<Country, Bitmap>();
+        private Dictionary<SCPlayer, string> raceUsageIdentifierStrings = new Dictionary<SCPlayer, string>();
 
         internal PlayerStats()
         {
@@ -78,7 +82,9 @@ namespace SCEloSystemGUI
             GlobalState.DataBase.MatchPoolChanged += this.OnMatchPoolChanged;
 
             this.tabCtrlCustomizations.Visible = false;
-            this.tblLoPnlPlayerStats.RowStyles[PlayerStats.FILTERROW_INDEX].Height = 0;            
+            this.tblLoPnlPlayerStats.RowStyles[PlayerStats.FILTERROW_INDEX].Height = 0;
+
+
         }
 
         private void OlvPlayerSearch_SelectionChanged(object sender, EventArgs e)
@@ -102,7 +108,7 @@ namespace SCEloSystemGUI
 
             if (tuple != null && tuple.Item1 != null)
             {
-                PlayerProfile.ShowProfile(tuple.Item1 as SCPlayer);
+                PlayerProfile.ShowProfile(tuple.Item1 as SCPlayer, this);
 
                 this.olvPlayerStats.SelectedItems.Clear();
             }
@@ -116,8 +122,8 @@ namespace SCEloSystemGUI
             Cursor.Current = Cursors.WaitCursor;
 
             this.olvPlayerSearch.SetObjects(GlobalState.DataBase.GetPlayers().Where(player => this.filters.All(filter => filter.PlayerFilter(player))).OrderByDescending(player =>
-                player.RatingTotal()).ThenByDescending(player => player.Stats.GamesTotal()).ThenByDescending(player => player.Stats.WinRatioTotal()).Select((player, rank) =>
-                    new Tuple<SCPlayer, int>(player, rank + 1)).Where(tuple => GlobalState.DataBase.PlayerLookup(e.SearchString).Contains(tuple.Item1)).ToArray());
+                player.RatingTotal()).ThenByDescending(p => GlobalState.DataBase.GamesByPlayer(p).OrderNewestFirst().First().Match.DateTime.Date).ThenByDescending(player => player.Stats.GamesTotal()).ThenByDescending(player => player.Stats.WinRatioTotal()).Select((player, rank) => new Tuple<SCPlayer, int>(player, rank + 1)).Where(tuple =>
+                    GlobalState.DataBase.PlayerLookup(e.SearchString).Contains(tuple.Item1)).ToArray());
 
             Cursor.Current = previousCursor;
         }
@@ -176,10 +182,8 @@ namespace SCEloSystemGUI
             };
 
             playerStatsLV.FormatCell += PlayerStats.PlayerStats_FormatCell;
-            playerStatsLV.MouseMove += EloGUIControlsStaticMembers.PlayerStatsLV_MouseMove;
 
-            playerStatsLV.HotItemStyle = new HotItemStyle();
-            playerStatsLV.HotItemStyle.Decoration = EloSystemGUIStaticMembers.OlvListViewRowBorderDecoration();
+            Styles.ObjectListViewStyles.SetHotItemStyle(playerStatsLV);
 
             var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null };
             var olvClmRank = new OLVColumn() { Width = 50, Text = "Rank" };
@@ -196,7 +200,7 @@ namespace SCEloSystemGUI
             var olvClmRatingVsRandom = new OLVColumn() { Width = 70, Text = "Vs Random" };
 
             playerStatsLV.AllColumns.AddRange(new OLVColumn[] { olvClmEmpty, olvClmRank, olvClmName, olvClmCountry, olvClmTeam,olvClmMainRace, olvClmRankMain, olvClmRatingMain, olvClmRatingDevelopment
-                , olvClmRatingVsZerg                , olvClmRatingVsTerran, olvClmRatingVsProtoss, olvClmRatingVsRandom });
+                , olvClmRatingVsZerg, olvClmRatingVsTerran, olvClmRatingVsProtoss, olvClmRatingVsRandom });
 
             playerStatsLV.Columns.AddRange(new ColumnHeader[] { olvClmEmpty, olvClmRank, olvClmName, olvClmCountry, olvClmTeam, olvClmMainRace, olvClmRankMain, olvClmRatingMain, olvClmRatingDevelopment, olvClmRatingVsZerg, olvClmRatingVsTerran, olvClmRatingVsProtoss, olvClmRatingVsRandom });
 
@@ -226,9 +230,16 @@ namespace SCEloSystemGUI
             {
                 var player = (obj as Tuple<SCPlayer, int>).Item1;
 
-                EloImage flag;
+                EloImage eloFlag;
+                Bitmap flag;
 
-                if (player.Country != null && GlobalState.DataBase.TryGetImage(player.Country.ImageID, out flag)) { return new Image[] { flag.Image.ResizeSameAspectRatio(STANDARD_IMAGE_SIZE_MAX) }; }
+                if (player.Country != null && this.flags.TryGetValue(player.Country, out flag)) { return new Image[] { flag }; }
+                else if (player.Country != null && GlobalState.DataBase.TryGetImage(player.Country.ImageID, out eloFlag))
+                {
+                    this.flags.Add(player.Country, eloFlag.Image.ResizeSameAspectRatio(STANDARD_IMAGE_SIZE_MAX));
+
+                    return new Image[] { this.flags[player.Country] };
+                }
                 else if (player.Country != null) { return player.Country.Name; }
                 else { return null; }
 
@@ -240,10 +251,18 @@ namespace SCEloSystemGUI
             {
                 var player = (obj as Tuple<SCPlayer, int>).Item1;
 
-                EloImage teamLogo;
+                EloImage eloTeamBanner;
+                Bitmap teamBanner;
 
-                if (player.Team != null && GlobalState.DataBase.TryGetImage(player.Team.ImageID, out teamLogo)) { return new Image[] { teamLogo.Image.ResizeSameAspectRatio(TEAM_LOGO_SIZE_MAX) }; }
-                else { return player.TeamName; }
+                if (player.Team != null && this.teamBanners.TryGetValue(player.Team, out teamBanner)) { return new Image[] { teamBanner }; }
+                else if (player.Team != null && GlobalState.DataBase.TryGetImage(player.Team.ImageID, out eloTeamBanner))
+                {
+                    this.teamBanners.Add(player.Team, eloTeamBanner.Image.ResizeSameAspectRatio(TEAM_LOGO_SIZE_MAX));
+
+                    return new Image[] { this.teamBanners[player.Team] };
+                }
+                else if (player.Team != null) { return player.Team.Name; }
+                else { return null; }
 
             };
 
@@ -258,7 +277,27 @@ namespace SCEloSystemGUI
             {
                 var player = (obj as Tuple<SCPlayer, int>).Item1;
 
-                if (player.Stats.GamesTotal() > 0) { return new Image[] { RaceIconProvider.GetRaceUsageIcon(player).ResizeSARWithinBounds(RACE_IMAGE_WIDTH_MAX, RACE_IMAGE_HEIGHT_MAX) }; }
+                Bitmap raceIcon;
+                string raceUsageIdentifierString;
+
+                if (player.Stats.GamesTotal() > 0)
+                {
+                    if (!this.raceUsageIdentifierStrings.TryGetValue(player, out raceUsageIdentifierString))
+                    {
+                        raceUsageIdentifierString = PlayerStats.MainRaceUsageToStringIdentifier(player);
+
+                        this.raceUsageIdentifierStrings.Add(player, raceUsageIdentifierString);
+                    }
+
+                    if (!this.raceIcons.TryGetValue(raceUsageIdentifierString, out raceIcon))
+                    {
+                        raceIcon = RaceIconProvider.GetRaceUsageIcon(player).ResizeSARWithinBounds(RACE_IMAGE_WIDTH_MAX, RACE_IMAGE_HEIGHT_MAX);
+
+                        this.raceIcons.Add(raceUsageIdentifierString, raceIcon);
+                    }
+
+                    return new Image[] { this.raceIcons[this.raceUsageIdentifierStrings[player]] };
+                }
                 else { return null; }
 
             };
@@ -293,16 +332,16 @@ namespace SCEloSystemGUI
                   switch (Settings.Default.PlayerDevelopmentScope)
                   {
                       case PlayerDevScope.Month_1:
-                          return EloGUIControlsStaticMembers.ConvertRatingChangeString((player.RatingTotal()
+                          return Styles.StringStyles.ConvertRatingChangeString((player.RatingTotal()
                               - GlobalState.DataBase.PlayerStatsAtPointInTime(player, DateTime.Today.AddMonths(-1)).RatingTotal()).ToString());
                       case PlayerDevScope.Months_3:
-                          return EloGUIControlsStaticMembers.ConvertRatingChangeString((player.RatingTotal()
+                          return Styles.StringStyles.ConvertRatingChangeString((player.RatingTotal()
                               - GlobalState.DataBase.PlayerStatsAtPointInTime(player, DateTime.Today.AddMonths(-3)).RatingTotal()).ToString());
                       case PlayerDevScope.Months_4:
-                          return EloGUIControlsStaticMembers.ConvertRatingChangeString((player.RatingTotal()
+                          return Styles.StringStyles.ConvertRatingChangeString((player.RatingTotal()
                               - GlobalState.DataBase.PlayerStatsAtPointInTime(player, DateTime.Today.AddMonths(-4)).RatingTotal()).ToString());
                       case PlayerDevScope.Months_6:
-                          return EloGUIControlsStaticMembers.ConvertRatingChangeString((player.RatingTotal()
+                          return Styles.StringStyles.ConvertRatingChangeString((player.RatingTotal()
                               - GlobalState.DataBase.PlayerStatsAtPointInTime(player, DateTime.Today.AddMonths(-6)).RatingTotal()).ToString());
                       default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PlayerDevScope).Name, Settings.Default.PlayerDevelopmentScope));
                   }
@@ -337,6 +376,13 @@ namespace SCEloSystemGUI
             };
 
             return playerStatsLV;
+        }
+
+        private static string MainRaceUsageToStringIdentifier(SCPlayer player)
+        {
+            return player.Stats.GamesTotal() > 0 ?
+                String.Join("", player.RaceUsageFrequency().Where(kvp => kvp.Value > 0).OrderByDescending(kvp => kvp.Value).Select(kvp => kvp.Key.ToString().Substring(0, 1)))
+                : "";
         }
 
         private static void PlayerStats_FormatCell(object sender, FormatCellEventArgs e)
@@ -398,16 +444,29 @@ namespace SCEloSystemGUI
             }
         }
 
-        private void PlayerStats_KeyPress(object sender, KeyPressEventArgs e)
+        private void PlayerStats_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Escape)
+            if (e.KeyCode == Keys.Escape)
             {
                 if (this.tabCtrlCustomizations.Visible && this.StopFilterShowProcces()) { this.ToggleFilterVisibility(); }
                 else if (!this.tabCtrlCustomizations.Visible) { this.Close(); }
 
             }
-
         }
 
+        private void PlayerStats_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            foreach (KeyValuePair<Team, Bitmap> kvPair in this.teamBanners) { kvPair.Value.Dispose(); }
+
+            foreach (KeyValuePair<string, Bitmap> kvPair in this.raceIcons) { kvPair.Value.Dispose(); }
+
+            foreach (KeyValuePair<Country, Bitmap> kvPair in this.flags) { kvPair.Value.Dispose(); }
+
+            this.teamBanners.Clear();
+
+            this.raceIcons.Clear();
+
+            this.flags.Clear();
+        }
     }
 }

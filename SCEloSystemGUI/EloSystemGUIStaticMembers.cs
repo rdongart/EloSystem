@@ -33,6 +33,7 @@ namespace SCEloSystemGUI
         private static Color ColorSchemeFrontColor2 = Color.FromArgb(225, 170, 0);
         private static Color ColorSchemeBackColor1 = Color.FromArgb(235, 250, 245);
         private static Color ColorSchemeBackColor2 = Color.FromArgb(149, 179, 215);
+        internal static Color DrawColor = Color.FromArgb(0, 0, 224);
         internal static Color WinColor = Color.ForestGreen;
         internal static Color LoseColor = Color.FromArgb(217, 0, 0);
 
@@ -59,8 +60,10 @@ namespace SCEloSystemGUI
         {
             var matchLV = new ObjectListView()
             {
-                AlternateRowBackColor = Color.FromArgb(217, 217, 217),
+                AlternateRowBackColor = EloSystemGUIStaticMembers.OlvRowAlternativeBackColor,
+                BackColor = EloSystemGUIStaticMembers.OlvRowBackColor,
                 Font = new Font("Calibri", 10F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
+                FullRowSelect = false,
                 HeaderStyle = ColumnHeaderStyle.Nonclickable,
                 HasCollapsibleGroups = false,
                 Margin = new Padding(3),
@@ -115,7 +118,7 @@ namespace SCEloSystemGUI
             {
                 var match = obj as MatchEditorItem;
 
-                if (match != null) { return EloGUIControlsStaticMembers.ConvertRatingChangeString(match.RatingChangeBy(PlayerSlotType.Player1)); }
+                if (match != null) { return Styles.StringStyles.ConvertRatingChangeString(match.RatingChangeBy(PlayerSlotType.Player1)); }
                 else { return ""; }
             };
 
@@ -131,7 +134,7 @@ namespace SCEloSystemGUI
             {
                 var match = obj as MatchEditorItem;
 
-                if (match != null) { return EloGUIControlsStaticMembers.ConvertRatingChangeString(match.RatingChangeBy(PlayerSlotType.Player2)); }
+                if (match != null) { return Styles.StringStyles.ConvertRatingChangeString(match.RatingChangeBy(PlayerSlotType.Player2)); }
                 else { return ""; }
             };
 
@@ -177,6 +180,7 @@ namespace SCEloSystemGUI
             {
                 if (cellValue < 0) { subItem.ForeColor = EloSystemGUIStaticMembers.LoseColor; }
                 else if (cellValue > 0) { subItem.ForeColor = EloSystemGUIStaticMembers.WinColor; }
+                else if (cellValue == 0) { subItem.ForeColor = EloSystemGUIStaticMembers.DrawColor; }
                 else { subItem.ForeColor = SystemColors.ControlText; }
             }
         }
@@ -423,7 +427,7 @@ namespace SCEloSystemGUI
             };
 
             performanceLV.SetObjects(Enum.GetValues(typeof(PerformanceTypes)));
-            
+
             return performanceLV;
         }
 

@@ -38,6 +38,7 @@
             this.showToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPlayerStats = new System.Windows.Forms.ToolStripMenuItem();
             this.mapStatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tournamentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.indexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -124,7 +125,8 @@
             // 
             this.showToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemPlayerStats,
-            this.mapStatsToolStripMenuItem});
+            this.mapStatsToolStripMenuItem,
+            this.tournamentsToolStripMenuItem});
             this.showToolStripMenuItem.Name = "showToolStripMenuItem";
             this.showToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.showToolStripMenuItem.Text = "&Stats";
@@ -133,7 +135,7 @@
             // 
             this.toolStripMenuItemPlayerStats.Name = "toolStripMenuItemPlayerStats";
             this.toolStripMenuItemPlayerStats.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.toolStripMenuItemPlayerStats.Size = new System.Drawing.Size(175, 22);
+            this.toolStripMenuItemPlayerStats.Size = new System.Drawing.Size(186, 22);
             this.toolStripMenuItemPlayerStats.Text = "&Player Stats";
             this.toolStripMenuItemPlayerStats.Click += new System.EventHandler(this.toolStripMenuItemPlayerStats_Click);
             // 
@@ -141,9 +143,17 @@
             // 
             this.mapStatsToolStripMenuItem.Name = "mapStatsToolStripMenuItem";
             this.mapStatsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.mapStatsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.mapStatsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.mapStatsToolStripMenuItem.Text = "&Map Stats";
             this.mapStatsToolStripMenuItem.Click += new System.EventHandler(this.mapStatsToolStripMenuItem_Click);
+            // 
+            // tournamentsToolStripMenuItem
+            // 
+            this.tournamentsToolStripMenuItem.Name = "tournamentsToolStripMenuItem";
+            this.tournamentsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.tournamentsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.tournamentsToolStripMenuItem.Text = "Tournaments";
+            this.tournamentsToolStripMenuItem.Click += new System.EventHandler(this.tournamentsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -235,7 +245,7 @@
             // tblLOPnlMaps
             // 
             this.tblLOPnlMaps.ColumnCount = 3;
-            this.tblLOPnlMaps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 420F));
+            this.tblLOPnlMaps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 429F));
             this.tblLOPnlMaps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 380F));
             this.tblLOPnlMaps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLOPnlMaps.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -244,7 +254,7 @@
             this.tblLOPnlMaps.Name = "tblLOPnlMaps";
             this.tblLOPnlMaps.Padding = new System.Windows.Forms.Padding(16);
             this.tblLOPnlMaps.RowCount = 2;
-            this.tblLOPnlMaps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 506F));
+            this.tblLOPnlMaps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 160F));
             this.tblLOPnlMaps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLOPnlMaps.Size = new System.Drawing.Size(1852, 918);
             this.tblLOPnlMaps.TabIndex = 0;
@@ -366,10 +376,12 @@
             this.Controls.Add(this.tabControlMain);
             this.Controls.Add(this.menuStripMainForm);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStripMainForm;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "MainForm";
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyUp);
             this.menuStripMainForm.ResumeLayout(false);
             this.menuStripMainForm.PerformLayout();
             this.tabControlMain.ResumeLayout(false);
@@ -412,5 +424,6 @@
         private System.Windows.Forms.ToolStripMenuItem searchToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tournamentsToolStripMenuItem;
     }
 }

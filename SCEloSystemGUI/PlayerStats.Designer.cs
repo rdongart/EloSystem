@@ -164,9 +164,11 @@
             this.KeyPreview = true;
             this.Name = "PlayerStats";
             this.Padding = new System.Windows.Forms.Padding(6, 8, 6, 10);
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Player Stats";
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PlayerStats_KeyPress);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.PlayerStats_FormClosed);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.PlayerStats_KeyUp);
             this.tblLoPnlPlayerStats.ResumeLayout(false);
             this.tabCtrlCustomizations.ResumeLayout(false);
             this.tabPageFilters.ResumeLayout(false);

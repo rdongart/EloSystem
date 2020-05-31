@@ -77,6 +77,11 @@ namespace EloSystem
             }
         }
 
+        internal IEnumerable<GameEntry> GetGameEntries()
+        {
+            foreach (GameEntry entry in this.seasons.SelectMany(season => season.GetMatches().SelectMany(match => match.GetEntries()))) { yield return entry; }
+        }
+
         internal IEnumerable<Match> GetMatches()
         {
             foreach (Match match in this.seasons.SelectMany(season => season.GetMatches())) { yield return match; }

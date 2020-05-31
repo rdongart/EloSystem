@@ -3,14 +3,8 @@ using System;
 
 namespace SCEloSystemGUI
 {
-    interface IPlayerFilter
+    interface IPlayerFilter : IFilter
     {
-        event EventHandler FilterChanged;
-
-        bool HasChangesNotApplied();
-
         bool PlayerFilter(SCPlayer player);
-
-        void ApplyChanges();
     }
 }

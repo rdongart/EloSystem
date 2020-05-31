@@ -103,6 +103,7 @@
             this.tblLoPnlPlayerAffiliations.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tblLoPnlPlayerAffiliations.Size = new System.Drawing.Size(550, 87);
             this.tblLoPnlPlayerAffiliations.TabIndex = 2;
+            this.tblLoPnlPlayerAffiliations.Visible = false;
             // 
             // label16
             // 

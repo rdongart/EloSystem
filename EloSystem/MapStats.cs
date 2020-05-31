@@ -5,6 +5,11 @@ using System.Runtime.Serialization;
 
 namespace EloSystem
 {
+    public enum Matchup
+    {
+        ZvP, PvT, TvZ, RvZ, RvP, RvT, ZvZ, PvP, TvT, RvR
+    }
+
     [Serializable]
     public class MapStats : ISerializable
     {
@@ -69,7 +74,11 @@ namespace EloSystem
         {
             RaceMatchupResults matchup = this.raceMatchupData.FirstOrDefault(m => m.IsMatchupFor(racePlayer1, racePlayer2));
 
-            if (matchup != null) { matchup.AddMatchupData(raceWinner, player1Rating, player2Rating); }
+            if (matchup != null)
+            {
+                if (racePlayer1 == matchup.Race1) { matchup.AddMatchupData(raceWinner, player1Rating, player2Rating); }
+                else { matchup.AddMatchupData(raceWinner, player2Rating, player1Rating); }
+            }
 
         }
 
@@ -77,14 +86,37 @@ namespace EloSystem
         {
             RaceMatchupResults matchup = this.raceMatchupData.FirstOrDefault(m => m.IsMatchupFor(racePlayer1, racePlayer2));
 
-            if (matchup != null) { matchup.RollBackGameResult(raceWinner, race1Rating, race2Rating); }
+            if (matchup != null)
+            {
+                if (racePlayer1 == matchup.Race1) { matchup.RollBackGameResult(raceWinner, race1Rating, race2Rating); }
+                else { matchup.RollBackGameResult(raceWinner, race2Rating, race1Rating); }
+            }
+
         }
 
-        public bool TryGetMatchup(Race race1, Race race2, out RaceMatchupResults matchup)
+        public bool TryGetMatchup(Race race1, Race race2, out RaceMatchupResults data)
         {
-            matchup = this.raceMatchupData.FirstOrDefault(m => m.IsMatchupFor(race1, race2));
+            data = this.raceMatchupData.FirstOrDefault(m => m.IsMatchupFor(race1, race2));
 
-            return matchup != null;
+            return data != null;
+        }
+
+        public bool TryGetMatchup(Matchup matchup, out RaceMatchupResults data)
+        {
+            switch (matchup)
+            {
+                case Matchup.ZvP: return this.TryGetMatchup(Race.Zerg, Race.Protoss, out data);
+                case Matchup.PvT: return this.TryGetMatchup(Race.Protoss, Race.Terran, out data);
+                case Matchup.TvZ: return this.TryGetMatchup(Race.Terran, Race.Zerg, out data);
+                case Matchup.RvZ: return this.TryGetMatchup(Race.Random, Race.Zerg, out data);
+                case Matchup.RvP: return this.TryGetMatchup(Race.Random, Race.Protoss, out data);
+                case Matchup.RvT: return this.TryGetMatchup(Race.Random, Race.Terran, out data);
+                case Matchup.ZvZ: return this.TryGetMatchup(Race.Zerg, Race.Zerg, out data);
+                case Matchup.PvP: return this.TryGetMatchup(Race.Protoss, Race.Protoss, out data);
+                case Matchup.TvT: return this.TryGetMatchup(Race.Terran, Race.Terran, out data);
+                case Matchup.RvR: return this.TryGetMatchup(Race.Random, Race.Random, out data);
+                default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(Matchup).Name, matchup.ToString()));
+            }
         }
 
         public int TotalGames()

@@ -1,4 +1,5 @@
-﻿using CustomExtensionMethods;
+﻿using System;
+using CustomExtensionMethods;
 
 namespace EloSystem
 {
@@ -20,11 +21,42 @@ namespace EloSystem
                 return this.Match.GetEntries().IndexOf(this.entryInMatch);
             }
         }
-        public int RatingChange { get; private set; }
-        public Map Map { get; set; }
+        public int RatingChange
+        {
+            get
+            {
+                return this.entryInMatch.RatingChange;
+            }
+        }
+        public Map Map
+        {
+            get
+            {
+                return this.entryInMatch.Map;
+            }
+        }
         public Match Match { get; private set; }
-        public Race Player1Race { get; private set; }
-        public Race Player2Race { get; private set; }
+        public Matchup MatchType
+        {
+            get
+            {
+                return this.entryInMatch.MatchType;
+            }
+        }
+        public Race Player1Race
+        {
+            get
+            {
+                return this.entryInMatch.Player1Race;
+            }
+        }
+        public Race Player2Race
+        {
+            get
+            {
+                return this.entryInMatch.Player2Race;
+            }
+        }
         public Race WinnersRace
         {
             get
@@ -53,12 +85,28 @@ namespace EloSystem
                 return this.Match.Player2;
             }
         }
-        public SCPlayer Winner { get; internal set; }
+        public SCPlayer Winner
+        {
+            get
+            {
+                switch (this.entryInMatch.WinnerWas)
+                {
+                    case PlayerSlotType.Player1: return this.Match.Player1;
+                    case PlayerSlotType.Player2: return this.Match.Player2;
+                    default: throw new Exception(string.Format("Unknown {0} {1}.", typeof(PlayerSlotType).Name, this.entryInMatch.WinnerWas.ToString()));
+                }
+            }
+        }
         public SCPlayer Loser
         {
             get
             {
-                return this.Winner == this.Player1 ? this.Player2 : this.Player1;
+                switch (this.entryInMatch.WinnerWas)
+                {
+                    case PlayerSlotType.Player1: return this.Match.Player2;
+                    case PlayerSlotType.Player2: return this.Match.Player1;
+                    default: throw new Exception(string.Format("Unknown {0} {1}.", typeof(PlayerSlotType).Name, this.entryInMatch.WinnerWas.ToString()));
+                }
             }
         }
         public Season Season { get; internal set; }
@@ -70,26 +118,21 @@ namespace EloSystem
         }
 
         internal Game(SCPlayer player1, SCPlayer player2, GameEntry gameData, Match match, Tournament tournament = null, Season season = null)
-            : this(tournament, season, gameData.Map, match, player1, gameData.Player1Race, player2, gameData.Player2Race, gameData.WinnerWas == PlayerSlotType.Player1 ? player1 : player2, gameData.RatingChange)
+            : this(tournament, season, gameData.Map, match)
         {
             this.entryInMatch = gameData;
         }
 
-        private Game(Tournament tournament, Season season, Map map, Match match, SCPlayer player1, Race player1Race, SCPlayer player2, Race player2Race, SCPlayer winner, int ratingChange)
+        private Game(Tournament tournament, Season season, Map map, Match match)
         {
             this.Tournament = tournament;
             this.Season = season;
-            this.Map = map;
             this.Match = match;
-            this.Player1Race = player1Race;
-            this.Player2Race = player2Race;
-            this.Winner = winner;
-            this.RatingChange = ratingChange;
         }
 
         public bool HasPlayer(SCPlayer player)
         {
-            return this.Player1 == player || this.Player2 == player;
+            return this.Match.HasPlayer(player);
         }
     }
 }

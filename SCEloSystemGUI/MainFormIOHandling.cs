@@ -60,6 +60,8 @@ namespace SCEloSystemGUI
             Cursor.Current = Cursors.Default;
 
             MessageBox.Show("Elo System saved!", "", MessageBoxButtons.OK);
+
+            GC.Collect(int.MaxValue, GCCollectionMode.Forced, true, true);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)

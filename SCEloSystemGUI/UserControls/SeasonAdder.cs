@@ -1,15 +1,10 @@
-﻿using EloSystem.ResourceManagement;
+﻿using CustomControls;
 using EloSystem;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using CustomControls;
 
 namespace SCEloSystemGUI.UserControls
 {
@@ -18,7 +13,7 @@ namespace SCEloSystemGUI.UserControls
         internal const string DEFAULT_TXTBXSEASONNAME_TEXT = "Type season name here...";
 
         private ImprovedImageComboBox<Tournament> imgCmbBxTournaments;
-        public event EventHandler OnAddButtonClick = delegate { };
+        public event EventHandler AddButtonClick = delegate { };
         public string ContentName
         {
             get
@@ -60,7 +55,7 @@ namespace SCEloSystemGUI.UserControls
 
         }
 
-        internal void AddTournamentItems(IEnumerable<Tournament> tournaments, ImageGetter<Tournament> resourceGetter)
+        public void UpdateControlContent(IEnumerable<Tournament> tournaments, ImageGetter<Tournament> resourceGetter)
         {
             this.imgCmbBxTournaments.ImageGetter = resourceGetter;
             this.imgCmbBxTournaments.AddItems(tournaments.ToArray(), true);
@@ -74,7 +69,7 @@ namespace SCEloSystemGUI.UserControls
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            this.OnAddButtonClick.Invoke(this, new EventArgs());
+            this.AddButtonClick.Invoke(this, new EventArgs());
 
             this.txtBxName.Text = EloGUIControlsStaticMembers.DEFAULT_TXTBX_TEXT;
             this.btnAdd.Enabled = false;

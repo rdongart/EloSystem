@@ -10,7 +10,9 @@ namespace SCEloSystemGUI.UserControls
 {
     public partial class DblNameContentEditor<T> : UserControl where T : EloSystemContent, IHasDblName
     {
+        private ContentGetterDelegate<T> contentGetter;
         private ImageGetter<T> resourceGetter;
+        private ImprovedImageComboBox<T> cmbBxContent;
         public bool RemoveCurrentImage
         {
             get
@@ -18,9 +20,24 @@ namespace SCEloSystemGUI.UserControls
                 return this.chckBxRemoveCurrentImage.Checked;
             }
         }
+        public ContentGetterDelegate<T> ContentGetter
+        {
+            private get
+            {
+                return this.contentGetter;
+            }
+            set
+            {
+                this.contentGetter = value;
+
+                this.UpdateItems();
+            }
+        }
+        public ContentRemoveCondition<T> RemoveCondition { private get; set; }
         public EventHandler EditButtonClicked = delegate { };
+        public EventHandler RemoveButtonClicked = delegate { };
         public Image NewImage { get; private set; }
-        public ImageGetter<T> ResourceGetter
+        public ImageGetter<T> ImageGetter
         {
             private get
             {
@@ -31,6 +48,8 @@ namespace SCEloSystemGUI.UserControls
                 this.resourceGetter = value;
 
                 this.cmbBxContent.ImageGetter = this.resourceGetter;
+
+                this.UpdateItems();
             }
         }
         public string ContentName
@@ -62,7 +81,6 @@ namespace SCEloSystemGUI.UserControls
                 return this.cmbBxContent.SelectedValue as T;
             }
         }
-        private ImprovedImageComboBox<T> cmbBxContent;
 
         public DblNameContentEditor()
         {
@@ -80,7 +98,8 @@ namespace SCEloSystemGUI.UserControls
             {
                 this.txtBxNameShort.Text = this.SelectedItem.Name;
                 this.txtBxNameLong.Text = this.SelectedItem.NameLong;
-                this.picBxCurrentImage.Image = this.ResourceGetter(this.SelectedItem);
+
+                this.picBxCurrentImage.Image = this.ImageGetter(this.SelectedItem);
 
                 this.SetImageVisibility();
                 this.SetControlsEnabledStatus();
@@ -104,21 +123,31 @@ namespace SCEloSystemGUI.UserControls
         {
             this.btnRemoveImage.Enabled = this.lbFileName.Text != string.Empty;
 
+            this.txtBxNameShort.Enabled = this.SelectedItem != null;
+            this.txtBxNameLong.Enabled = this.SelectedItem != null;
+            this.btnBrowse.Enabled = this.SelectedItem != null;
+
             this.chckBxRemoveCurrentImage.Enabled = this.picBxCurrentImage.Image != null;
 
             this.btnEdit.Enabled = this.SelectedItem != null && (this.txtBxNameShort.Text != this.SelectedItem.Name || this.txtBxNameLong.Text != this.SelectedItem.NameLong || this.lbFileName.Text != string.Empty || this.chckBxRemoveCurrentImage.Checked);
+
+            this.btnRemove.Enabled = this.SelectedItem != null && (this.RemoveCondition == null || this.RemoveCondition(this.SelectedItem));
         }
 
-        internal void AddContentItems(IEnumerable<T> contentItems, ImageGetter<T> resourceGetter)
+        public void UpdateItems()
         {
-            this.cmbBxContent.AddItems(contentItems.ToArray(), resourceGetter, false);
+            if (this.ContentGetter != null) { this.cmbBxContent.AddItems(this.ContentGetter().ToArray(), this.ImageGetter, false); }
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            this.EditButtonClicked.Invoke(this, e);
+            this.EditButtonClicked.Invoke(this, new EventArgs());
 
             this.lbFileName.Text = string.Empty;
+
+            this.chckBxRemoveCurrentImage.Checked = false;
+
+            this.UpdateItems();
 
             this.SetControlsEnabledStatus();
         }
@@ -148,6 +177,26 @@ namespace SCEloSystemGUI.UserControls
 
         private void txtItem_TextChanged(object sender, EventArgs e)
         {
+            this.SetControlsEnabledStatus();
+        }
+
+        private void btnRemoveImage_Click(object sender, EventArgs e)
+        {
+            this.lbFileName.Text = string.Empty;
+
+            this.btnRemoveImage.Enabled = false;
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            this.RemoveButtonClicked.Invoke(this, new EventArgs());
+
+            this.lbFileName.Text = string.Empty;
+
+            this.chckBxRemoveCurrentImage.Checked = false;
+
+            this.UpdateItems();
+
             this.SetControlsEnabledStatus();
         }
     }

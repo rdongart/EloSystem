@@ -1,13 +1,10 @@
 ﻿using CustomControls;
-using BrightIdeasSoftware;
 using EloSystem;
 using SCEloSystemGUI.UserControls;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using SCEloSystemGUI.Properties;
 
 namespace SCEloSystemGUI
 {
@@ -49,6 +46,21 @@ namespace SCEloSystemGUI
             if (editorSender != null) { this.EditContent<Tournament>(editorSender); }
         }
 
+        private void OnEditCountry(object sender, EventArgs e)
+        {
+            var editorSender = sender as SingleNameContentEditor<Country>;
+
+            if (editorSender != null) { this.EditContent<Country>(editorSender); }
+        }
+
+        private void EditContent<T>(SingleNameContentEditor<T> editor) where T : EloSystemContent
+        {
+            editor.SelectedItem.Name = editor.ItemName;
+
+            if (editor.NewImage != null) { GlobalState.DataBase.EditImage(editor.SelectedItem, editor.NewImage); }
+            else if (editor.RemoveCurrentImage) { GlobalState.DataBase.EditImage(editor.SelectedItem, null); }
+        }
+
         private void OnEditTeam(object sender, EventArgs e)
         {
             var editorSender = sender as DblNameContentEditor<Team>;
@@ -61,8 +73,8 @@ namespace SCEloSystemGUI
             editor.SelectedItem.Name = editor.NameShort;
             editor.SelectedItem.NameLong = editor.NameLong;
 
-            if (editor.NewImage != null) { GlobalState.DataBase.EidtImage(editor.SelectedItem, editor.NewImage); }
-            else if (editor.RemoveCurrentImage) { GlobalState.DataBase.EidtImage(editor.SelectedItem, null); }
+            if (editor.NewImage != null) { GlobalState.DataBase.EditImage(editor.SelectedItem, editor.NewImage); }
+            else if (editor.RemoveCurrentImage) { GlobalState.DataBase.EditImage(editor.SelectedItem, null); }
         }
 
         private void AddContent(object sender, ContentAddingEventArgs e)
@@ -122,6 +134,19 @@ namespace SCEloSystemGUI
             if (seasonAdder == null || adderSender.SelectedTournament == null) { return; }
 
             GlobalState.DataBase.AddSeason(adderSender.ContentName, adderSender.SelectedTournament);
+
+            this.matchReport.ContextSelector.TournamentSelector.AddItems(GlobalState.DataBase.GetTournaments().ToArray(), false);
+            this.seasonEditor.UpdateControlContents();
+        }
+
+        private void OnSeasonEdited(object sender, EventArgs e)
+        {
+            this.matchReport.ContextSelector.UpdateSeasonItems();
+        }
+
+        private void OnRemoveSeason(object sender, EventArgs e)
+        {
+            this.matchReport.ContextSelector.UpdateSeasonItems();
         }
 
         private void AddTilSet(object sender, EventArgs e)
@@ -144,6 +169,37 @@ namespace SCEloSystemGUI
             }
         }
 
+        private void HasNameEditOperation<T>(HasNameContentEditor<T> editor) where T : HasNameContent
+        {
+            if (editor.SelectedItem != null)
+            {
+                editor.SelectedItem.Name = editor.NewItemName;
+
+                this.contentWasEdited = true;
+            }
+        }
+
+        private void EditTilSet(object sender, EventArgs e)
+        {
+            this.HasNameEditOperation(sender as HasNameContentEditor<Tileset>);
+
+            this.AddTileSetsToCmbBox();
+        }
+
+        private void RemoveTilSet(object sender, EventArgs e)
+        {
+            var editor = sender as HasNameContentEditor<Tileset>;
+
+            if (editor.SelectedItem != null
+                && MessageBox.Show(String.Format("Are you sure you would like to remove the tileset \"{0}\" from the database?", editor.SelectedItem.Name), "Remove tileset"
+                , MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                GlobalState.DataBase.RemoveTileSet(editor.SelectedItem);
+
+                this.AddTileSetsToCmbBox();
+            }
+        }
+
         private void TeamAdder_OnAddButtonClick(object sender, ContentAddingEventArgs e)
         {
             this.AddTeamsToImgCmbBox();
@@ -151,6 +207,13 @@ namespace SCEloSystemGUI
 
         private void CountryAdder_OnAddButtonClick(object sender, ContentAddingEventArgs e)
         {
+            this.AddCountriesToImgCmbBox();
+        }
+
+        private void CountryEdited_OnEditedButtonClick(object sender, EventArgs e)
+        {
+            this.contentWasEdited = true;
+
             this.AddCountriesToImgCmbBox();
         }
 
@@ -178,6 +241,25 @@ namespace SCEloSystemGUI
             this.AddTournamentsToImgCmbBox();
         }
 
+        private void TournamentEdited_OnRemoveButtonClick(object sender, EventArgs e)
+        {
+            var editorSender = sender as DblNameContentEditor<Tournament>;
+
+            if (editorSender != null && editorSender.SelectedItem != null
+                && MessageBox.Show(String.Format("Are you sure you would like to remove the tournament \"{0}\" from the database?", editorSender.SelectedItem.Name), "Remove tournament", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                if (GlobalState.DataBase.RemoveTournament(editorSender.SelectedItem))
+                {
+                    this.contentWasEdited = true;
+
+                    this.AddTournamentsToImgCmbBox();
+                }
+                else { MessageBox.Show("Failed to remove content from the database. Some removal conditions were not met.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+
+            }
+
+        }
+
         private void TournamentEdited_OnEditedButtonClick(object sender, EventArgs e)
         {
             this.contentWasEdited = true;
@@ -190,6 +272,40 @@ namespace SCEloSystemGUI
             this.contentWasEdited = true;
 
             this.AddTeamsToImgCmbBox();
+        }
+
+        private void CountryEdited_OnRemoveButtonClick(object sender, EventArgs e)
+        {
+            var editorSender = sender as SingleNameContentEditor<Country>;
+
+            if (editorSender != null && editorSender.SelectedItem != null
+                && MessageBox.Show(String.Format("Are you sure you would like to remove the country \"{0}\" from the database?", editorSender.SelectedItem.Name), "Remove country"
+                , MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                GlobalState.DataBase.RemoveCountry(editorSender.SelectedItem);
+
+                this.contentWasEdited = true;
+
+                this.AddCountriesToImgCmbBox();
+            }
+
+        }
+
+        private void TeamEdited_OnRemoveButtonClick(object sender, EventArgs e)
+        {
+            var editorSender = sender as DblNameContentEditor<Team>;
+
+            if (editorSender != null && editorSender.SelectedItem != null
+                && MessageBox.Show(String.Format("Are you sure you would like to remove the team \"{0}\" from the database?", editorSender.SelectedItem.Name), "Remove team"
+                , MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                GlobalState.DataBase.RemoveTeam(editorSender.SelectedItem);
+
+                this.contentWasEdited = true;
+
+                this.AddTeamsToImgCmbBox();
+            }
+
         }
 
         private void AddTileSetsToCmbBox()
@@ -209,9 +325,11 @@ namespace SCEloSystemGUI
 
         private void AddCountriesToImgCmbBox()
         {
-            ImageGetter<Country> getter = this.ImageGetterMethod;
+            ImageGetter<Country> getter = EloGUIControlsStaticMembers.ImageGetterMethod;
 
             this.playerAdder.ImgCmbBxCountries.AddItems(GlobalState.DataBase.GetCountries().ToArray(), getter, true);
+
+            this.countryEditor.UpdateItems();
         }
 
         private void AddPlayersToImgCmbBox()
@@ -224,18 +342,22 @@ namespace SCEloSystemGUI
 
         private void AddTeamsToImgCmbBox()
         {
-            this.teamEditor.AddContentItems(GlobalState.DataBase.GetTeams(), this.ImageGetterMethod);
+            this.teamEditor.UpdateItems();
 
-            ImageGetter<Team> getter = this.ImageGetterMethod;
+            ImageGetter<Team> getter = EloGUIControlsStaticMembers.ImageGetterMethod;
 
             this.playerAdder.ImgCmbBxTeams.AddItems(GlobalState.DataBase.GetTeams().ToArray(), getter, true);
         }
 
         private void AddTournamentsToImgCmbBox()
         {
-            this.seasonAdder.AddTournamentItems(GlobalState.DataBase.GetTournaments(), this.ImageGetterMethod);
+            this.seasonAdder.UpdateControlContent(GlobalState.DataBase.GetTournaments(), EloGUIControlsStaticMembers.ImageGetterMethod);
 
-            this.tournamentEditor.AddContentItems(GlobalState.DataBase.GetTournaments(), this.ImageGetterMethod);
+            this.seasonEditor.UpdateControlContents();
+
+            this.tournamentEditor.UpdateItems();
+
+            this.matchReport.ContextSelector.TournamentSelector.AddItems(GlobalState.DataBase.GetTournaments().ToArray(), false);
         }
     }
 

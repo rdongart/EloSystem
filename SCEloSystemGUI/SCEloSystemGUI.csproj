@@ -102,6 +102,14 @@
       <DependentUpon>DailyIndexEditorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalState.cs" />
+    <Compile Include="IFilter.cs" />
+    <Compile Include="IGameFilter.cs" />
+    <Compile Include="MapProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MapProfile.Designer.cs">
+      <DependentUpon>MapProfile.cs</DependentUpon>
+    </Compile>
     <Compile Include="PlayerProfile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,15 +123,26 @@
       <DependentUpon>HeadToHeadSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="RaceIconProvider.cs" />
-    <Compile Include="RankHandler.cs" />
-    <Compile Include="RankHolder.cs" />
     <Compile Include="SCEloSystemGUIExtensionMethods.cs" />
+    <Compile Include="TournamentProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TournamentProfile.Designer.cs">
+      <DependentUpon>TournamentProfile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TournamentsOverview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TournamentsOverview.Designer.cs">
+      <DependentUpon>TournamentsOverview.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ActivityFilter.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControls\ActivityFilter.Designer.cs">
       <DependentUpon>ActivityFilter.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ContentGetterDelegate.cs" />
     <Compile Include="UserControls\DailyMatchIndexEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -206,12 +225,20 @@
     <Compile Include="UserControls\GameReport.Designer.cs">
       <DependentUpon>GameReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\HasNameContenRemoveCondition.cs" />
     <Compile Include="UserControls\HasNameContentAdder.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControls\HasNameContentAdder.Designer.cs">
       <DependentUpon>HasNameContentAdder.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\HasNameContentEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\HasNameContentEditor.Designer.cs">
+      <DependentUpon>HasNameContentEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\HasNameContentGetterDelegate.cs" />
     <Compile Include="UserControls\ListItemIndexEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -223,6 +250,13 @@
     </Compile>
     <Compile Include="UserControls\MapAdder.Designer.cs">
       <DependentUpon>MapAdder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ContentRemoveCondition.cs" />
+    <Compile Include="UserControls\GameFilter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\GameFilter.Designer.cs">
+      <DependentUpon>GameFilter.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ResultsFilters.cs">
       <SubType>UserControl</SubType>
@@ -273,6 +307,20 @@
     <Compile Include="UserControls\DblNameContentAdder.Designer.cs">
       <DependentUpon>DblNameContentAdder.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\SeasonEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\SeasonEditor.Designer.cs">
+      <DependentUpon>SeasonEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SingleNameContentEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\SingleNameContentEditor.Designer.cs">
+      <DependentUpon>SingleNameContentEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\HasNameContentRemoveCondition.cs" />
+    <Compile Include="UserControls\Styles.cs" />
     <Compile Include="WindowConstants.cs" />
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
@@ -282,6 +330,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MapProfile.resx">
+      <DependentUpon>MapProfile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MapStatsDisplay.resx">
       <DependentUpon>MapStatsDisplay.cs</DependentUpon>
@@ -308,6 +359,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TournamentProfile.resx">
+      <DependentUpon>TournamentProfile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TournamentsOverview.resx">
+      <DependentUpon>TournamentsOverview.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ActivityFilter.resx">
       <DependentUpon>ActivityFilter.cs</DependentUpon>
     </EmbeddedResource>
@@ -326,11 +383,17 @@
     <EmbeddedResource Include="UserControls\HasNameContentAdder.resx">
       <DependentUpon>HasNameContentAdder.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\HasNameContentEditor.resx">
+      <DependentUpon>HasNameContentEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ListItemIndexEditor.resx">
       <DependentUpon>ListItemIndexEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\MapAdder.resx">
       <DependentUpon>MapAdder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\GameFilter.resx">
+      <DependentUpon>GameFilter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ResultsFilters.resx">
       <DependentUpon>ResultsFilters.cs</DependentUpon>
@@ -352,6 +415,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DblNameContentAdder.resx">
       <DependentUpon>DblNameContentAdder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\SeasonEditor.resx">
+      <DependentUpon>SeasonEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\SingleNameContentEditor.resx">
+      <DependentUpon>SingleNameContentEditor.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

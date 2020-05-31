@@ -6,7 +6,7 @@ namespace EloSystem.IO
 
     public class FileOverwriteEventArgs : EventArgs
     {
-        public String FileName { get; private set; }
+        public string FileName { get; private set; }
 
         public FileOverwriteEventArgs(string fileName)
         {

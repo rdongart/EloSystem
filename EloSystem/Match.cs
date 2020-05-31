@@ -112,5 +112,10 @@ namespace EloSystem
         {
             return this.DateTime.Date.CompareTo(date.Date) > 0 || (this.DateTime.Date.CompareTo(date.Date) == 0 && (this.DailyIndex > dailyMatchIndex && dailyMatchIndex != Match.DAILYINDEX_MOSTRECENT));
         }
+
+        internal bool IsMoreRecentOrSameAs(DateTime date, int dailyMatchIndex)
+        {
+            return this.DateTime.Date.CompareTo(date.Date) > 0 || (this.DateTime.Date.CompareTo(date.Date) == 0 && (this.DailyIndex >= dailyMatchIndex && dailyMatchIndex != Match.DAILYINDEX_MOSTRECENT));
+        }
     }
 }

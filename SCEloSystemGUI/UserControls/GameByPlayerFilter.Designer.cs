@@ -1,6 +1,6 @@
 ﻿namespace SCEloSystemGUI.UserControls
 {
-    partial class GameFilter<T>
+    partial class GameByPlayerFilter
     {
         /// <summary> 
         /// Required designer variable.
@@ -18,7 +18,7 @@
                 components.Dispose();
             }
 
-            this.imageCache.Dispose();
+            flagsCache.Dispose();
 
             base.Dispose(disposing);
         }
@@ -50,13 +50,14 @@
             this.tblLoPnlMain.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
             this.tblLoPnlMain.Location = new System.Drawing.Point(0, 0);
             this.tblLoPnlMain.Margin = new System.Windows.Forms.Padding(0);
+            this.tblLoPnlMain.MinimumSize = new System.Drawing.Size(180, 100);
             this.tblLoPnlMain.Name = "tblLoPnlMain";
             this.tblLoPnlMain.RowCount = 3;
             this.tblLoPnlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tblLoPnlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLoPnlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.tblLoPnlMain.Size = new System.Drawing.Size(180, 316);
-            this.tblLoPnlMain.TabIndex = 1;
+            this.tblLoPnlMain.TabIndex = 2;
             // 
             // btnDeselectAll
             // 
@@ -74,7 +75,7 @@
             // 
             // btnSelectAll
             // 
-            this.btnSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelectAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSelectAll.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSelectAll.ForeColor = System.Drawing.Color.Black;
             this.btnSelectAll.Location = new System.Drawing.Point(93, 278);
@@ -96,18 +97,20 @@
             this.lbHeader.Name = "lbHeader";
             this.lbHeader.Size = new System.Drawing.Size(174, 28);
             this.lbHeader.TabIndex = 1;
+            this.lbHeader.Text = "Participant Filter:";
             this.lbHeader.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // GameFilter
+            // GameByPlayerFilter
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Transparent;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.tblLoPnlMain);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
             this.MinimumSize = new System.Drawing.Size(180, 110);
-            this.Name = "GameFilter";
+            this.Name = "GameByPlayerFilter";
             this.Size = new System.Drawing.Size(180, 316);
             this.tblLoPnlMain.ResumeLayout(false);
             this.tblLoPnlMain.PerformLayout();

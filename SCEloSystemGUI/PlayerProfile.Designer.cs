@@ -17,6 +17,9 @@
             {
                 components.Dispose();
             }
+
+            this.raceImageCache.Dispose();
+
             base.Dispose(disposing);
         }
 
@@ -108,9 +111,9 @@
             this.tblLOPnlPlayerProfile.RowCount = 4;
             this.tblLOPnlPlayerProfile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.tblLOPnlPlayerProfile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 240F));
-            this.tblLOPnlPlayerProfile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 524F));
+            this.tblLOPnlPlayerProfile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 652F));
             this.tblLOPnlPlayerProfile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlPlayerProfile.Size = new System.Drawing.Size(1554, 828);
+            this.tblLOPnlPlayerProfile.Size = new System.Drawing.Size(1554, 956);
             this.tblLOPnlPlayerProfile.TabIndex = 0;
             // 
             // lbName
@@ -397,7 +400,7 @@
             this.grpBxPerformance.ForeColor = System.Drawing.Color.White;
             this.grpBxPerformance.Location = new System.Drawing.Point(3, 281);
             this.grpBxPerformance.Name = "grpBxPerformance";
-            this.grpBxPerformance.Size = new System.Drawing.Size(594, 518);
+            this.grpBxPerformance.Size = new System.Drawing.Size(594, 646);
             this.grpBxPerformance.TabIndex = 3;
             this.grpBxPerformance.TabStop = false;
             this.grpBxPerformance.Text = "Performance";
@@ -418,7 +421,7 @@
             this.tblLOPnlPerformance.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 142F));
             this.tblLOPnlPerformance.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLOPnlPerformance.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tblLOPnlPerformance.Size = new System.Drawing.Size(588, 492);
+            this.tblLOPnlPerformance.Size = new System.Drawing.Size(588, 620);
             this.tblLOPnlPerformance.TabIndex = 0;
             // 
             // cmbBxSetDevInterval
@@ -427,7 +430,7 @@
             this.cmbBxSetDevInterval.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBxSetDevInterval.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbBxSetDevInterval.FormattingEnabled = true;
-            this.cmbBxSetDevInterval.Location = new System.Drawing.Point(6, 458);
+            this.cmbBxSetDevInterval.Location = new System.Drawing.Point(6, 586);
             this.cmbBxSetDevInterval.Margin = new System.Windows.Forms.Padding(6);
             this.cmbBxSetDevInterval.Name = "cmbBxSetDevInterval";
             this.cmbBxSetDevInterval.Size = new System.Drawing.Size(150, 26);
@@ -440,7 +443,7 @@
             this.pnlRatingDev.Location = new System.Drawing.Point(0, 142);
             this.pnlRatingDev.Margin = new System.Windows.Forms.Padding(0);
             this.pnlRatingDev.Name = "pnlRatingDev";
-            this.pnlRatingDev.Size = new System.Drawing.Size(580, 310);
+            this.pnlRatingDev.Size = new System.Drawing.Size(580, 438);
             this.pnlRatingDev.TabIndex = 1;
             // 
             // grpBxResults
@@ -452,7 +455,7 @@
             this.grpBxResults.Location = new System.Drawing.Point(603, 41);
             this.grpBxResults.Name = "grpBxResults";
             this.tblLOPnlPlayerProfile.SetRowSpan(this.grpBxResults, 2);
-            this.grpBxResults.Size = new System.Drawing.Size(939, 758);
+            this.grpBxResults.Size = new System.Drawing.Size(939, 886);
             this.grpBxResults.TabIndex = 4;
             this.grpBxResults.TabStop = false;
             this.grpBxResults.Text = "Results";
@@ -467,9 +470,9 @@
             this.tblLOPnlResults.Location = new System.Drawing.Point(3, 23);
             this.tblLOPnlResults.Name = "tblLOPnlResults";
             this.tblLOPnlResults.RowCount = 2;
-            this.tblLOPnlResults.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 220F));
+            this.tblLOPnlResults.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 336F));
             this.tblLOPnlResults.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlResults.Size = new System.Drawing.Size(933, 732);
+            this.tblLOPnlResults.Size = new System.Drawing.Size(933, 860);
             this.tblLOPnlResults.TabIndex = 0;
             // 
             // tabCtrlResults
@@ -479,10 +482,10 @@
             this.tabCtrlResults.Controls.Add(this.tabPageMaps);
             this.tabCtrlResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabCtrlResults.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabCtrlResults.Location = new System.Drawing.Point(3, 223);
+            this.tabCtrlResults.Location = new System.Drawing.Point(3, 339);
             this.tabCtrlResults.Name = "tabCtrlResults";
             this.tabCtrlResults.SelectedIndex = 0;
-            this.tabCtrlResults.Size = new System.Drawing.Size(924, 506);
+            this.tabCtrlResults.Size = new System.Drawing.Size(924, 518);
             this.tabCtrlResults.TabIndex = 0;
             this.tabCtrlResults.SelectedIndexChanged += new System.EventHandler(this.tabCtrlResults_SelectedIndexChanged);
             // 
@@ -492,7 +495,7 @@
             this.tabPageMatchResults.Location = new System.Drawing.Point(4, 24);
             this.tabPageMatchResults.Name = "tabPageMatchResults";
             this.tabPageMatchResults.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMatchResults.Size = new System.Drawing.Size(916, 478);
+            this.tabPageMatchResults.Size = new System.Drawing.Size(916, 490);
             this.tabPageMatchResults.TabIndex = 0;
             this.tabPageMatchResults.Text = "Match Results";
             this.tabPageMatchResults.UseVisualStyleBackColor = true;
@@ -510,7 +513,7 @@
             this.tblLOPnlMatches.RowCount = 2;
             this.tblLOPnlMatches.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
             this.tblLOPnlMatches.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlMatches.Size = new System.Drawing.Size(910, 472);
+            this.tblLOPnlMatches.Size = new System.Drawing.Size(910, 484);
             this.tblLOPnlMatches.TabIndex = 0;
             // 
             // tabPageSingleGames
@@ -691,18 +694,18 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoScroll = true;
-            this.AutoScrollMinSize = new System.Drawing.Size(1545, 775);
+            this.AutoScrollMinSize = new System.Drawing.Size(1545, 903);
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImage = global::SCEloSystemGUI.Properties.Resources.SpaceBackground;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1554, 828);
+            this.ClientSize = new System.Drawing.Size(1554, 956);
             this.Controls.Add(this.tblLOPnlPlayerProfile);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
-            this.MaximumSize = new System.Drawing.Size(1570, 866);
+            this.MaximumSize = new System.Drawing.Size(1570, 994);
             this.Name = "PlayerProfile";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

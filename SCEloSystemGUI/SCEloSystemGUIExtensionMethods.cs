@@ -32,13 +32,22 @@ namespace SCEloSystemGUI
                 default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(DevelopmentInterval).Name, interval.ToString()));
 
             }
-
-
+            
         }
 
         internal static IEnumerable<MatchEditorItem> ToMatchEditorItems(this IEnumerable<Game> source)
         {
             return source.GroupBy(game => game.Match).Select(grp => new MatchEditorItem(grp, grp.Key));
+        }
+
+        internal static IEnumerable<MatchEditorItem> OrderNewestFirst(this IEnumerable<MatchEditorItem> items)
+        {
+            return items.OrderByDescending(item => item.DateValue.Date).ThenByDescending(item => item.SourceMatch.DailyIndex);
+        }
+
+        internal static IEnumerable<MatchEditorItem> OrderOldestFirst(this IEnumerable<MatchEditorItem> items)
+        {
+            return items.OrderBy(item => item.DateValue.Date).ThenBy(item => item.SourceMatch.DailyIndex);
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using CustomControls.Styles;
+﻿using BrightIdeasSoftware;
 using CustomControls;
-using BrightIdeasSoftware;
+using CustomControls.Utilities;
 using CustomExtensionMethods;
 using CustomExtensionMethods.Drawing;
 using EloSystem;
@@ -32,6 +32,7 @@ namespace SCEloSystemGUI
         private const string WIN_TEXT = "WIN";
         private const string LOSS_TEXT = "LOSS";
 
+        private ResourceCacheSystem<Race, Image> raceImageCache;
         private List<PlayerStatsCloneDev> ratingDevelopment;
         private ObjectListView gameResultsListView;
         private ObjectListView matchResultsListView;
@@ -62,8 +63,8 @@ namespace SCEloSystemGUI
 
             this.cmbBxSetDevInterval.DisplayMember = "Item1";
             this.cmbBxSetDevInterval.ValueMember = "Item2";
-            this.cmbBxSetDevInterval.Items.AddRange(Enum.GetValues(typeof(DevelopmentInterval)).Cast<DevelopmentInterval>().Select(interval => Tuple.Create<string, DevelopmentInterval>(interval.ToString().Replace("_", " ")
-                , interval)).ToArray());
+            this.cmbBxSetDevInterval.Items.AddRange(Enum.GetValues(typeof(DevelopmentInterval)).Cast<DevelopmentInterval>().Select(interval =>
+                Tuple.Create<string, DevelopmentInterval>(interval.ToString().Replace("_", " "), interval)).ToArray());
 
             this.cmbBxSetDevInterval.SelectedIndex = this.cmbBxSetDevInterval.Items.Cast<Tuple<string, DevelopmentInterval>>().TakeWhile(item => item.Item2 != Settings.Default.RatingDevInterval).Count();
 
@@ -77,20 +78,18 @@ namespace SCEloSystemGUI
 
             this.resultsFilter = new ResultsFilters(this.player);
             this.tblLOPnlResults.Controls.Add(this.resultsFilter, 0, 0);
-            this.resultsFilter.ResultFilterChanged += this.OnHeadToHeadOpponentChanged;
+            this.resultsFilter.ResultFilterChanged += this.OnResultsFilterChanged;
 
             this.matchResultsListView = this.CreateMatchListView();
             this.matchLVSelecterLink = new PageSelecterLinker(this.matchResultsListView) { ItemsPerPage = (int)Settings.Default.MatchesPerPage };
-            this.matchLVSelecterLink.ItemGetter
-                = () => GlobalState.DataBase.GetAllGames().Where(game => game.HasPlayer(player) && this.OpponentFilter(game) && this.MapFilter(game)).OrderNewestFirst().ToMatchEditorItems();
+            this.matchLVSelecterLink.ItemGetter = () => this.resultsFilter.MatchFilterFromGames(GlobalState.DataBase.GetAllGames()).OrderNewestFirst();
             this.tblLOPnlMatches.Controls.Add(this.matchResultsListView, 0, 1);
             Styles.PageSelecterStyles.SetSpaceStyle(this.matchLVSelecterLink.Selecter);
             this.tblLOPnlMatches.Controls.Add(this.matchLVSelecterLink.Selecter, 0, 0);
 
             this.gameResultsListView = this.CreateGameListView();
             this.gamesLVSelecterLink = new PageSelecterLinker(this.gameResultsListView) { ItemsPerPage = (int)Settings.Default.MatchesPerPage };
-            this.gamesLVSelecterLink.ItemGetter = () => GlobalState.DataBase.GetAllGames().Where(game => game.HasPlayer(this.player) && this.OpponentFilter(game) && this.MapFilter(game)
-                && this.OpponentRaceFilter(game)).OrderNewestFirst();
+            this.gamesLVSelecterLink.ItemGetter = () => this.resultsFilter.GamesFilter(GlobalState.DataBase.GetAllGames()).Where(game => this.OpponentRaceFilter(game)).OrderNewestFirst();
             this.tblLOPnlGames.Controls.Add(this.gameResultsListView, 0, 1);
             this.tblLOPnlGames.SetColumnSpan(this.gameResultsListView, 2);
             this.tblLOPnlGames.Controls.Add(this.gamesLVSelecterLink.Selecter, 1, 0);
@@ -100,16 +99,6 @@ namespace SCEloSystemGUI
             this.tabPageMaps.Controls.Add(this.mapStatsListView);
 
             this.SetResults();
-        }
-
-        private void MatchResultsListView_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (this.matchResultsListView.SelectedItem == null) { return; }
-
-            var selectedMatchItem = this.matchResultsListView.SelectedItem.RowObject as MatchEditorItem;
-
-            if (selectedMatchItem != null) { this.resultsFilter.SetHeadToHeadOpponent(selectedMatchItem.Player1.Equals(this.player) ? selectedMatchItem.Player2 : selectedMatchItem.Player1); }
-
         }
 
         public static void ShowProfile(SCPlayer player, Form anchorForm = null)
@@ -143,19 +132,9 @@ namespace SCEloSystemGUI
             profileForm.Dispose();
         }
 
-        private void OnHeadToHeadOpponentChanged(object sender, EventArgs e)
+        private void OnResultsFilterChanged(object sender, EventArgs e)
         {
             this.SetResults();
-        }
-
-        private bool OpponentFilter(Game game)
-        {
-            return this.resultsFilter.OpponentPlayer != null ? game.HasPlayer(this.resultsFilter.OpponentPlayer) : true;
-        }
-
-        private bool MapFilter(Game game)
-        {
-            return this.resultsFilter.SelectedMap != null ? game.Map == this.resultsFilter.SelectedMap : true;
         }
 
         private void SetResults()
@@ -165,7 +144,7 @@ namespace SCEloSystemGUI
             this.gamesLVSelecterLink.UpdateListItems();
 
             this.mapStatsListView.SetObjects(GlobalState.DataBase.GetMaps().OrderBy(map => map.Name).Select(map => Tuple.Create<Map, WinRateCounter>(map, GlobalState.DataBase.MapStatsForPlayer(this.player
-                , map, this.resultsFilter.OpponentPlayer))));
+                , map, this.resultsFilter.OpponentPlayer, this.resultsFilter.SelectedTournament))));
 
         }
 
@@ -608,16 +587,18 @@ namespace SCEloSystemGUI
                 MultiSelect = false,
                 RowHeight = 20,
                 Scrollable = true,
+                ShowFilterMenuOnRightClick = false,
                 ShowGroups = false,
                 Size = new Size(750, 850),
                 UseAlternatingBackColors = true,
                 UseCellFormatEvents = true,
             };
 
-            matchLV.SelectedIndexChanged += this.MatchResultsListView_SelectedIndexChanged;
+            matchLV.MouseClick += this.MatchLV_MouseClick;
             Styles.ObjectListViewStyles.SetHotItemStyle(matchLV);
+            Styles.ObjectListViewStyles.AvoidFocus(matchLV);
 
-            var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null };
+            var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null, IsVisible = false };
             var olvClmDate = new OLVColumn() { Width = 85, Text = "Date" };
             var olvClmResultType = new OLVColumn() { Width = 60, Text = "Result" };
             var olvClmOpponent = new OLVColumn() { Width = 140, Text = "Opponent" };
@@ -706,6 +687,35 @@ namespace SCEloSystemGUI
             return matchLV;
         }
 
+        private void MatchLV_MouseClick(object sender, MouseEventArgs e)
+        {
+            var olv = sender as ObjectListView;
+
+            if (olv == null || olv.SelectedItem == null) { return; }
+
+            var selectedMatch = olv.SelectedItem.RowObject as MatchEditorItem;
+
+            if (selectedMatch != null)
+            {
+                switch (e.Button)
+                {
+                    case MouseButtons.Left: this.resultsFilter.SetHeadToHeadOpponent(selectedMatch.Player1.Equals(this.player) ? selectedMatch.Player2 : selectedMatch.Player1); break;
+                    case MouseButtons.Right:
+
+                        if (selectedMatch.Tournament != null) { this.resultsFilter.SetTournamentFilter(selectedMatch.Tournament); }
+
+                        break;
+                    case MouseButtons.Middle:
+                    case MouseButtons.None:
+                    case MouseButtons.XButton1:
+                    case MouseButtons.XButton2: break;
+                    default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(MouseButtons).Name, e.Button.ToString()));
+                }
+            }
+
+            olv.SelectedItems.Clear();
+        }
+
         private ObjectListView CreateGameListView()
         {
             var gamesLV = new ObjectListView()
@@ -726,8 +736,9 @@ namespace SCEloSystemGUI
                 UseCellFormatEvents = true,
             };
 
-            gamesLV.SelectedIndexChanged += this.GamesLV_SelectedIndexChanged;
+            gamesLV.MouseClick += this.GamesLV_MouseClick;
             Styles.ObjectListViewStyles.SetHotItemStyle(gamesLV);
+            Styles.ObjectListViewStyles.AvoidFocus(gamesLV);
 
             var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null };
             var olvClmDate = new OLVColumn() { Width = 85, Text = "Date" };
@@ -737,7 +748,7 @@ namespace SCEloSystemGUI
             var olvClmOpponent = new OLVColumn() { Width = 135, Text = "Opponent" };
             var olvClmRatingChange = new OLVColumn() { Width = 65, Text = "Rating Change" };
             var olvClmMap = new OLVColumn() { Width = 170, Text = "Map" };
-            var olvClmTournament = new OLVColumn() { Width = 140, Text = "Tournament" };
+            var olvClmTournament = new OLVColumn() { Width = 130, Text = "Tournament" };
             var olvClmSeason = new OLVColumn() { Width = 130, Text = "Season" };
 
             gamesLV.FormatCell += PlayerProfile.MatchLV_FormatCell;
@@ -781,15 +792,13 @@ namespace SCEloSystemGUI
             const int RACE_IMAGE_HEIGHT_MAX = 18;
             const int RACE_IMAGE_WIDTH_MAX = 50;
 
+            this.raceImageCache = new ResourceCacheSystem<Race, Image>() { ResourceGetter = (r) => RaceIconProvider.GetRaceBitmap(r).ResizeSARWithinBounds(RACE_IMAGE_WIDTH_MAX, RACE_IMAGE_HEIGHT_MAX) };
+
             olvClmOwnRace.AspectGetter = obj =>
             {
                 var game = obj as Game;
 
-                if (this.player.Stats.GamesTotal() > 0)
-                {
-                    return new Image[] { RaceIconProvider.GetRaceBitmap(this.player.Equals(game.Winner) ? game.WinnersRace : game.LosersRace).ResizeSARWithinBounds(RACE_IMAGE_WIDTH_MAX
-                        , RACE_IMAGE_HEIGHT_MAX) };
-                }
+                if (this.player.Stats.GamesTotal() > 0) { return new Image[] { this.raceImageCache.GetResource(this.player.Equals(game.Winner) ? game.WinnersRace : game.LosersRace) }; }
                 else { return null; }
             };
 
@@ -797,11 +806,7 @@ namespace SCEloSystemGUI
             {
                 var game = obj as Game;
 
-                if (this.player.Stats.GamesTotal() > 0)
-                {
-                    return new Image[] { RaceIconProvider.GetRaceBitmap(this.player.Equals(game.Winner) ? game.LosersRace: game.WinnersRace).ResizeSARWithinBounds(RACE_IMAGE_WIDTH_MAX
-                        , RACE_IMAGE_HEIGHT_MAX) };
-                }
+                if (this.player.Stats.GamesTotal() > 0) { return new Image[] { this.raceImageCache.GetResource(this.player.Equals(game.Winner) ? game.LosersRace : game.WinnersRace) }; }
                 else { return null; }
             };
 
@@ -844,13 +849,33 @@ namespace SCEloSystemGUI
             return gamesLV;
         }
 
-        private void GamesLV_SelectedIndexChanged(object sender, EventArgs e)
+        private void GamesLV_MouseClick(object sender, MouseEventArgs e)
         {
-            if (this.gameResultsListView.SelectedItem == null) { return; }
+            var olv = sender as ObjectListView;
 
-            var selectedGame = this.gameResultsListView.SelectedItem.RowObject as Game;
+            if (olv == null || olv.SelectedItem == null) { return; }
 
-            if (selectedGame != null) { this.resultsFilter.SetHeadToHeadOpponent(selectedGame.Player1.Equals(this.player) ? selectedGame.Player2 : selectedGame.Player1); }
+            var selectedGame = olv.SelectedItem.RowObject as Game;
+
+            if (selectedGame != null)
+            {
+                switch (e.Button)
+                {
+                    case MouseButtons.Left: this.resultsFilter.SetHeadToHeadOpponent(selectedGame.Player1.Equals(this.player) ? selectedGame.Player2 : selectedGame.Player1); break;
+                    case MouseButtons.Right:
+
+                        if (selectedGame.Map != null) { this.resultsFilter.SetMapFilter(selectedGame.Map); }
+
+                        break;
+                    case MouseButtons.Middle:
+                    case MouseButtons.None:
+                    case MouseButtons.XButton1:
+                    case MouseButtons.XButton2: break;
+                    default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(MouseButtons).Name, e.Button.ToString()));
+                }
+            }
+
+            olv.SelectedItems.Clear();
         }
 
         private void PlayerProfile_KeyUp(object sender, KeyEventArgs e)

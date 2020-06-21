@@ -17,6 +17,9 @@
             {
                 components.Dispose();
             }
+
+            this.raceImageCache.Dispose();
+
             base.Dispose(disposing);
         }
 
@@ -28,7 +31,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tnlLOPnlMapProfile = new System.Windows.Forms.TableLayoutPanel();
+            this.tblLOPnlMapProfile = new System.Windows.Forms.TableLayoutPanel();
             this.lbName = new System.Windows.Forms.Label();
             this.grpBxMapDetails = new System.Windows.Forms.GroupBox();
             this.tblLOPnlMapDetails = new System.Windows.Forms.TableLayoutPanel();
@@ -39,7 +42,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.lbSpawnPositions = new System.Windows.Forms.Label();
             this.lbTileset = new System.Windows.Forms.Label();
             this.lbSize = new System.Windows.Forms.Label();
@@ -57,7 +59,7 @@
             this.tblLOPnlGames = new System.Windows.Forms.TableLayoutPanel();
             this.label12 = new System.Windows.Forms.Label();
             this.btnApplyFilter = new System.Windows.Forms.Button();
-            this.tnlLOPnlMapProfile.SuspendLayout();
+            this.tblLOPnlMapProfile.SuspendLayout();
             this.grpBxMapDetails.SuspendLayout();
             this.tblLOPnlMapDetails.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -69,44 +71,44 @@
             this.tblLOPnlGames.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tnlLOPnlMapProfile
+            // tblLOPnlMapProfile
             // 
-            this.tnlLOPnlMapProfile.BackColor = System.Drawing.Color.Transparent;
-            this.tnlLOPnlMapProfile.ColumnCount = 4;
-            this.tnlLOPnlMapProfile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 464F));
-            this.tnlLOPnlMapProfile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 530F));
-            this.tnlLOPnlMapProfile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 640F));
-            this.tnlLOPnlMapProfile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tnlLOPnlMapProfile.Controls.Add(this.lbName, 0, 0);
-            this.tnlLOPnlMapProfile.Controls.Add(this.grpBxMapDetails, 0, 1);
-            this.tnlLOPnlMapProfile.Controls.Add(this.grpBxMapImage, 1, 1);
-            this.tnlLOPnlMapProfile.Controls.Add(this.grpBxMapStats, 0, 2);
-            this.tnlLOPnlMapProfile.Controls.Add(this.grpBxGames, 2, 1);
-            this.tnlLOPnlMapProfile.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tnlLOPnlMapProfile.ForeColor = System.Drawing.Color.White;
-            this.tnlLOPnlMapProfile.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tnlLOPnlMapProfile.Location = new System.Drawing.Point(0, 0);
-            this.tnlLOPnlMapProfile.Margin = new System.Windows.Forms.Padding(4);
-            this.tnlLOPnlMapProfile.Name = "tnlLOPnlMapProfile";
-            this.tnlLOPnlMapProfile.RowCount = 4;
-            this.tnlLOPnlMapProfile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 53F));
-            this.tnlLOPnlMapProfile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 544F));
-            this.tnlLOPnlMapProfile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 267F));
-            this.tnlLOPnlMapProfile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tnlLOPnlMapProfile.Size = new System.Drawing.Size(1634, 866);
-            this.tnlLOPnlMapProfile.TabIndex = 0;
+            this.tblLOPnlMapProfile.BackColor = System.Drawing.Color.Transparent;
+            this.tblLOPnlMapProfile.ColumnCount = 4;
+            this.tblLOPnlMapProfile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 350F));
+            this.tblLOPnlMapProfile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 530F));
+            this.tblLOPnlMapProfile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 815F));
+            this.tblLOPnlMapProfile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblLOPnlMapProfile.Controls.Add(this.lbName, 0, 0);
+            this.tblLOPnlMapProfile.Controls.Add(this.grpBxMapDetails, 0, 1);
+            this.tblLOPnlMapProfile.Controls.Add(this.grpBxMapImage, 1, 1);
+            this.tblLOPnlMapProfile.Controls.Add(this.grpBxMapStats, 0, 2);
+            this.tblLOPnlMapProfile.Controls.Add(this.grpBxGames, 2, 1);
+            this.tblLOPnlMapProfile.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tblLOPnlMapProfile.ForeColor = System.Drawing.Color.White;
+            this.tblLOPnlMapProfile.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+            this.tblLOPnlMapProfile.Location = new System.Drawing.Point(0, 0);
+            this.tblLOPnlMapProfile.Margin = new System.Windows.Forms.Padding(4);
+            this.tblLOPnlMapProfile.Name = "tblLOPnlMapProfile";
+            this.tblLOPnlMapProfile.RowCount = 4;
+            this.tblLOPnlMapProfile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 53F));
+            this.tblLOPnlMapProfile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 544F));
+            this.tblLOPnlMapProfile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 267F));
+            this.tblLOPnlMapProfile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblLOPnlMapProfile.Size = new System.Drawing.Size(1695, 866);
+            this.tblLOPnlMapProfile.TabIndex = 0;
             // 
             // lbName
             // 
             this.lbName.AutoSize = true;
-            this.tnlLOPnlMapProfile.SetColumnSpan(this.lbName, 3);
+            this.tblLOPnlMapProfile.SetColumnSpan(this.lbName, 3);
             this.lbName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbName.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbName.ForeColor = System.Drawing.Color.White;
             this.lbName.Location = new System.Drawing.Point(4, 0);
             this.lbName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbName.Name = "lbName";
-            this.lbName.Size = new System.Drawing.Size(1626, 53);
+            this.lbName.Size = new System.Drawing.Size(1687, 53);
             this.lbName.TabIndex = 0;
             this.lbName.Text = "[NAME]";
             this.lbName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -119,7 +121,7 @@
             this.grpBxMapDetails.ForeColor = System.Drawing.Color.White;
             this.grpBxMapDetails.Location = new System.Drawing.Point(3, 56);
             this.grpBxMapDetails.Name = "grpBxMapDetails";
-            this.grpBxMapDetails.Size = new System.Drawing.Size(458, 538);
+            this.grpBxMapDetails.Size = new System.Drawing.Size(344, 538);
             this.grpBxMapDetails.TabIndex = 1;
             this.grpBxMapDetails.TabStop = false;
             this.grpBxMapDetails.Text = "Map Details";
@@ -137,20 +139,20 @@
             this.tblLOPnlMapDetails.Controls.Add(this.label5, 1, 0);
             this.tblLOPnlMapDetails.Controls.Add(this.label6, 1, 1);
             this.tblLOPnlMapDetails.Controls.Add(this.label7, 1, 2);
-            this.tblLOPnlMapDetails.Controls.Add(this.label8, 1, 3);
             this.tblLOPnlMapDetails.Controls.Add(this.lbSpawnPositions, 2, 0);
             this.tblLOPnlMapDetails.Controls.Add(this.lbTileset, 2, 1);
             this.tblLOPnlMapDetails.Controls.Add(this.lbSize, 2, 2);
-            this.tblLOPnlMapDetails.Controls.Add(this.panel1, 2, 3);
+            this.tblLOPnlMapDetails.Controls.Add(this.panel1, 0, 4);
             this.tblLOPnlMapDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tblLOPnlMapDetails.Location = new System.Drawing.Point(3, 23);
             this.tblLOPnlMapDetails.Name = "tblLOPnlMapDetails";
-            this.tblLOPnlMapDetails.RowCount = 4;
+            this.tblLOPnlMapDetails.RowCount = 5;
             this.tblLOPnlMapDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tblLOPnlMapDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tblLOPnlMapDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tblLOPnlMapDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             this.tblLOPnlMapDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlMapDetails.Size = new System.Drawing.Size(452, 512);
+            this.tblLOPnlMapDetails.Size = new System.Drawing.Size(338, 512);
             this.tblLOPnlMapDetails.TabIndex = 0;
             // 
             // label1
@@ -192,14 +194,16 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.tblLOPnlMapDetails.SetColumnSpan(this.label4, 3);
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(3, 102);
-            this.label4.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label4.Margin = new System.Windows.Forms.Padding(3, 6, 21, 6);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(114, 410);
+            this.label4.Size = new System.Drawing.Size(314, 36);
             this.label4.TabIndex = 0;
-            this.label4.Text = "Description";
+            this.label4.Text = "Description:";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // label5
             // 
@@ -237,18 +241,6 @@
             this.label7.Text = ":";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label8.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(123, 102);
-            this.label8.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(10, 410);
-            this.label8.TabIndex = 0;
-            this.label8.Text = ":";
-            // 
             // lbSpawnPositions
             // 
             this.lbSpawnPositions.AutoSize = true;
@@ -256,7 +248,7 @@
             this.lbSpawnPositions.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbSpawnPositions.Location = new System.Drawing.Point(139, 0);
             this.lbSpawnPositions.Name = "lbSpawnPositions";
-            this.lbSpawnPositions.Size = new System.Drawing.Size(310, 32);
+            this.lbSpawnPositions.Size = new System.Drawing.Size(196, 32);
             this.lbSpawnPositions.TabIndex = 0;
             this.lbSpawnPositions.Text = "[SpawnPositions]";
             this.lbSpawnPositions.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -268,7 +260,7 @@
             this.lbTileset.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbTileset.Location = new System.Drawing.Point(139, 32);
             this.lbTileset.Name = "lbTileset";
-            this.lbTileset.Size = new System.Drawing.Size(310, 32);
+            this.lbTileset.Size = new System.Drawing.Size(196, 32);
             this.lbTileset.TabIndex = 0;
             this.lbTileset.Text = "[TileSet]";
             this.lbTileset.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -280,7 +272,7 @@
             this.lbSize.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbSize.Location = new System.Drawing.Point(139, 64);
             this.lbSize.Name = "lbSize";
-            this.lbSize.Size = new System.Drawing.Size(310, 32);
+            this.lbSize.Size = new System.Drawing.Size(196, 32);
             this.lbSize.TabIndex = 0;
             this.lbSize.Text = "[Size]";
             this.lbSize.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -288,12 +280,13 @@
             // panel1
             // 
             this.panel1.AutoScroll = true;
+            this.tblLOPnlMapDetails.SetColumnSpan(this.panel1, 3);
             this.panel1.Controls.Add(this.lbDescription);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(136, 96);
+            this.panel1.Location = new System.Drawing.Point(0, 144);
             this.panel1.Margin = new System.Windows.Forms.Padding(0, 0, 20, 20);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(296, 396);
+            this.panel1.Size = new System.Drawing.Size(318, 348);
             this.panel1.TabIndex = 1;
             // 
             // lbDescription
@@ -302,9 +295,9 @@
             this.lbDescription.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbDescription.Location = new System.Drawing.Point(3, 6);
             this.lbDescription.Margin = new System.Windows.Forms.Padding(3, 6, 0, 0);
-            this.lbDescription.MinimumSize = new System.Drawing.Size(293, 18);
+            this.lbDescription.MinimumSize = new System.Drawing.Size(315, 18);
             this.lbDescription.Name = "lbDescription";
-            this.lbDescription.Size = new System.Drawing.Size(293, 18);
+            this.lbDescription.Size = new System.Drawing.Size(315, 18);
             this.lbDescription.TabIndex = 0;
             this.lbDescription.Text = "[Description]";
             // 
@@ -313,7 +306,7 @@
             this.grpBxMapImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.grpBxMapImage.Controls.Add(this.picBxMapImage);
             this.grpBxMapImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpBxMapImage.Location = new System.Drawing.Point(467, 56);
+            this.grpBxMapImage.Location = new System.Drawing.Point(353, 56);
             this.grpBxMapImage.Name = "grpBxMapImage";
             this.grpBxMapImage.Padding = new System.Windows.Forms.Padding(0);
             this.grpBxMapImage.Size = new System.Drawing.Size(524, 538);
@@ -333,14 +326,14 @@
             // 
             // grpBxMapStats
             // 
-            this.tnlLOPnlMapProfile.SetColumnSpan(this.grpBxMapStats, 2);
+            this.tblLOPnlMapProfile.SetColumnSpan(this.grpBxMapStats, 2);
             this.grpBxMapStats.Controls.Add(this.tblLOPnlMapStats);
             this.grpBxMapStats.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpBxMapStats.Font = new System.Drawing.Font("Calibri", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpBxMapStats.ForeColor = System.Drawing.Color.White;
             this.grpBxMapStats.Location = new System.Drawing.Point(3, 600);
             this.grpBxMapStats.Name = "grpBxMapStats";
-            this.grpBxMapStats.Size = new System.Drawing.Size(988, 261);
+            this.grpBxMapStats.Size = new System.Drawing.Size(874, 261);
             this.grpBxMapStats.TabIndex = 3;
             this.grpBxMapStats.TabStop = false;
             this.grpBxMapStats.Text = "Statistics";
@@ -362,7 +355,7 @@
             this.tblLOPnlMapStats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tblLOPnlMapStats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tblLOPnlMapStats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlMapStats.Size = new System.Drawing.Size(982, 235);
+            this.tblLOPnlMapStats.Size = new System.Drawing.Size(868, 235);
             this.tblLOPnlMapStats.TabIndex = 0;
             // 
             // label10
@@ -372,7 +365,7 @@
             this.label10.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(468, 32);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(511, 32);
+            this.label10.Size = new System.Drawing.Size(397, 32);
             this.label10.TabIndex = 0;
             this.label10.Text = "Mirror Matchups:";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -420,10 +413,10 @@
             this.grpBxGames.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpBxGames.Font = new System.Drawing.Font("Calibri", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpBxGames.ForeColor = System.Drawing.Color.White;
-            this.grpBxGames.Location = new System.Drawing.Point(997, 56);
+            this.grpBxGames.Location = new System.Drawing.Point(883, 56);
             this.grpBxGames.Name = "grpBxGames";
-            this.tnlLOPnlMapProfile.SetRowSpan(this.grpBxGames, 2);
-            this.grpBxGames.Size = new System.Drawing.Size(634, 805);
+            this.tblLOPnlMapProfile.SetRowSpan(this.grpBxGames, 2);
+            this.grpBxGames.Size = new System.Drawing.Size(809, 805);
             this.grpBxGames.TabIndex = 4;
             this.grpBxGames.TabStop = false;
             this.grpBxGames.Text = "Games";
@@ -443,7 +436,7 @@
             this.tblLOPnlGames.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 220F));
             this.tblLOPnlGames.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
             this.tblLOPnlGames.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlGames.Size = new System.Drawing.Size(628, 779);
+            this.tblLOPnlGames.Size = new System.Drawing.Size(803, 779);
             this.tblLOPnlGames.TabIndex = 0;
             // 
             // label12
@@ -464,7 +457,7 @@
             this.btnApplyFilter.Enabled = false;
             this.btnApplyFilter.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnApplyFilter.ForeColor = System.Drawing.Color.Black;
-            this.btnApplyFilter.Location = new System.Drawing.Point(513, 35);
+            this.btnApplyFilter.Location = new System.Drawing.Point(688, 35);
             this.btnApplyFilter.Name = "btnApplyFilter";
             this.btnApplyFilter.Size = new System.Drawing.Size(112, 36);
             this.btnApplyFilter.TabIndex = 1;
@@ -476,25 +469,25 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoScroll = true;
-            this.AutoScrollMinSize = new System.Drawing.Size(1640, 864);
+            this.AutoScrollMinSize = new System.Drawing.Size(1701, 864);
             this.BackgroundImage = global::SCEloSystemGUI.Properties.Resources.SpaceBackground;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1654, 886);
-            this.Controls.Add(this.tnlLOPnlMapProfile);
+            this.ClientSize = new System.Drawing.Size(1715, 886);
+            this.Controls.Add(this.tblLOPnlMapProfile);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MaximumSize = new System.Drawing.Size(1670, 924);
+            this.MaximumSize = new System.Drawing.Size(1731, 924);
             this.Name = "MapProfile";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Map Profile";
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MapProfile_KeyUp);
-            this.tnlLOPnlMapProfile.ResumeLayout(false);
-            this.tnlLOPnlMapProfile.PerformLayout();
+            this.tblLOPnlMapProfile.ResumeLayout(false);
+            this.tblLOPnlMapProfile.PerformLayout();
             this.grpBxMapDetails.ResumeLayout(false);
             this.tblLOPnlMapDetails.ResumeLayout(false);
             this.tblLOPnlMapDetails.PerformLayout();
@@ -514,7 +507,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tnlLOPnlMapProfile;
+        private System.Windows.Forms.TableLayoutPanel tblLOPnlMapProfile;
         private System.Windows.Forms.Label lbName;
         private System.Windows.Forms.GroupBox grpBxMapDetails;
         private System.Windows.Forms.TableLayoutPanel tblLOPnlMapDetails;
@@ -525,7 +518,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label lbSpawnPositions;
         private System.Windows.Forms.Label lbTileset;
         private System.Windows.Forms.Label lbSize;

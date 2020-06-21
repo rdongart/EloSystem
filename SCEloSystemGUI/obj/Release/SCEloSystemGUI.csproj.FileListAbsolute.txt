@@ -23,7 +23,6 @@ C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\ob
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Release\SCEloSystemGUI.MapStatsDisplay.resources
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Release\SCEloSystemGUI.UserControls.SeasonAdder.resources
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\bin\Release\ObjectListView.dll
-C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\bin\Release\ObjectListView.pdb
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\bin\Release\ObjectListView.xml
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Release\SCEloSystemGUI.UserControls.DblNameContentEditor.resources
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Release\SCEloSystemGUI.UserControls.PlayerEditor.resources
@@ -52,3 +51,5 @@ C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\ob
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Release\SCEloSystemGUI.UserControls.GameFilter.resources
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Release\SCEloSystemGUI.TournamentsOverview.resources
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Release\SCEloSystemGUI.TournamentProfile.resources
+C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Release\SCEloSystemGUI.UserControls.GameByPlayerFilter.resources
+C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Release\SCEloSystemGUI.csproj.SCElo.exe.config

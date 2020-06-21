@@ -7,7 +7,7 @@ namespace EloSystem
 {
     public enum Matchup
     {
-        ZvP, PvT, TvZ, RvZ, RvP, RvT, ZvZ, PvP, TvT, RvR
+        TvZ, ZvP, PvT, ZvZ, TvT, PvP, RvZ, RvT, RvP, RvR
     }
 
     [Serializable]

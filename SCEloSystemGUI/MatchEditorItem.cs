@@ -112,13 +112,18 @@ namespace SCEloSystemGUI
         public bool HasBeenEdited()
         {
             return this.Tournament != this.sourceGames.First().Tournament || this.Season != this.sourceGames.First().Season || this.DateValue.Date.CompareTo(this.SourceMatch.DateTime.Date) != 0
-                || this.Player1 != this.SourceMatch.Player1 || this.Player2 != this.SourceMatch.Player2 || this.sourceGames.Where((game, index) => this.editedGames[index].IsDifferentFrom(game)).Any() 
+                || this.Player1 != this.SourceMatch.Player1 || this.Player2 != this.SourceMatch.Player2 || this.sourceGames.Where((game, index) => this.editedGames[index].IsDifferentFrom(game)).Any()
                 || this.sourceGames.Count != this.editedGames.Count;
         }
 
         public void SetGames(IEnumerable<GameEntryEditorItem> gameReports)
         {
             if (gameReports.Any()) { this.editedGames = gameReports.ToList(); }
+        }
+
+        public bool HasPlayer(SCPlayer player)
+        {
+            return this.SourceMatch.HasPlayer(player);
         }
     }
 }

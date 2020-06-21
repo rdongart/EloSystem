@@ -10,6 +10,8 @@ namespace SCEloSystemGUI.UserControls
 {
     internal static partial class Styles
     {
+        internal const string NUMBER_FORMAT = "#,#";
+
         internal static class ObjectListViewStyles
         {
             internal static void SetHotItemStyle(ObjectListView olv)
@@ -19,6 +21,21 @@ namespace SCEloSystemGUI.UserControls
                 olv.MouseMove += EloGUIControlsStaticMembers.ShowCurserHandOnMouseMove;
                 olv.HotItemStyle = new HotItemStyle();
                 olv.HotItemStyle.Decoration = EloSystemGUIStaticMembers.OlvListViewRowBorderDecoration();
+            }
+
+            internal static void AvoidFocus(ObjectListView olv)
+            {
+                olv.GotFocus += ObjectListViewStyles.Olv_GotFocus;
+            }
+
+            private static void Olv_GotFocus(object sender, EventArgs e)
+            {
+                var senderOLV = sender as ObjectListView;
+
+                Form form = senderOLV.FindForm();
+
+                if (form != null) { form.Focus(); }
+                else if (senderOLV.Parent != null) { senderOLV.Parent.Focus(); }
             }
         }
 
@@ -34,6 +51,7 @@ namespace SCEloSystemGUI.UserControls
                 ps.ButtonBorderColor = Color.WhiteSmoke;
                 ps.Anchor = AnchorStyles.Right;
             }
+
         }
 
         internal static class PictureBoxStyles
@@ -67,7 +85,7 @@ namespace SCEloSystemGUI.UserControls
 
                 return String.Format("{0}{1}", ratingChangeValue >= 0 ? "+" : "",
                     hasRatingValue ?
-                    (ratingChangeValue == 0 ? "0" : ratingChangeValue.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT))
+                    (ratingChangeValue == 0 ? "0" : ratingChangeValue.ToString(Styles.NUMBER_FORMAT))
                     : ratingChangeTxt);
             }
         }

@@ -88,49 +88,49 @@ namespace EloSystemExtensions
                 g.CompositingQuality = CompositingQuality.HighQuality;
                 g.SmoothingMode = SmoothingMode.AntiAlias;
 
-                Brush backColor = Brushes.Black;
-                Brush txtColor = Brushes.DarkGoldenrod;
+                Brush backColor = new SolidBrush(Color.Black);
+                Brush txtColor = new SolidBrush(Color.DarkGoldenrod);
                 string rankTxt = "";
 
                 switch (rank)
                 {
                     case Rank.U:
                         backColor = new SolidBrush(Color.FromArgb(127, 127, 127));
-                        txtColor = Brushes.Black;
+                        txtColor = new SolidBrush(Color.Black);
                         rankTxt = "U";
                         break;
                     case Rank.F:
-                        backColor = Brushes.WhiteSmoke;
-                        txtColor = Brushes.Black;
+                        backColor = new SolidBrush(Color.WhiteSmoke);
+                        txtColor = new SolidBrush(Color.Black);
                         rankTxt = "F";
                         break;
                     case Rank.E:
-                        backColor = Brushes.Magenta;
-                        txtColor = Brushes.Black;
+                        backColor = new SolidBrush(Color.Magenta);
+                        txtColor = new SolidBrush(Color.Black);
                         rankTxt = "E";
                         break;
                     case Rank.D:
                         backColor = new SolidBrush(Color.FromArgb(160, 0, 0));
-                        txtColor = Brushes.White;
+                        txtColor = new SolidBrush(Color.White);
                         rankTxt = "D";
                         break;
                     case Rank.C:
                         backColor = new SolidBrush(Color.FromArgb(230, 230, 0));
-                        txtColor = Brushes.Black;
+                        txtColor = new SolidBrush(Color.Black);
                         rankTxt = "C";
                         break;
                     case Rank.B:
-                        backColor = Brushes.Blue;
-                        txtColor = Brushes.White;
+                        backColor = new SolidBrush(Color.Blue);
+                        txtColor = new SolidBrush(Color.White);
                         rankTxt = "B";
                         break;
                     case Rank.A:
-                        backColor = Brushes.ForestGreen;
-                        txtColor = Brushes.White;
+                        backColor = new SolidBrush(Color.ForestGreen);
+                        txtColor = new SolidBrush(Color.White);
                         rankTxt = "A";
                         break;
                     case Rank.APlus:
-                        backColor = Brushes.Black;
+                        backColor = new SolidBrush(Color.Black);
                         txtColor = new SolidBrush(Color.FromArgb(232, 170, 14));
                         rankTxt = "A+";
                         break;
@@ -145,7 +145,10 @@ namespace EloSystemExtensions
 
                 g.DrawString(rankTxt, txtFont, txtColor, new PointF((pixelSize - txtSize.Width) / 2, (pixelSize - txtSize.Height) / 2));
 
-                g.DrawRectangle(new Pen(txtColor, frameWidth), 0, 0, pixelSize - 1, pixelSize - 1);
+                using (var pen = new Pen(txtColor, frameWidth)) { g.DrawRectangle(pen, 0, 0, pixelSize - 1, pixelSize - 1); }
+                
+                backColor.Dispose();
+                txtColor.Dispose();
             }
 
             return img;

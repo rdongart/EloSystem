@@ -92,6 +92,7 @@ namespace SCEloSystemGUI.UserControls
             this.oLstVRecentMatches = EloSystemGUIStaticMembers.CreateMatchListView();
             this.oLstVRecentMatches.EmptyListMsg = "No matches have been entered yet.";
             Styles.ObjectListViewStyles.SetHotItemStyle(this.oLstVRecentMatches);
+            Styles.ObjectListViewStyles.AvoidFocus(this.oLstVRecentMatches);
             this.oLstVRecentMatches.Margin = new Padding(6, 3, 6, 3);
             this.oLstVRecentMatches.Dock = DockStyle.Fill;
             this.oLstVRecentMatches.FullRowSelect = true;
@@ -135,7 +136,7 @@ namespace SCEloSystemGUI.UserControls
                 }
             }
 
-            olv.SelectedItems.Clear();
+            olv.SelectedItems.Clear();          
         }
 
         private static bool ConfirmUsingFutureDate()
@@ -497,7 +498,6 @@ namespace SCEloSystemGUI.UserControls
                 }
                 else { this.EditorMatch.SeasonIndex = -1; }
 
-                // only if the date has changed will the match be given a new date value because exact time values are used to retain order in matches played on same date
                 if (this.EditorMatch.DateValue.Date.CompareTo(this.dtpMatchDate.Value.Date) != 0) { this.EditorMatch.DateValue = this.GetNextMatchDateValue(this.dtpMatchDate.Value); }
 
                 this.EditorMatch.Player1 = ply1;
@@ -608,13 +608,9 @@ namespace SCEloSystemGUI.UserControls
 
             this.oLstVRecentMatches.SelectedItems.Clear();
 
-            this.oLstVRecentMatches.Cursor = Cursors.Hand;
-
             this.SaveUnfinishedReport();
 
             this.ResetControls();
-
-            this.oLstVRecentMatches.FullRowSelect = true;
 
             this.btnDeleteReport.Visible = true;
         }
@@ -625,8 +621,6 @@ namespace SCEloSystemGUI.UserControls
 
             this.lbMatchReportHeader.Text = "Match Report";
 
-            this.oLstVRecentMatches.Cursor = Cursors.Default;
-
             if (this.unfinishedReport != null) { this.ContinueUnfinishedReport(); }
 
             this.SetEditorObjectsEnabledStatus(true);
@@ -634,8 +628,6 @@ namespace SCEloSystemGUI.UserControls
             this.btnAddGame.Enabled = true;
             this.btnDeleteReport.Visible = false;
             this.btnEditMatchIndex.Enabled = false;
-
-            this.oLstVRecentMatches.FullRowSelect = false;
         }
 
         private void SaveUnfinishedReport()

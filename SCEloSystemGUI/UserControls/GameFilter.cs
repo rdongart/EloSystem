@@ -1,37 +1,29 @@
-﻿using BrightIdeasSoftware;
+﻿using CustomControls.Utilities;
+using BrightIdeasSoftware;
 using CustomExtensionMethods;
 using CustomExtensionMethods.Drawing;
 using EloSystem;
-using EloSystem.ResourceManagement;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
-using System;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SCEloSystemGUI.UserControls
 {
     public partial class GameFilter<T> : UserControl, IGameFilter
     {
-        public delegate string NameGetter<T>(T item);
-        public delegate Image ImageGetter<T>(T item);
-        public delegate T AspectGetter<T>(Game game);
+        public delegate string NameGetter(T item);
+        public delegate Image ImageGetter(T item);
+        public delegate T AspectGetter(Game game);
 
         private const int ROW_HEIGHT_DEFAULT = 22;
         private const int IMAGE_HEIGHT_DEFAULT = GameFilter<T>.ROW_HEIGHT_DEFAULT - 2;
         private const int CLM_IMAGE_WIDTH = 60;
         private const int CLM_NAME_WIDTH = 90;
 
+        private ResourceCacheSystem<T, Image> imageCache;
         public int ImageColumnnWidth
         {
             get
@@ -42,45 +34,76 @@ namespace SCEloSystemGUI.UserControls
             {
                 this.imageColumnWidth = value;
 
-                this.UpdateColumnWidths();
-            }
-        }
-        public int NameColumnWidth
-        {
-            get
-            {
-                return this.nameColumnWidth;
-            }
-            set
-            {
-                this.nameColumnWidth = value;
+                this.imageCache.ClearCache();
 
                 this.UpdateColumnWidths();
             }
         }
+        public int PrimaryNameColumnWidth
+        {
+            get
+            {
+                return this.primaryNameColumnWidth;
+            }
+            set
+            {
+                this.primaryNameColumnWidth = value;
+
+                this.UpdateColumnWidths();
+            }
+        }
+        public int SecondaryNameColumnWidth
+        {
+            get
+            {
+                return this.secondaryNameColumWidth;
+            }
+            set
+            {
+                this.secondaryNameColumWidth = value;
+
+                this.UpdateColumnWidths();
+            }
+        }
+        private int secondaryNameColumWidth = GameFilter<T>.CLM_NAME_WIDTH;
         private int imageColumnWidth = GameFilter<T>.CLM_IMAGE_WIDTH;
-        private int nameColumnWidth = GameFilter<T>.CLM_NAME_WIDTH;
-        private OLVColumn olvClmName;
+        private int primaryNameColumnWidth = GameFilter<T>.CLM_NAME_WIDTH;
+        private OLVColumn olvClmPrimaryName;
+        private OLVColumn olvClmSecondaryName;
         private OLVColumn olvClmImage;
-        private NameGetter<T> nameGetter;
-        private ImageGetter<T> imageGetter;
+        private NameGetter primaryNameGetter;
+        private NameGetter secondaryNameGetter;
+        private ImageGetter imageGetter;
         private List<T> selectedContentApplied;
         private ObjectListView contentOLV;
         private string columnHeader;
-        public NameGetter<T> ItemNameGetter
+        public NameGetter ItemSecondaryNameGetter
         {
             get
             {
-                return this.nameGetter;
+                return this.secondaryNameGetter;
             }
             set
             {
-                this.nameGetter = value;
+                this.secondaryNameGetter = value;
 
                 this.UpdateColumnWidths();
             }
         }
-        public ImageGetter<T> ItemImageGetter
+        public NameGetter ItemPrimaryNameGetter
+        {
+            get
+            {
+                return this.primaryNameGetter;
+            }
+            set
+            {
+                this.primaryNameGetter = value;
+
+                this.UpdateColumnWidths();
+            }
+        }
+        public ImageGetter ItemImageGetter
         {
             get
             {
@@ -93,7 +116,7 @@ namespace SCEloSystemGUI.UserControls
                 this.UpdateColumnWidths();
             }
         }
-        public AspectGetter<T> FilterAspectGetter { get; set; }
+        public AspectGetter FilterAspectGetter { get; set; }
         public int RowHeight
         {
             get
@@ -154,7 +177,7 @@ namespace SCEloSystemGUI.UserControls
             this.RowHeight = GameFilter<T>.ROW_HEIGHT_DEFAULT;
 
             this.tblLoPnlMain.Controls.Add(this.contentOLV, 0, 1);
-            this.tblLoPnlMain.SetRowSpan(this.contentOLV, 2);
+            this.tblLoPnlMain.SetColumnSpan(this.contentOLV, 2);
 
             this.SetBtnEnabledStatus();
         }
@@ -176,19 +199,31 @@ namespace SCEloSystemGUI.UserControls
 
         private void UpdateColumnWidths()
         {
-            if (this.nameGetter == null)
+            if (this.primaryNameGetter == null)
             {
-                this.olvClmName.MinimumWidth = 0;
-                this.olvClmName.Width = 0;
-                this.olvClmName.MaximumWidth = 0;
+                this.olvClmPrimaryName.MinimumWidth = 0;
+                this.olvClmPrimaryName.Width = 0;
+                this.olvClmPrimaryName.MaximumWidth = 0;
             }
             else
             {
-                this.olvClmName.MaximumWidth = this.NameColumnWidth;
-                this.olvClmName.Width = this.NameColumnWidth;
-                this.olvClmName.MinimumWidth = this.NameColumnWidth;
+                this.olvClmPrimaryName.MaximumWidth = this.PrimaryNameColumnWidth;
+                this.olvClmPrimaryName.Width = this.PrimaryNameColumnWidth;
+                this.olvClmPrimaryName.MinimumWidth = this.PrimaryNameColumnWidth;
             }
 
+            if (this.secondaryNameGetter == null)
+            {
+                this.olvClmPrimaryName.MinimumWidth = 0;
+                this.olvClmPrimaryName.Width = 0;
+                this.olvClmPrimaryName.MaximumWidth = 0;
+            }
+            else
+            {
+                this.olvClmPrimaryName.MaximumWidth = this.PrimaryNameColumnWidth;
+                this.olvClmPrimaryName.Width = this.PrimaryNameColumnWidth;
+                this.olvClmPrimaryName.MinimumWidth = this.PrimaryNameColumnWidth;
+            }
 
             if (this.imageGetter == null)
             {
@@ -209,7 +244,7 @@ namespace SCEloSystemGUI.UserControls
         {
             this.SetBtnEnabledStatus();
 
-            this.FilterChanged.Invoke(this, e);
+            this.FilterChanged.Invoke(this, new EventArgs());
         }
 
         public bool FilterGame(Game game)
@@ -228,8 +263,9 @@ namespace SCEloSystemGUI.UserControls
         {
             var contentFilterOLV = new ObjectListView()
             {
-                AlternateRowBackColor = Color.FromArgb(210, 210, 210),
-                BackColor = Color.FromArgb(175, 175, 235),
+                AllowColumnReorder = false,
+                AlternateRowBackColor = EloSystemGUIStaticMembers.OlvRowAlternativeBackColor,
+                BackColor = EloSystemGUIStaticMembers.OlvRowBackColor,
                 CheckBoxes = true,
                 Dock = DockStyle.Fill,
                 Font = new Font("Calibri", 10.5f, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
@@ -239,23 +275,26 @@ namespace SCEloSystemGUI.UserControls
                 MultiSelect = true,
                 RowHeight = GameFilter<T>.ROW_HEIGHT_DEFAULT,
                 Scrollable = true,
+                ShowFilterMenuOnRightClick = false,
                 ShowGroups = false,
                 Size = new Size(190, 300),
                 UseAlternatingBackColors = true,
-                UseCellFormatEvents = false
+                UseCellFormatEvents = false,
             };
 
             contentFilterOLV.CellClick += GameFilter<T>.ContentFilterOLV_CellClick;
+            contentFilterOLV.ItemSelectionChanged += GameFilter<T>.ContentFilterOLV_SelectionChanged;
 
             const int CLM_CHECKBOX_WIDTH = 21;
 
             var olvClmCheckBox = new OLVColumn() { MaximumWidth = CLM_CHECKBOX_WIDTH, Width = CLM_CHECKBOX_WIDTH, MinimumWidth = CLM_CHECKBOX_WIDTH, CellPadding = null, Text = "" };
             this.olvClmImage = new OLVColumn() { Width = 0, MinimumWidth = 0, MaximumWidth = 0, Text = "", IsTileViewColumn = true };
-            this.olvClmName = new OLVColumn() { Width = 0, MinimumWidth = 0, MaximumWidth = 0, Text = "" };
+            this.olvClmPrimaryName = new OLVColumn() { Width = 0, MinimumWidth = 0, MaximumWidth = 0, Text = "" };
+            this.olvClmSecondaryName = new OLVColumn() { Width = 0, MinimumWidth = 0, MaximumWidth = 0, Text = "" };
 
-            contentFilterOLV.AllColumns.AddRange(new OLVColumn[] { olvClmCheckBox, this.olvClmImage, this.olvClmName });
+            contentFilterOLV.AllColumns.AddRange(new OLVColumn[] { olvClmCheckBox, this.olvClmImage, this.olvClmPrimaryName, this.olvClmSecondaryName });
 
-            contentFilterOLV.Columns.AddRange(new ColumnHeader[] { olvClmCheckBox, this.olvClmImage, this.olvClmName });
+            contentFilterOLV.Columns.AddRange(new ColumnHeader[] { olvClmCheckBox, this.olvClmImage, this.olvClmPrimaryName, this.olvClmSecondaryName });
 
             var imageRenderer = new ImageRenderer()
             {
@@ -263,28 +302,35 @@ namespace SCEloSystemGUI.UserControls
                 CellPadding = new Rectangle(3, 1, 3, 1)
             };
 
+            this.imageCache = new ResourceCacheSystem<T, Image>()
+            {
+                ResourceGetter = (key) => this.ItemImageGetter(key).ResizeSARWithinBounds(this.ImageColumnnWidth - imageRenderer.CellPadding.Value.Width, this.RowHeight - imageRenderer.CellPadding.Value.Height)
+            };
 
             this.olvClmImage.AspectGetter = obj =>
             {
                 var item = (T)obj;
 
-                if (this.ItemImageGetter != null)
-                {
-                    Image image = this.ItemImageGetter(item);
-
-                    return new Image[] { image.ResizeSARWithinBounds(this.ImageColumnnWidth - imageRenderer.CellPadding.Value.Width, this.RowHeight - imageRenderer.CellPadding.Value.Height) };
-                }
+                if (this.ItemImageGetter != null) { return new Image[] { this.imageCache.GetResource(item) }; }
                 else { return null; }
 
             };
 
             this.olvClmImage.Renderer = imageRenderer;
 
-            this.olvClmName.AspectGetter = obj =>
+            this.olvClmPrimaryName.AspectGetter = obj =>
             {
                 var item = (T)obj;
 
-                if (this.ItemNameGetter != null) { return this.ItemNameGetter(item); }
+                if (this.ItemPrimaryNameGetter != null) { return this.ItemPrimaryNameGetter(item); }
+                else { return string.Empty; }
+            };
+
+            this.olvClmSecondaryName.AspectGetter = obj =>
+            {
+                var item = (T)obj;
+
+                if (this.ItemSecondaryNameGetter != null) { return this.ItemSecondaryNameGetter(item); }
                 else { return string.Empty; }
             };
 

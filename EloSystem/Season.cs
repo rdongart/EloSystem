@@ -11,7 +11,7 @@ namespace EloSystem
     {
         private List<Match> matches;
 
-        internal Season(string name, int id) : base(name,id)
+        internal Season(string name, int id) : base(name, id)
         {
             this.matches = new List<Match>();
         }

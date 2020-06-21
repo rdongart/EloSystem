@@ -36,6 +36,15 @@ namespace SCEloSystemGUI
         private Dictionary<string, Bitmap> raceIcons = new Dictionary<string, Bitmap>();
         private Dictionary<Country, Bitmap> flags = new Dictionary<Country, Bitmap>();
         private Dictionary<SCPlayer, string> raceUsageIdentifierStrings = new Dictionary<SCPlayer, string>();
+        private IEnumerable<Tuple<SCPlayer, int>> playersFilteredAndRanked
+        {
+            get
+            {
+                return GlobalState.DataBase.GetPlayers().Where(player => this.filters.All(filter => filter.PlayerFilter(player))).OrderByDescending(player => player.RatingTotal()).ThenByDescending(p =>
+                    GlobalState.DataBase.GamesByPlayer(p).OrderNewestFirst().First().Match.DateTime.Date).ThenByDescending(player => player.Stats.GamesTotal()).ThenByDescending(player =>
+                        player.Stats.WinRatioTotal()).Select((player, rank) => new Tuple<SCPlayer, int>(player, rank + 1));
+            }
+        }
 
         internal PlayerStats()
         {
@@ -84,7 +93,6 @@ namespace SCEloSystemGUI
             this.tabCtrlCustomizations.Visible = false;
             this.tblLoPnlPlayerStats.RowStyles[PlayerStats.FILTERROW_INDEX].Height = 0;
 
-
         }
 
         private void OlvPlayerSearch_SelectionChanged(object sender, EventArgs e)
@@ -121,9 +129,7 @@ namespace SCEloSystemGUI
 
             Cursor.Current = Cursors.WaitCursor;
 
-            this.olvPlayerSearch.SetObjects(GlobalState.DataBase.GetPlayers().Where(player => this.filters.All(filter => filter.PlayerFilter(player))).OrderByDescending(player =>
-                player.RatingTotal()).ThenByDescending(p => GlobalState.DataBase.GamesByPlayer(p).OrderNewestFirst().First().Match.DateTime.Date).ThenByDescending(player => player.Stats.GamesTotal()).ThenByDescending(player => player.Stats.WinRatioTotal()).Select((player, rank) => new Tuple<SCPlayer, int>(player, rank + 1)).Where(tuple =>
-                    GlobalState.DataBase.PlayerLookup(e.SearchString).Contains(tuple.Item1)).ToArray());
+            this.olvPlayerSearch.SetObjects(this.playersFilteredAndRanked.Where(tuple => GlobalState.DataBase.PlayerLookup(e.SearchString).Contains(tuple.Item1)));
 
             Cursor.Current = previousCursor;
         }
@@ -184,6 +190,7 @@ namespace SCEloSystemGUI
             playerStatsLV.FormatCell += PlayerStats.PlayerStats_FormatCell;
 
             Styles.ObjectListViewStyles.SetHotItemStyle(playerStatsLV);
+            Styles.ObjectListViewStyles.AvoidFocus(playerStatsLV);
 
             var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null };
             var olvClmRank = new OLVColumn() { Width = 50, Text = "Rank" };
@@ -214,7 +221,7 @@ namespace SCEloSystemGUI
             {
                 var rank = (obj as Tuple<SCPlayer, int>).Item2;
 
-                return String.Format("{0}.", rank.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT));
+                return String.Format("{0}.", rank.ToString(Styles.NUMBER_FORMAT));
             };
 
             olvClmName.AspectGetter = obj =>
@@ -322,7 +329,7 @@ namespace SCEloSystemGUI
             {
                 var player = (obj as Tuple<SCPlayer, int>).Item1;
 
-                return player.RatingTotal().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                return player.RatingTotal().ToString(Styles.NUMBER_FORMAT);
             };
 
             olvClmRatingDevelopment.AspectGetter = obj =>
@@ -351,28 +358,28 @@ namespace SCEloSystemGUI
             {
                 var player = (obj as Tuple<SCPlayer, int>).Item1;
 
-                return player.RatingVs.Zerg.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                return player.RatingVs.Zerg.ToString(Styles.NUMBER_FORMAT);
             };
 
             olvClmRatingVsTerran.AspectGetter = obj =>
             {
                 var player = (obj as Tuple<SCPlayer, int>).Item1;
 
-                return player.RatingVs.Terran.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                return player.RatingVs.Terran.ToString(Styles.NUMBER_FORMAT);
             };
 
             olvClmRatingVsProtoss.AspectGetter = obj =>
             {
                 var player = (obj as Tuple<SCPlayer, int>).Item1;
 
-                return player.RatingVs.Protoss.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                return player.RatingVs.Protoss.ToString(Styles.NUMBER_FORMAT);
             };
 
             olvClmRatingVsRandom.AspectGetter = obj =>
             {
                 var player = (obj as Tuple<SCPlayer, int>).Item1;
 
-                return player.RatingVs.Random.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                return player.RatingVs.Random.ToString(Styles.NUMBER_FORMAT);
             };
 
             return playerStatsLV;
@@ -399,9 +406,7 @@ namespace SCEloSystemGUI
 
         internal void SetPlayerList()
         {
-            this.olvPlayerStats.SetObjects(GlobalState.DataBase.GetPlayers().Where(player => this.filters.All(filter => filter.PlayerFilter(player))).OrderByDescending(player =>
-                player.RatingTotal()).ThenByDescending(player => player.Stats.GamesTotal()).ThenByDescending(player => player.Stats.WinRatioTotal()).Select((player, rank) =>
-                    new Tuple<SCPlayer, int>(player, rank + 1)).ToArray());
+            this.olvPlayerStats.SetObjects(this.playersFilteredAndRanked);
         }
 
         private void SetbtnApllyEnabledStatus()

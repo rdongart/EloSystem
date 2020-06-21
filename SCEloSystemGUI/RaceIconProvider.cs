@@ -1,5 +1,4 @@
-﻿using CustomControls;
-using CustomExtensionMethods;
+﻿using CustomExtensionMethods;
 using EloSystem;
 using EloSystemExtensions;
 using SCEloSystemGUI.Properties;

@@ -20,6 +20,7 @@ namespace SCEloSystemGUI.UserControls
 
             this.selectedItem = matchItems[selectionIndex];
 
+            matchList.BackColor = Color.WhiteSmoke;
             matchList.FormatRow += MatchList_FormatRow;
             matchList.FullRowSelect = false;
             matchList.UseAlternatingBackColors = false;

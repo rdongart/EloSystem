@@ -35,7 +35,13 @@ namespace SCEloSystemGUI
 
         public static void ShowOverview(Form anchorForm = null)
         {
+            System.Windows.Forms.Cursor previousCursor = System.Windows.Forms.Cursor.Current;
+
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
+
             var overviewDisplay = new TournamentsOverview();
+
+            System.Windows.Forms.Cursor.Current = previousCursor;
 
             if (anchorForm != null) { FormStyles.ShowFullFormRelativeToAnchor(overviewDisplay, anchorForm); }
 
@@ -69,6 +75,7 @@ namespace SCEloSystemGUI
             };
 
             Styles.ObjectListViewStyles.SetHotItemStyle(tournamentStatsLV);
+            Styles.ObjectListViewStyles.AvoidFocus(tournamentStatsLV);
 
             var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null, Sortable = true };
             var olvClmLogo = new OLVColumn() { Width = 110, Text = "Logo", Sortable = false, TextAlign = HorizontalAlignment.Center };
@@ -130,7 +137,7 @@ namespace SCEloSystemGUI
             {
                 var aspect = (int)obj;
 
-                return aspect.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                return aspect.ToString(Styles.NUMBER_FORMAT);
 
             };
 
@@ -143,7 +150,7 @@ namespace SCEloSystemGUI
 
             var selectedTournament = this.tournaments.SelectedItem.RowObject as Tournament;
 
-            if (selectedTournament != null) { TournamentProfile.ShowProfile(selectedTournament); }
+            if (selectedTournament != null) { TournamentProfile.ShowProfile(selectedTournament, this); }
 
             this.tournaments.SelectedItems.Clear();
         }

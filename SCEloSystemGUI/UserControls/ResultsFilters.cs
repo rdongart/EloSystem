@@ -1,12 +1,12 @@
-﻿using EloSystemExtensions;
-using CustomExtensionMethods.Drawing;
-using System.Drawing;
+﻿using CustomControls;
 using CustomExtensionMethods;
 using EloSystem;
 using EloSystem.ResourceManagement;
+using EloSystemExtensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -20,6 +20,7 @@ namespace SCEloSystemGUI.UserControls
         private const string NO_RESULTS_TEXT = "-";
 
         private bool haltPublishingMapFilterChange;
+        private bool haltPublishingTournamentFilterChange;
         internal EventHandler ResultFilterChanged = delegate { };
         internal Map SelectedMap
         {
@@ -29,9 +30,7 @@ namespace SCEloSystemGUI.UserControls
             }
             private set
             {
-                bool handlerShouldBeInvoked = false;
-
-                if (this.selectedMap != value) { handlerShouldBeInvoked = true; }
+                bool handlerShouldBeInvoked = this.selectedMap != value;
 
                 this.selectedMap = value;
 
@@ -65,9 +64,30 @@ namespace SCEloSystemGUI.UserControls
                 }
             }
         }
+        internal Tournament SelectedTournament
+        {
+            get
+            {
+                return this.selectedTournament;
+            }
+            private set
+            {
+                bool handlerShouldBeInvoked = this.selectedTournament != value;
+
+                this.selectedTournament = value;
+
+                if (handlerShouldBeInvoked)
+                {
+                    this.SetTournamentStats();
+                    this.ResultFilterChanged.Invoke(this, new EventArgs());
+                }
+            }
+        }
         private Map selectedMap;
         private SCPlayer opponentPlayer;
         private SCPlayer player;
+        private ImprovedImageComboBox<Tournament> tournamentSelector;
+        private Tournament selectedTournament;
 
         internal ResultsFilters(SCPlayer player)
         {
@@ -75,24 +95,49 @@ namespace SCEloSystemGUI.UserControls
 
             this.player = player;
 
-            EloGUIControlsStaticMembers.PopulateComboboxWithMaps(this.cmbBxMapSelection, GlobalState.DataBase.GetMaps(), true, this.player, this.OpponentPlayer);
+            this.PopulateComboboxWithMaps();
 
             this.cmbBxMapSelection.SelectedIndex = 0;
 
             this.cmbBxMapSelection.SelectedIndexChanged += this.cmbBxMapSelection_SelectedIndexChanged;
 
+            this.tournamentSelector = EloGUIControlsStaticMembers.CreateStandardImprovedImageComboBox<Tournament>(EloGUIControlsStaticMembers.ImageGetterMethod);
+
+            this.tournamentSelector.Margin = new Padding(8, 9, 8, 0);
+            this.tournamentSelector.NameGetter = (t) => t.Name;
+            this.tournamentSelector.AddItems(GlobalState.DataBase.GetTournaments().Where(t => t.GetGames().Any(game => game.HasPlayer(this.player))).OrderBy(t => t.Name).ToArray(), true);
+            this.tournamentSelector.SelectedIndexChanged += this.TournamentSelector_SelectedIndexChanged;
+            this.tblLOPnlTournamentFilter.Controls.Add(this.tournamentSelector, 0, 3);
+            this.tblLOPnlTournamentFilter.SetColumnSpan(this.tournamentSelector, 2);
+
             this.SetResults();
             this.SetMapStats();
+            this.SetTournamentStats();
 
             this.toolTipMatchListFilter.SetToolTip(this.lbMapStatsHeader, String.Format("Displays the matchup stats from the whole database on this map. Only {0}'s preferred matchups are shown."
                 , this.player.Name));
+        }
+
+        private void TournamentSelector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.haltPublishingTournamentFilterChange) { return; }
+
+            var selTournament = this.tournamentSelector.SelectedValue as Tournament;
+
+            this.SetTournamentFilter(selTournament);
+        }
+
+        private void PopulateComboboxWithMaps()
+        {
+            EloGUIControlsStaticMembers.PopulateComboboxWithMaps(this.cmbBxMapSelection, GlobalState.DataBase.GetMaps().Where(map => GlobalState.DataBase.GamesOnMap(map).Any(game => game.HasPlayer(this.player)))
+                , true, this.player, this.OpponentPlayer);
         }
 
         private void UpdateMapSelector()
         {
             Map selectedMap = this.SelectedMap;
 
-            EloGUIControlsStaticMembers.PopulateComboboxWithMaps(this.cmbBxMapSelection, GlobalState.DataBase.GetMaps(), true, this.player, this.OpponentPlayer);
+            this.PopulateComboboxWithMaps();
 
             if (selectedMap != null && this.cmbBxMapSelection.Items.OfType<Tuple<string, Map>>().Any(item => item.Item2 == selectedMap))
             {
@@ -186,7 +231,26 @@ namespace SCEloSystemGUI.UserControls
             this.toolTipMatchListFilter.SetToolTip(this.picBxPlayer, string.Empty);
         }
 
-        private void SetResults()
+        public IEnumerable<MatchEditorItem> MatchFilterFromGames(IEnumerable<Game> games)
+        {
+            Func<IEnumerable<Game>, IEnumerable<Game>> OpponentFilter = gms =>
+            {
+                if (this.OpponentPlayer != null) { return gms.Where(game => game.HasPlayer(this.OpponentPlayer)); }
+                else { return gms; }
+            };
+
+            Func<IEnumerable<Game>, IEnumerable<Game>> TournamentFilter = gms =>
+            {
+                if (this.SelectedTournament != null) { return gms.Where(game => game.Tournament == this.SelectedTournament); }
+                else { return gms; }
+            };
+
+            IEnumerable<Game> gamesByPlayer = games.Where(game => game.HasPlayer(this.player));
+
+            return OpponentFilter(TournamentFilter(gamesByPlayer)).ToMatchEditorItems();
+        }
+
+        public IEnumerable<Game> GamesFilter(IEnumerable<Game> games)
         {
             Func<IEnumerable<Game>, IEnumerable<Game>> OpponentFilter = gms =>
             {
@@ -200,9 +264,20 @@ namespace SCEloSystemGUI.UserControls
                 else { return gms; }
             };
 
-            IEnumerable<Game> games = GlobalState.DataBase.GetAllGames().Where(game => game.HasPlayer(this.player));
+            Func<IEnumerable<Game>, IEnumerable<Game>> TournamentFilter = gms =>
+            {
+                if (this.SelectedTournament != null) { return gms.Where(game => game.Tournament == this.SelectedTournament); }
+                else { return gms; }
+            };
 
-            IEnumerable<Game> filteredGames = OpponentFilter(MapFilter(games));
+            IEnumerable<Game> gamesByPlayer = games.Where(game => game.HasPlayer(this.player));
+
+            return OpponentFilter(MapFilter(TournamentFilter(gamesByPlayer)));
+        }
+
+        private void SetResults()
+        {
+            IEnumerable<Game> filteredGames = this.GamesFilter(GlobalState.DataBase.GetAllGames());
 
             Func<Race, int[]> WinsLossesVsRace = rc =>
             {
@@ -216,19 +291,17 @@ namespace SCEloSystemGUI.UserControls
                 return winsLosses;
             };
 
-
-
             Func<int[], string> GetVsRaceResultString = winsLosses =>
-             {
-                 if (winsLosses.Sum() > 0)
-                 {
-                     return String.Format("{0}%  -  {1} / {2}", (((double)winsLosses[0] / (winsLosses[0] + winsLosses[1])) * 100).RoundToInt().ToString(), winsLosses[0].ToString("#,#"), (winsLosses[0]
-                         + winsLosses[1]).ToString("#,#"));
-                 }
-                 else { return NO_RESULTS_TEXT; }
-             };
+            {
+                if (winsLosses.Sum() > 0)
+                {
+                    return String.Format("{0}%  -  {1} / {2}", (((double)winsLosses[0] / (winsLosses[0] + winsLosses[1])) * 100).RoundToInt().ToString(), winsLosses[0].ToString("#,#"), (winsLosses[0]
+                        + winsLosses[1]).ToString("#,#"));
+                }
+                else { return NO_RESULTS_TEXT; }
+            };
 
-            if (this.OpponentPlayer != null || this.SelectedMap != null)
+            if (this.OpponentPlayer != null || this.SelectedMap != null || this.SelectedTournament != null)
             {
                 this.lbResultsTotal.Text = GetVsRaceResultString(new int[] {filteredGames.Where(game => game.Winner.Equals(this.player)).Count(), filteredGames.Where(game =>
                     game.Loser.Equals(this.player)).Count() });
@@ -260,14 +333,12 @@ namespace SCEloSystemGUI.UserControls
         {
             this.SelectedMap = map;
 
-            EloImage mapImage;
-
-            if (this.SelectedMap != null && GlobalState.DataBase.TryGetImage(this.SelectedMap.ImageID, out mapImage)) { this.picBxMap.Image = mapImage.Image; }
+            if (this.SelectedMap != null) { this.picBxMap.Image = EloGUIControlsStaticMembers.ImageGetterMethod(map); }
             else { this.picBxMap.Image = null; }
 
             this.SetResults();
 
-            // here we set the combo box with maps to the correct index
+            // here we set the combobox with maps to the correct index
             this.haltPublishingMapFilterChange = true;
 
             if (this.cmbBxMapSelection.Items.Cast<Tuple<string, Map>>().Any(item => item.Item2 == map))
@@ -278,6 +349,12 @@ namespace SCEloSystemGUI.UserControls
             else { this.cmbBxMapSelection.SelectedIndex = -1; }
 
             this.haltPublishingMapFilterChange = false;
+        }
+
+        private void SetTournamentStats()
+        {
+            if (this.SelectedTournament == null) { this.lbTournamentGamesCount.Text = ResultsFilters.NO_RESULTS_TEXT; }
+            else { this.lbTournamentGamesCount.Text = GlobalState.DataBase.GamesByPlayer(this.player).Where(game => game.Tournament == this.SelectedTournament).Count().ToString(Styles.NUMBER_FORMAT); }
         }
 
         private void SetMapStats()
@@ -297,6 +374,23 @@ namespace SCEloSystemGUI.UserControls
                 this.lbRaceVsProtoss.Text = String.Format("{0}vP:  {1}", this.player.GetPrimaryRaceVs(Race.Protoss).ToString().Substring(0, 1)
                     , ResultsFilters.GetMapStatsFor(this.player.GetPrimaryRaceVs(Race.Protoss), Race.Protoss, this.SelectedMap));
             }
+        }
+
+        public void SetTournamentFilter(Tournament tournament)
+        {
+            this.SelectedTournament = tournament;
+
+            if (this.SelectedTournament != null) { this.picBxTournament.Image = EloGUIControlsStaticMembers.ImageGetterMethod(this.SelectedTournament); }
+            else { this.picBxTournament.Image = null; }
+
+            this.SetResults();
+
+            // here we set the improvedImagecombobox with tournaments to the correct index
+            this.haltPublishingTournamentFilterChange = true;
+
+            this.tournamentSelector.TrySetSelectedIndex(this.SelectedTournament);
+
+            this.haltPublishingTournamentFilterChange = false;
         }
 
 

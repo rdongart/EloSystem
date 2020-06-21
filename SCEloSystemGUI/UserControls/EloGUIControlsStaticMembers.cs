@@ -71,7 +71,7 @@ namespace SCEloSystemGUI.UserControls
                 return GlobalState.DataBase.HeadToHeadGames(targetPlayer, opponent).Count();
             };
 
-            olvClmH2HGames.AspectToStringConverter = obj => { return ((int)obj).ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT); };
+            olvClmH2HGames.AspectToStringConverter = obj => { return ((int)obj).ToString(Styles.NUMBER_FORMAT); };
 
             h2hLstV.Size = new Size(h2hLstV.Width + olvClmH2HGames.Width, h2hLstV.Height);
 
@@ -142,7 +142,7 @@ namespace SCEloSystemGUI.UserControls
             {
                 var rank = (obj as Tuple<SCPlayer, int>).Item2;
 
-                return String.Format("{0}.", rank.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT));
+                return String.Format("{0}.", rank.ToString(Styles.NUMBER_FORMAT));
             };
 
             olvClmName.AspectGetter = obj =>
@@ -216,7 +216,7 @@ namespace SCEloSystemGUI.UserControls
             {
                 var player = (obj as Tuple<SCPlayer, int>).Item1;
 
-                return player.RatingTotal().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                return player.RatingTotal().ToString(Styles.NUMBER_FORMAT);
             };
 
             olvClmAliases.AspectGetter = obj =>
@@ -235,7 +235,7 @@ namespace SCEloSystemGUI.UserControls
 
             return playerStatsLV;
         }
-        
+
         internal static void ShowCurserHandOnMouseMove(object sender, MouseEventArgs e)
         {
             var senderLstv = sender as ListView;
@@ -299,7 +299,7 @@ namespace SCEloSystemGUI.UserControls
 
                 int frameHalfSize = (frameWidth / 2.0).RoundDown();
 
-                g.DrawRectangle(new Pen(new SolidBrush(frameColor), frameWidth), 0, 0, size.Width - frameHalfSize, size.Height - frameHalfSize);
+                using (var brush = new SolidBrush(frameColor)) { g.DrawRectangle(new Pen(brush, frameWidth), 0, 0, size.Width - frameHalfSize, size.Height - frameHalfSize); }
             }
 
             return img;
@@ -350,16 +350,15 @@ namespace SCEloSystemGUI.UserControls
             gameFilter.BorderStyle = BorderStyle.FixedSingle;
             gameFilter.Margin = new Padding(4);
             gameFilter.ColumnHeader = "Matchup";
-            gameFilter.Header = "Matchup Filter";
+            gameFilter.Header = "Matchup Filter:";
             gameFilter.ImageColumnnWidth = 100;
 
             gameFilter.ItemImageGetter = (m) => RaceIconProvider.GetMatchupImage(m);
             gameFilter.FilterAspectGetter = (g) => g.MatchType;
-            gameFilter.SetItems(new Matchup[] { Matchup.ZvP, Matchup.PvT, Matchup.TvZ, Matchup.ZvZ, Matchup.TvT, Matchup.PvP, Matchup.RvZ, Matchup.RvT, Matchup.RvP, Matchup.RvR });
-            gameFilter.ColumnHeader = "Matchup";
+            gameFilter.SetItems(Enum.GetValues(typeof(Matchup)).Cast<Matchup>());
 
             return gameFilter;
         }
-                
+
     }
 }

@@ -19,8 +19,6 @@ namespace SCEloSystemGUI
 
     internal static class EloSystemGUIStaticMembers
     {
-        internal const string NUMBER_FORMAT = "#,#";
-
         internal const int GAMESPLAYED_DEFAULT_THRESHOLD = 8;
         internal const int GAMESPLAYED_DEFAULT_RACE_THRESHOLD = 3;
         internal const int RECENTACTIVITY_GAMESPLAYED_DEFAULT_THRESHOLD = 2;
@@ -266,11 +264,11 @@ namespace SCEloSystemGUI
                 {
                     switch (pType)
                     {
-                        case PerformanceTypes.Overall: return player.RatingTotal().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
-                        case PerformanceTypes.vs_Zerg: return player.RatingVs.Zerg.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
-                        case PerformanceTypes.vs_Terran: return player.RatingVs.Terran.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
-                        case PerformanceTypes.vs_Protoss: return player.RatingVs.Protoss.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
-                        case PerformanceTypes.vs_Random: return player.RatingVs.Random.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                        case PerformanceTypes.Overall: return player.RatingTotal().ToString(Styles.NUMBER_FORMAT);
+                        case PerformanceTypes.vs_Zerg: return player.RatingVs.Zerg.ToString(Styles.NUMBER_FORMAT);
+                        case PerformanceTypes.vs_Terran: return player.RatingVs.Terran.ToString(Styles.NUMBER_FORMAT);
+                        case PerformanceTypes.vs_Protoss: return player.RatingVs.Protoss.ToString(Styles.NUMBER_FORMAT);
+                        case PerformanceTypes.vs_Random: return player.RatingVs.Random.ToString(Styles.NUMBER_FORMAT);
                         default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PerformanceTypes).Name, pType.ToString()));
                     }
                 }
@@ -351,31 +349,31 @@ namespace SCEloSystemGUI
                         case PerformanceTypes.Overall:
                             max = ratingDevelopment.GetMaxRangeBy(item => item.RatingTotal()).Last();
 
-                            return String.Format("{0}   {1}. {2}", max.RatingTotal().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
+                            return String.Format("{0}   {1}. {2}", max.RatingTotal().ToString(Styles.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
                                 , max.Date.ToString("y").Substring(max.Date.ToString("y").Length - 4, 4));
 
                         case PerformanceTypes.vs_Zerg:
                             max = ratingDevelopment.GetMaxRangeBy(item => item.RatingVs.Zerg).Last();
 
-                            return String.Format("{0}   {1}. {2}", max.RatingVs.Zerg.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
+                            return String.Format("{0}   {1}. {2}", max.RatingVs.Zerg.ToString(Styles.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
                                 , max.Date.ToString("y").Substring(max.Date.ToString("y").Length - 4, 4));
 
                         case PerformanceTypes.vs_Terran:
                             max = ratingDevelopment.GetMaxRangeBy(item => item.RatingVs.Terran).Last();
 
-                            return String.Format("{0}   {1}. {2}", max.RatingVs.Terran.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
+                            return String.Format("{0}   {1}. {2}", max.RatingVs.Terran.ToString(Styles.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
                                 , max.Date.ToString("y").Substring(max.Date.ToString("y").Length - 4, 4));
 
                         case PerformanceTypes.vs_Protoss:
                             max = ratingDevelopment.GetMaxRangeBy(item => item.RatingVs.Protoss).Last();
 
-                            return String.Format("{0}   {1}. {2}", max.RatingVs.Protoss.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
+                            return String.Format("{0}   {1}. {2}", max.RatingVs.Protoss.ToString(Styles.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
                                 , max.Date.ToString("y").Substring(max.Date.ToString("y").Length - 4, 4));
 
                         case PerformanceTypes.vs_Random:
                             max = ratingDevelopment.GetMaxRangeBy(item => item.RatingVs.Random).Last();
 
-                            return String.Format("{0}   {1}. {2}", max.RatingVs.Random.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
+                            return String.Format("{0}   {1}. {2}", max.RatingVs.Random.ToString(Styles.NUMBER_FORMAT), max.Date.ToString("y").Substring(0, 3)
                                 , max.Date.ToString("y").Substring(max.Date.ToString("y").Length - 4, 4));
                         default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(PerformanceTypes).Name, pType.ToString()));
                     }

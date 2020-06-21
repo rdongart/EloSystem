@@ -1,24 +1,26 @@
-﻿using CustomControls.Styles;
-using System.Collections.Generic;
-using BrightIdeasSoftware;
+﻿using BrightIdeasSoftware;
+using CustomControls;
+using CustomControls.Utilities;
+using CustomControls.Styles;
 using CustomExtensionMethods;
 using CustomExtensionMethods.Drawing;
 using EloSystem;
 using EloSystem.ResourceManagement;
 using EloSystemExtensions;
 using SCEloSystemGUI.Properties;
+using SCEloSystemGUI.UserControls;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using SCEloSystemGUI.UserControls;
-using CustomControls;
 
 namespace SCEloSystemGUI
 {
     public partial class MapProfile : Form
     {
+        private ResourceCacheSystem<Race, Image> raceImageCache;
         private GameFilter<Matchup> matchupFilter;
         private List<IGameFilter> gameFilters = new List<IGameFilter>();
         private ObjectListView gameListView;
@@ -49,14 +51,14 @@ namespace SCEloSystemGUI
             ObjectListView mirrorMatchupStatsLV = MapProfile.CreateMirrorMatchupListView(map);
             this.tblLOPnlMapStats.Controls.Add(mirrorMatchupStatsLV, 2, 2);
 
-            this.lbTotalGames.Text = map.Stats.TotalGames() > 0 ? map.Stats.TotalGames().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT) : "0";
+            this.lbTotalGames.Text = map.Stats.TotalGames() > 0 ? map.Stats.TotalGames().ToString(Styles.NUMBER_FORMAT) : "0";
 
             this.matchupFilter = EloGUIControlsStaticMembers.CreateMatchupDrivenGameFilter();
             this.matchupFilter.FilterChanged += this.MatchupFilter_FilterChanged;
             this.tblLOPnlGames.Controls.Add(this.matchupFilter, 0, 1);
             this.gameFilters.Add(this.matchupFilter);
 
-            this.gameListView = MapProfile.CreateGameListView();
+            this.gameListView = this.CreateGameListView();
             this.tblLOPnlGames.Controls.Add(this.gameListView, 0, 3);
             this.tblLOPnlGames.SetColumnSpan(this.gameListView, 2);
             this.selectLinker = new PageSelecterLinker(this.gameListView) { ItemsPerPage = (int)Settings.Default.MatchesPerPage };
@@ -66,6 +68,8 @@ namespace SCEloSystemGUI
             };
             this.tblLOPnlGames.Controls.Add(this.selectLinker.Selecter, 1, 2);
             Styles.PageSelecterStyles.SetSpaceStyle(this.selectLinker.Selecter);
+
+
         }
 
         private void MatchupFilter_FilterChanged(object sender, EventArgs e)
@@ -145,7 +149,7 @@ namespace SCEloSystemGUI
 
                 RaceMatchupResults data;
 
-                if (map.Stats.TryGetMatchup(mirrorMatch.ToMatchupType(), out data)) { return data.TotalGames.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT); }
+                if (map.Stats.TryGetMatchup(mirrorMatch.ToMatchupType(), out data)) { return data.TotalGames.ToString(Styles.NUMBER_FORMAT); }
                 else { return string.Empty; }
             };
 
@@ -224,7 +228,7 @@ namespace SCEloSystemGUI
 
                 RaceMatchupResults data;
 
-                if (map.Stats.TryGetMatchup(matchupType, out data)) { return data.TotalGames.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT); }
+                if (map.Stats.TryGetMatchup(matchupType, out data)) { return data.TotalGames.ToString(Styles.NUMBER_FORMAT); }
                 else { return string.Empty; }
             };
 
@@ -240,13 +244,13 @@ namespace SCEloSystemGUI
                 {
                     if (matchupType.Race1() == data.Race1)
                     {
-                        return data.TotalGames > 0 ? String.Format("{0}% - {1}%", (data.WinRatioRace1CorrectedForExpectedWR() * 100).RoundToInt().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT)
-                            , (data.WinRatioRace2CorrectedForExpectedWR() * 100).RoundToInt().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT)) : DATA_NOT_AVAILABLE_TEXT;
+                        return data.TotalGames > 0 ? String.Format("{0}% - {1}%", (data.WinRatioRace1CorrectedForExpectedWR() * 100).RoundToInt().ToString(Styles.NUMBER_FORMAT)
+                            , (data.WinRatioRace2CorrectedForExpectedWR() * 100).RoundToInt().ToString(Styles.NUMBER_FORMAT)) : DATA_NOT_AVAILABLE_TEXT;
                     }
                     else
                     {
-                        return data.TotalGames > 0 ? String.Format("{0}% - {1}%", (data.WinRatioRace2CorrectedForExpectedWR() * 100).RoundToInt().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT)
-                            , (data.WinRatioRace1CorrectedForExpectedWR() * 100).RoundToInt().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT)) : DATA_NOT_AVAILABLE_TEXT;
+                        return data.TotalGames > 0 ? String.Format("{0}% - {1}%", (data.WinRatioRace2CorrectedForExpectedWR() * 100).RoundToInt().ToString(Styles.NUMBER_FORMAT)
+                            , (data.WinRatioRace1CorrectedForExpectedWR() * 100).RoundToInt().ToString(Styles.NUMBER_FORMAT)) : DATA_NOT_AVAILABLE_TEXT;
                     }
 
                 }
@@ -264,15 +268,15 @@ namespace SCEloSystemGUI
                 {
                     if (matchupType.Race1() == data.Race1)
                     {
-                        return data.TotalGames > 0 ? String.Format("{0}% - {1}%  |  {2} - {3}", (data.WinRatioRace1() * 100).RoundToInt().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT)
-                            , (data.WinRatioRace2() * 100).RoundToInt().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT), data.Race1Wins.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT)
-                            , data.Race2Wins.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT)) : DATA_NOT_AVAILABLE_TEXT;
+                        return data.TotalGames > 0 ? String.Format("{0}% - {1}%  |  {2} - {3}", (data.WinRatioRace1() * 100).RoundToInt().ToString(Styles.NUMBER_FORMAT)
+                            , (data.WinRatioRace2() * 100).RoundToInt().ToString(Styles.NUMBER_FORMAT), data.Race1Wins.ToString(Styles.NUMBER_FORMAT)
+                            , data.Race2Wins.ToString(Styles.NUMBER_FORMAT)) : DATA_NOT_AVAILABLE_TEXT;
                     }
                     else
                     {
-                        return data.TotalGames > 0 ? String.Format("{0}% - {1}%  |  {2} - {3}", (data.WinRatioRace2() * 100).RoundToInt().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT)
-                            , (data.WinRatioRace1() * 100).RoundToInt().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT), data.Race2Wins.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT)
-                            , data.Race1Wins.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT)) : DATA_NOT_AVAILABLE_TEXT;
+                        return data.TotalGames > 0 ? String.Format("{0}% - {1}%  |  {2} - {3}", (data.WinRatioRace2() * 100).RoundToInt().ToString(Styles.NUMBER_FORMAT)
+                            , (data.WinRatioRace1() * 100).RoundToInt().ToString(Styles.NUMBER_FORMAT), data.Race2Wins.ToString(Styles.NUMBER_FORMAT)
+                            , data.Race1Wins.ToString(Styles.NUMBER_FORMAT)) : DATA_NOT_AVAILABLE_TEXT;
                     }
                 }
                 else { return string.Empty; }
@@ -294,7 +298,7 @@ namespace SCEloSystemGUI
             }
         }
 
-        private static ObjectListView CreateGameListView()
+        private ObjectListView CreateGameListView()
         {
             const int ROW_HEIGHT = 20;
 
@@ -314,17 +318,18 @@ namespace SCEloSystemGUI
                 ShowGroups = false,
                 Size = new Size(905, 850),
                 UseAlternatingBackColors = true,
-                UseCellFormatEvents = true,
+                UseCellFormatEvents = true
             };
 
             Styles.ObjectListViewStyles.SetHotItemStyle(gamesLV);
+            Styles.ObjectListViewStyles.AvoidFocus(gamesLV);
 
             const int RACE_COLUMN_WIDTH = 50;
             const int RATING_CHANGE_COLUMN_WIDTH = 55;
             const int NAME_COLUMN_WIDTH = 100;
 
             var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null };
-            var olvClmDate = new OLVColumn() { Width = 80, Text = "Date" };
+            var olvClmDate = new OLVColumn() { Width = 75, Text = "Date" };
             var olvClmPlayer1Race = new OLVColumn() { Width = RACE_COLUMN_WIDTH, Text = "Race", ToolTipText = "Player 1's race" };
             var olvClmPlayer1Name = new OLVColumn() { Width = NAME_COLUMN_WIDTH, Text = "Name", ToolTipText = "Player 1's name" };
             var olvClmPlayer1RatingChange = new OLVColumn() { Width = RATING_CHANGE_COLUMN_WIDTH, Text = "Rating", ToolTipText = "Change in player 1's rating score" };
@@ -332,11 +337,12 @@ namespace SCEloSystemGUI
             var olvClmPlayer2RatingChange = new OLVColumn() { Width = RATING_CHANGE_COLUMN_WIDTH, Text = "Rating", ToolTipText = "Change in player 2's rating score" };
             var olvClmPlayer2Name = new OLVColumn() { Width = NAME_COLUMN_WIDTH, Text = "Name", ToolTipText = "Player 2s name" };
             var olvClmPlayer2Race = new OLVColumn() { Width = RACE_COLUMN_WIDTH, Text = "Race", ToolTipText = "Player 2's race" };
-            var olvClmTournament = new OLVColumn() { Width = 120, Text = "Tournament" };
+            var olvClmTournament = new OLVColumn() { Width = 115, Text = "Tournament" };
             var olvClmSeason = new OLVColumn() { Width = 130, Text = "Season" };
 
             gamesLV.FormatCell += MapProfile.GamesLV_FormatCell;
             gamesLV.MouseClick += MapProfile.GamesLV_MouseClick;
+
 
             gamesLV.AllColumns.AddRange(new OLVColumn[] { olvClmEmpty, olvClmDate, olvClmPlayer1Race, olvClmPlayer1Name, olvClmPlayer1RatingChange, olvClmResult, olvClmPlayer2RatingChange
                 , olvClmPlayer2Name,olvClmPlayer2Race ,olvClmTournament, olvClmSeason });
@@ -361,11 +367,13 @@ namespace SCEloSystemGUI
             const int RACE_IMAGE_HEIGHT_MAX = ROW_HEIGHT - 2;
             const int RACE_IMAGE_WIDTH_MAX = RACE_COLUMN_WIDTH;
 
+            this.raceImageCache = new ResourceCacheSystem<Race, Image>() { ResourceGetter = (r) => RaceIconProvider.GetRaceBitmap(r).ResizeSARWithinBounds(RACE_IMAGE_WIDTH_MAX, RACE_IMAGE_HEIGHT_MAX) };
+
             olvClmPlayer1Race.AspectGetter = obj =>
             {
                 var game = obj as Game;
 
-                if (game != null) { return new Image[] { RaceIconProvider.GetRaceBitmap(game.Player1Race).ResizeSARWithinBounds(RACE_IMAGE_WIDTH_MAX, RACE_IMAGE_HEIGHT_MAX) }; }
+                if (game != null) { return new Image[] { this.raceImageCache.GetResource(game.Player1Race) }; }
                 else { return null; }
             };
 
@@ -397,6 +405,7 @@ namespace SCEloSystemGUI
             olvClmPlayer1Race.Renderer = raceRenderer;
             olvClmPlayer2Race.Renderer = raceRenderer;
 
+
             olvClmPlayer2RatingChange.AspectGetter = obj =>
             {
                 var game = obj as Game;
@@ -417,7 +426,7 @@ namespace SCEloSystemGUI
             {
                 var game = obj as Game;
 
-                if (game != null) { return new Image[] { RaceIconProvider.GetRaceBitmap(game.Player2Race).ResizeSARWithinBounds(RACE_IMAGE_WIDTH_MAX, RACE_IMAGE_HEIGHT_MAX) }; }
+                if (game != null) { return new Image[] { this.raceImageCache.GetResource(game.Player2Race) }; }
                 else { return null; }
             };
 
@@ -480,5 +489,5 @@ namespace SCEloSystemGUI
         }
 
     }
-    
+
 }

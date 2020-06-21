@@ -730,7 +730,7 @@ namespace EloSystem
                 Match = game.Match,
                 Season = game.Season,
                 Tournament = game.Tournament
-            }).Where(matchItem => !matchItem.Match.Equals(matchToReplace)).ToList(); // we need to call ToList() here becauase we have been modifying the data base by remove the returned values
+            }).Where(matchItem => !matchItem.Match.Equals(matchToReplace)).ToList(); // we need to call ToList() here becauase the returned items have been removed from the database
 
 
             if (matchToReplace.DateTime.Date.CompareTo(newDate.Date) >= 0)
@@ -741,12 +741,12 @@ namespace EloSystem
             }
             else
             {
-                this.ReenterMatches(matchesToReenter.Where(matchItem => matchItem.Match.DateTime.CompareTo(newDate.Date) <= 0).Select(matchItem =>
+                this.ReenterMatches(matchesToReenter.Where(matchItem => matchItem.Match.DateTime.Date.CompareTo(newDate.Date) <= 0).Select(matchItem =>
                     new Tuple<Match, Season, Tournament>(matchItem.Match, matchItem.Season, matchItem.Tournament)));
 
                 this.ReportMatch(new Match(player1, player2, entries, newDate), season, matchesToReenter.IsEmpty());
 
-                this.ReenterMatches(matchesToReenter.Where(matchItem => matchItem.Match.DateTime.CompareTo(newDate.Date) > 0).Select(matchItem =>
+                this.ReenterMatches(matchesToReenter.Where(matchItem => matchItem.Match.DateTime.Date.CompareTo(newDate.Date) > 0).Select(matchItem =>
                     new Tuple<Match, Season, Tournament>(matchItem.Match, matchItem.Season, matchItem.Tournament)));
             }
 
@@ -1010,13 +1010,15 @@ namespace EloSystem
             }
         }
 
-        public WinRateCounter MapStatsForPlayer(SCPlayer player, Map map, SCPlayer opponent = null)
+        public WinRateCounter MapStatsForPlayer(SCPlayer player, Map map, SCPlayer opponent = null, Tournament tournament = null)
         {
             var playersMapStats = new WinRateCounter();
 
-            IEnumerable<Match> matchesPassingOpponentFilter = opponent == null ? this.GetMatches() : this.GetMatches().Where(m => m.HasPlayer(opponent));
+            IEnumerable<Match> tournamentFiltereMatches = tournament == null ? this.GetMatches() : tournament.GetMatches();
 
-            foreach (Match match in matchesPassingOpponentFilter.Where(m => m.HasPlayer(player)))
+            IEnumerable<Match> opponentFiltereMatchs = opponent == null ? tournamentFiltereMatches : tournamentFiltereMatches.Where(m => m.HasPlayer(opponent));
+            
+            foreach (Match match in opponentFiltereMatchs.Where(m => m.HasPlayer(player)))
             {
                 foreach (GameEntry entry in match.GetEntries().Where(e => e.Map == map))
                 {

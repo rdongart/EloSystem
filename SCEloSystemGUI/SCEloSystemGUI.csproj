@@ -66,8 +66,9 @@
     <Reference Include="MLCommon">
       <HintPath>..\..\MLCommon\MLCommon\bin\Release\MLCommon.dll</HintPath>
     </Reference>
-    <Reference Include="ObjectListView">
-      <HintPath>..\..\..\Code Snippets\Visual C#\My Code Snippets\ObjectListViewDemo\ObjectListView\bin\Release\ObjectListView.dll</HintPath>
+    <Reference Include="ObjectListView, Version=2.9.0.34555, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Code Snippets\Visual C#\My Code Snippets\ObjectListView-2.9.1\ObjectListView\ObjectListView\bin\Debug\ObjectListView.dll</HintPath>
     </Reference>
     <Reference Include="Properties.Resources.Designer.cs">
       <HintPath>..\..\..\..\Visual Studio 2010\Projects\ManagerLife\ManagerLife\External Dependencies\Properties.Resources.Designer.cs.dll</HintPath>
@@ -218,6 +219,12 @@
     </Compile>
     <Compile Include="UserControls\DblNameContentEditor.Designer.cs">
       <DependentUpon>DblNameContentEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\GameByPlayerFilter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\GameByPlayerFilter.Designer.cs">
+      <DependentUpon>GameByPlayerFilter.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\GameReport.cs">
       <SubType>UserControl</SubType>
@@ -376,6 +383,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DblNameContentEditor.resx">
       <DependentUpon>DblNameContentEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\GameByPlayerFilter.resx">
+      <DependentUpon>GameByPlayerFilter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\GameReport.resx">
       <DependentUpon>GameReport.cs</DependentUpon>

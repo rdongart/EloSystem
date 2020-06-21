@@ -295,7 +295,7 @@ namespace SCEloSystemGUI.UserControls
 
                         int player1RatingPoints = this.WinnerPlayer == this.Player1 ? ratingChange : ratingChange * -1;
 
-                        this.lbPl1RatingVsRace.Text = player1RatingPoints == 0 ? "0" : player1RatingPoints.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                        this.lbPl1RatingVsRace.Text = player1RatingPoints == 0 ? "0" : player1RatingPoints.ToString(Styles.NUMBER_FORMAT);
 
                         if (player1RatingPoints < 0) { this.lbPl1RatingVsRace.ForeColor = Color.Red; }
                         else if (player1RatingPoints > 0) { this.lbPl1RatingVsRace.ForeColor = Color.ForestGreen; }
@@ -304,7 +304,7 @@ namespace SCEloSystemGUI.UserControls
 
                         int player2RatingPoints = this.WinnerPlayer == this.Player2 ? ratingChange : ratingChange * -1;
 
-                        this.lbPl2RatingVsRace.Text = player2RatingPoints == 0 ? "0" : player2RatingPoints.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                        this.lbPl2RatingVsRace.Text = player2RatingPoints == 0 ? "0" : player2RatingPoints.ToString(Styles.NUMBER_FORMAT);
 
                         if (player2RatingPoints < 0) { this.lbPl2RatingVsRace.ForeColor = Color.Red; }
                         else if (player2RatingPoints > 0) { this.lbPl2RatingVsRace.ForeColor = Color.ForestGreen; }

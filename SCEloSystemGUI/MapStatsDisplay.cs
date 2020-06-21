@@ -92,7 +92,6 @@ namespace SCEloSystemGUI
                         return (map.Stats.ZvT.WinRatioRace1CorrectedForExpectedWR() * 100).RoundToInt();
                     };
 
-                    this.olvMapStats.PrimarySortColumn = this.olvMapStats.AllColumns[e.Column];
                 }
                 else if (e.Column == ZVP_COLUMN)
                 {
@@ -103,7 +102,6 @@ namespace SCEloSystemGUI
                         return (map.Stats.PvZ.WinRatioRace2CorrectedForExpectedWR() * 100).RoundToInt();
                     };
 
-                    this.olvMapStats.PrimarySortColumn = this.olvMapStats.AllColumns[e.Column];
                 }
                 else if (e.Column == PVT_COLUMN)
                 {
@@ -114,9 +112,9 @@ namespace SCEloSystemGUI
                         return (map.Stats.PvT.WinRatioRace1CorrectedForExpectedWR() * 100).RoundToInt();
 
                     };
-
-                    this.olvMapStats.PrimarySortColumn = this.olvMapStats.AllColumns[e.Column];
                 }
+
+                this.olvMapStats.PrimarySortColumn = this.olvMapStats.AllColumns[e.Column];
 
                 this.olvMapStats.Sorting = this.olvMapStats.Sorting == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
 
@@ -129,8 +127,8 @@ namespace SCEloSystemGUI
             var mapStatsLV = new ObjectListView()
             {
                 AllowColumnReorder = false,
-                AlternateRowBackColor = Color.FromArgb(210, 210, 210),
-                BackColor = Color.FromArgb(175, 175, 235),
+                AlternateRowBackColor = EloSystemGUIStaticMembers.OlvRowAlternativeBackColor,
+                BackColor = EloSystemGUIStaticMembers.OlvRowBackColor,
                 Dock = DockStyle.Fill,
                 Font = new Font("Calibri", MapStatsDisplay.TEXT_SIZE, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 FullRowSelect = true,
@@ -138,9 +136,11 @@ namespace SCEloSystemGUI
                 HasCollapsibleGroups = false,
                 Margin = new Padding(12, 16, 12, 12),
                 MultiSelect = false,
+                PrimarySortOrder = SortOrder.Ascending,
                 RowHeight = 42,
                 Scrollable = true,
-                ShowGroups = false,
+                ShowFilterMenuOnRightClick = false,
+                ShowGroups = false,                
                 Size = new Size(1200, 700),
                 SortGroupItemsByPrimaryColumn = true,
                 UseAlternatingBackColors = true,
@@ -151,12 +151,13 @@ namespace SCEloSystemGUI
             mapStatsLV.ColumnClick += this.MapStatsLV_ColumnClick;
 
             Styles.ObjectListViewStyles.SetHotItemStyle(mapStatsLV);
+            Styles.ObjectListViewStyles.AvoidFocus(mapStatsLV);
 
             const int WINRATIOS_WIDTH = 170;
             const int GAMES_WIDTH = 55;
             const int COINTOSS_FACTOR_WIDTH = 55;
 
-            var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null, Sortable = true };
+            var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null, Sortable = true, IsVisible = false };
             var olvClmImage = new OLVColumn() { Width = 54, Text = "Map", Sortable = false };
             var olvClmName = new OLVColumn() { Width = 155, Text = "Name", Sortable = true };
             var olvClmSpots = new OLVColumn() { Width = 55, Text = "Spots", Sortable = true };
@@ -194,8 +195,6 @@ namespace SCEloSystemGUI
             }
 
             const int IMAGE_SIZE_MAX = 42;
-
-
 
             olvClmImage.AspectGetter = obj =>
             {
@@ -275,27 +274,27 @@ namespace SCEloSystemGUI
                 return map.Stats.TotalGames();
             };
 
-            olvClmTotGames.AspectToStringConverter = asp => { return ((int)asp).ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT); };
+            olvClmTotGames.AspectToStringConverter = asp => { return ((int)asp).ToString(Styles.NUMBER_FORMAT); };
 
             olvClmTvTGames.AspectGetter = obj =>
             {
                 var map = obj as Map;
 
-                return map.Stats.TvT.TotalGames.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                return map.Stats.TvT.TotalGames.ToString(Styles.NUMBER_FORMAT);
             };
 
             olvClmZvZGames.AspectGetter = obj =>
             {
                 var map = obj as Map;
 
-                return map.Stats.ZvZ.TotalGames.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                return map.Stats.ZvZ.TotalGames.ToString(Styles.NUMBER_FORMAT);
             };
 
             olvClmPvPGames.AspectGetter = obj =>
             {
                 var map = obj as Map;
 
-                return map.Stats.PvP.TotalGames.ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+                return map.Stats.PvP.TotalGames.ToString(Styles.NUMBER_FORMAT);
             };
 
             const int COINTOSS_FACTOR_DECIMALS = 2;

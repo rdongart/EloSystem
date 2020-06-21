@@ -13,11 +13,14 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
+
 namespace SCEloSystemGUI
 {
     public partial class TournamentProfile : Form
     {
         private GameFilter<Matchup> matchupFiltering;
+        private GameByPlayerFilter participantFiltering;
+        private List<IGameFilter> gameFilters;
         private ObjectListView gameListView;
         private PageSelecterLinker selectLinker;
         private Season seasonFilter
@@ -42,27 +45,36 @@ namespace SCEloSystemGUI
             this.lbTitle.Text = this.tournament.NameLong;
             this.lbNameLong.Text = this.tournament.NameLong;
             this.lbNameShort.Text = this.tournament.Name;
-            this.lbTotalGamesCount.Text = this.tournament.GetGames().Count().ToString(EloSystemGUIStaticMembers.NUMBER_FORMAT);
+            this.lbTotalGamesCount.Text = this.tournament.GetGames().Count().ToString(Styles.NUMBER_FORMAT);
 
             this.matchupFiltering = EloGUIControlsStaticMembers.CreateMatchupDrivenGameFilter();
             this.matchupFiltering.FilterChanged += this.MatchupFiltering_FilterChanged;
-            this.tblLOPnlGameFilters.Controls.Add(this.matchupFiltering, 0, 2);
+            this.tblLOPnlGameFilters.Controls.Add(this.matchupFiltering, 0, 1);
+
+            this.participantFiltering = new GameByPlayerFilter() { Dock = DockStyle.Fill, Margin = new Padding(6, 4, 4, 4) };
+            this.participantFiltering.FilterChanged += this.MatchupFiltering_FilterChanged;
+            this.tblLOPnlGameFilters.Controls.Add(this.participantFiltering, 1, 1);
+            this.tblLOPnlGameFilters.SetColumnSpan(this.participantFiltering, 2);
+
+            this.gameFilters = new List<IGameFilter>() { this.matchupFiltering, this.participantFiltering };
 
             this.gameListView = TournamentProfile.CreateGameListView();
             this.tblLOPnlGames.Controls.Add(this.gameListView, 0, 1);
             this.selectLinker = new PageSelecterLinker(this.gameListView) { ItemsPerPage = (int)Settings.Default.MatchesPerPage };
             this.selectLinker.ItemGetter = () =>
             {
-                return this.tournament.GetGames().Where(game => (this.seasonFilterApplied == null || game.Season == this.seasonFilterApplied) && this.matchupFiltering.FilterGame(game)).OrderNewestFirst();
+                return this.tournament.GetGames().Where(game => (this.seasonFilterApplied == null || game.Season == this.seasonFilterApplied)
+                    && this.gameFilters.All(filter => filter.FilterGame(game))).OrderNewestFirst();
             };
             this.tblLOPnlGames.Controls.Add(this.selectLinker.Selecter, 0, 0);
             Styles.PageSelecterStyles.SetSpaceStyle(this.selectLinker.Selecter);
-            
+
             EloImage eloLogo;
 
             if (GlobalState.DataBase.TryGetImage(tournament.ImageID, out eloLogo)) { this.picBxLogo.Image = eloLogo.Image.ResizeSARWithinBounds(this.picBxLogo.Width, this.picBxLogo.Height); }
 
-            this.FillSeasonSelecter();            
+            this.FillSeasonSelecter();
+            this.ApplyFilter();
         }
 
         private void MatchupFiltering_FilterChanged(object sender, EventArgs e)
@@ -72,7 +84,13 @@ namespace SCEloSystemGUI
 
         public static void ShowProfile(Tournament tournament, Form anchorForm = null)
         {
+            System.Windows.Forms.Cursor previousCursor = System.Windows.Forms.Cursor.Current;
+
+            System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
+
             var profileDisplay = new TournamentProfile(tournament);
+
+            System.Windows.Forms.Cursor.Current = previousCursor;
 
             if (anchorForm != null) { FormStyles.ShowFullFormRelativeToAnchor(profileDisplay, anchorForm); }
 
@@ -104,13 +122,13 @@ namespace SCEloSystemGUI
 
         private void SetBtnFilterApplyEnabledStatus()
         {
-            this.btnApplyFilters.Enabled = this.seasonFilterApplied != this.seasonFilter || this.matchupFiltering.HasChangesNotApplied();
+            this.btnApplyFilters.Enabled = this.seasonFilterApplied != this.seasonFilter || this.gameFilters.Any(filter => filter.HasChangesNotApplied());
         }
 
         private void ApplyFilter()
         {
             this.seasonFilterApplied = this.seasonFilter;
-            this.matchupFiltering.ApplyChanges();
+            this.gameFilters.ForEach(filter => filter.ApplyChanges());
 
             this.selectLinker.UpdateListItems();
 
@@ -124,6 +142,11 @@ namespace SCEloSystemGUI
 
         private void cmbBxSeasonSelecter_SelectedIndexChanged(object sender, EventArgs e)
         {
+            IEnumerable<SCPlayer> participants = this.seasonFilter == null ? this.tournament.GetGames().SelectMany(game => new SCPlayer[] { game.Player1, game.Player2 })
+                : this.seasonFilter.GetMatches().SelectMany(match => new SCPlayer[] { match.Player1, match.Player2 });
+
+            this.participantFiltering.SetItems(participants.Distinct().OrderBy(p => p.Name).ThenBy(p => p.IRLName));
+
             this.SetBtnFilterApplyEnabledStatus();
         }
 
@@ -151,6 +174,7 @@ namespace SCEloSystemGUI
             };
 
             Styles.ObjectListViewStyles.SetHotItemStyle(gamesLV);
+            Styles.ObjectListViewStyles.AvoidFocus(gamesLV);
 
             const int RACE_COLUMN_WIDTH = 50;
             const int RATING_CHANGE_COLUMN_WIDTH = 55;
@@ -308,5 +332,9 @@ namespace SCEloSystemGUI
             olv.SelectedItems.Clear();
         }
 
+        private void tblLOPnlGameFilters_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

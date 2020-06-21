@@ -9,7 +9,6 @@ C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\bi
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\bin\Debug\CustomControls.pdb
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\bin\Debug\CustomExtensionMethods.pdb
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\bin\Debug\MLCommon.pdb
-C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\bin\Debug\ObjectListView.pdb
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\bin\Debug\ObjectListView.xml
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\bin\Debug\SerializerProgress.pdb
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.csprojResolveAssemblyReference.cache
@@ -52,3 +51,5 @@ C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\ob
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.UserControls.GameFilter.resources
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.TournamentsOverview.resources
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.TournamentProfile.resources
+C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.UserControls.GameByPlayerFilter.resources
+C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.csproj.SCElo.exe.config

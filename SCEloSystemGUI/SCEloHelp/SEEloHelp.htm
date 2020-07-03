@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<Title>General Topics</Title>
+<link rel="stylesheet" type="text/css" href="helpstyles.css" />
+</HEAD>
+<BODY>
+<h1><a id="Top"></a>General Help Topics</h1>
+<br><br>
+<a href="#OverallRating">How is overall rating calculated?</a>
+<br><br><a href="#EWR">EWR</a>
+<br><br><a href="#EWRM">EWRM</a>
+<br><br><a href="#CointossFactor">What is a map's mirror matchup Cointoss Factor?</a>
+<br><br><a href="#RatingChange">The rating change diminishes when a player has played more games</a>
+<br><br><a href="#RankSystem">Rank system explained</a>
+<br><br><a href="#ActivityFilter">Activity filter in the Player Stats form</a>
+<br><br><a href="#RemoveContent">Why can't I remove a tournament/map/player from the Elo System?</a>
+<br><br><a href="#Navigation">Navigating the UI</a>
+
+
+<br><br><br>
+<h2><a id="OverallRating"></a>How is overall rating calculated?</h2>
+<p>A player's overall rating is calculated based off of the players rating scores vs. each of the four types of opponents. Depending on the number of games a player has had against each race, the overall rating can be either a weighted average or it can be a true average across the four underlying rating scores (vs Zerg, vs. Terran, vs Protoss and vs Random).
+<br>While a player has less than 30 games versus a race or the total number of games versus a race is less than 7% of the total number of games played, the rating versus that race is given a weight reflecting its proportion of games out of the total number of games. Otherwise, it is given a weight of 1.
+<br>Basically, this means that when a player has 30 or more games versus all races (including Random), their four underlying rating scores will wheigh equally towards the overall rating. This is true even if the number of game numbers against each race are not identical. However, even if 30 or more games have been played against a race, if those games still comprise less than 7% of the total number of games played, they will only add toward the overall rating with a weighten value. The reason for this is to both have games against each race count equally as soon as a good number of games have been played, while still making sure that even as we get to 30 or more games (say vs Random), those games do not receive full weight toward the overall rating, if they comprise only a low fraction of the total number of games played.</p>
+<a href="#Top">Back to the top</a><br>
+
+<br><br>
+<h2><a id="EWR"></a>EWR</h2>
+<p>Expected win ratio (EWR) is a value between 0 and 1 that represents how often a player is expected to win against another player. The EWR is calculated based on the player's rating versus the opponent's race and the opponent's rating verus the race of the player whom we are calculating the EWR for.</p>
+<a href="#Top">Back to the top</a><br>
+
+<br><br>
+<h2><a id="EWRM"></a>EWRM</h2>
+<p>Expected win ratio for a map (EWRM) is a value between 0 and 1 that represents how often a race is expected to win against another race on a particular map. Unless otherwise specified, the EWRM is based on an algorithm that takes into account the rating of the players playing against each other in the games that it is based on. What this means that if, for example, a high rating (versus terran) protoss player loses one game and wins one game against a low rating (versus protoss) terran player, and these are the only games played on this map then the EWRM for PvT will be less than 50%.</p>
+<a href="#Top">Back to the top</a><br>
+
+<br><br>
+<h2><a id="CointossFactor"></a>What is a map's mirror matchup Cointoss Factor?</h2>
+<p>A map cointoss factor (CF) is, in lack of a better term, a statistical value that represents the degree to which a (particular) mirror matchup tends to become a cointoss (abolishing otherwise rating skill diferences of the players). The CF can be calculated for each type of mirror matchup and is always associated with a particular map. The CF is only shown if it has been calculated on the basis of at least 20 games within a particular mirror matchup and where both participants in those games had previously played at least 7 or more games the mirror matchup in question. Also,  the players must have an <a href="#EWR">EWR</a> different from 50%.
+<br>The CF value can be read in the following way:
+<br>Values <0: indicates that favorite players beats underdogs more that would be expected from their rating on this map.
+<br> Values between 0-1: A value between 0 and 1 indicates the degree to which an underdog performs just as well as the favorite. For example, if the value is 0, it means that favorites win their games exactly as their rating score would predict. If the value is 1, however, it means that the rating score has no prediction value on this map, in other words it is a complete toincoss. If the value is, say, 0.5, it means that half of the favorites advantage expected from rating score is abolished on this map.
+<br> Values >1: indicates that in more than 50% of the games, the underdog beats the favorite on this particular map.</p>
+<a href="#Top">Back to the top</a><br>
+
+<br><br>
+<h2><a id="RatingChange">The rating change diminishes when a player has played more games</a></h2>
+<p>The size of the rating change after a map is higher until players have played 55 or more games versus the race in question. This mechanism ensures that while starting with the same starting rating, players will quickly reach a rating that is more representative of their skill level.</p>
+<a href="#Top">Back to the top</a><br>
+
+<br><br>
+<h2><a id="RankSystem"></a>Rank system explained</h2>
+<p>When players have played a particular number of games they will be ranked according to the rank system based on their rating score. A player must have played at least 8 games in total and 2 games within the last 12 months in order to receive and overall rank. To receive a rank for his or her skill level against a particular race, a playr must have played at least 3 games against that race and no less than 1 game against the race within the previous 12 months.
+<br>Ranks are awarded such that each rank always holds a certain percentages of players in it. The percentages are the following
+<br>A+: 1%
+<br>A: 5%
+<br>B: 10%
+<br>C: 21%
+<br>D: 21%
+<br>E: 21%
+<br>F: 21%</p>
+<a href="#Top">Back to the top</a><br>
+
+<br><br>
+<h2><a id="ActivityFilter"></a>Activity filter in the Player Stats form</h2>
+<p>This filter has three properties. It allows you to filter out players who have played less than a particular number of games overall, or played less than a particular number of games recently, and you can define how many months should be considered "recently".</p>
+<a href="#Top">Back to the top</a><br>
+
+<br><br>
+<h2><a id="RemoveContent"></a>Why can't I remove a tournament/map/player from the Elo System?</h2>
+<p>If the particular content you are trying to remove is still being associated with games that are still in the Elo System (the database), then you will not be able to remove this content. In order to do so, you must first find all the individual games and remove/change the particular content that is associated with it (e.g., delete a game, change the tournament associated with it etc.).</p>
+<a href="#Top">Back to the top</a><br>
+
+<br><br>
+<h2><a id="Navigation"></a>Navigating the UI</h2>
+<p>Below are a few tips about how to more easily navigate the user interface.</p>
+<h3>Match Report</h3>
+<p>After players have been selected in the combo boxes you can navigate to the players' respective Player Profiles with the following short cuts:
+<br>"F2": opens player 1's player profile.
+<br>"F3": opens player 2's player profile.
+<br>"F5": opens player 1's player profile with player 2 selected in the head-to-head filter.</p><br>
+<h3>Match/game lists</h3>
+<p>Most lists can be navigated by mouse clicking on the rows representing individual matches or games. The followin describes the effect of mouse clicking the rows in some of the lists.</p><br>
+<h4>Recent Match Reports:</h4>
+<p>When the Report Match form is in "Add New" mode, left click the list of recent matches to open player profile of player 1 and right click to open player profile of player 2.</p><br>
+<h4>Match Results in Player Profile:</h4>
+<p>Left click any row to add the opponent of that particular match to the head-to-head filter. Right click to add the tournament of the particular match to the tournament filter.</p>
+<br>
+<h4>Single Games in Player Profile:</h4>
+<p>Left click any row to add the opponent of that particular game to the head-to-head filter. Right click a row to add the map of that game to the map filter.</p><br>
+<h4>Games list in Map Profile and Tournament Profile:</h4>
+<p>Left click any row to open the profile of player 1 and right click to open profile of player 2.</p>
+<a href="#Top">Back to the top</a><br>
+
+</BODY>
+</HTML>

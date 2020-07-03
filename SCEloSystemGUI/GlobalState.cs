@@ -1,5 +1,9 @@
-﻿using EloSystem;
+﻿using System.Windows.Forms;
+using SCEloSystemGUI.Properties;
+using EloSystem;
 using EloSystemExtensions;
+using System.Diagnostics;
+using System.IO;
 
 namespace SCEloSystemGUI
 {
@@ -23,6 +27,14 @@ namespace SCEloSystemGUI
             };
 
             GlobalState.MirrorMatchupEvaluation = new MirrorMatchupEvaluater(GlobalState.DataBase);
+        }
+
+        internal static void OpenHelp()
+        {
+            string helpFilePath = Directory.GetCurrentDirectory() + "\\" + Settings.Default.HelpFile + ".chm";
+
+            if (File.Exists(helpFilePath)) { Process.Start(helpFilePath); }
+            else { MessageBox.Show("Help file could not be located.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
     }
 }

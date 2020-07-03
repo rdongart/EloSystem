@@ -92,12 +92,13 @@ namespace SCEloSystemGUI.UserControls
             this.oLstVRecentMatches = EloSystemGUIStaticMembers.CreateMatchListView();
             this.oLstVRecentMatches.EmptyListMsg = "No matches have been entered yet.";
             Styles.ObjectListViewStyles.SetHotItemStyle(this.oLstVRecentMatches);
-            Styles.ObjectListViewStyles.AvoidFocus(this.oLstVRecentMatches);
+            Styles.ObjectListViewStyles.DeselectItemsOnMousUp(this.oLstVRecentMatches);
             this.oLstVRecentMatches.Margin = new Padding(6, 3, 6, 3);
             this.oLstVRecentMatches.Dock = DockStyle.Fill;
             this.oLstVRecentMatches.FullRowSelect = true;
             this.oLstVRecentMatches.SelectedIndexChanged += this.OLstVRecentMatches_SelectedIndexChanged;
             this.oLstVRecentMatches.MouseClick += this.OLstVRecentMatches_MouseClick;
+            this.oLstVRecentMatches.MouseDown += OLstVRecentMatches_MouseDown;
             this.tblLoPnlRecentMatches.Controls.Add(this.oLstVRecentMatches, 0, 2);
             this.MatchChangedReported += this.OnMatchReported;
 
@@ -110,6 +111,33 @@ namespace SCEloSystemGUI.UserControls
             this.pnlPageSelector.Controls.Add(this.selecterListViewLink.Selecter);
 
             this.AddRecentMatches();
+        }
+
+        private void OLstVRecentMatches_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (!this.rdBtnAddNewMatchReport.Checked) { return; }
+
+            var olv = sender as ObjectListView;
+
+            if (olv == null || olv.SelectedItem == null) { return; }
+
+            var selectedMatchItem = olv.SelectedItem.RowObject as MatchEditorItem;
+
+            if (selectedMatchItem != null)
+            {
+                switch (e.Button)
+                {
+                    case MouseButtons.Left: PlayerProfile.ShowProfile(selectedMatchItem.Player1, olv.FindForm()); break;
+                    case MouseButtons.Right: PlayerProfile.ShowProfile(selectedMatchItem.Player2, olv.FindForm()); break;
+                    case MouseButtons.Middle: PlayerProfile.ShowProfile(selectedMatchItem.Player1, selectedMatchItem.Player2, olv.FindForm()); break;
+                    case MouseButtons.None:
+                    case MouseButtons.XButton1:
+                    case MouseButtons.XButton2: break;
+                    default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(MouseButtons).Name, e.Button.ToString()));
+                }
+            }
+
+            olv.SelectedItems.Clear();
         }
 
         private void OLstVRecentMatches_MouseClick(object sender, MouseEventArgs e)
@@ -729,7 +757,7 @@ namespace SCEloSystemGUI.UserControls
 
         private void btnEditMatchIndex_Click(object sender, EventArgs e)
         {
-            MatchEditorItem[] matchesForThisDate = GlobalState.DataBase.GetAllGames().Where(game => game.Match.DateTime.Date.Equals(this.EditorMatch.SourceMatch.DateTime.Date)).GroupBy(game => game.Match).Select(grp => new MatchEditorItem(grp, grp.Key)).OrderByDescending(match => match.SourceMatch.DailyIndex).ToArray();
+            MatchEditorItem[] matchesForThisDate = GlobalState.DataBase.GetAllGames().Where(game => game.Match.DateTime.Date.Equals(this.EditorMatch.SourceMatch.DateTime.Date)).GroupBy(game => game.Match).Select(grp => new MatchEditorItem(grp.OrderOldestFirst(), grp.Key)).OrderByDescending(match => match.SourceMatch.DailyIndex).ToArray();
 
             var editorForm = new DailyIndexEditorForm(matchesForThisDate, matchesForThisDate.TakeWhile(match => !match.SourceMatch.Equals(this.EditorMatch.SourceMatch)).Count());
 

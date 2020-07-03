@@ -24,9 +24,14 @@ namespace EloSystemExtensions
 
             try
             {
-                if (searchInput == "") { return ed.GetPlayers(); }
-                else if (searchInput.Length <= INPUT_LENGTH_FULL_MATCH_THRESHOLD) { return ed.SearchPlayers(new Regex(CASEINSENSITIVE_PATTERN + searchInput)); }
-                else { return ed.SearchPlayers(Enumerable.Range(0, searchInput.Length - 1).Select(index => new Regex(CASEINSENSITIVE_PATTERN + searchInput.Replace(index, ANYCHAR_PATTERN)))); }
+                Func<IEnumerable<SCPlayer>> performLookup = () =>
+                {
+                    if (searchInput == "") { return ed.GetPlayers(); }
+                    else if (searchInput.Length <= INPUT_LENGTH_FULL_MATCH_THRESHOLD) { return ed.SearchPlayers(new Regex(CASEINSENSITIVE_PATTERN + searchInput)); }
+                    else { return ed.SearchPlayers(Enumerable.Range(0, searchInput.Length - 1).Select(index => new Regex(CASEINSENSITIVE_PATTERN + searchInput.Replace(index, ANYCHAR_PATTERN)))); }
+                };
+
+                return performLookup().OrderBy(player => player.IdentifierDistance(searchInput));
             }
             catch (Exception exc)
             {

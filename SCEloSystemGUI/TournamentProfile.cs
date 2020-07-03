@@ -174,7 +174,7 @@ namespace SCEloSystemGUI
             };
 
             Styles.ObjectListViewStyles.SetHotItemStyle(gamesLV);
-            Styles.ObjectListViewStyles.AvoidFocus(gamesLV);
+            Styles.ObjectListViewStyles.DeselectItemsOnMousUp(gamesLV);
 
             const int RACE_COLUMN_WIDTH = 50;
             const int RATING_CHANGE_COLUMN_WIDTH = 55;

@@ -23,6 +23,19 @@ namespace SCEloSystemGUI.UserControls
                 olv.HotItemStyle.Decoration = EloSystemGUIStaticMembers.OlvListViewRowBorderDecoration();
             }
 
+            internal static void DeselectItemsOnMousUp(ObjectListView olv)
+            {
+                olv.MouseUp += Olv_MouseUp;
+            }
+
+            private static void Olv_MouseUp(object sender, MouseEventArgs e)
+            {
+                var senderOLV = sender as ObjectListView;
+                               
+                if (senderOLV != null) { senderOLV.SelectedItems.Clear(); }
+
+            }
+
             internal static void AvoidFocus(ObjectListView olv)
             {
                 olv.GotFocus += ObjectListViewStyles.Olv_GotFocus;

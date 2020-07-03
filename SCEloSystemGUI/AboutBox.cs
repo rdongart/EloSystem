@@ -1,11 +1,7 @@
 ﻿using SCEloSystemGUI.Properties;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
+using System.Diagnostics;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SCEloSystemGUI
@@ -15,10 +11,10 @@ namespace SCEloSystemGUI
         public AboutBox()
         {
             InitializeComponent();
-            this.Text = String.Format("About {0}", AssemblyTitle);
-            this.labelProductName.Text = AssemblyProduct;
-            this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
-            this.textBoxDescription.Text = AssemblyDescription;
+            this.Text = String.Format("About {0}", this.AssemblyTitle);
+            this.labelProductName.Text = this.AssemblyProduct;
+            this.labelVersion.Text = String.Format("Version {0}", this.AssemblyFileVersion);
+            this.textBoxDescription.Text = this.AssemblyDescription;
 
             this.Icon = Resources.SCEloIcon;
         }
@@ -47,6 +43,14 @@ namespace SCEloSystemGUI
             get
             {
                 return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            }
+        }
+
+        public string AssemblyFileVersion
+        {
+            get
+            {
+                return FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
             }
         }
 

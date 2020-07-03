@@ -75,8 +75,7 @@ namespace SCEloSystemGUI
             };
 
             Styles.ObjectListViewStyles.SetHotItemStyle(tournamentStatsLV);
-            Styles.ObjectListViewStyles.AvoidFocus(tournamentStatsLV);
-
+            
             var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null, Sortable = true };
             var olvClmLogo = new OLVColumn() { Width = 110, Text = "Logo", Sortable = false, TextAlign = HorizontalAlignment.Center };
             var olvClmName = new OLVColumn() { Width = 360, Text = "Name", Sortable = true };

@@ -485,6 +485,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Map Profile";
+            this.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.MapProfile_HelpRequested);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MapProfile_KeyUp);
             this.tblLOPnlMapProfile.ResumeLayout(false);
             this.tblLOPnlMapProfile.PerformLayout();

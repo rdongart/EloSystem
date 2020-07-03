@@ -37,7 +37,7 @@ namespace SCEloSystemGUI
 
         internal static IEnumerable<MatchEditorItem> ToMatchEditorItems(this IEnumerable<Game> source)
         {
-            return source.GroupBy(game => game.Match).Select(grp => new MatchEditorItem(grp, grp.Key));
+            return source.GroupBy(game => game.Match).Select(grp => new MatchEditorItem(grp.OrderOldestFirst(), grp.Key));
         }
 
         internal static IEnumerable<MatchEditorItem> OrderNewestFirst(this IEnumerable<MatchEditorItem> items)

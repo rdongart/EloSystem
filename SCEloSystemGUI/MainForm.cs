@@ -214,5 +214,15 @@ namespace SCEloSystemGUI
         {
             TournamentsOverview.ShowOverview();
         }
+
+        private void MainForm_HelpRequested(object sender, HelpEventArgs hlpevent)
+        {
+            GlobalState.OpenHelp();
+        }
+
+        private void contentsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GlobalState.OpenHelp();
+        }
     }
 }

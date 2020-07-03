@@ -60,6 +60,7 @@ namespace SCEloSystemGUI.UserControls
 
             h2hLstV.AllColumns.Clear();
             h2hLstV.Columns.Clear();
+            h2hLstV.EmptyListMsg = String.Format("No players fit the search criteria and have played games vs {0}.", targetPlayer.Name);
 
             h2hLstV.AllColumns.AddRange(newColumnOrder);
             h2hLstV.Columns.AddRange(newColumnOrder);
@@ -94,6 +95,7 @@ namespace SCEloSystemGUI.UserControls
                 AlternateRowBackColor = EloSystemGUIStaticMembers.OlvRowAlternativeBackColor,
                 BackColor = EloSystemGUIStaticMembers.OlvRowBackColor,
                 Dock = DockStyle.Fill,
+                EmptyListMsg = "No players fit the search criteria.",
                 Font = new Font("Calibri", TEXT_SIZE, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 HeaderStyle = ColumnHeaderStyle.Nonclickable,
                 HasCollapsibleGroups = false,

@@ -95,70 +95,110 @@ namespace EloSystemExtensions
             var playerMirrorMatchupData = new Dictionary<SCPlayer, MirrorMathcupPlayerData>();
             var gamesByMaps = new Dictionary<Map, List<ExtendedGameData>>();
 
-            Func<MirrorMathcupPlayerData, MirrorMatchup, bool> PlayerHasEnoughGamesInMatchup = (mmPlayerData, mmT) =>
-            {
-                return mmPlayerData.GamesIn(mmT) >= this.GamesPlayedByPlayerThreshold;
-            };
-
-
             // this method register player data and the games that satisfy criteria for mirror matchup evaluation
-            Action<Game, MirrorMatchup> RegisterGameData = (gm, mm) =>
+            Action<IGrouping<Match, Game>> RegisterGameData = (gamesByMatch) =>
             {
                 // first get players data if they have been registered, otherwise register them
-                MirrorMathcupPlayerData winnersMirrorMatchupData;
+                MirrorMathcupPlayerData player1sMirrorMatchupData;
 
-                if (!playerMirrorMatchupData.TryGetValue(gm.Winner, out winnersMirrorMatchupData))
+                if (!playerMirrorMatchupData.TryGetValue(gamesByMatch.Key.Player1, out player1sMirrorMatchupData))
                 {
-                    winnersMirrorMatchupData = new MirrorMathcupPlayerData(this.GetInitialRating(gm.Winner));
+                    player1sMirrorMatchupData = new MirrorMathcupPlayerData(this.GetInitialRating(gamesByMatch.Key.Player1));
 
-                    playerMirrorMatchupData.Add(gm.Winner, winnersMirrorMatchupData);
+                    playerMirrorMatchupData.Add(gamesByMatch.Key.Player1, player1sMirrorMatchupData);
                 }
 
 
-                MirrorMathcupPlayerData losersMirrorMatchupData;
+                MirrorMathcupPlayerData player2sMirrorMatchupData;
 
-                if (!playerMirrorMatchupData.TryGetValue(gm.Loser, out losersMirrorMatchupData))
+                if (!playerMirrorMatchupData.TryGetValue(gamesByMatch.Key.Player2, out player2sMirrorMatchupData))
                 {
-                    losersMirrorMatchupData = new MirrorMathcupPlayerData(this.GetInitialRating(gm.Loser));
+                    player2sMirrorMatchupData = new MirrorMathcupPlayerData(this.GetInitialRating(gamesByMatch.Key.Player2));
 
-                    playerMirrorMatchupData.Add(gm.Loser, losersMirrorMatchupData);
+                    playerMirrorMatchupData.Add(gamesByMatch.Key.Player2, player2sMirrorMatchupData);
                 }
 
-
-                double expectedWinRatioForWinner = EloData.ExpectedWinRatio(winnersMirrorMatchupData.RatingIn(mm), losersMirrorMatchupData.RatingIn(mm));
-
-                int ratingChange = EloData.RatingChange(winnersMirrorMatchupData.GamesIn(mm), losersMirrorMatchupData.GamesIn(mm), expectedWinRatioForWinner);
-
-                winnersMirrorMatchupData.RegisterResult(mm, ratingChange);
-                losersMirrorMatchupData.RegisterResult(mm, -ratingChange);
-
-                double expectedWinRatioForUnderdog = Math.Min(expectedWinRatioForWinner, 1 - expectedWinRatioForWinner).Round(2);
-
-                if (expectedWinRatioForUnderdog != EXPECTEDWINRATIO_FOR_EVEN_MATCHUP && expectedWinRatioForUnderdog >= EXPECTEDWINRATIO_FOR_UNDERDOG_LOWER_THRESHOLD
-                    && PlayerHasEnoughGamesInMatchup(winnersMirrorMatchupData, mm) && PlayerHasEnoughGamesInMatchup(losersMirrorMatchupData, mm))
+                Func<Matchup, MirrorMatchup> ToMirrorMatchup = (m) =>
                 {
-                    List<ExtendedGameData> gameList;
-
-                    if (!gamesByMaps.TryGetValue(gm.Map, out gameList))
+                    switch (m)
                     {
-                        gameList = new List<ExtendedGameData>();
+                        case Matchup.ZvZ: return MirrorMatchup.ZvZ;
+                        case Matchup.TvT: return MirrorMatchup.TvT;
+                        case Matchup.PvP: return MirrorMatchup.PvP;
+                        case Matchup.TvZ:
+                        case Matchup.ZvP:
+                        case Matchup.PvT:
+                        case Matchup.RvZ:
+                        case Matchup.RvT:
+                        case Matchup.RvP:
+                        case Matchup.RvR: throw new Exception(String.Format("Unable to handle  {0} {1} in the current switch context.", typeof(Matchup).Name, m.ToString()));
+                        default: throw new Exception(String.Format("Unknown  {0} {1}.", typeof(Matchup).Name, m.ToString()));
+                    }
+                };
 
-                        gamesByMaps.Add(gm.Map, gameList);
+                foreach (IGrouping<MirrorMatchup, Game> mmGroup in gamesByMatch.GroupBy(game => ToMirrorMatchup(game.MatchType)))
+                {
+                    double expectedWinRatioForPlayer1 = EloData.ExpectedWinRatio(player1sMirrorMatchupData.RatingIn(mmGroup.Key), player2sMirrorMatchupData.RatingIn(mmGroup.Key));
+                    double expectedWinRatioForPlayer2 = 1 - expectedWinRatioForPlayer1;
+
+                    int ratingChangeIfPlayer1Wins = EloData.RatingChange(player1sMirrorMatchupData.GamesIn(mmGroup.Key), player2sMirrorMatchupData.GamesIn(mmGroup.Key), expectedWinRatioForPlayer1);
+                    int ratingChangeIfPlayer2Wins = EloData.RatingChange(player2sMirrorMatchupData.GamesIn(mmGroup.Key), player1sMirrorMatchupData.GamesIn(mmGroup.Key), expectedWinRatioForPlayer2);
+
+                    double expectedWinRatioForUnderdog = Math.Min(expectedWinRatioForPlayer1, expectedWinRatioForPlayer2).Round(2);
+
+                    if (expectedWinRatioForUnderdog != EXPECTEDWINRATIO_FOR_EVEN_MATCHUP && expectedWinRatioForUnderdog >= EXPECTEDWINRATIO_FOR_UNDERDOG_LOWER_THRESHOLD
+                    && player1sMirrorMatchupData.GamesIn(mmGroup.Key) >= this.GamesPlayedByPlayerThreshold && player2sMirrorMatchupData.GamesIn(mmGroup.Key) >= this.GamesPlayedByPlayerThreshold)
+                    {
+                        foreach (Game game in mmGroup)
+                        {
+                            List<ExtendedGameData> gameList;
+
+                            if (!gamesByMaps.TryGetValue(game.Map, out gameList))
+                            {
+                                gameList = new List<ExtendedGameData>();
+
+                                gamesByMaps.Add(game.Map, gameList);
+                            }
+
+                            gameList.Add(new ExtendedGameData(game, expectedWinRatioForPlayer1, mmGroup.Key));
+                        }
+
                     }
 
-                    gameList.Add(new ExtendedGameData(gm, expectedWinRatioForWinner, mm));
-                }
+                    foreach (Game game in mmGroup)
+                    {
+                        int ratingChange;
+                        MirrorMathcupPlayerData winnerData, loserData;
 
+                        if (game.Winner.Equals(game.Player1))
+                        {
+                            ratingChange = ratingChangeIfPlayer1Wins;
+
+                            winnerData = player1sMirrorMatchupData;
+                            loserData = player2sMirrorMatchupData;
+                        }
+                        else
+                        {
+                            ratingChange = ratingChangeIfPlayer2Wins;
+
+                            winnerData = player2sMirrorMatchupData;
+                            loserData = player1sMirrorMatchupData;
+                        }
+
+
+                        winnerData.RegisterResult(mmGroup.Key, ratingChange);
+                        loserData.RegisterResult(mmGroup.Key, -ratingChange);
+                    }
+
+                }
+                
             };
 
 
             // go throug each game from first to last and register player mirror matchup stats and game data
-            var mmType = new MirrorMatchup();
-
-            foreach (Game game in this.eloDataBase.GetAllGames().Where(gm => gm.Map != null).OrderOldestFirst().Where(gm => MirrorMatchupEvaluater.GameIsMirrorMatchup(gm, out mmType)
-                && mmType != MirrorMatchup.RvR))
+            foreach (IGrouping<Match, Game> gamesOfMatches in this.eloDataBase.GetAllGames().Where(gm => gm.Map != null).Where(gm => gm.MatchType.IsMirrorMatchup() && gm.MatchType != Matchup.RvR).GroupBy(gm => gm.Match).OrderBy(group => group.Key.DateTime.Date).ThenBy(group => group.Key.DailyIndex))
             {
-                RegisterGameData(game, mmType);
+                RegisterGameData(gamesOfMatches);
             }
 
 

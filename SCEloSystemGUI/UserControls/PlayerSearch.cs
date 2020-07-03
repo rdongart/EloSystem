@@ -28,7 +28,6 @@ namespace SCEloSystemGUI.UserControls
             lstV.Dock = DockStyle.Fill;
             this.tblLOPnlPlayerSearch.Controls.Add(lstV, 0, 2);
             this.tblLOPnlPlayerSearch.SetColumnSpan(lstV, 2);
-            lstV.EmptyListMsg = "No players fit the search criteria.";
             lstV.EmptyListMsgFont = new Font("Calibri", 10F, FontStyle.Bold & FontStyle.Italic, GraphicsUnit.Point, 0);
         }
 

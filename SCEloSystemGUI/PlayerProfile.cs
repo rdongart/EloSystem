@@ -596,7 +596,7 @@ namespace SCEloSystemGUI
 
             matchLV.MouseClick += this.MatchLV_MouseClick;
             Styles.ObjectListViewStyles.SetHotItemStyle(matchLV);
-            Styles.ObjectListViewStyles.AvoidFocus(matchLV);
+            Styles.ObjectListViewStyles.DeselectItemsOnMousUp(matchLV);
 
             var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null, IsVisible = false };
             var olvClmDate = new OLVColumn() { Width = 85, Text = "Date" };
@@ -738,7 +738,7 @@ namespace SCEloSystemGUI
 
             gamesLV.MouseClick += this.GamesLV_MouseClick;
             Styles.ObjectListViewStyles.SetHotItemStyle(gamesLV);
-            Styles.ObjectListViewStyles.AvoidFocus(gamesLV);
+            Styles.ObjectListViewStyles.DeselectItemsOnMousUp(gamesLV);
 
             var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null };
             var olvClmDate = new OLVColumn() { Width = 85, Text = "Date" };

@@ -25,7 +25,7 @@ namespace SCEloSystemGUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("400")]
+        [global::System.Configuration.DefaultSettingValueAttribute("500")]
         public uint MatchesPerPage {
             get {
                 return ((uint)(this["MatchesPerPage"]));
@@ -37,7 +37,7 @@ namespace SCEloSystemGUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Months_4")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Months_6")]
         public global::SCEloSystemGUI.PlayerDevScope PlayerDevelopmentScope {
             get {
                 return ((global::SCEloSystemGUI.PlayerDevScope)(this["PlayerDevelopmentScope"]));
@@ -68,6 +68,18 @@ namespace SCEloSystemGUI.Properties {
             }
             set {
                 this["PlayerResultDisplayTypes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("SCEloHelp")]
+        public string HelpFile {
+            get {
+                return ((string)(this["HelpFile"]));
+            }
+            set {
+                this["HelpFile"] = value;
             }
         }
     }

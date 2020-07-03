@@ -322,7 +322,7 @@ namespace SCEloSystemGUI
             };
 
             Styles.ObjectListViewStyles.SetHotItemStyle(gamesLV);
-            Styles.ObjectListViewStyles.AvoidFocus(gamesLV);
+            Styles.ObjectListViewStyles.DeselectItemsOnMousUp(gamesLV);
 
             const int RACE_COLUMN_WIDTH = 50;
             const int RATING_CHANGE_COLUMN_WIDTH = 55;
@@ -488,6 +488,10 @@ namespace SCEloSystemGUI
             if (e.KeyCode == Keys.Escape) { this.Close(); }
         }
 
+        private void MapProfile_HelpRequested(object sender, HelpEventArgs hlpevent)
+        {
+            GlobalState.OpenHelp();
+        }
     }
 
 }

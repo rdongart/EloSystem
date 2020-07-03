@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using CustomExtensionMethods;
 using EloSystem.IO;
 using EloSystem.ResourceManagement;
@@ -51,7 +52,6 @@ namespace EloSystem
                 return StaticMembers.SaveDirectory + this.Name + StaticMembers.FILE_EXTENSION_NAME;
             }
         }
-        [field: NonSerialized]
         public bool ContentHasBeenChanged { get; private set; }
         [field: NonSerialized]
         public EventHandler CountryPoolChanged = delegate { };
@@ -883,10 +883,18 @@ namespace EloSystem
 
         public IEnumerable<SCPlayer> SearchPlayers(IEnumerable<Regex> patterns)
         {
-            foreach (SCPlayer player in this.players.ToList(this.players.Count))
+            int playerCount = this.players.Count;
+
+            var stringMatches = new KeyValuePair<SCPlayer, bool>[playerCount];
+
+            Parallel.For(0, playerCount, index =>
             {
-                if (patterns.Any(pattern => player.NamesMatches(pattern))) { yield return player; }
-            }
+                SCPlayer player = this.players[index];
+
+                stringMatches[index] = new KeyValuePair<SCPlayer, bool>(player, patterns.Any(pattern => player.NamesMatches(pattern)));
+            });
+
+            return stringMatches.Where(match => match.Value == true).Select(match => match.Key);
         }
 
         public IEnumerable<Team> GetTeams()
@@ -1017,7 +1025,7 @@ namespace EloSystem
             IEnumerable<Match> tournamentFiltereMatches = tournament == null ? this.GetMatches() : tournament.GetMatches();
 
             IEnumerable<Match> opponentFiltereMatchs = opponent == null ? tournamentFiltereMatches : tournamentFiltereMatches.Where(m => m.HasPlayer(opponent));
-            
+
             foreach (Match match in opponentFiltereMatchs.Where(m => m.HasPlayer(player)))
             {
                 foreach (GameEntry entry in match.GetEntries().Where(e => e.Map == map))

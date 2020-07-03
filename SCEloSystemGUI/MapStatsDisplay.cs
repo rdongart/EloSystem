@@ -151,8 +151,7 @@ namespace SCEloSystemGUI
             mapStatsLV.ColumnClick += this.MapStatsLV_ColumnClick;
 
             Styles.ObjectListViewStyles.SetHotItemStyle(mapStatsLV);
-            Styles.ObjectListViewStyles.AvoidFocus(mapStatsLV);
-
+            
             const int WINRATIOS_WIDTH = 170;
             const int GAMES_WIDTH = 55;
             const int COINTOSS_FACTOR_WIDTH = 55;

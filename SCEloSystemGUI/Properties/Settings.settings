@@ -3,16 +3,19 @@
   <Profiles />
   <Settings>
     <Setting Name="MatchesPerPage" Type="System.UInt32" Scope="User">
-      <Value Profile="(Default)">400</Value>
+      <Value Profile="(Default)">500</Value>
     </Setting>
     <Setting Name="PlayerDevelopmentScope" Type="SCEloSystemGUI.PlayerDevScope" Scope="User">
-      <Value Profile="(Default)">Months_4</Value>
+      <Value Profile="(Default)">Months_6</Value>
     </Setting>
     <Setting Name="RatingDevInterval" Type="SCEloSystemGUI.DevelopmentInterval" Scope="User">
       <Value Profile="(Default)">All_Time</Value>
     </Setting>
     <Setting Name="PlayerResultDisplayTypes" Type="SCEloSystemGUI.ResultsDisplay" Scope="User">
       <Value Profile="(Default)">Matches</Value>
+    </Setting>
+    <Setting Name="HelpFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">SCEloHelp</Value>
     </Setting>
   </Settings>
 </SettingsFile>

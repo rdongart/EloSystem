@@ -39,6 +39,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_42362BE48EFC4674BCCCE9FCD3AFEAB7"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_474286FA2028862F57E4D0EB8F1F055C"
         "OwnerKey" = "8:_9174DF7C58E841CEBD24056EACB259BC"
         "MsmSig" = "8:_UNDEFINED"
@@ -52,7 +58,7 @@
         "Entry"
         {
         "MsmKey" = "8:_5424C9C2F1F8A1F9FF7369AE8A7CA45F"
-        "OwnerKey" = "8:_0C684A940DCB67335C706A21EEFD1F29"
+        "OwnerKey" = "8:_9174DF7C58E841CEBD24056EACB259BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -64,7 +70,7 @@
         "Entry"
         {
         "MsmKey" = "8:_5424C9C2F1F8A1F9FF7369AE8A7CA45F"
-        "OwnerKey" = "8:_9174DF7C58E841CEBD24056EACB259BC"
+        "OwnerKey" = "8:_0C684A940DCB67335C706A21EEFD1F29"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -118,43 +124,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_10C60CADE0BFC9A11FCECD45A47437D8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2073C3D102CA9C826D11E4322B7C2E97"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_474286FA2028862F57E4D0EB8F1F055C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0C684A940DCB67335C706A21EEFD1F29"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7A2EF80D933B72EA0B1CA92B96C51B49"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C929E36E9AF23224BF476541F92FC11F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5C284C7AC70351935ADA8B899EE8EDCF"
+        "OwnerKey" = "8:_88C4DA629BFA78488D0BB78994BC4716"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -166,7 +136,43 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_88C4DA629BFA78488D0BB78994BC4716"
+        "OwnerKey" = "8:_5C284C7AC70351935ADA8B899EE8EDCF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C929E36E9AF23224BF476541F92FC11F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_7A2EF80D933B72EA0B1CA92B96C51B49"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_0C684A940DCB67335C706A21EEFD1F29"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_474286FA2028862F57E4D0EB8F1F055C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_2073C3D102CA9C826D11E4322B7C2E97"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_10C60CADE0BFC9A11FCECD45A47437D8"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -271,11 +277,6 @@
             "AssemblyAsmDisplayName" = "8:EloSystem, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_0C684A940DCB67335C706A21EEFD1F29"
-                    {
-                    "Name" = "8:EloSystem.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:EloSystem.dll"
             "TargetName" = "8:"
@@ -302,11 +303,6 @@
             "AssemblyAsmDisplayName" = "8:SerializerProgress, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_10C60CADE0BFC9A11FCECD45A47437D8"
-                    {
-                    "Name" = "8:SerializerProgress.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:SerializerProgress.dll"
             "TargetName" = "8:"
@@ -333,11 +329,6 @@
             "AssemblyAsmDisplayName" = "8:MLCommon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_2073C3D102CA9C826D11E4322B7C2E97"
-                    {
-                    "Name" = "8:MLCommon.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MLCommon.dll"
             "TargetName" = "8:"
@@ -357,6 +348,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_42362BE48EFC4674BCCCE9FCD3AFEAB7"
+            {
+            "SourcePath" = "8:..\\SCEloSystemGUI\\SCEloHelp\\SCEloHelp.chm"
+            "TargetName" = "8:SCEloHelp.chm"
+            "Tag" = "8:"
+            "Folder" = "8:_1BB2E1D43A74499FA2D3BC639A41EA88"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_474286FA2028862F57E4D0EB8F1F055C"
             {
             "AssemblyRegister" = "3:1"
@@ -364,11 +375,6 @@
             "AssemblyAsmDisplayName" = "8:EloSystemExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_474286FA2028862F57E4D0EB8F1F055C"
-                    {
-                    "Name" = "8:EloSystemExtensions.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:EloSystemExtensions.dll"
             "TargetName" = "8:"
@@ -395,11 +401,6 @@
             "AssemblyAsmDisplayName" = "8:CustomExtensionMethods, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_5424C9C2F1F8A1F9FF7369AE8A7CA45F"
-                    {
-                    "Name" = "8:CustomExtensionMethods.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:CustomExtensionMethods.dll"
             "TargetName" = "8:"
@@ -426,11 +427,6 @@
             "AssemblyAsmDisplayName" = "8:CustomControls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_5C284C7AC70351935ADA8B899EE8EDCF"
-                    {
-                    "Name" = "8:CustomControls.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:CustomControls.dll"
             "TargetName" = "8:"
@@ -477,11 +473,6 @@
             "AssemblyAsmDisplayName" = "8:ObjectListView, Version=2.9.0.34555, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_7A2EF80D933B72EA0B1CA92B96C51B49"
-                    {
-                    "Name" = "8:ObjectListView.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:ObjectListView.dll"
             "TargetName" = "8:"
@@ -508,11 +499,6 @@
             "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
-                    "_88C4DA629BFA78488D0BB78994BC4716"
-                    {
-                    "Name" = "8:System.Net.Http.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Net.Http.dll"
             "TargetName" = "8:"
@@ -539,11 +525,6 @@
             "AssemblyAsmDisplayName" = "8:Properties.Resources.Designer.cs, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_C929E36E9AF23224BF476541F92FC11F"
-                    {
-                    "Name" = "8:Properties.Resources.Designer.cs.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Properties.Resources.Designer.cs.dll"
             "TargetName" = "8:"

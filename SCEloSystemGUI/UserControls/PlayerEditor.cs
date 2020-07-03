@@ -561,7 +561,7 @@ namespace SCEloSystemGUI.UserControls
 
             Cursor.Current = Cursors.WaitCursor;
 
-            this.AddPlayersToListView(GlobalState.DataBase.PlayerLookup(this.txtBxFilter.Text).OrderBy(player => player.Name));
+            this.AddPlayersToListView(GlobalState.DataBase.PlayerLookup(this.txtBxFilter.Text));
 
             Cursor.Current = previousCursor;
         }

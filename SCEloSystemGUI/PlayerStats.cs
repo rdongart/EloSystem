@@ -1,7 +1,6 @@
 ﻿using EloSystemExtensions;
 using System.Collections.Generic;
 using BrightIdeasSoftware;
-using CustomExtensionMethods;
 using CustomExtensionMethods.Drawing;
 using EloSystem;
 using EloSystem.ResourceManagement;
@@ -17,7 +16,7 @@ namespace SCEloSystemGUI
 {
     public enum PlayerDevScope
     {
-        Month_1, Months_3, Months_4, Months_6
+        Month_1 = 1, Months_3 = 3, Months_4 = 4, Months_6 = 6
     }
 
     internal partial class PlayerStats : Form
@@ -45,6 +44,7 @@ namespace SCEloSystemGUI
                         player.Stats.WinRatioTotal()).Select((player, rank) => new Tuple<SCPlayer, int>(player, rank + 1));
             }
         }
+        private OLVColumn olvClmRatingDevelopment;
 
         internal PlayerStats()
         {
@@ -190,7 +190,6 @@ namespace SCEloSystemGUI
             playerStatsLV.FormatCell += PlayerStats.PlayerStats_FormatCell;
 
             Styles.ObjectListViewStyles.SetHotItemStyle(playerStatsLV);
-            Styles.ObjectListViewStyles.AvoidFocus(playerStatsLV);
 
             var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null };
             var olvClmRank = new OLVColumn() { Width = 50, Text = "Rank" };
@@ -200,18 +199,18 @@ namespace SCEloSystemGUI
             var olvClmMainRace = new OLVColumn() { Width = 60, Text = "Race" };
             var olvClmRankMain = new OLVColumn() { Width = 50, Text = "Rank" };
             var olvClmRatingMain = new OLVColumn() { Width = 70, Text = "Rating - overall" };
-            var olvClmRatingDevelopment = new OLVColumn() { Width = 70, Text = "Development" };
+            this.olvClmRatingDevelopment = new OLVColumn() { Width = 70, Text = "Development" };
             var olvClmRatingVsZerg = new OLVColumn() { Width = 70, Text = "Vs Zerg" };
             var olvClmRatingVsTerran = new OLVColumn() { Width = 70, Text = "Vs Terran" };
             var olvClmRatingVsProtoss = new OLVColumn() { Width = 70, Text = "Vs Protoss" };
             var olvClmRatingVsRandom = new OLVColumn() { Width = 70, Text = "Vs Random" };
 
-            playerStatsLV.AllColumns.AddRange(new OLVColumn[] { olvClmEmpty, olvClmRank, olvClmName, olvClmCountry, olvClmTeam,olvClmMainRace, olvClmRankMain, olvClmRatingMain, olvClmRatingDevelopment
+            playerStatsLV.AllColumns.AddRange(new OLVColumn[] { olvClmEmpty, olvClmRank, olvClmName, olvClmCountry, olvClmTeam,olvClmMainRace, olvClmRankMain, olvClmRatingMain, this.olvClmRatingDevelopment
                 , olvClmRatingVsZerg, olvClmRatingVsTerran, olvClmRatingVsProtoss, olvClmRatingVsRandom });
 
-            playerStatsLV.Columns.AddRange(new ColumnHeader[] { olvClmEmpty, olvClmRank, olvClmName, olvClmCountry, olvClmTeam, olvClmMainRace, olvClmRankMain, olvClmRatingMain, olvClmRatingDevelopment, olvClmRatingVsZerg, olvClmRatingVsTerran, olvClmRatingVsProtoss, olvClmRatingVsRandom });
+            playerStatsLV.Columns.AddRange(new ColumnHeader[] { olvClmEmpty, olvClmRank, olvClmName, olvClmCountry, olvClmTeam, olvClmMainRace, olvClmRankMain, olvClmRatingMain, this.olvClmRatingDevelopment, olvClmRatingVsZerg, olvClmRatingVsTerran, olvClmRatingVsProtoss, olvClmRatingVsRandom });
 
-            foreach (OLVColumn clm in new OLVColumn[] { olvClmCountry, olvClmTeam, olvClmMainRace, olvClmRankMain, olvClmRatingMain, olvClmRatingDevelopment, olvClmRatingVsZerg, olvClmRatingVsTerran, olvClmRatingVsProtoss, olvClmRatingVsRandom })
+            foreach (OLVColumn clm in new OLVColumn[] { olvClmCountry, olvClmTeam, olvClmMainRace, olvClmRankMain, olvClmRatingMain, this.olvClmRatingDevelopment, olvClmRatingVsZerg, olvClmRatingVsTerran, olvClmRatingVsProtoss, olvClmRatingVsRandom })
             {
                 clm.HeaderTextAlign = HorizontalAlignment.Center;
                 clm.TextAlign = HorizontalAlignment.Center;
@@ -332,7 +331,7 @@ namespace SCEloSystemGUI
                 return player.RatingTotal().ToString(Styles.NUMBER_FORMAT);
             };
 
-            olvClmRatingDevelopment.AspectGetter = obj =>
+            this.olvClmRatingDevelopment.AspectGetter = obj =>
               {
                   var player = (obj as Tuple<SCPlayer, int>).Item1;
 
@@ -407,6 +406,8 @@ namespace SCEloSystemGUI
         internal void SetPlayerList()
         {
             this.olvPlayerStats.SetObjects(this.playersFilteredAndRanked);
+
+            this.olvClmRatingDevelopment.ToolTipText = String.Format("Overall rating development previous {0} months", (int)Settings.Default.PlayerDevelopmentScope);
         }
 
         private void SetbtnApllyEnabledStatus()

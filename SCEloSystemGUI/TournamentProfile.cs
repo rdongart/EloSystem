@@ -22,7 +22,9 @@ namespace SCEloSystemGUI
         private GameByPlayerFilter participantFiltering;
         private List<IGameFilter> gameFilters;
         private ObjectListView gameListView;
-        private PageSelecterLinker selectLinker;
+        private ObjectListView matchListView;
+        private PageSelecterLinker selectLinkerGames;
+        private PageSelecterLinker selectLinkerMatches;
         private Season seasonFilter
         {
             get
@@ -60,14 +62,25 @@ namespace SCEloSystemGUI
 
             this.gameListView = TournamentProfile.CreateGameListView();
             this.tblLOPnlGames.Controls.Add(this.gameListView, 0, 1);
-            this.selectLinker = new PageSelecterLinker(this.gameListView) { ItemsPerPage = (int)Settings.Default.MatchesPerPage };
-            this.selectLinker.ItemGetter = () =>
+            this.selectLinkerGames = new PageSelecterLinker(this.gameListView) { ItemsPerPage = (int)Settings.Default.MatchesPerPage };
+            this.selectLinkerGames.ItemGetter = () =>
             {
                 return this.tournament.GetGames().Where(game => (this.seasonFilterApplied == null || game.Season == this.seasonFilterApplied)
                     && this.gameFilters.All(filter => filter.FilterGame(game))).OrderNewestFirst();
             };
-            this.tblLOPnlGames.Controls.Add(this.selectLinker.Selecter, 0, 0);
-            Styles.PageSelecterStyles.SetSpaceStyle(this.selectLinker.Selecter);
+            this.tblLOPnlGames.Controls.Add(this.selectLinkerGames.Selecter, 0, 0);
+            Styles.PageSelecterStyles.SetSpaceStyle(this.selectLinkerGames.Selecter);
+
+            this.matchListView = TournamentProfile.CreateMatchListView();
+            this.tblLOPnlMatches.Controls.Add(this.matchListView, 0, 1);
+            this.selectLinkerMatches = new PageSelecterLinker(this.matchListView) { ItemsPerPage = (int)Settings.Default.MatchesPerPage };
+            this.selectLinkerMatches.ItemGetter = () =>
+            {
+                return this.tournament.GetGames().Where(game => (this.seasonFilterApplied == null || game.Season == this.seasonFilterApplied)
+                  && this.gameFilters.All(filter => filter.FilterGame(game))).ToMatchEditorItems().OrderNewestFirst();
+            };
+            this.tblLOPnlMatches.Controls.Add(this.selectLinkerMatches.Selecter, 0, 0);
+            Styles.PageSelecterStyles.SetSpaceStyle(this.selectLinkerMatches.Selecter);
 
             EloImage eloLogo;
 
@@ -130,7 +143,8 @@ namespace SCEloSystemGUI
             this.seasonFilterApplied = this.seasonFilter;
             this.gameFilters.ForEach(filter => filter.ApplyChanges());
 
-            this.selectLinker.UpdateListItems();
+            this.selectLinkerGames.UpdateListItems();
+            this.selectLinkerMatches.UpdateListItems();
 
             this.SetBtnFilterApplyEnabledStatus();
         }
@@ -159,6 +173,7 @@ namespace SCEloSystemGUI
                 AlternateRowBackColor = EloSystemGUIStaticMembers.OlvRowAlternativeBackColor,
                 BackColor = EloSystemGUIStaticMembers.OlvRowBackColor,
                 Dock = DockStyle.Fill,
+                EmptyListMsg = "No games were found.",
                 Font = new Font("Calibri", 9.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
                 FullRowSelect = true,
                 HeaderStyle = ColumnHeaderStyle.Nonclickable,
@@ -295,6 +310,142 @@ namespace SCEloSystemGUI
             };
 
             return gamesLV;
+        }
+
+        internal static ObjectListView CreateMatchListView()
+        {
+            var matchLV = new ObjectListView()
+            {
+                AlternateRowBackColor = EloSystemGUIStaticMembers.OlvRowAlternativeBackColor,
+                BackColor = EloSystemGUIStaticMembers.OlvRowBackColor,
+                EmptyListMsg = "No matches were found.",
+                Font = new Font("Calibri", 9.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
+                FullRowSelect = false,
+                HeaderStyle = ColumnHeaderStyle.Nonclickable,
+                HasCollapsibleGroups = false,
+                Margin = new Padding(3),
+                MultiSelect = false,
+                RowHeight = 20,
+                Scrollable = true,
+                ShowGroups = false,
+                Size = new Size(654, 850),
+                UseAlternatingBackColors = true,
+                UseCellFormatEvents = true,
+            };
+
+            var olvClmEmpty = new OLVColumn() { MinimumWidth = 0, MaximumWidth = 0, Width = 0, CellPadding = null };
+            var olvClmDate = new OLVColumn() { Width = 90, Text = "Date" };
+            var olvClmPlayer1 = new OLVColumn() { Width = 130, Text = "Player 1" };
+            var olvClmRatingChangePlayer1 = new OLVColumn() { Width = 50, Text = "Rating Change" };
+            var olvClmResult = new OLVColumn() { Width = 70, Text = "Result" };
+            var olvClmRatingChangePlayer2 = new OLVColumn() { Width = 50, Text = "Rating Change" };
+            var olvClmPlayer2 = new OLVColumn() { Width = 130, Text = "Player 2" };
+            var olvClmSeason = new OLVColumn() { Width = 110, Text = "Season" };
+
+            matchLV.FormatCell += TournamentProfile.MatchLV_FormatCell;
+            matchLV.MouseClick += TournamentProfile.MatchLV_MouseClick;
+
+            Styles.ObjectListViewStyles.SetHotItemStyle(matchLV);
+            Styles.ObjectListViewStyles.DeselectItemsOnMousUp(matchLV);
+
+            matchLV.AllColumns.AddRange(new OLVColumn[] { olvClmEmpty, olvClmDate, olvClmPlayer1, olvClmRatingChangePlayer1, olvClmResult, olvClmRatingChangePlayer2, olvClmPlayer2, olvClmSeason });
+
+            matchLV.Columns.AddRange(new ColumnHeader[] { olvClmEmpty, olvClmDate, olvClmPlayer1, olvClmRatingChangePlayer1, olvClmResult, olvClmRatingChangePlayer2, olvClmPlayer2, olvClmSeason });
+
+            foreach (OLVColumn clm in new OLVColumn[] { olvClmRatingChangePlayer1, olvClmResult, olvClmRatingChangePlayer2 })
+            {
+                clm.HeaderTextAlign = HorizontalAlignment.Center;
+                clm.TextAlign = HorizontalAlignment.Center;
+            }
+
+            olvClmPlayer1.AspectGetter = obj =>
+            {
+                var match = obj as MatchEditorItem;
+
+                if (match != null) { return match.Player1.Name; }
+                else { return ""; }
+            };
+
+            olvClmDate.AspectGetter = obj =>
+            {
+                var match = obj as MatchEditorItem;
+
+                if (match != null) { return match.DateValue.ToShortDateString(); }
+                else { return string.Empty; }
+            };
+
+            olvClmRatingChangePlayer1.AspectGetter = obj =>
+            {
+                var match = obj as MatchEditorItem;
+
+                if (match != null) { return Styles.StringStyles.ConvertRatingChangeString(match.RatingChangeBy(PlayerSlotType.Player1)); }
+                else { return ""; }
+            };
+
+            olvClmResult.AspectGetter = obj =>
+            {
+                var match = obj as MatchEditorItem;
+
+                if (match != null) { return String.Format("{0} - {1}", match.WinsBy(PlayerSlotType.Player1), match.WinsBy(PlayerSlotType.Player2)); }
+                else { return ""; }
+            };
+
+            olvClmRatingChangePlayer2.AspectGetter = obj =>
+            {
+                var match = obj as MatchEditorItem;
+
+                if (match != null) { return Styles.StringStyles.ConvertRatingChangeString(match.RatingChangeBy(PlayerSlotType.Player2)); }
+                else { return ""; }
+            };
+
+            olvClmPlayer2.AspectGetter = obj =>
+            {
+                var match = obj as MatchEditorItem;
+
+                if (match != null) { return match.Player2.Name; }
+                else { return ""; }
+            };
+
+            olvClmSeason.AspectGetter = obj =>
+            {
+                var match = obj as MatchEditorItem;
+
+                if (match != null && match.Season != null) { return match.Season.Name; }
+                else { return ""; }
+            };
+
+            return matchLV;
+        }
+
+        private static void MatchLV_MouseClick(object sender, MouseEventArgs e)
+        {
+            var olv = sender as ObjectListView;
+
+            if (olv == null || olv.SelectedItem == null) { return; }
+
+            var selectedMatchItem = olv.SelectedItem.RowObject as MatchEditorItem;
+
+            if (selectedMatchItem != null)
+            {
+                switch (e.Button)
+                {
+                    case MouseButtons.Left: PlayerProfile.ShowProfile(selectedMatchItem.Player1, olv.FindForm()); break;
+                    case MouseButtons.Right: PlayerProfile.ShowProfile(selectedMatchItem.Player2, olv.FindForm()); break;
+                    case MouseButtons.Middle: PlayerProfile.ShowProfile(selectedMatchItem.Player1, selectedMatchItem.Player2, olv.FindForm()); break;
+                    case MouseButtons.None:
+                    case MouseButtons.XButton1:
+                    case MouseButtons.XButton2: break;
+                    default: throw new Exception(String.Format("Unknown {0} {1}.", typeof(MouseButtons).Name, e.Button.ToString()));
+                }
+            }
+
+            olv.SelectedItems.Clear();
+
+        }
+
+        private static void MatchLV_FormatCell(object sender, FormatCellEventArgs e)
+        {
+            if (e.ColumnIndex == 3 || e.ColumnIndex == 5) { EloSystemGUIStaticMembers.FormatRatingChangeOLVCell(e.SubItem); }
         }
 
         private static void GamesLV_FormatCell(object sender, FormatCellEventArgs e)

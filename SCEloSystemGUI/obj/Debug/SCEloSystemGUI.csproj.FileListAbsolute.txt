@@ -53,3 +53,4 @@ C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\ob
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.TournamentProfile.resources
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.UserControls.GameByPlayerFilter.resources
 C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\obj\Debug\SCEloSystemGUI.csproj.SCElo.exe.config
+C:\Users\Robin\Documents\Visual Studio 2015\Projects\EloSystem\SCEloSystemGUI\bin\Debug\ObjectListView.pdb

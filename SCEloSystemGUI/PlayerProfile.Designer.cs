@@ -522,7 +522,7 @@
             this.tabPageSingleGames.Location = new System.Drawing.Point(4, 24);
             this.tabPageSingleGames.Name = "tabPageSingleGames";
             this.tabPageSingleGames.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSingleGames.Size = new System.Drawing.Size(916, 478);
+            this.tabPageSingleGames.Size = new System.Drawing.Size(916, 490);
             this.tabPageSingleGames.TabIndex = 1;
             this.tabPageSingleGames.Text = "Single Games";
             this.tabPageSingleGames.UseVisualStyleBackColor = true;
@@ -542,7 +542,7 @@
             this.tblLOPnlGames.RowCount = 2;
             this.tblLOPnlGames.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
             this.tblLOPnlGames.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlGames.Size = new System.Drawing.Size(910, 472);
+            this.tblLOPnlGames.Size = new System.Drawing.Size(910, 484);
             this.tblLOPnlGames.TabIndex = 0;
             // 
             // tblLOPnlOpponentSelection
@@ -663,7 +663,7 @@
             this.tabPageMaps.Location = new System.Drawing.Point(4, 24);
             this.tabPageMaps.Name = "tabPageMaps";
             this.tabPageMaps.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMaps.Size = new System.Drawing.Size(916, 478);
+            this.tabPageMaps.Size = new System.Drawing.Size(916, 490);
             this.tabPageMaps.TabIndex = 2;
             this.tabPageMaps.Text = "Maps";
             this.tabPageMaps.UseVisualStyleBackColor = true;

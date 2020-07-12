@@ -89,6 +89,7 @@ namespace SCEloSystemGUI
             GlobalState.DataBase.CountryPoolChanged += this.OnCountryPoolChanged;
             GlobalState.DataBase.PlayerPoolChanged += this.OnPlayerPoolChanged;
             GlobalState.DataBase.MatchPoolChanged += this.OnMatchPoolChanged;
+            GlobalState.DataBase.TeamPoolChanged += this.OnTeamPoolChanged;
 
             this.tabCtrlCustomizations.Visible = false;
             this.tblLoPnlPlayerStats.RowStyles[PlayerStats.FILTERROW_INDEX].Height = 0;
@@ -147,6 +148,11 @@ namespace SCEloSystemGUI
         private void OnCountryPoolChanged(object sender, EventArgs e)
         {
             this.countryFilter.SetItems(GlobalState.DataBase.GetCountries().OrderBy(country => country.Name));
+        }
+
+        private void OnTeamPoolChanged(object sender, EventArgs e)
+        {
+            this.teamFilter.SetItems(GlobalState.DataBase.GetTeams().OrderBy(team => team.Name));
         }
 
         private void OnPlayerPoolChanged(object sender, EventArgs e)

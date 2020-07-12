@@ -50,11 +50,11 @@
             this.label4 = new System.Windows.Forms.Label();
             this.btnApplyFilters = new System.Windows.Forms.Button();
             this.grpBxGames = new System.Windows.Forms.GroupBox();
-            this.tblLOPnlGames = new System.Windows.Forms.TableLayoutPanel();
             this.tabControlGames = new System.Windows.Forms.TabControl();
             this.tabPageMatches = new System.Windows.Forms.TabPage();
-            this.tabPageGames = new System.Windows.Forms.TabPage();
             this.tblLOPnlMatches = new System.Windows.Forms.TableLayoutPanel();
+            this.tabPageGames = new System.Windows.Forms.TabPage();
+            this.tblLOPnlGames = new System.Windows.Forms.TableLayoutPanel();
             this.tblLOPnlTournamentProfile.SuspendLayout();
             this.grpBxTournamentDetails.SuspendLayout();
             this.tblLOPnlMapDetails.SuspendLayout();
@@ -380,22 +380,6 @@
             this.grpBxGames.TabStop = false;
             this.grpBxGames.Text = "Games";
             // 
-            // tblLOPnlGames
-            // 
-            this.tblLOPnlGames.BackgroundImage = global::SCEloSystemGUI.Properties.Resources.SpaceBackground;
-            this.tblLOPnlGames.ColumnCount = 1;
-            this.tblLOPnlGames.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlGames.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tblLOPnlGames.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblLOPnlGames.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tblLOPnlGames.Location = new System.Drawing.Point(3, 3);
-            this.tblLOPnlGames.Name = "tblLOPnlGames";
-            this.tblLOPnlGames.RowCount = 2;
-            this.tblLOPnlGames.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
-            this.tblLOPnlGames.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLOPnlGames.Size = new System.Drawing.Size(828, 703);
-            this.tblLOPnlGames.TabIndex = 0;
-            // 
             // tabControlGames
             // 
             this.tabControlGames.Controls.Add(this.tabPageMatches);
@@ -419,17 +403,6 @@
             this.tabPageMatches.Text = "Matches";
             this.tabPageMatches.UseVisualStyleBackColor = true;
             // 
-            // tabPageGames
-            // 
-            this.tabPageGames.Controls.Add(this.tblLOPnlGames);
-            this.tabPageGames.Location = new System.Drawing.Point(4, 24);
-            this.tabPageGames.Name = "tabPageGames";
-            this.tabPageGames.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGames.Size = new System.Drawing.Size(834, 709);
-            this.tabPageGames.TabIndex = 1;
-            this.tabPageGames.Text = "Games";
-            this.tabPageGames.UseVisualStyleBackColor = true;
-            // 
             // tblLOPnlMatches
             // 
             this.tblLOPnlMatches.BackgroundImage = global::SCEloSystemGUI.Properties.Resources.SpaceBackground;
@@ -445,6 +418,33 @@
             this.tblLOPnlMatches.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLOPnlMatches.Size = new System.Drawing.Size(828, 703);
             this.tblLOPnlMatches.TabIndex = 1;
+            // 
+            // tabPageGames
+            // 
+            this.tabPageGames.Controls.Add(this.tblLOPnlGames);
+            this.tabPageGames.Location = new System.Drawing.Point(4, 24);
+            this.tabPageGames.Name = "tabPageGames";
+            this.tabPageGames.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageGames.Size = new System.Drawing.Size(834, 709);
+            this.tabPageGames.TabIndex = 1;
+            this.tabPageGames.Text = "Games";
+            this.tabPageGames.UseVisualStyleBackColor = true;
+            // 
+            // tblLOPnlGames
+            // 
+            this.tblLOPnlGames.BackgroundImage = global::SCEloSystemGUI.Properties.Resources.SpaceBackground;
+            this.tblLOPnlGames.ColumnCount = 1;
+            this.tblLOPnlGames.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblLOPnlGames.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tblLOPnlGames.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tblLOPnlGames.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+            this.tblLOPnlGames.Location = new System.Drawing.Point(3, 3);
+            this.tblLOPnlGames.Name = "tblLOPnlGames";
+            this.tblLOPnlGames.RowCount = 2;
+            this.tblLOPnlGames.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tblLOPnlGames.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblLOPnlGames.Size = new System.Drawing.Size(828, 703);
+            this.tblLOPnlGames.TabIndex = 0;
             // 
             // TournamentProfile
             // 

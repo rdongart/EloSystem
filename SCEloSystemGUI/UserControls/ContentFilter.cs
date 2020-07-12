@@ -75,7 +75,7 @@ namespace SCEloSystemGUI.UserControls
 
         private static void ContentFilterOLV_CellClick(object sender, CellClickEventArgs e)
         {
-            e.Item.Checked = !e.Item.Checked;
+            if (e.Item != null) { e.Item.Checked = !e.Item.Checked; }
         }
 
         private static void ContentFilterOLV_SelectionChanged(object sender, EventArgs e)
@@ -87,7 +87,7 @@ namespace SCEloSystemGUI.UserControls
             foreach (ListViewItem item in objList.Items) { item.Checked = item.Selected; }
 
         }
-        
+
         private void ContentOLV_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             this.SetBtnEnabledStatus();
@@ -129,7 +129,7 @@ namespace SCEloSystemGUI.UserControls
             };
 
             contentFilterOLV.CellClick += ContentFilter<T>.ContentFilterOLV_CellClick;
-  
+
             const int CLM_CHECKBOX_WIDTH = 21;
             const int CLM_IMAGE_WIDTH = 40;
             const int CLM_NAME_WIDTH = 110;
@@ -141,7 +141,7 @@ namespace SCEloSystemGUI.UserControls
             contentFilterOLV.AllColumns.AddRange(new OLVColumn[] { olvClmCheckBox, olvClmImage, olvClmName });
 
             contentFilterOLV.Columns.AddRange(new ColumnHeader[] { olvClmCheckBox, olvClmImage, olvClmName });
-            
+
             olvClmImage.AspectGetter = obj =>
             {
                 var content = obj as T;

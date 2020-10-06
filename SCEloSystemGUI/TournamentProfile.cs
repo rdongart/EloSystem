@@ -88,6 +88,10 @@ namespace SCEloSystemGUI
 
             this.FillSeasonSelecter();
             this.ApplyFilter();
+
+            if (Settings.Default.PlayerResultDisplayTypes == ResultsDisplay.Games) { this.tabControlResults.SelectedTab = this.tabPageGames; }
+            else { this.tabControlResults.SelectedTab = this.tabPageMatches; }
+
         }
 
         private void MatchupFiltering_FilterChanged(object sender, EventArgs e)
@@ -483,9 +487,10 @@ namespace SCEloSystemGUI
             olv.SelectedItems.Clear();
         }
 
-        private void tblLOPnlGameFilters_Paint(object sender, PaintEventArgs e)
+        private void tabControlGames_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            if (this.tabControlResults.SelectedTab == this.tabPageMatches) { Settings.Default.PlayerResultDisplayTypes = ResultsDisplay.Matches; }
+            else if (this.tabControlResults.SelectedTab == this.tabPageGames) { Settings.Default.PlayerResultDisplayTypes = ResultsDisplay.Games; }
         }
     }
 }

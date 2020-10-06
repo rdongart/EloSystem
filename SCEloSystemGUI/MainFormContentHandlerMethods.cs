@@ -105,6 +105,12 @@ namespace SCEloSystemGUI
 
                     GlobalState.DataBase.AddMap(mapAdder.ContentName, mapAdder.MapType, mapAdder.MapSize, mapAdder.SelectedTileset, mapAdder.NewImage);
 
+                    if (mapAdder.GetDescriptions().Any())
+                    {
+                        var map = GlobalState.DataBase.GetMap(mapAdder.ContentName);
+                        map.SetDescriptions(mapAdder.GetDescriptions());
+                    }
+
                     break;
                 case ContentTypes.Player:
                     var playerAdder = e.ContentAdder as PlayerEditor;

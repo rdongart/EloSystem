@@ -156,7 +156,7 @@
             this.tblLoPnlCurrentImage.RowCount = 1;
             this.tblLoPnlCurrentImage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblLoPnlCurrentImage.Size = new System.Drawing.Size(244, 64);
-            this.tblLoPnlCurrentImage.TabIndex = 30;
+            this.tblLoPnlCurrentImage.TabIndex = 9;
             // 
             // picBxCurrentImage
             // 
@@ -179,7 +179,7 @@
             this.chckBxRemoveCurrentImage.Location = new System.Drawing.Point(219, 28);
             this.chckBxRemoveCurrentImage.Name = "chckBxRemoveCurrentImage";
             this.chckBxRemoveCurrentImage.Size = new System.Drawing.Size(22, 33);
-            this.chckBxRemoveCurrentImage.TabIndex = 7;
+            this.chckBxRemoveCurrentImage.TabIndex = 10;
             this.chckBxRemoveCurrentImage.Text = " X";
             this.chckBxRemoveCurrentImage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chckBxRemoveCurrentImage.UseVisualStyleBackColor = true;
@@ -204,7 +204,7 @@
             this.lbHeading.Location = new System.Drawing.Point(3, 0);
             this.lbHeading.Name = "lbHeading";
             this.lbHeading.Size = new System.Drawing.Size(384, 30);
-            this.lbHeading.TabIndex = 15;
+            this.lbHeading.TabIndex = 39;
             this.lbHeading.Text = "[missing]";
             this.lbHeading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -216,7 +216,7 @@
             this.label1.Location = new System.Drawing.Point(3, 90);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(134, 30);
-            this.label1.TabIndex = 16;
+            this.label1.TabIndex = 42;
             this.label1.Text = "Name";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -235,7 +235,7 @@
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(140, 30);
-            this.tableLayoutPanel2.TabIndex = 4;
+            this.tableLayoutPanel2.TabIndex = 11;
             // 
             // label2
             // 
@@ -245,7 +245,7 @@
             this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(54, 30);
-            this.label2.TabIndex = 18;
+            this.label2.TabIndex = 38;
             this.label2.Text = "Image";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -257,7 +257,7 @@
             this.btnBrowse.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(72, 24);
-            this.btnBrowse.TabIndex = 8;
+            this.btnBrowse.TabIndex = 12;
             this.btnBrowse.Text = "&Browse...";
             this.btnBrowse.UseVisualStyleBackColor = true;
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
@@ -270,7 +270,7 @@
             this.label3.Location = new System.Drawing.Point(3, 120);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(134, 120);
-            this.label3.TabIndex = 17;
+            this.label3.TabIndex = 43;
             this.label3.Text = "Descriptions";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -282,7 +282,7 @@
             this.label4.Location = new System.Drawing.Point(3, 370);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(134, 30);
-            this.label4.TabIndex = 20;
+            this.label4.TabIndex = 46;
             this.label4.Text = "Tileset";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -302,7 +302,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(244, 114);
-            this.tableLayoutPanel3.TabIndex = 1;
+            this.tableLayoutPanel3.TabIndex = 4;
             // 
             // txtBxDescription
             // 
@@ -312,7 +312,7 @@
             this.txtBxDescription.Margin = new System.Windows.Forms.Padding(3, 3, 3, 1);
             this.txtBxDescription.Name = "txtBxDescription";
             this.txtBxDescription.Size = new System.Drawing.Size(210, 26);
-            this.txtBxDescription.TabIndex = 6;
+            this.txtBxDescription.TabIndex = 7;
             this.txtBxDescription.TextChanged += new System.EventHandler(this.txtBxDescription_TextChanged);
             // 
             // btnAddDescription
@@ -324,7 +324,7 @@
             this.btnAddDescription.Margin = new System.Windows.Forms.Padding(4, 4, 3, 1);
             this.btnAddDescription.Name = "btnAddDescription";
             this.btnAddDescription.Size = new System.Drawing.Size(21, 22);
-            this.btnAddDescription.TabIndex = 7;
+            this.btnAddDescription.TabIndex = 8;
             this.btnAddDescription.Text = "+";
             this.btnAddDescription.UseVisualStyleBackColor = true;
             this.btnAddDescription.Click += new System.EventHandler(this.btnAddDescription_Click);
@@ -338,7 +338,7 @@
             this.btnRemoveDescription.Margin = new System.Windows.Forms.Padding(4, 4, 3, 4);
             this.btnRemoveDescription.Name = "btnRemoveDescription";
             this.btnRemoveDescription.Size = new System.Drawing.Size(21, 22);
-            this.btnRemoveDescription.TabIndex = 5;
+            this.btnRemoveDescription.TabIndex = 6;
             this.btnRemoveDescription.Text = "-";
             this.btnRemoveDescription.UseVisualStyleBackColor = true;
             this.btnRemoveDescription.Click += new System.EventHandler(this.btnRemoveDescription_Click);
@@ -351,7 +351,7 @@
             this.lstViewDescriptions.Margin = new System.Windows.Forms.Padding(0);
             this.lstViewDescriptions.Name = "lstViewDescriptions";
             this.lstViewDescriptions.Size = new System.Drawing.Size(216, 84);
-            this.lstViewDescriptions.TabIndex = 4;
+            this.lstViewDescriptions.TabIndex = 5;
             this.lstViewDescriptions.UseCompatibleStateImageBehavior = false;
             this.lstViewDescriptions.View = System.Windows.Forms.View.List;
             this.lstViewDescriptions.SelectedIndexChanged += new System.EventHandler(this.lstViewDescriptions_SelectedIndexChanged);
@@ -369,7 +369,7 @@
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(244, 24);
-            this.tableLayoutPanel1.TabIndex = 8;
+            this.tableLayoutPanel1.TabIndex = 13;
             // 
             // lbFileName
             // 
@@ -380,7 +380,7 @@
             this.lbFileName.Margin = new System.Windows.Forms.Padding(0, 3, 6, 3);
             this.lbFileName.Name = "lbFileName";
             this.lbFileName.Size = new System.Drawing.Size(210, 18);
-            this.lbFileName.TabIndex = 2;
+            this.lbFileName.TabIndex = 32;
             this.lbFileName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lbFileName.TextChanged += new System.EventHandler(this.lbFileName_TextChanged);
             // 
@@ -394,7 +394,7 @@
             this.btnRemoveImage.Margin = new System.Windows.Forms.Padding(4, 1, 3, 1);
             this.btnRemoveImage.Name = "btnRemoveImage";
             this.btnRemoveImage.Size = new System.Drawing.Size(21, 22);
-            this.btnRemoveImage.TabIndex = 9;
+            this.btnRemoveImage.TabIndex = 14;
             this.btnRemoveImage.Text = "x";
             this.btnRemoveImage.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnRemoveImage.UseVisualStyleBackColor = true;
@@ -409,7 +409,7 @@
             this.cmbBxTileset.Location = new System.Drawing.Point(143, 373);
             this.cmbBxTileset.Name = "cmbBxTileset";
             this.cmbBxTileset.Size = new System.Drawing.Size(244, 22);
-            this.cmbBxTileset.TabIndex = 11;
+            this.cmbBxTileset.TabIndex = 16;
             this.cmbBxTileset.SelectedIndexChanged += new System.EventHandler(this.cmbBxTileset_SelectedIndexChanged);
             // 
             // label5
@@ -420,7 +420,7 @@
             this.label5.Location = new System.Drawing.Point(3, 340);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(134, 30);
-            this.label5.TabIndex = 19;
+            this.label5.TabIndex = 45;
             this.label5.Text = "Map Type";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -433,7 +433,7 @@
             this.cmbBxMapType.Location = new System.Drawing.Point(143, 343);
             this.cmbBxMapType.Name = "cmbBxMapType";
             this.cmbBxMapType.Size = new System.Drawing.Size(244, 22);
-            this.cmbBxMapType.TabIndex = 10;
+            this.cmbBxMapType.TabIndex = 15;
             this.cmbBxMapType.SelectedIndexChanged += new System.EventHandler(this.cmbBxMapType_SelectedIndexChanged);
             // 
             // label6
@@ -444,7 +444,7 @@
             this.label6.Location = new System.Drawing.Point(3, 400);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(134, 30);
-            this.label6.TabIndex = 21;
+            this.label6.TabIndex = 47;
             this.label6.Text = "Map Size";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -466,7 +466,7 @@
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(244, 26);
-            this.tableLayoutPanel4.TabIndex = 8;
+            this.tableLayoutPanel4.TabIndex = 35;
             // 
             // label7
             // 
@@ -477,7 +477,7 @@
             this.label7.Margin = new System.Windows.Forms.Padding(0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(25, 26);
-            this.label7.TabIndex = 2;
+            this.label7.TabIndex = 35;
             this.label7.Text = "W:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolTipMapAdder.SetToolTip(this.label7, "Width");
@@ -491,7 +491,7 @@
             this.label8.Margin = new System.Windows.Forms.Padding(0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(25, 26);
-            this.label8.TabIndex = 2;
+            this.label8.TabIndex = 36;
             this.label8.Text = "H:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolTipMapAdder.SetToolTip(this.label8, "Height");
@@ -509,7 +509,7 @@
             0});
             this.numUDWidth.Name = "numUDWidth";
             this.numUDWidth.Size = new System.Drawing.Size(88, 26);
-            this.numUDWidth.TabIndex = 13;
+            this.numUDWidth.TabIndex = 17;
             this.toolTipMapAdder.SetToolTip(this.numUDWidth, "Width");
             this.numUDWidth.Value = new decimal(new int[] {
             128,
@@ -531,7 +531,7 @@
             0});
             this.numUDHeight.Name = "numUDHeight";
             this.numUDHeight.Size = new System.Drawing.Size(88, 26);
-            this.numUDHeight.TabIndex = 14;
+            this.numUDHeight.TabIndex = 18;
             this.toolTipMapAdder.SetToolTip(this.numUDHeight, "Height");
             this.numUDHeight.Value = new decimal(new int[] {
             128,
@@ -548,7 +548,7 @@
             this.label9.Location = new System.Drawing.Point(3, 30);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(134, 30);
-            this.label9.TabIndex = 16;
+            this.label9.TabIndex = 40;
             this.label9.Text = "Select mode";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -560,7 +560,7 @@
             this.label10.Location = new System.Drawing.Point(3, 60);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(134, 30);
-            this.label10.TabIndex = 16;
+            this.label10.TabIndex = 41;
             this.label10.Text = "Select map to edit";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -611,7 +611,7 @@
             this.lbCurrentImage.Location = new System.Drawing.Point(3, 240);
             this.lbCurrentImage.Name = "lbCurrentImage";
             this.lbCurrentImage.Size = new System.Drawing.Size(134, 70);
-            this.lbCurrentImage.TabIndex = 16;
+            this.lbCurrentImage.TabIndex = 44;
             this.lbCurrentImage.Text = "Current image";
             this.lbCurrentImage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -629,7 +629,7 @@
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel5.Size = new System.Drawing.Size(250, 50);
-            this.tableLayoutPanel5.TabIndex = 32;
+            this.tableLayoutPanel5.TabIndex = 35;
             // 
             // btnAddEditMap
             // 
@@ -641,7 +641,7 @@
             this.btnAddEditMap.Margin = new System.Windows.Forms.Padding(8, 14, 6, 4);
             this.btnAddEditMap.Name = "btnAddEditMap";
             this.btnAddEditMap.Size = new System.Drawing.Size(111, 32);
-            this.btnAddEditMap.TabIndex = 16;
+            this.btnAddEditMap.TabIndex = 20;
             this.btnAddEditMap.Text = "A&dd to system";
             this.btnAddEditMap.UseVisualStyleBackColor = true;
             this.btnAddEditMap.Click += new System.EventHandler(this.btnAddEdit_Click);
@@ -656,7 +656,7 @@
             this.btnRemoveMap.Margin = new System.Windows.Forms.Padding(6, 14, 8, 4);
             this.btnRemoveMap.Name = "btnRemoveMap";
             this.btnRemoveMap.Size = new System.Drawing.Size(111, 32);
-            this.btnRemoveMap.TabIndex = 15;
+            this.btnRemoveMap.TabIndex = 19;
             this.btnRemoveMap.Text = "Remove";
             this.btnRemoveMap.UseVisualStyleBackColor = true;
             // 

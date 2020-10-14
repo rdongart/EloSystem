@@ -161,7 +161,7 @@ namespace SCEloSystemGUI
 
                 double coinTossFactor;
 
-                if (GlobalState.MirrorMatchupEvaluation.TryGetCointossFactor(map, mirrorMatch, out coinTossFactor)) { return (coinTossFactor * 100).Round(2).ToString(); }
+                if (GlobalState.MirrorMatchupEvaluation.TryGetCointossFactor(map, mirrorMatch, out coinTossFactor)) { return coinTossFactor.Round(2).ToString(); }
                 else { return DATA_NOT_AVAILABLE_TEXT; }
 
             };

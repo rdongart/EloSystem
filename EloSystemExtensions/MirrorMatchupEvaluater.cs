@@ -160,7 +160,9 @@ namespace EloSystemExtensions
                                 gamesByMaps.Add(game.Map, gameList);
                             }
 
-                            gameList.Add(new ExtendedGameData(game, expectedWinRatioForPlayer1, mmGroup.Key));
+                            gameList.Add(new ExtendedGameData(game,
+                                game.Winner.Equals(game.Player1) ? expectedWinRatioForPlayer1 : expectedWinRatioForPlayer2
+                                , mmGroup.Key));
                         }
 
                     }
@@ -191,11 +193,11 @@ namespace EloSystemExtensions
                     }
 
                 }
-                
+
             };
 
 
-            // go throug each game from first to last and register player mirror matchup stats and game data
+            // go through each game from first to last and register player mirror matchup stats and game data
             foreach (IGrouping<Match, Game> gamesOfMatches in this.eloDataBase.GetAllGames().Where(gm => gm.Map != null).Where(gm => gm.MatchType.IsMirrorMatchup() && gm.MatchType != Matchup.RvR).GroupBy(gm => gm.Match).OrderBy(group => group.Key.DateTime.Date).ThenBy(group => group.Key.DailyIndex))
             {
                 RegisterGameData(gamesOfMatches);

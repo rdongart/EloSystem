@@ -40,8 +40,7 @@ namespace SCEloSystemGUI
             get
             {
                 return GlobalState.DataBase.GetPlayers().Where(player => this.filters.All(filter => filter.PlayerFilter(player))).OrderByDescending(player => player.RatingTotal()).ThenByDescending(p =>
-                    GlobalState.DataBase.GamesByPlayer(p).OrderNewestFirst().First().Match.DateTime.Date).ThenByDescending(player => player.Stats.GamesTotal()).ThenByDescending(player =>
-                        player.Stats.WinRatioTotal()).Select((player, rank) => new Tuple<SCPlayer, int>(player, rank + 1));
+                    GlobalState.DataBase.GamesByPlayer(p).Any() ? GlobalState.DataBase.GamesByPlayer(p).OrderNewestFirst().First().Match.DateTime.Date : DateTime.MinValue.Date).ThenByDescending(player => player.Stats.GamesTotal()).ThenByDescending(player => player.Stats.WinRatioTotal()).Select((player, rank) => new Tuple<SCPlayer, int>(player, rank + 1));
             }
         }
         private OLVColumn olvClmRatingDevelopment;

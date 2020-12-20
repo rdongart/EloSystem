@@ -407,20 +407,23 @@ namespace EloSystem
         {
             var playerStatsClone = new PlayerStatsClone(player);
 
-            int dayCounter = 0;
+            int daysBackCounter = 0;
 
             DateTime todayDate = DateTime.Today;
 
-            while (dateFrom.CompareTo(todayDate.Subtract(new TimeSpan(dayCounter, 0, 0, 0))) <= 0)
+            yield return new PlayerStatsCloneDev(playerStatsClone, todayDate);
+
+            while (dateFrom.CompareTo(todayDate.Subtract(new TimeSpan(daysBackCounter, 0, 0, 0))) <= 0)
             {
-                foreach (Match match in this.GetMatches().Where(m => m.HasPlayer(player) && m.DateTime.Date.Equals(todayDate.Subtract(new TimeSpan(dayCounter, 0, 0, 0)))))
-                {
-                    playerStatsClone.RollBackResult(match);
-                }
+                DateTime currentDate = todayDate.Subtract(new TimeSpan(daysBackCounter, 0, 0, 0));
 
-                yield return new PlayerStatsCloneDev(playerStatsClone, DateTime.Today.Subtract(new TimeSpan(dayCounter, 0, 0, 0, 0)));
+                foreach (Match match in this.GetMatches().Where(m => m.HasPlayer(player) && m.DateTime.Date.Equals(currentDate))) { playerStatsClone.RollBackResult(match); }
 
-                dayCounter++;
+                DateTime dayBeforeCurrentDate = DateTime.Today.Subtract(new TimeSpan(daysBackCounter + 1, 0, 0, 0, 0));
+
+                yield return new PlayerStatsCloneDev(playerStatsClone, dayBeforeCurrentDate);
+
+                daysBackCounter++;
             }
 
         }

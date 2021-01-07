@@ -89,7 +89,9 @@ namespace SCEloSystemGUI
                     {
                         var map = obj as Map;
 
-                        return (map.Stats.ZvT.WinRatioRace1CorrectedForExpectedWR() * 100).RoundToInt();
+                        const int ZVT_TO_TVZ_CONVERSION = 1;
+
+                        return ((ZVT_TO_TVZ_CONVERSION - map.Stats.ZvT.WinRatioRace1CorrectedForExpectedWR()) * 100).RoundToInt();
                     };
 
                 }
@@ -140,7 +142,7 @@ namespace SCEloSystemGUI
                 RowHeight = 42,
                 Scrollable = true,
                 ShowFilterMenuOnRightClick = false,
-                ShowGroups = false,                
+                ShowGroups = false,
                 Size = new Size(1200, 700),
                 SortGroupItemsByPrimaryColumn = true,
                 UseAlternatingBackColors = true,
@@ -151,7 +153,7 @@ namespace SCEloSystemGUI
             mapStatsLV.ColumnClick += this.MapStatsLV_ColumnClick;
 
             Styles.ObjectListViewStyles.SetHotItemStyle(mapStatsLV);
-            
+
             const int WINRATIOS_WIDTH = 170;
             const int GAMES_WIDTH = 55;
             const int COINTOSS_FACTOR_WIDTH = 55;
@@ -236,7 +238,9 @@ namespace SCEloSystemGUI
 
                 if (map.Stats.ZvT.TotalGames > 0)
                 {
-                    return String.Format("{0}% | {1} - {2}", (map.Stats.ZvT.WinRatioRace1CorrectedForExpectedWR() * 100).RoundToInt(), map.Stats.ZvT.Race1Wins, map.Stats.ZvT.Race2Wins);
+                    const int ZVT_TO_TVZ_CONVERSION = 1;
+
+                    return String.Format("{0}% | {1} - {2}", ((ZVT_TO_TVZ_CONVERSION - map.Stats.ZvT.WinRatioRace1CorrectedForExpectedWR()) * 100).RoundToInt(), map.Stats.ZvT.Race2Wins, map.Stats.ZvT.Race1Wins);
                 }
                 else { return "-"; }
 

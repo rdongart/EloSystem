@@ -20,15 +20,38 @@ namespace EloSystemExtensions
         {
             const string CASEINSENSITIVE_PATTERN = @"(?i)";
             const string ANYCHAR_PATTERN = @".";
-            const int INPUT_LENGTH_FULL_MATCH_THRESHOLD = 2;
+
+            string[] inputArray = Enumerable.Range(0, Math.Max(0, searchInput.Length)).Select(index => Regex.Escape(searchInput.Substring(index, 1))).ToArray();
 
             try
             {
                 Func<IEnumerable<SCPlayer>> performLookup = () =>
                 {
                     if (searchInput == "") { return ed.GetPlayers(); }
-                    else if (searchInput.Length <= INPUT_LENGTH_FULL_MATCH_THRESHOLD) { return ed.SearchPlayers(new Regex(CASEINSENSITIVE_PATTERN + searchInput)); }
-                    else { return ed.SearchPlayers(Enumerable.Range(0, searchInput.Length - 1).Select(index => new Regex(CASEINSENSITIVE_PATTERN + searchInput.Replace(index, ANYCHAR_PATTERN)))); }
+                    else if (searchInput.Length == 1) { return ed.SearchPlayers(new Regex(CASEINSENSITIVE_PATTERN + "^" + Regex.Escape(searchInput))); }
+                    else if (searchInput.Length == 2)
+                    {
+                        return ed.SearchPlayers(new Regex(CASEINSENSITIVE_PATTERN
+                            // match either the first letter and any other letter for same sized strings
+                            + "(" + "^" + inputArray[0] + ANYCHAR_PATTERN + "{0,1}" + "$"
+                            // or
+                            + "|"
+                            // first part of string matches completely
+                            + String.Join("", inputArray) + ")"));
+                    }
+                    else
+                    {
+                        return ed.SearchPlayers(Enumerable.Range(0, searchInput.Length).Select(counter =>
+                        {
+
+
+                            return new Regex(CASEINSENSITIVE_PATTERN + String.Join("", Enumerable.Range(0, searchInput.Length).Select(index =>
+                            {
+                                if (index == counter) { return ANYCHAR_PATTERN; }
+                                else { return inputArray[index]; }
+                            })));
+                        }));
+                    }
                 };
 
                 return performLookup().OrderBy(player => player.IdentifierDistance(searchInput));

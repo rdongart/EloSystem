@@ -643,11 +643,11 @@ namespace EloSystem
         public void ReportMatch(SCPlayer player1, SCPlayer player2, GameEntry[] entries, Season season, DateTime date)
         {
             // handle case where this match is older than matches already reported
-            if (this.GetMatches().OrderByNewestFirst().Any(m => m.DateTime.CompareTo(date) > 0))
+            if (this.GetMatches().OrderByNewestFirst().Any(m => m.DateTime.Date.CompareTo(date) > 0))
             {
-                int newerMatchesAlreadyInDataBase = this.GetMatches().OrderByNewestFirst().Count(m => m.DateTime.CompareTo(date) > 0);
+                int newerMatchesAlreadyInDataBase = this.GetMatches().OrderByNewestFirst().Count(m => m.DateTime.Date.CompareTo(date) > 0);
 
-                var matchesToReenter = this.RollBackLastMatches(this.GetMatches().OrderByNewestFirst().Count(m => m.DateTime.CompareTo(date) > 0)).DistinctBy(m => m.Match).Select(game => new
+                var matchesToReenter = this.RollBackLastMatches(this.GetMatches().OrderByNewestFirst().Count(m => m.DateTime.Date.CompareTo(date) > 0)).DistinctBy(m => m.Match).Select(game => new
                 {
                     Match = game.Match,
                     Season = game.Season,
@@ -763,7 +763,7 @@ namespace EloSystem
         public void RollBackMatch(Match matchToRemove)
         {
             if (!this.GetMatches().Contains(matchToRemove)) { throw new ArgumentException("matchToRemove was not found"); }
-
+            
             int index = this.GetMatches().OrderByNewestFirst().IndexOf(matchToRemove);
 
             var matchesToReenter = this.RollBackLastMatches(index + 1).DistinctBy(m => m.Match).Select(game => new

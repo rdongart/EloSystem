@@ -98,7 +98,7 @@ namespace SCEloSystemGUI.UserControls
             this.oLstVRecentMatches.FullRowSelect = true;
             this.oLstVRecentMatches.SelectedIndexChanged += this.OLstVRecentMatches_SelectedIndexChanged;
             this.oLstVRecentMatches.MouseClick += this.OLstVRecentMatches_MouseClick;
-            this.oLstVRecentMatches.MouseDown += OLstVRecentMatches_MouseDown;
+            this.oLstVRecentMatches.MouseDown += this.OLstVRecentMatches_MouseDown;
             this.tblLoPnlRecentMatches.Controls.Add(this.oLstVRecentMatches, 0, 2);
             this.MatchChangedReported += this.OnMatchReported;
 
